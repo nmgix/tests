@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 const Table = ({ users, stateData, setCurrentPage }) => {
-  var localUsers = users.slice(0);
-  const [chunk, setChunk] = useState(users);
-
-  const filter = (chunk) => {};
+  const [chunk, setChunk] = useState([]); //чанк, 50 юзеров, если он очищается - удаляется 50 юзеров и стейта, от которого он зависим
 
   useEffect(() => {
-    console.log(stateData.currentPage - 1, stateData.currentPage);
-    setChunk(localUsers.splice((stateData.currentPage - 1) * 50, 50));
-  }, [stateData.currentPage]);
-
-  useEffect(() => {
-    if (stateData.searchText !== "") {
-      filter(chunk);
-    }
-  }, [stateData.searchText]);
+    setChunk(users.slice(0).splice((stateData.currentPage - 1) * 50, 50));
+  }, [stateData.currentPage, users]);
 
   return (
     <div>

@@ -16,10 +16,16 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
         return (
           <>
             <span>1</span>
-            <button onClick={() => setCurrentPage(2)}>2</button>
-            <button onClick={() => setCurrentPage(3)}>3</button>
-            ...
-            <button onClick={() => setCurrentPage(countMaxPages(usersCount))}>{countMaxPages(usersCount)}</button>
+            {countMaxPages(usersCount) > 2 && <button onClick={() => setCurrentPage(2)}>2</button>}
+            {/* <button onClick={() => setCurrentPage(2)}>2</button> */}
+            {countMaxPages(usersCount) > 3 && <button onClick={() => setCurrentPage(3)}>3</button>}
+            {/* <button onClick={() => setCurrentPage(3)}>3</button> */}
+            {countMaxPages(usersCount) > 1 && (
+              <>
+                ...
+                <button onClick={() => setCurrentPage(countMaxPages(usersCount))}>{countMaxPages(usersCount)}</button>
+              </>
+            )}
           </>
         );
       case 2:
@@ -28,9 +34,13 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
           <>
             <button onClick={() => setCurrentPage(1)}>1</button>
             <span>2</span>
-            <button onClick={() => setCurrentPage(3)}>3</button>
-            ...
-            <button onClick={() => setCurrentPage(countMaxPages(usersCount))}>{countMaxPages(usersCount)}</button>
+            {countMaxPages(usersCount) > 3 && <button onClick={() => setCurrentPage(3)}>3</button>}
+            {countMaxPages(usersCount) > 3 && (
+              <>
+                ...
+                <button onClick={() => setCurrentPage(countMaxPages(usersCount))}>{countMaxPages(usersCount)}</button>
+              </>
+            )}
           </>
         );
       case countMaxPages(usersCount) - 1:
@@ -89,12 +99,16 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
   };
 
   return (
-    <div>
-      <div>
+    <div style={{ display: "flex" }}>
+      <div style={{ marginRight: "2em" }}>
         <input placeholder='Поиск...' value={stateData.searchText} onChange={(e) => setSearchText(e.target.value)} />
       </div>
       <button onClick={() => changePage(stateData.usersCount, stateData.currentPage, false)}>-</button>
-      <button onClick={() => changePage(stateData.usersCount, stateData.currentPage, true)}>+</button>
+      <button
+        onClick={() => changePage(stateData.usersCount, stateData.currentPage, true)}
+        style={{ marginRight: "1em" }}>
+        +
+      </button>
       <div>{paginationCheck(stateData.usersCount, stateData.currentPage)}</div>
     </div>
   );
