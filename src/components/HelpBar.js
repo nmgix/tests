@@ -22,7 +22,7 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
             {/* <button onClick={() => setCurrentPage(3)}>3</button> */}
             {countMaxPages(usersCount) > 1 && (
               <>
-                ...
+                {countMaxPages(usersCount) > 3 && <>...</>}
                 <button onClick={() => setCurrentPage(countMaxPages(usersCount))}>{countMaxPages(usersCount)}</button>
               </>
             )}
@@ -33,11 +33,12 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
         return (
           <>
             <button onClick={() => setCurrentPage(1)}>1</button>
+            {countMaxPages(usersCount) < 3 && <>...</>}
             <span>2</span>
             {countMaxPages(usersCount) > 3 && <button onClick={() => setCurrentPage(3)}>3</button>}
-            {countMaxPages(usersCount) > 3 && (
+            {countMaxPages(usersCount) > 2 && (
               <>
-                ...
+                {countMaxPages(usersCount) > 3 && <>...</>}
                 <button onClick={() => setCurrentPage(countMaxPages(usersCount))}>{countMaxPages(usersCount)}</button>
               </>
             )}
@@ -61,10 +62,12 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
         return (
           <>
             <button onClick={() => setCurrentPage(1)}>1</button>
-            ...
-            <button onClick={() => setCurrentPage(countMaxPages(usersCount) - 2)}>
-              {countMaxPages(usersCount) - 2}
-            </button>
+            {countMaxPages(usersCount) > 3 && <>...</>}
+            {countMaxPages(usersCount) > 3 && (
+              <button onClick={() => setCurrentPage(countMaxPages(usersCount) - 2)}>
+                {countMaxPages(usersCount) - 2}
+              </button>
+            )}
             <button onClick={() => setCurrentPage(countMaxPages(usersCount) - 1)}>
               {countMaxPages(usersCount) - 1}
             </button>
