@@ -1,6 +1,6 @@
 import React from "react";
 
-const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort }) => {
+const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort, setSearchText }) => {
   //функция нужна для просчёта кол-ва страниц, делится число на 2 без остатка?
   //?да = кол-во юзеров/50 = прямое число
   //?нет = кол-во юзеров/50+1 = число с +1 страницей для остатка от деления кол-ва юзеров
@@ -8,6 +8,7 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
     return (dataMax / 50) % 2 !== 0 ? Math.floor(dataMax / 50) + 1 : Math.floor(dataMax / 50);
   };
 
+  //кривая пагинация через кейсы, зато без спагетти-кода
   const paginationCheck = (usersCount, currentPage) => {
     switch (currentPage) {
       case 1:
@@ -89,6 +90,9 @@ const HelpBar = ({ stateData, setCurrentPage, setCurrentColumn, setAscendingSort
 
   return (
     <div>
+      <div>
+        <input placeholder='Поиск...' value={stateData.searchText} onChange={(e) => setSearchText(e.target.value)} />
+      </div>
       <button onClick={() => changePage(stateData.usersCount, stateData.currentPage, false)}>-</button>
       <button onClick={() => changePage(stateData.usersCount, stateData.currentPage, true)}>+</button>
       <div>{paginationCheck(stateData.usersCount, stateData.currentPage)}</div>
