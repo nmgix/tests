@@ -46,7 +46,7 @@ function App() {
     } else {
       setUsers(data);
     }
-  }, [searchText, filter]);
+  }, [searchText, filter, currentColumn, ascendingSort]);
 
   return (
     <div className='App'>

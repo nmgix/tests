@@ -1,24 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-const Table = ({ users, stateData: { currentColumn, ascendingSort, currentPage }, setCurrentPage }) => {
+const Table = ({ users, stateData: { currentColumn, ascendingSort, currentPage, searchText }, setCurrentPage }) => {
   const [chunk, setChunk] = useState([]); //чанк, 50 юзеров, если он очищается - удаляется 50 юзеров и стейта, от которого он зависим
 
-  const formatChunk = useCallback(
-    (users) => {
-      setChunk(users.slice(0).splice((currentPage - 1) * 50, 50));
-    },
-    [currentPage]
-  );
-
-  useEffect(() => {
-    formatChunk(users);
-  }, [currentPage, users, formatChunk]);
-
-  useEffect(() => {
-    // setChunk(
-    if (!currentColumn) {
-      return formatChunk(users);
-    }
+  const formatSortedChunk = (chunk) => {
     var result = chunk.slice(0).sort((el1, el2) => {
       if (ascendingSort) {
         //по возрастанию
@@ -35,7 +20,6 @@ const Table = ({ users, stateData: { currentColumn, ascendingSort, currentPage }
                 }
               }
             }
-            //return el1[props1][currentColumn].localeCompare(el2[props2][currentColumn]);
           } catch (err) {
             console.log(err);
           }
@@ -62,8 +46,21 @@ const Table = ({ users, stateData: { currentColumn, ascendingSort, currentPage }
       }
     });
     setChunk(result);
-    // );
-  }, [currentPage, users, currentColumn, ascendingSort]);
+  };
+
+  const formatChunk = useCallback(
+    (users) => {
+      setChunk(users.slice(0).splice((currentPage - 1) * 50, 50));
+      if (currentColumn) {
+        formatSortedChunk(users.slice(0).splice((currentPage - 1) * 50, 50));
+      }
+    },
+    [currentPage, ascendingSort]
+  );
+
+  useEffect(() => {
+    formatChunk(users);
+  }, [currentPage, users, formatChunk, searchText, ascendingSort, currentColumn]);
 
   return (
     <div>
@@ -73,20 +70,3 @@ const Table = ({ users, stateData: { currentColumn, ascendingSort, currentPage }
 };
 
 export default Table;
-
-// for (const items in el1) {
-//   if (typeof el1[items] === "object") {
-//     if (Object.keys(el1[items]) === currentColumn) {
-//       return el1[items][currentColumn].localeCompare(el2[items][currentColumn]);
-//     }
-//     // for (const props in el[items]) {
-//     //   // if (el[items][props]) {
-//     //   //   return true;
-//     //   // }
-//     // }
-//   } else {
-//     // if (el[items]) {
-//     //   return true;
-//     // }
-//   }
-// }
