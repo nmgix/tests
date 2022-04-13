@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Dispatch } from "redux";
 import { FriendsActions } from "../actions/userActions";
 import { Friend, FriendsTypes } from "../types/FriendsTypes";
 
@@ -13,21 +14,21 @@ const rootEndpoint = "/friends";
 // @ https://github.com/microsoft/TypeScript/issues/26781
 
 // было желание сделать getFriends универсальным чтобы не использовать editFriend,
-// а просто вызывать getFriends(id)
-export async function getFriends(): Promise<FriendsActions> {
+// а просто вызывать getFriend(id)
+export const getFriends = () => async (dispatch: Dispatch<FriendsActions>) => {
   try {
-    const res = await axios.get(`/friends`, config);
-    return {
+    const res = await axios.get(rootEndpoint, config);
+    dispatch({
       type: FriendsTypes.GET_FRIENDS,
       payload: res.data,
-    };
+    });
   } catch {
-    return {
+    dispatch({
       type: FriendsTypes.FRIENDS_ERROR,
       payload: "Возникла ошибка при обработке запроса",
-    };
+    });
   }
-}
+};
 
 export function clearFriends(): FriendsActions {
   return {

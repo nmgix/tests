@@ -1,16 +1,16 @@
-import { applyMiddleware, compose, createStore } from "redux";
-import thunk from "redux-thunk";
-import { rootReducer } from "./reducers";
+import { AnyAction, applyMiddleware, compose, createStore } from "redux";
+import thunkMiddleware from "redux-thunk";
+import { rootReducer, RootState } from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
-
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+import { ThunkDispatch, ThunkMiddleware } from "redux-thunk";
+import { AuthState } from "./types/AuthTypes";
+import { UserState } from "./types/UserTypes";
 
 const composeEnchancers = composeWithDevTools({
   trace: true,
 });
 
-export const store = createStore(rootReducer, composeEnchancers(applyMiddleware(thunk)));
+export const store = createStore(rootReducer, undefined, composeEnchancers(applyMiddleware(thunkMiddleware)));
+
+// @ https://redux.js.org/usage/usage-with-typescript#define-root-state-and-dispatch-types
+export type AppDispatch = typeof store.dispatch;

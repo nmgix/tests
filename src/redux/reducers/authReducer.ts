@@ -7,19 +7,19 @@ const initialState: AuthState = {
   },
 };
 
-export const AuthReducer = (authState: AuthState = initialState, action: AuthActions) => {
+export const AuthReducer = (state: AuthState = initialState, action: AuthActions): AuthState => {
   switch (action.type) {
     case AuthTypes.AUTH_SUCCESS: {
-      return { ...authState, state: action.payload, error: null };
+      return { ...state, state: action.payload!, error: null };
     }
     case AuthTypes.AUTH_ERROR: {
-      return { ...authState, state: null, error: action.payload };
+      return { ...state, state: null, error: action.payload };
     }
     case AuthTypes.AUTH_RESET: {
-      return { ...authState, state: null, error: null };
+      return { ...state, state: null, error: null };
     }
     default: {
-      return authState;
+      return state;
     }
   }
 };

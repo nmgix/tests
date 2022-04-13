@@ -15,5 +15,5 @@ export type UserData = {
 };
 
 export interface UserState extends DefaultState {
-  state: UserData;
+  state: UserData | null;
 }

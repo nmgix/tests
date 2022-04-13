@@ -5,5 +5,5 @@ export type AuthUserData = {
 };
 
 export interface AuthState extends DefaultState {
-  state: AuthUserData;
+  state: AuthUserData | null;
 }
