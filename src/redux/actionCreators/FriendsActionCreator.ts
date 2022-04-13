@@ -1,13 +1,14 @@
 import axios from "axios";
-import { AuthActions, AuthTypes } from "../actions/authActions";
-import { FriendsActions, FriendsTypes } from "../actions/friendsActions";
-import { Friend } from "../reducers/friendsReducer";
+import { FriendsActions } from "../actions/userActions";
+import { Friend, FriendsTypes } from "../types/FriendsTypes";
 
 const config = {
   headers: {
     "Content-Type": "application/json",
   },
 };
+
+const rootEndpoint = "/friends";
 
 // @ https://github.com/microsoft/TypeScript/issues/26781
 
@@ -38,7 +39,7 @@ export async function addFriend(friend: Friend): Promise<FriendsActions> {
   const body = JSON.stringify(friend);
 
   try {
-    const res = await axios.post(`/friends/add`, body, config);
+    const res = await axios.post(`${rootEndpoint}/add`, body, config);
     return {
       type: FriendsTypes.ADD_FRIEND,
       payload: res.data,
@@ -55,7 +56,7 @@ export async function addFriend(friend: Friend): Promise<FriendsActions> {
 
 export async function removeFriend(id: number): Promise<FriendsActions> {
   try {
-    const res = await axios.delete(`/friends/remove/${id}`, config);
+    const res = await axios.delete(`${rootEndpoint}/remove/${id}`, config);
     return {
       type: FriendsTypes.ADD_FRIEND,
       payload: res.data,

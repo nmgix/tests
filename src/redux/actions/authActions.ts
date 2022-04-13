@@ -1,5 +1,5 @@
 import { Action } from ".";
-import { AuthUserData } from "../reducers/authReducer";
+import { AuthUserData } from "../types/AuthTypes";
 
 export enum AuthTypes {
   //   AUTH_REQUEST = "AUTH_REQUEST",

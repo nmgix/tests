@@ -1,23 +1,9 @@
-import { DefaultState } from ".";
 import { AuthActions, AuthTypes } from "../actions/authActions";
-
-export type AuthUserData = {
-  id: string | null;
-  nick: string | null;
-  imgUrl: string | null;
-  mail: string | null;
-};
-
-interface AuthState extends DefaultState {
-  state: AuthUserData;
-}
+import { AuthState } from "../types/AuthTypes";
 
 const initialState: AuthState = {
   state: {
     id: null,
-    nick: null,
-    imgUrl: null,
-    mail: null,
   },
 };
 

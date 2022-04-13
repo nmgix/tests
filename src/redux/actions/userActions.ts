@@ -1,22 +1,17 @@
 import { Action } from ".";
-import { Friend, FriendsListState } from "../reducers/friendsReducer";
+import { Friend, FriendsListState, FriendsTypes } from "../types/FriendsTypes";
+import { UserData, UserTypes } from "../types/UserTypes";
 
-export enum FriendsTypes {
-  GET_FRIENDS = "GET_FRIENDS",
-  FRIENDS_ERROR = "FRIENDS_ERROR",
-  CLEAR_FRIENDS = "CLEAR_FRIENDS",
-
-  ADD_FRIEND = "ADD_FREIND",
-  REMOVE_FRIEND = "REMOVE_FRIEND",
-  EDIT_FRIEND = "EDIT_FRIEND",
-}
+type UserSuccess = Action<typeof UserTypes.USER_SUCCESS, UserData>;
+type UserError = Action<typeof UserTypes.USER_ERROR, string>;
+type UserReset = Action<typeof UserTypes.USER_CLEAR, void>;
 
 type GetFriends = Action<typeof FriendsTypes.GET_FRIENDS, FriendsListState>;
 type FriendsError = Action<typeof FriendsTypes.FRIENDS_ERROR, string>;
 type ClearFriends = Action<typeof FriendsTypes.CLEAR_FRIENDS, void>;
-
 type AddFriend = Action<typeof FriendsTypes.ADD_FRIEND, Friend>;
 type RemoveFriend = Action<typeof FriendsTypes.REMOVE_FRIEND, string>;
 type EditFriend = Action<typeof FriendsTypes.EDIT_FRIEND, Friend>;
 
+export type UserActions = UserSuccess | UserError | UserReset;
 export type FriendsActions = (GetFriends | FriendsError | ClearFriends) | (AddFriend | RemoveFriend | EditFriend);
