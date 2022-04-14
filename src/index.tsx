@@ -9,9 +9,7 @@ import { LoginPage } from "./pages/Loginpage/LoginPage";
 import { Page404 } from "./pages/Page404";
 import { ProtectedPage } from "./pages/Protectedpage/ProtectedPage";
 
-import { Toast } from "./components/Toast";
-
-import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/_main.scss";
 
 const App: React.FC<{}> = () => {
@@ -19,7 +17,6 @@ const App: React.FC<{}> = () => {
     <Provider store={store}>
       <HashRouter>
         <div className='App'>
-          <Toast />
           <Routes>
             <Route index element={<LoginPage />} />
             <Route

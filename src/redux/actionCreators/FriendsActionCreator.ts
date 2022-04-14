@@ -30,44 +30,44 @@ export const getFriends = () => async (dispatch: Dispatch<FriendsActions>) => {
   }
 };
 
-export function clearFriends(): FriendsActions {
-  return {
+export const clearFriends = () => async (dispatch: Dispatch<FriendsActions>) => {
+  dispatch({
     type: FriendsTypes.CLEAR_FRIENDS,
-  };
-}
+  });
+};
 
-export async function addFriend(friend: Friend): Promise<FriendsActions> {
+export const addFriend = (friend: Friend) => async (dispatch: Dispatch<FriendsActions>) => {
   const body = JSON.stringify(friend);
 
   try {
     const res = await axios.post(`${rootEndpoint}/add`, body, config);
-    return {
+    dispatch({
       type: FriendsTypes.ADD_FRIEND,
       payload: res.data,
       // почему res.data, а не просто friend в payload,
       // на сервере объекту друга может добавляться что-то, например ссылка на его аватарку или ещё что-то
-    };
+    });
   } catch {
-    return {
+    dispatch({
       type: FriendsTypes.FRIENDS_ERROR,
       payload: "Возникла ошибка при обработке запроса",
-    };
+    });
   }
-}
+};
 
-export async function removeFriend(id: number): Promise<FriendsActions> {
+export const removeFriend = (id: number) => async (dispatch: Dispatch<FriendsActions>) => {
   try {
     const res = await axios.delete(`${rootEndpoint}/remove/${id}`, config);
-    return {
+    dispatch({
       type: FriendsTypes.ADD_FRIEND,
       payload: res.data,
       // почему res.data, а не просто friend в payload,
       // на сервере объекту друга может добавляться что-то, например ссылка на его аватарку или ещё что-то
-    };
+    });
   } catch {
-    return {
+    dispatch({
       type: FriendsTypes.FRIENDS_ERROR,
       payload: "Возникла ошибка при обработке запроса",
-    };
+    });
   }
-}
+};

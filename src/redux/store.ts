@@ -1,10 +1,7 @@
-import { AnyAction, applyMiddleware, compose, createStore } from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { rootReducer, RootState } from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { ThunkDispatch, ThunkMiddleware } from "redux-thunk";
-import { AuthState } from "./types/AuthTypes";
-import { UserState } from "./types/UserTypes";
 
 const composeEnchancers = composeWithDevTools({
   trace: true,
