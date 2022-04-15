@@ -1,4 +1,5 @@
 import React from "react";
+import "./_loader.scss";
 
 export const Loader: React.FC<{}> = () => {
   return (

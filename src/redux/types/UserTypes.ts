@@ -8,6 +8,7 @@ export enum UserTypes {
 }
 
 export type UserData = {
+  id: string | null;
   nick: string | null;
   imgUrl: string | null;
   mail: string | null;

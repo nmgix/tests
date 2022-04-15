@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useTypedSelector } from "../../redux/helpers/useTypedSelector";
 
 export const ProtectedPage: React.FC<{ children: React.ReactNode; redirectTo: string }> = ({
@@ -13,12 +13,12 @@ export const ProtectedPage: React.FC<{ children: React.ReactNode; redirectTo: st
   //   }, [authState])
   if (
     !authState.state ||
+    (authState.state && !authState.state.id) ||
     !userState.state ||
     authState.error !== null ||
-    userState.error !== null ||
-    !authState.state.id
+    userState.error !== null
   ) {
-    return <Navigate to={redirectTo} />;
+    return <Navigate to={redirectTo} replace={true} />;
   } else {
     return <>{children}</>;
   }

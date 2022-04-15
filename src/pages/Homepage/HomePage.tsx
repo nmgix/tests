@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader";
 import { useAction } from "../../redux/helpers/useAction";
 import { useTypedSelector } from "../../redux/helpers/useTypedSelector";
+
+import "./_homePage.scss";
 
 export const HomePage: React.FC<{
   /*id: string*/
@@ -16,5 +19,12 @@ export const HomePage: React.FC<{
     }
   }, []);
 
-  return user.state ? <div>{user.state.nick}</div> : <Loader />;
+  return user.state ? (
+    <div>
+      {user.state.nick}
+      <Outlet />
+    </div>
+  ) : (
+    <Loader />
+  );
 };

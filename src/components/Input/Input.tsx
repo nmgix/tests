@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { HTMLInputTypeAttribute } from "react";
 
+import "./_input.scss";
+
 export interface InputParams {
   type: HTMLInputTypeAttribute;
   name: string;

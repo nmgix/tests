@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Input } from "../../components/Input/Input";
-import { Toast } from "../../components/Toast";
+import { Toast } from "../../components/Toast/Toast";
 // import { authUser } from "../../redux/actionCreators/AuthActionCreator";
 import { useAction } from "../../redux/helpers/useAction";
 import { useTypedSelector } from "../../redux/helpers/useTypedSelector";
+
+import "./_loginPage.scss";
 
 export const LoginPage: React.FC<{}> = () => {
   const [userCredentials, setCredentials] = useState<{ login: string; password: string }>({ login: "", password: "" });
@@ -24,8 +26,10 @@ export const LoginPage: React.FC<{}> = () => {
   };
 
   return (
-    <div className='container w-50 m-auto d-flex flex-column align-items-center position-relative component-greeting'>
-      <form onSubmit={formHandler} className='container d-flex justify-content-center flex-column'>
+    <div className='container w-25 h-100 m-auto d-flex flex-column align-items-center position-relative component-greeting justify-content-center'>
+      <form
+        onSubmit={formHandler}
+        className='container d-flex justify-content-center flex-column shadow-lg p-4 bg-white rounded'>
         <Input
           params={{
             type: "text",
@@ -55,7 +59,7 @@ export const LoginPage: React.FC<{}> = () => {
           data={{ title: "Ошибка", body: String(auth.error) }}
           // closeTimeout={5000}
           extClassname='w-100 position-absolute'
-          extStyles={{ flex: "0 1 auto", top: "115%" }}
+          extStyles={{ flex: "0 1 auto", top: "61.5%" }}
         />
       )}
     </div>
