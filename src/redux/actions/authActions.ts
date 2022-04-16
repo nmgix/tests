@@ -1,5 +1,5 @@
 import { Action } from ".";
-import { AuthUserData } from "../types/AuthTypes";
+// import { AuthUserData } from "../types/AuthTypes";
 
 export enum AuthTypes {
   //   AUTH_REQUEST = "AUTH_REQUEST",
@@ -9,7 +9,7 @@ export enum AuthTypes {
 }
 
 // type AuthRequest = Action<typeof AuthTypes.AUTH_REQUEST, void>;
-type AuthSuccess = Action<typeof AuthTypes.AUTH_SUCCESS, AuthUserData>;
+type AuthSuccess = Action<typeof AuthTypes.AUTH_SUCCESS, string>;
 type AuthError = Action<typeof AuthTypes.AUTH_ERROR, string>;
 type AuthReset = Action<typeof AuthTypes.AUTH_RESET, void>;
 

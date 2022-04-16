@@ -1,9 +1,12 @@
 import { DefaultState } from ".";
 
-export type AuthUserData = {
-  id: string | null;
-};
+// export type AuthUserData = {
+//   id: string | null;
+// };
 
 export interface AuthState extends DefaultState {
-  state: AuthUserData | null;
+  // state: AuthUserData | null;
+  state: {
+    id: string | null;
+  };
 }

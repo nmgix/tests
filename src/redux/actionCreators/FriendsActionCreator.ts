@@ -9,7 +9,7 @@ const config = {
   },
 };
 
-const rootEndpoint = "/friends";
+const rootEndpoint = "/api/friends";
 
 // @ https://github.com/microsoft/TypeScript/issues/26781
 

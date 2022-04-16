@@ -10,7 +10,7 @@ const initialState: AuthState = {
 export const AuthReducer = (state: AuthState = initialState, action: AuthActions): AuthState => {
   switch (action.type) {
     case AuthTypes.AUTH_SUCCESS: {
-      return { ...state, state: action.payload!, error: null };
+      return { ...state, state: { ...state.state, id: action.payload! }, error: null };
     }
     case AuthTypes.AUTH_ERROR: {
       return {

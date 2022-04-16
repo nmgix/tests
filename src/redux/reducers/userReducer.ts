@@ -3,13 +3,7 @@ import { FriendsTypes } from "../types/FriendsTypes";
 import { UserState, UserTypes } from "../types/UserTypes";
 
 const initialState: UserState = {
-  state: {
-    id: null,
-    nick: null,
-    imgUrl: null,
-    mail: null,
-    friends: [],
-  },
+  state: null,
 };
 
 export const userReducer = (userState: UserState = initialState, action: FriendsActions | UserActions): UserState => {
@@ -65,6 +59,12 @@ export const userReducer = (userState: UserState = initialState, action: Friends
     switch (action.type) {
       case UserTypes.USER_SUCCESS: {
         return { ...userState, state: { ...action.payload! }, error: null };
+      }
+      case UserTypes.USER_ERROR: {
+        return { ...userState, state: null, error: action.payload };
+      }
+      case UserTypes.USER_CLEAR: {
+        return { ...userState, state: null, error: null };
       }
       default: {
         return userState;

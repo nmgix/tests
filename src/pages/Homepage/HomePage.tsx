@@ -14,8 +14,9 @@ export const HomePage: React.FC<{
   const { getUser } = useAction();
 
   useEffect(() => {
+    console.log(user.state, auth.state, auth.state.id);
     if (!user.state && auth.state && auth.state.id) {
-      getUser(auth.state.id);
+      getUser();
     }
   }, []);
 

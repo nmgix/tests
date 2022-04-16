@@ -1,19 +1,100 @@
 {
-  "friends": [
+  "users": [
+    {
+      "id": 1245,
+      "nick": "defaultUser",
+      "login": "default",
+      "password": "default",
+      "mail": "zeqok-fav@xmail.com",
+      "friends": [
+        {
+          "id": 455,
+          "customNick": "Zeqok",
+          "number": "75675553242"
+        },
+        {
+          "id": 435,
+          "customNick": "Galio",
+          "number": "75675553243"
+        },
+        {
+          "id": 737,
+          "customNick": "interes",
+          "number": "75675553244"
+        }
+      ]
+    },
     {
       "id": 455,
-      "nick": "Zeqok",
-      "mail": "zeqok-fav@xmail.com"
+      "nick": "zeqokFAV",
+      "login": "zeqok",
+      "password": "default",
+      "mail": "zeqok-fav@xmail.com",
+      "friends": [
+        {
+          "id": 1245,
+          "customNick": "default-huh",
+          "number": "75675553245"
+        },
+        {
+          "id": 435,
+          "customNick": "Galio",
+          "number": "75675553243"
+        },
+        {
+          "id": 737,
+          "customNick": "interes",
+          "number": "75675553244"
+        }
+      ]
     },
     {
       "id": 435,
-      "nick": "Galio",
-      "mail": "galioTOP@xmail.com"
+      "nick": "GalioTOP",
+      "login": "galio",
+      "password": "default",
+      "mail": "galioTOP@xmail.com",
+      "friends": [
+        {
+          "id": 455,
+          "customNick": "Zeqok",
+          "number": "75675553242"
+        },
+        {
+          "id": 1245,
+          "customNick": "default-huh",
+          "number": "75675553245"
+        },
+        {
+          "id": 737,
+          "customNick": "interes",
+          "number": "75675553244"
+        }
+      ]
     },
     {
       "id": 737,
-      "nick": "interes",
-      "mail": "interesTOP@xmail.com"
+      "nick": "interesTOP",
+      "login": "interes",
+      "password": "default",
+      "mail": "interesTOP@xmail.com",
+      "friends": [
+        {
+          "id": 455,
+          "customNick": "Zeqok",
+          "number": "75675553242"
+        },
+        {
+          "id": 435,
+          "customNick": "Galio",
+          "number": "75675553243"
+        },
+        {
+          "id": 1245,
+          "customNick": "default-huh",
+          "number": "75675553245"
+        }
+      ]
     }
   ]
 }
