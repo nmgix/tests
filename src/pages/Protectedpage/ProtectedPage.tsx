@@ -6,18 +6,9 @@ export const ProtectedPage: React.FC<{ children: React.ReactNode; redirectTo: st
   children,
   redirectTo,
 }) => {
-  const authState = useTypedSelector((state) => state.auth);
+  const userState = useTypedSelector((state) => state.user);
 
-  //   useEffect(() => {
-  //   }, [authState])
-  if (
-    // !authState.state ||
-    // (authState.state && !authState.state.id) ||
-    // !userState.state ||
-    // authState.error !== null ||
-    // userState.error !== null
-    !authState.state.id
-  ) {
+  if (userState.state === null && !userState.loading) {
     return <Navigate to={redirectTo} replace={true} />;
   } else {
     return <>{children}</>;

@@ -2,6 +2,7 @@ import { DefaultState } from ".";
 import { FriendsListState } from "./FriendsTypes";
 
 export enum UserTypes {
+  USER_LOADING = "USER_LOADING",
   USER_SUCCESS = "USER_SUCCESS",
   USER_ERROR = "USER_ERROR",
   USER_CLEAR = "USER_CLEAR",
@@ -17,4 +18,5 @@ export type UserData = {
 
 export interface UserState extends DefaultState {
   state: UserData | null;
+  loading: boolean;
 }

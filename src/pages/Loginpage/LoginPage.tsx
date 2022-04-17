@@ -12,21 +12,28 @@ import "./_loginPage.scss";
 export const LoginPage: React.FC<{}> = () => {
   const navigate = useNavigate();
   const [userCredentials, setCredentials] = useState<{ login: string; password: string }>({ login: "", password: "" });
-  const { authUser } = useAction();
+  const { authUser, getUser } = useAction();
 
-  const auth = useTypedSelector((state) => state.auth);
+  const user = useTypedSelector((state) => state.user);
   const [authToast, setAuthToast] = useState(false);
   useEffect(() => {
-    if (auth.state && auth.state.id && auth.state.id.length > 0) {
+    if (user.state && user.state.id !== null) {
       return navigate("/home");
     }
 
-    if (typeof auth.error === "string") {
+    if (typeof user.error === "string") {
       setAuthToast(true);
     } else {
       setAuthToast(false);
     }
-  }, [auth, auth.error, auth.state]);
+  }, [user, user.error, user.state]);
+
+  useEffect(() => {
+    // если будет ошибка из-за того что токен истек и произошёл редирект, на страничке логина опять будет запрос который всё равно не удастся
+    if (user.error === null) {
+      getUser(true);
+    }
+  }, []);
 
   const formHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,7 +75,7 @@ export const LoginPage: React.FC<{}> = () => {
         <Toast
           active={authToast}
           closeFunc={setAuthToast}
-          data={{ title: "Ошибка", body: String(auth.error) }}
+          data={{ title: "Ошибка", body: String(user.error) }}
           // closeTimeout={5000}
           extClassname='w-100 position-absolute'
           extStyles={{ flex: "0 1 auto", top: "61.5%" }}

@@ -1,11 +1,15 @@
 const express = require("express");
+// const jwt = require("express-jwt");
+const cookies = require("cookie-parser");
 
 const app = express();
 
 const authRouter = require("./routers/authRouter");
 const userRouter = require("./routers/userRouter");
 
+//middleware
 app.use(express.json({ extended: false }));
+app.use(cookies());
 
 // routes
 app.use("/api/auth", authRouter);

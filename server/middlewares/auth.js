@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  // get jwt token from header
-  const token = req.header("x-auth-token");
+  // get jwt token from cookies
+  const token = req.cookies.token;
 
   // if token does not exist, error
   if (!token) {
@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
 
   // else decode jwt and reassign it's user (from payload) to req.user
   try {
-    const decoded = jwt.verify(token, process.env.JWT_CONFIG);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.id;
     next();
   } catch (e) {

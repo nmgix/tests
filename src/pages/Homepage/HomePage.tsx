@@ -9,13 +9,11 @@ import "./_homePage.scss";
 export const HomePage: React.FC<{
   /*id: string*/
 }> = (/*{ id }*/) => {
-  const auth = useTypedSelector((state) => state.auth);
   const user = useTypedSelector((state) => state.user);
   const { getUser } = useAction();
 
   useEffect(() => {
-    console.log(user.state, auth.state, auth.state.id);
-    if (!user.state && auth.state && auth.state.id) {
+    if (!user.state) {
       getUser();
     }
   }, []);

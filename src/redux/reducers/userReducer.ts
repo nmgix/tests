@@ -4,6 +4,8 @@ import { UserState, UserTypes } from "../types/UserTypes";
 
 const initialState: UserState = {
   state: null,
+  loading: true,
+  error: null,
 };
 
 export const userReducer = (userState: UserState = initialState, action: FriendsActions | UserActions): UserState => {
@@ -55,20 +57,22 @@ export const userReducer = (userState: UserState = initialState, action: Friends
         return userState;
       }
     }
-  } else {
-    switch (action.type) {
-      case UserTypes.USER_SUCCESS: {
-        return { ...userState, state: { ...action.payload! }, error: null };
-      }
-      case UserTypes.USER_ERROR: {
-        return { ...userState, state: null, error: action.payload };
-      }
-      case UserTypes.USER_CLEAR: {
-        return { ...userState, state: null, error: null };
-      }
-      default: {
-        return userState;
-      }
+  }
+  switch (action.type) {
+    case UserTypes.USER_LOADING: {
+      return { ...userState, loading: true, error: null };
+    }
+    case UserTypes.USER_SUCCESS: {
+      return { ...userState, state: { ...action.payload! }, loading: false, error: null };
+    }
+    case UserTypes.USER_ERROR: {
+      return { ...userState, state: null, loading: false, error: action.payload };
+    }
+    case UserTypes.USER_CLEAR: {
+      return { ...userState, state: null, loading: false, error: null };
+    }
+    default: {
+      return userState;
     }
   }
 };

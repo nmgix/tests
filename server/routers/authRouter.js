@@ -22,11 +22,12 @@ router.post("/", async (req, res) => {
 
     // тут должен быть bcrypt, но это моковые данные
     if (password === user.password) {
-      jwt.sign(payload, process.env.JWT_CONFIG, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
+      jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
         if (err) {
           console.log(err);
           return res.status(400).json("Error occured");
         } else {
+          res.cookie("token", token, { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN });
           return res.status(200).json(token);
         }
       });
@@ -34,7 +35,6 @@ router.post("/", async (req, res) => {
       return res.status(400).json("Error occured");
     }
   } catch (e) {
-    console.log(e);
     return res.status(400).json("Error occured");
   }
 });
