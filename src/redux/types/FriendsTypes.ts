@@ -15,4 +15,11 @@ export type Friend = {
   imgUrl?: string | null;
 };
 
-export type FriendsListState = Friend[];
+export type localeFriend = {
+  id: string | null;
+  customNick: string | null;
+  number: string | null;
+  mainData?: Friend;
+};
+
+export type FriendsListState = localeFriend[];
