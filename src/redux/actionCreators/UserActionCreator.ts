@@ -19,7 +19,7 @@ export const getUser = (noDispatch?: boolean) => async (dispatch: Dispatch<UserA
     dispatch({
       type: UserTypes.USER_LOADING,
     });
-    const res = await axios.get(rootEndpoint, config);
+    const res = await axios.post(rootEndpoint, {}, config);
     dispatch({
       type: UserTypes.USER_SUCCESS,
       payload: res.data,
@@ -31,20 +31,5 @@ export const getUser = (noDispatch?: boolean) => async (dispatch: Dispatch<UserA
         payload: "Возникла ошибка при обработке запроса",
       });
     }
-  }
-};
-
-export const clearUser = () => async (dispatch: Dispatch<UserActions>) => {
-  try {
-    //тут будет удаление куки
-
-    return {
-      type: UserTypes.USER_CLEAR,
-    };
-  } catch (error) {
-    dispatch({
-      type: UserTypes.USER_ERROR,
-      payload: "Возникла ошибка при обработке запроса",
-    });
   }
 };

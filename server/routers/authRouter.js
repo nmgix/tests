@@ -3,6 +3,8 @@ const sleep = require("../helpers");
 const router = express.Router();
 const data = require("../db.json");
 const jwt = require("jsonwebtoken");
+// const auth = require("../middlewares/auth");
+
 require("dotenv").config();
 
 router.post("/", async (req, res) => {
@@ -35,6 +37,16 @@ router.post("/", async (req, res) => {
       return res.status(400).json("Error occured");
     }
   } catch (e) {
+    return res.status(400).json("Error occured");
+  }
+});
+
+router.post("/logout", async (req, res) => {
+  try {
+    res.clearCookie("token");
+    return res.status(200).json("User logged out");
+  } catch (e) {
+    console.log(e);
     return res.status(400).json("Error occured");
   }
 });

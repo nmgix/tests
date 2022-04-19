@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader";
 import { useAction } from "../../redux/helpers/useAction";
 import { useTypedSelector } from "../../redux/helpers/useTypedSelector";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faSearch, faAlignJustify, faIdCardClip, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import Carousel from "react-bootstrap/Carousel";
 
 import "./_homePage.scss";
 import { localeFriend } from "../../redux/types/FriendsTypes";
+import { Button, Modal } from "react-bootstrap";
+import { UserModal } from "../../components/HomePage/Modal/UserModal";
+import { RenderFriendsCarousel } from "../../components/HomePage/RenderFriendsCarousel";
+import { RenderFriendsList } from "../../components/HomePage/RenderFriendsList";
+import { ImageSvg } from "../../components/ImageSvg";
 
-export const HomePage: React.FC<{
-  /*id: string*/
-}> = (/*{ id }*/) => {
+export const HomePage: React.FC<{}> = () => {
   const user = useTypedSelector((state) => state.user);
-  const { getUser } = useAction();
+  const { getUser, logoutUser } = useAction();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user.state) {
@@ -24,10 +29,13 @@ export const HomePage: React.FC<{
     }
   }, []);
 
+  useEffect(() => {
+    if (user.error) {
+      navigate("/", { replace: true });
+    }
+  }, [user.error]);
+
   const [index, setIndex] = useState<number>(0);
-  const handleCarouselSelect = (selectedIndex: number) => {
-    setIndex(selectedIndex);
-  };
 
   const [listDisplay, setListDisplay] = useState<boolean>(false);
   const handleFriendsDisplay = (setToList: boolean) => {
@@ -57,18 +65,7 @@ export const HomePage: React.FC<{
   const [filteredFriends, setFilteredFriends] = useState<localeFriend[]>([]);
   const filterFriends = (filterString: string) => {
     if (user.state && user.state.friends) {
-      // const resultFriends = user.state.friends.filter((friend) => {
-      //   return Object.keys(friend).map(
-      //     (key) => String(friend[key as keyof localeFriend]).toLocaleLowerCase() === filterString.toLocaleLowerCase()
-      //   );
-      // });
       const resultFriends = user.state.friends.filter((friend) => {
-        console.log(
-          friend.customNick!.toLocaleLowerCase().includes(filterString.toLocaleLowerCase()),
-          String(friend.id!).toLocaleLowerCase().includes(filterString.toLocaleLowerCase()),
-          String(friend.number!).toLocaleLowerCase().includes(filterString.toLocaleLowerCase())
-        );
-
         return (
           friend.customNick!.toLocaleLowerCase().includes(filterString.toLocaleLowerCase()) ||
           String(friend.id!).toLocaleLowerCase().includes(filterString.toLocaleLowerCase()) ||
@@ -82,100 +79,36 @@ export const HomePage: React.FC<{
     }
   };
 
-  // const renderFriends = (friendArr: localeFriend[], elementWrapper: JSX.Element) => {
-
-  // }
-
-  const RenderFriendsCarousel: React.FC<{ friendsArr: localeFriend[] }> = ({ friendsArr }) => {
-    return (
-      <Carousel
-        activeIndex={index}
-        onSelect={handleCarouselSelect}
-        controls={false}
-        interval={null}
-        id='carouselExampleCaptions'>
-        {friendsArr.map((friend) => {
-          return (
-            <Carousel.Item key={friend.id}>
-              <div className='card w-50 mt-5 mx-auto'>
-                <svg
-                  className='bd-placeholder-img card-img-top'
-                  width='100%'
-                  height='180'
-                  xmlns='http://www.w3.org/2000/svg'
-                  role='img'
-                  preserveAspectRatio='xMidYMid slice'
-                  focusable='false'>
-                  <rect width='100%' height='100%' fill='#868e96'></rect>
-                </svg>
-                <div className='card-body d-flex justify-content-around'>
-                  <h3 className='card-title'>
-                    {friend.customNick}
-                    <p className='fw-light '>id: {friend.customNick}</p>
-                  </h3>
-                  <div className='d-flex flex-column'>
-                    <h4>+{friend.number}</h4>
-                    <button className='btn btn-primary' style={{ fontSize: "0.7rem" }}>
-                      Открыть профиль
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Carousel.Item>
-          );
-        })}
-      </Carousel>
-    );
+  const [showModal, setShowModal] = useState<string | null>(null);
+  const handleModalClose = () => {
+    return setShowModal(null);
   };
-
-  const RenderFriendsList: React.FC<{ friendsArr: localeFriend[] }> = ({ friendsArr }) => {
-    return (
-      <>
-        {friendsArr.map((friend) => {
-          return (
-            <li className='list-group-item d-flex justify-content-between' key={friend.id}>
-              <div className='d-flex w-75 friend-info '>
-                <span>{friend.customNick}</span>
-                <span>{friend.number}</span>
-              </div>
-              <button className='btn btn-primary' style={{ fontSize: "0.7rem" }}>
-                Открыть профиль
-              </button>
-            </li>
-          );
-        })}
-      </>
-    );
+  const handleModalOpen = (id: string) => {
+    return setShowModal(id);
   };
 
   return user.state ? (
-    <div className='homePage w-100 d-flex justify-content-center'>
+    <div className='homePage w-100 d-flex justify-content-center position-relative'>
+      {showModal !== null && (
+        <UserModal userId={showModal} handleModalClose={handleModalClose} handleModalOpen={handleModalOpen} />
+      )}
       <div className='card w-75 mt-5'>
-        {user.state.imgUrl ? (
-          <img src={user.state.imgUrl} className='card-img-top' alt='user-img' />
-        ) : (
-          <svg
-            className='bd-placeholder-img card-img-top'
-            width='100%'
-            height='180'
-            xmlns='http://www.w3.org/2000/svg'
-            role='img'
-            preserveAspectRatio='xMidYMid slice'
-            focusable='false'>
-            <rect width='100%' height='100%' fill='#868e96'></rect>
-          </svg>
-        )}
+        <ImageSvg
+          image={user.state.imgUrl}
+          imageExtClassname='card-img-top'
+          imageAlt='user-img'
+          svgExtClassname='bd-placeholder-img card-img-top'
+        />
         <div className='card-body'>
-          <h3 className='card-title'>
-            {user.state.nick}
-            <p className='fw-light '>id: {user.state.id}</p>
-          </h3>
-          {/* <p className='card-text'>
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p> */}
-          {/* <a href='#' className='btn btn-primary'>
-            Go somewhere
-          </a> */}
+          <div className='w-100 d-flex justify-content-between'>
+            <h3 className='card-title'>
+              {user.state.nick}
+              <p className='fw-light '>id: {user.state.id}</p>
+            </h3>
+            <button type='button' className='btn btn-danger h-50' onClick={logoutUser}>
+              Выйти <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            </button>
+          </div>
           <div className='friendsDisplay'>
             <div className='w-100 d-flex justify-content-between'>
               <div className='input-group w-50 search-field'>
@@ -216,13 +149,19 @@ export const HomePage: React.FC<{
               </div>
             </div>
             {listDisplay ? (
-              <>
-                <ul className='list-group'>
-                  <RenderFriendsList friendsArr={filteredFriends.length > 0 ? filteredFriends : user.state.friends} />
-                </ul>
-              </>
+              <ul className='list-group'>
+                <RenderFriendsList
+                  friendsArr={filteredFriends.length > 0 ? filteredFriends : user.state.friends}
+                  handleModalOpen={handleModalOpen}
+                />
+              </ul>
             ) : (
-              <RenderFriendsCarousel friendsArr={filteredFriends.length > 0 ? filteredFriends : user.state.friends} />
+              <RenderFriendsCarousel
+                friendsArr={filteredFriends.length > 0 ? filteredFriends : user.state.friends}
+                index={index}
+                setIndex={setIndex}
+                handleModalOpen={handleModalOpen}
+              />
             )}
           </div>
         </div>

@@ -7,12 +7,11 @@ type UserSuccess = Action<typeof UserTypes.USER_SUCCESS, UserData>;
 type UserError = Action<typeof UserTypes.USER_ERROR, string>;
 type UserReset = Action<typeof UserTypes.USER_CLEAR, void>;
 
-type GetFriends = Action<typeof FriendsTypes.GET_FRIENDS, FriendsListState>;
 type FriendsError = Action<typeof FriendsTypes.FRIENDS_ERROR, string>;
-type ClearFriends = Action<typeof FriendsTypes.CLEAR_FRIENDS, void>;
+type FetchFriendData = Action<typeof FriendsTypes.FETCH_FRIEND_DATA, Friend>;
 type AddFriend = Action<typeof FriendsTypes.ADD_FRIEND, localeFriend>;
 type RemoveFriend = Action<typeof FriendsTypes.REMOVE_FRIEND, string>;
 type EditFriend = Action<typeof FriendsTypes.EDIT_FRIEND, localeFriend>;
 
 export type UserActions = UserLoading | UserSuccess | UserError | UserReset;
-export type FriendsActions = (GetFriends | FriendsError | ClearFriends) | (AddFriend | RemoveFriend | EditFriend);
+export type FriendsActions = (FriendsError | FetchFriendData) | (AddFriend | RemoveFriend | EditFriend);

@@ -47,7 +47,7 @@ export const authUser =
 
 export const logoutUser = () => async (dispatch: Dispatch<UserActions>) => {
   try {
-    await axios.post(`${rootEndpoint}/logout`, config);
+    await axios.post(`${rootEndpoint}/logout`, {}, config);
     dispatch({
       type: UserTypes.USER_CLEAR,
     });

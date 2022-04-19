@@ -58,7 +58,7 @@
         .list-group-item {
           .friend-info {
             & > * {
-              width: 15%;
+              min-width: 15%;
               margin-right: 0.5rem;
 
               word-break: keep-all;
@@ -67,6 +67,10 @@
               &:not(:last-child) {
                 margin-right: 0rem;
               }
+            }
+
+            & > *:not(:last-child) {
+              margin-right: 0.7rem;
             }
           }
         }

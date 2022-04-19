@@ -1,5 +1,5 @@
-import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { useTypedSelector } from "../../redux/helpers/useTypedSelector";
 
 export const ProtectedPage: React.FC<{ children: React.ReactNode; redirectTo: string }> = ({

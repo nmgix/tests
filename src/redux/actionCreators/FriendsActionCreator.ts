@@ -11,31 +11,6 @@ const config = {
 
 const rootEndpoint = "/api/friends";
 
-// @ https://github.com/microsoft/TypeScript/issues/26781
-
-// было желание сделать getFriends универсальным чтобы не использовать editFriend,
-// а просто вызывать getFriend(id)
-export const getFriends = () => async (dispatch: Dispatch<FriendsActions>) => {
-  try {
-    const res = await axios.get(rootEndpoint, config);
-    dispatch({
-      type: FriendsTypes.GET_FRIENDS,
-      payload: res.data,
-    });
-  } catch {
-    dispatch({
-      type: FriendsTypes.FRIENDS_ERROR,
-      payload: "Возникла ошибка при обработке запроса",
-    });
-  }
-};
-
-export const clearFriends = () => async (dispatch: Dispatch<FriendsActions>) => {
-  dispatch({
-    type: FriendsTypes.CLEAR_FRIENDS,
-  });
-};
-
 export const addFriend = (friend: Friend) => async (dispatch: Dispatch<FriendsActions>) => {
   const body = JSON.stringify(friend);
 
@@ -65,6 +40,23 @@ export const removeFriend = (id: number) => async (dispatch: Dispatch<FriendsAct
       // на сервере объекту друга может добавляться что-то, например ссылка на его аватарку или ещё что-то
     });
   } catch {
+    dispatch({
+      type: FriendsTypes.FRIENDS_ERROR,
+      payload: "Возникла ошибка при обработке запроса",
+    });
+  }
+};
+
+export const getFriendData = (id: string) => async (dispatch: Dispatch<FriendsActions>) => {
+  try {
+    const body = JSON.stringify({ id: id });
+    const res = await axios.post("/api/user", body, config);
+
+    dispatch({
+      type: FriendsTypes.FETCH_FRIEND_DATA,
+      payload: res.data,
+    });
+  } catch (error) {
     dispatch({
       type: FriendsTypes.FRIENDS_ERROR,
       payload: "Возникла ошибка при обработке запроса",

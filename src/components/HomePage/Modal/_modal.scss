@@ -1,0 +1,30 @@
+.modal {
+  z-index: 1050;
+
+  & > *,
+  & > * > *,
+  & > * > * > *,
+  & > * > * > * > *,
+  & > * > * > * > * > * {
+    z-index: inherit;
+  }
+
+  svg {
+    z-index: 1049;
+  }
+
+  .mutualFriends {
+    ul {
+      padding: 0;
+      width: 100%;
+      display: flex;
+
+      li {
+        list-style-type: none;
+      }
+      li:not(:last-child) {
+        margin-right: 0.7rem;
+      }
+    }
+  }
+}

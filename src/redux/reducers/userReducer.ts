@@ -9,56 +9,69 @@ const initialState: UserState = {
 };
 
 export const userReducer = (userState: UserState = initialState, action: FriendsActions | UserActions): UserState => {
-  if (userState.state !== null) {
-    switch (action.type) {
-      case FriendsTypes.GET_FRIENDS: {
-        return { ...userState, state: { ...userState.state, friends: action.payload! }, error: null };
-      }
-      case FriendsTypes.FRIENDS_ERROR: {
-        return { ...userState, state: { ...userState.state, friends: [] }, error: action.payload };
-      }
-      case FriendsTypes.CLEAR_FRIENDS: {
-        return { ...userState, state: { ...userState.state, friends: [] }, error: null };
-      }
-      case FriendsTypes.ADD_FRIEND: {
-        return {
-          ...userState,
-          state: { ...userState.state, friends: [...userState.state.friends, action.payload!] },
-          error: null,
-        };
-      }
-      case FriendsTypes.REMOVE_FRIEND: {
-        return {
-          ...userState,
-          state: {
-            ...userState.state,
-            friends: userState.state.friends.filter((value) => value.id !== action.payload),
-          },
-          error: null,
-        };
-      }
-      case FriendsTypes.EDIT_FRIEND: {
-        return {
-          ...userState,
-          state: {
-            ...userState.state,
-            friends: userState.state.friends.map((friend) => {
-              if (friend.id === action.payload!.id) {
-                return (friend = action.payload!);
-              } else {
-                return friend;
-              }
-            }),
-          },
-          error: null,
-        };
-      }
-      default: {
+  switch (action.type) {
+    case FriendsTypes.FRIENDS_ERROR: {
+      return { ...userState, state: null, error: action.payload };
+    }
+    case FriendsTypes.FETCH_FRIEND_DATA: {
+      if (userState.state === null) {
         return userState;
       }
+      if (action.payload === undefined) {
+        return userState;
+      } else {
+        var friends = userState.state.friends.map((friend) => {
+          if (friend.id === action.payload!.id) {
+            friend.mainData = action.payload;
+          }
+          return friend;
+        });
+
+        return { ...userState, state: { ...userState.state, friends: friends }, error: null };
+      }
     }
-  }
-  switch (action.type) {
+    case FriendsTypes.ADD_FRIEND: {
+      if (userState.state === null) {
+        return userState;
+      }
+      return {
+        ...userState,
+        state: { ...userState.state, friends: [...userState.state.friends, action.payload!] },
+        error: null,
+      };
+    }
+    case FriendsTypes.REMOVE_FRIEND: {
+      if (userState.state === null) {
+        return userState;
+      }
+      return {
+        ...userState,
+        state: {
+          ...userState.state,
+          friends: userState.state.friends.filter((value) => value.id !== action.payload),
+        },
+        error: null,
+      };
+    }
+    case FriendsTypes.EDIT_FRIEND: {
+      if (userState.state === null) {
+        return userState;
+      }
+      return {
+        ...userState,
+        state: {
+          ...userState.state,
+          friends: userState.state.friends.map((friend) => {
+            if (friend.id === action.payload!.id) {
+              return (friend = action.payload!);
+            } else {
+              return friend;
+            }
+          }),
+        },
+        error: null,
+      };
+    }
     case UserTypes.USER_LOADING: {
       return { ...userState, loading: true, error: null };
     }
@@ -69,6 +82,7 @@ export const userReducer = (userState: UserState = initialState, action: Friends
       return { ...userState, state: null, loading: false, error: action.payload };
     }
     case UserTypes.USER_CLEAR: {
+      console.log("cleared shit out of this state");
       return { ...userState, state: null, loading: false, error: null };
     }
     default: {

@@ -1,19 +1,9 @@
-export interface DefaultState {
-  state:
-    | (string | number | boolean | null)
-    | (string[] | number[] | boolean[])
-    | { [x: string]: string | number | boolean | null }
-    | { [x: string]: string | number | boolean | null }[]
-    | {
-        [x: string]:
-          | string
-          | number
-          | boolean
-          | null
-          | { [x: string]: string | number | boolean | null | { [x: string]: string | number | boolean | null } }[];
-      }
-    | null;
+type nestedElem = {
+  [x: string]: string | number | boolean | null | nestedElem | nestedElem[];
+};
 
+export interface DefaultState {
+  state: (string | number | boolean | null) | (string[] | number[] | boolean[]) | nestedElem | null;
   error?: (string | number | boolean) | (string[] | number[]) | null;
 }
 
