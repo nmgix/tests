@@ -32,7 +32,6 @@ export const authUser =
         dispatch(getUser());
       }
     } catch (e) {
-      console.log(e);
       // await sleep(2000);
       dispatch({
         type: UserTypes.USER_ERROR,
@@ -40,10 +39,6 @@ export const authUser =
       });
     }
   };
-
-// export const thunkAction = (): ThunkAction<Promise<void>, {}, RootState, UserActions> => async (dispatch) => {
-//   dispatch(getUser());
-// };
 
 export const logoutUser = () => async (dispatch: Dispatch<UserActions>) => {
   try {

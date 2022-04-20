@@ -1,20 +1,24 @@
+import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { localeFriend } from "../../redux/types/FriendsTypes";
 import { ImageSvg } from "../ImageSvg";
 
 export const RenderFriendsCarousel: React.FC<{
   friendsArr: localeFriend[];
-  index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
   handleModalOpen: (id: string) => void;
-}> = ({ friendsArr, index, setIndex, handleModalOpen }) => {
+}> = ({ friendsArr, handleModalOpen }) => {
   const handleCarouselSelect = (selectedIndex: number) => {
-    setIndex(selectedIndex);
+    setCurrentIndex(selectedIndex);
   };
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [friendsArr]);
 
   return (
     <Carousel
-      activeIndex={index}
+      activeIndex={currentIndex}
       onSelect={handleCarouselSelect}
       controls={false}
       interval={null}
@@ -32,10 +36,12 @@ export const RenderFriendsCarousel: React.FC<{
               <div className='card-body d-flex justify-content-around flex-wrap'>
                 <h3 className='card-title'>
                   {friend.customNick}
-                  <p className='fw-light '>id: {friend.customNick}</p>
+                  <p className='fw-light '>id: {friend.id}</p>
                 </h3>
-                <div className='d-flex flex-column'>
-                  <h4>+{friend.number}</h4>
+                <div
+                  className='d-flex flex-column'
+                  style={{ justifyContent: friend.number!.length <= 0 ? "center" : "" }}>
+                  {friend.number!.length > 0 && <h4>+{friend.number}</h4>}
                   <button
                     className='btn btn-primary'
                     style={{ fontSize: "0.7rem" }}

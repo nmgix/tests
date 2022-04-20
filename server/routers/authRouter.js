@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
           console.log(err);
           return res.status(400).json("Error occured");
         } else {
-          res.cookie("token", token, { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN });
+          res.cookie("token", token, { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN, overwrite: true });
           return res.status(200).json(token);
         }
       });

@@ -30,26 +30,14 @@ export const userReducer = (userState: UserState = initialState, action: Friends
         return { ...userState, state: { ...userState.state, friends: friends }, error: null };
       }
     }
-    case FriendsTypes.ADD_FRIEND: {
-      if (userState.state === null) {
-        return userState;
-      }
-      return {
-        ...userState,
-        state: { ...userState.state, friends: [...userState.state.friends, action.payload!] },
-        error: null,
-      };
-    }
+    case FriendsTypes.ADD_FRIEND:
     case FriendsTypes.REMOVE_FRIEND: {
       if (userState.state === null) {
         return userState;
       }
       return {
         ...userState,
-        state: {
-          ...userState.state,
-          friends: userState.state.friends.filter((value) => value.id !== action.payload),
-        },
+        state: { ...userState.state, friends: action.payload! },
         error: null,
       };
     }
@@ -63,7 +51,7 @@ export const userReducer = (userState: UserState = initialState, action: Friends
           ...userState.state,
           friends: userState.state.friends.map((friend) => {
             if (friend.id === action.payload!.id) {
-              return (friend = action.payload!);
+              return Object.assign(friend, action.payload);
             } else {
               return friend;
             }
@@ -82,7 +70,6 @@ export const userReducer = (userState: UserState = initialState, action: Friends
       return { ...userState, state: null, loading: false, error: action.payload };
     }
     case UserTypes.USER_CLEAR: {
-      console.log("cleared shit out of this state");
       return { ...userState, state: null, loading: false, error: null };
     }
     default: {

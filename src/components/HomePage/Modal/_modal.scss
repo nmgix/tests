@@ -1,4 +1,4 @@
-.modal {
+.userModal {
   z-index: 1050;
 
   & > *,
@@ -13,17 +13,44 @@
     z-index: 1049;
   }
 
-  .mutualFriends {
-    ul {
-      padding: 0;
-      width: 100%;
-      display: flex;
+  ul {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    li {
+      list-style-type: none;
+    }
+  }
 
-      li {
-        list-style-type: none;
+  .modal-dialog {
+    top: 20%;
+
+    .mainInfo {
+      ul {
+        flex-direction: column;
       }
-      li:not(:last-child) {
-        margin-right: 0.7rem;
+
+      .editZone {
+        ul {
+          margin: 0;
+        }
+
+        .formEditParams {
+          display: flex;
+          justify-content: end;
+
+          & > *:not(:last-child) {
+            margin-right: 0.7rem;
+          }
+        }
+      }
+    }
+
+    .mutualFriends {
+      ul {
+        li:not(:last-child) {
+          margin-right: 0.7rem;
+        }
       }
     }
   }

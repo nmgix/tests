@@ -9,8 +9,8 @@ type UserReset = Action<typeof UserTypes.USER_CLEAR, void>;
 
 type FriendsError = Action<typeof FriendsTypes.FRIENDS_ERROR, string>;
 type FetchFriendData = Action<typeof FriendsTypes.FETCH_FRIEND_DATA, Friend>;
-type AddFriend = Action<typeof FriendsTypes.ADD_FRIEND, localeFriend>;
-type RemoveFriend = Action<typeof FriendsTypes.REMOVE_FRIEND, string>;
+type AddFriend = Action<typeof FriendsTypes.ADD_FRIEND, localeFriend[]>;
+type RemoveFriend = Action<typeof FriendsTypes.REMOVE_FRIEND, localeFriend[]>;
 type EditFriend = Action<typeof FriendsTypes.EDIT_FRIEND, localeFriend>;
 
 export type UserActions = UserLoading | UserSuccess | UserError | UserReset;

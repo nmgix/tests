@@ -17,7 +17,6 @@ export const LoginPage: React.FC<{}> = () => {
   const user = useTypedSelector((state) => state.user);
   const [authToast, setAuthToast] = useState(false);
   useEffect(() => {
-    console.log(user.state && user.state.id !== null, user.error === null);
     if (user.state && user.state.id !== null && user.error === null) {
       return navigate("/home");
     }
