@@ -33,8 +33,8 @@
 
 ### Пример .env файла
 
-PORT=5000
-JWT_SECRET=ANYCASE
+PORT=5000\
+JWT_SECRET=ANYCASE\
 JWT_EXPIRES_IN=1800000
 
 # Текущие проблемы
