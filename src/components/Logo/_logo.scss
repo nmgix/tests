@@ -1,0 +1,13 @@
+div[class*="logo-"] {
+  background-position: center;
+  background-size: cover;
+  flex: 0;
+  position: relative;
+
+  //   display: flex;
+
+  img {
+    // align-self: center;
+    margin: 25px 20px 39px;
+  }
+}

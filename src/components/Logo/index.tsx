@@ -1,10 +1,10 @@
+import "./_logo.scss";
+type LogoSizes = "s" | "l";
+
 /**
  * @param size - три типа: `s`- минимальный формат, квадратная форма, `l`- полный формат, прямоугольная форма
  * @returns изображение логотипа
  */
-
-type LogoSizes = "s" | "l";
-
 const Logo: React.FC<{ size: LogoSizes }> = ({ size }) => {
   const appendClass = (function (size: LogoSizes) {
     switch (size) {
@@ -19,7 +19,11 @@ const Logo: React.FC<{ size: LogoSizes }> = ({ size }) => {
   })(size);
   console.log(appendClass);
 
-  return <img className={appendClass} src='/images/spacex-logo.png' />;
+  return (
+    <div className={`${appendClass} borders corners`}>
+      <img src='/images/spacex-logo.png' alt='space-logo' />
+    </div>
+  );
 };
 
 export default Logo;

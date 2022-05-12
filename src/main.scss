@@ -1,0 +1,105 @@
+@use "./fonts/fonts.scss";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: "Museo100", monospace;
+}
+
+.content {
+  max-width: 1168px;
+  margin: 0 auto;
+}
+
+.borders {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+// @ https://codepen.io/ThiemelJiri/pen/eGQMKv
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+@function svg-uri($svg) {
+  $encoded: "";
+  $slice: 2000;
+  $index: 0;
+  $loops: ceil(str-length($svg) / $slice);
+
+  @if not str-index($svg, xmlns) {
+    $svg: str-replace($svg, "<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
+  }
+
+  @for $i from 1 through $loops {
+    $chunk: str-slice($svg, $index, $index + $slice - 1);
+    $chunk: str-replace($chunk, '"', "%22");
+    $chunk: str-replace($chunk, "'", "%27");
+    $chunk: str-replace($chunk, "/", "%2F");
+    $chunk: str-replace($chunk, "<", "%3C");
+    $chunk: str-replace($chunk, ">", "%3E");
+    $chunk: str-replace($chunk, "&", "%26");
+    $chunk: str-replace($chunk, "#", "%23");
+    $encoded: #{$encoded}#{$chunk};
+    $index: $index + $slice;
+  }
+
+  @return url("data:image/svg+xml;charset=utf8,#{$encoded}");
+}
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+@mixin buildCorners($cornerColor: #000, $cornerSize: 20, $cornerThickness: 5, $contentFontSize: 16) {
+  // Params:
+  //   - $cornerColor - because the SVG is not inline SVG but background image it cannot inherit the currentColor,
+  //                    therefore the color has to be specified explicitly
+  //   - $cornerSize - just a number in pixels without unit or wit any unit you want
+  //                 - when just a number is provided relative mode i used (will be vconverted into em)
+  //                 - when number with unit is absolute mode is turned on (the unit will remain)
+  //   - $cornerThickness - just a number in px without unit
+  //                      - when just a number is provided relative mode i used (will be vconverted into em)
+  //                      - when number with unit is absolute mode is turned on (the unit will remain)
+  //   - [$contentFontSize] - used only in relative mode to recalculate previous dimensions into ems for background size
+  //                        - just a number in pixels without unit
+
+  $svgCornerSize: strip-unit($cornerSize);
+  $svgCornerThickness: strip-unit($cornerThickness);
+  $svgViewBox: $svgCornerSize * 2;
+  $svgRectStart: $svgCornerThickness / 2;
+  $svgRectSize: $svgCornerSize * 2 - $svgCornerThickness;
+
+  // absolute mode
+  $borderWidth: $svgCornerThickness * 1px;
+  $borderImageWidth: $svgCornerSize * 1px;
+
+  // relative mode
+  @if unit($cornerSize) == "" or unit($cornerThickness) == "" {
+    $borderWidth: $svgCornerThickness/$contentFontSize * 1em;
+    $borderImageWidth: $svgCornerSize/$contentFontSize * 1em;
+  }
+
+  border-style: solid;
+  border-width: $borderWidth;
+  border-image-source: svg-uri(
+    '<svg viewBox="0 0 #{$svgViewBox} #{$svgViewBox}"><rect x="#{$svgRectStart}" y="#{$svgRectStart}" width="#{$svgRectSize}" height="#{$svgRectSize}" fill="transparent" stroke="#{$cornerColor}" stroke-width="#{$svgCornerThickness}" /></svg>'
+  );
+  border-image-slice: 50%;
+  border-image-width: $borderImageWidth;
+}
+.corners::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  @include buildCorners(#fff, 20, 2, 32);
+}
