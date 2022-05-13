@@ -112,20 +112,24 @@ const HeroView = () => {
         onResize={draw}
         id='button-to-rocket-canvas'
       /> */}
-      <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
-      <div className='background' style={{ backgroundImage: "url(/images/background.png)" }} draggable={false} />
+      <div
+        className='main-background'
+        style={{ backgroundImage: "url(/images/background.png)" }}
+        draggable={false}></div>
+      <div />
       <div className='content'>
         <div id='hero'>
           <div className='title'>
             {/* M -258 -57.5 L 258 -57.5 L 258 -6.518096923828125 C 240.209716796875 7.908935546875 226.4842529296875 30.53997802734375 219.69342041015625 57.5 L -258 57.5 L -258 -57.5 Z  */}
-            <h1
-              style={{
-                clipPath: `polygon(100% 0%, 100% 0%, 0% 0%, 0% 0%, 0% 100%, 0% 100%, 0% 100%, 0% 100%, 75% 100%, 75% 100%, 79% 100%, 93% 80%, 97% 25%, 100% 0%)`,
-              }}>
-              ПУТЕШЕСТВИЕ
-            </h1>
+            <h1>ПУТЕШЕСТВИЕ</h1>
             <span>на красную планету</span>
           </div>
+          <div
+            className='planet-background'
+            style={{ backgroundImage: "url(/images/planet.png)" }}
+            draggable={false}></div>
+          <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
+
           <button ref={buttonRef}>Начать путешествие</button>
           {/* у button будет after со стрелкой, желательно чтобы она привязывалась к точке (к ракете) */}
         </div>
