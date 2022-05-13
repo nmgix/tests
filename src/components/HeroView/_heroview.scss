@@ -64,7 +64,7 @@
         // }
 
         h1 {
-          font-size: 58px;
+          font-size: 56px;
           font-family: "Museo700";
           color: #fff;
 
@@ -111,26 +111,9 @@
         transition: all 0.2s ease-out;
         position: absolute;
 
-        top: 50%;
+        top: 58%;
       }
 
-      // button::after {
-      //   content: "";
-
-      //   position: absolute;
-      //   top: -2px;
-      //   left: -2px;
-      //   width: 100%;
-      //   height: 100%;
-
-      //   background: rgba(0, 0, 0, 1);
-
-      //   border: 2px solid transparent;
-      //   -moz-border-image: -moz-linear-gradient(8deg, #263e66 0%, #09213d 40%, #111f2d 60%, #23599c 100%);
-      //   -webkit-border-image: -webkit-linear-gradient(8deg, #263e66 0%, #09213d 40%, #111f2d 60%, #23599c 100%);
-      //   border-image: linear-gradient(8deg, #263e66 0%, #09213d 40%, #111f2d 60%, #23599c 100%);
-      //   border-image-slice: 1;
-      // }
       button:hover {
         color: rgba(255, 255, 255, 1);
       }
@@ -138,6 +121,8 @@
 
     #info-grid {
       z-index: 2;
+
+      height: 100px; //костыль
 
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -149,8 +134,8 @@
 
         position: relative;
 
-        width: 200px;
-        height: 200px;
+        width: 180px;
+        height: 180px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -188,6 +173,17 @@
 
         &:hover {
           border-image-slice: 1;
+          color: rgba(255, 255, 255, 1);
+
+          .background {
+            border: none;
+          }
+        }
+      }
+
+      @for $variable from 1 through 4 {
+        .info-grid-element#{$variable} {
+          background: linear-gradient(#{360/4 * $variable + 45}deg, #ffffff00 30%, #ffffff21 100%);
         }
       }
     }

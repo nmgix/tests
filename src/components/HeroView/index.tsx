@@ -77,11 +77,11 @@ const HeroView = () => {
 
     ctx.strokeStyle = grad;
 
-    ctx.lineWidth = 1;
     ctx.beginPath();
 
-    ctx.arc(targetX, targetY, 5, 0, 2 * Math.PI);
+    ctx.arc(targetX, targetY, 4, 0, 2 * Math.PI);
 
+    ctx.lineWidth = 1;
     ctx.moveTo(offsetX + buttonRect.width + 12, offsetY + buttonRect.height / 2);
     ctx.lineTo((offsetX + buttonRect.width + 12) * 1.3, targetY);
     // ctx.strokeStyle = "white";
@@ -104,6 +104,22 @@ const HeroView = () => {
       draw(context);
     }
   }, [draw]);
+
+  // сделал для того чтобы нормально ставились градиенты к центру
+  const DataElement: React.FC<{ element: DataElem; index: number }> = ({ element, index }) => {
+    return (
+      <div
+        className={`info-grid-element info-grid-element${index}`}
+        onMouseMove={(e) => changeGardient(e)}
+        key={index}
+        onMouseLeave={(e) => removeGradient(e)}>
+        <div className='background'></div>
+        <span>{element.header}</span>
+        <h1>{element.body}</h1>
+        <span>{element.footer}</span>
+      </div>
+    );
+  };
 
   return (
     <div id='hero-view' ref={parentRef}>
@@ -134,10 +150,10 @@ const HeroView = () => {
           {/* у button будет after со стрелкой, желательно чтобы она привязывалась к точке (к ракете) */}
         </div>
         <div id='info-grid'>
-          {data.map((element, index) => {
+          {/* {data.map((element, index) => {
             return (
               <div
-                className='info-grid-element'
+                className={`info-grid-element info-grid-element${index + 1}`}
                 onMouseMove={(e) => changeGardient(e)}
                 key={index}
                 onMouseLeave={(e) => removeGradient(e)}>
@@ -147,7 +163,11 @@ const HeroView = () => {
                 <span>{element.footer}</span>
               </div>
             );
-          })}
+          })} */}
+          <DataElement element={data[0]} index={1} />
+          <DataElement element={data[1]} index={2} />
+          <DataElement element={data[2]} index={4} />
+          <DataElement element={data[3]} index={3} />
         </div>
       </div>
     </div>
