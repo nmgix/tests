@@ -1,7 +1,7 @@
 // @ts-ignore
 import Canvas from "react-responsive-canvas";
 
-import { createRef, useEffect } from "react";
+import { createRef, useEffect, useRef } from "react";
 import "./_heroview.scss";
 
 type DataElem = {
@@ -39,7 +39,6 @@ const data: DataElem[] = [
 
 const parentRef = createRef<HTMLDivElement>();
 const buttonRef = createRef<HTMLButtonElement>();
-var canvasElement: HTMLCanvasElement;
 
 const changeGardient = (e: React.MouseEvent<HTMLDivElement>) => {
   var x = e.clientX - e.currentTarget.offsetLeft;
@@ -48,53 +47,72 @@ const changeGardient = (e: React.MouseEvent<HTMLDivElement>) => {
   var element = e.currentTarget;
   var background = element.querySelector(".background") as HTMLDivElement;
   background.style.background = `radial-gradient(circle farthest-side  at ${x}px ${y}px, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0))`;
-
-  // element.style.border = " 1px solid transparent";
-  // // @ts-ignore
-  // element.style = `-webkit-border-image: -webkit-radial-gradient(circle farthest-side  at ${x}px ${y}px, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)); border-image: radial-gradient(circle farthest-side  at ${x}px ${y}px, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)); -moz-border-image: -moz-radial-gradient(circle farthest-side  at ${x}px ${y}px, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0)); border-image-slice: 1;`;
 };
 const removeGradient = (e: React.MouseEvent<HTMLDivElement>) => {
   var element = e.currentTarget;
   var background = element.querySelector(".background") as HTMLDivElement;
   background.style.background = "transparent";
-
-  // element.style.borderImage = "none";
-  // element.style.border = "1px solid rgba(255,255,255,0.05)";
 };
 
 const HeroView = () => {
-  // useEffect(() => {
-  //   if (canvasRef.current) {
-  //     canvasRef.current.style.width = "100%";
-  //     canvasRef.current.style.height = "100%";
-  //     canvasRef.current.width = canvasRef.current.offsetWidth;
-  //     canvasRef.current.height = canvasRef.current.offsetHeight;
-  //   }
-  //   console.log(canvasRef.current);
-  // }, [canvasRef.current, window.innerWidth, window.innerHeight]);
-  var ctx: CanvasRenderingContext2D;
+  const canvasElement = useRef<HTMLCanvasElement>(null);
 
-  const draw = () => {
-    if (canvasElement) {
-      ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-    }
+  const draw = (ctx: CanvasRenderingContext2D) => {
+    var bodyRect = document.body.getBoundingClientRect();
+    var buttonRect = buttonRef.current!.getBoundingClientRect();
+    var offsetX = buttonRect.left - bodyRect.left;
+    var offsetY = buttonRect.top - bodyRect.top;
+
+    var targetX = window.innerWidth / 2;
+    var targetY = 450;
+
+    var grad = ctx.createLinearGradient(
+      offsetX + buttonRect.width + 14,
+      offsetY + buttonRect.height,
+      (offsetX + buttonRect.width + 12) * 2,
+      targetY
+    );
+    grad.addColorStop(0, "rgba(255,255,255,0)");
+    grad.addColorStop(1, "white");
+
+    ctx.strokeStyle = grad;
+
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+
+    ctx.arc(targetX, targetY, 5, 0, 2 * Math.PI);
+
+    ctx.moveTo(offsetX + buttonRect.width + 12, offsetY + buttonRect.height / 2);
+    ctx.lineTo((offsetX + buttonRect.width + 12) * 1.3, targetY);
+    // ctx.strokeStyle = "white";
+    ctx.lineTo(targetX - 5, targetY);
+
+    ctx.stroke();
+    console.log("drawing");
   };
 
   useEffect(() => {
-    if (canvasElement) {
-      ctx = canvasElement.getContext("2d")!;
-      draw();
+    const canvas = canvasElement.current;
+    // canvas!.width = parentRef.current?.offsetWidth!
+    if (canvas) {
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      const context = canvas!.getContext("2d")!;
+
+      draw(context);
     }
-  }, [canvasElement]);
+  }, [draw]);
 
   return (
     <div id='hero-view' ref={parentRef}>
-      {/* <canvas id='button-to-rocket-canvas' ref={canvasRef}></canvas> */}
-      <Canvas
+      {/* <Canvas
         canvasRef={(el: HTMLCanvasElement) => (canvasElement = el)}
         onResize={draw}
         id='button-to-rocket-canvas'
-      />
+      /> */}
+      <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
       <div className='background' style={{ backgroundImage: "url(/images/background.png)" }} draggable={false} />
       <div className='content'>
         <div id='hero'>
