@@ -17,7 +17,6 @@ const Logo: React.FC<{ size: LogoSizes }> = ({ size }) => {
       }
     }
   })(size);
-  console.log(appendClass);
 
   return (
     <div className={`${appendClass} borders corners`}>

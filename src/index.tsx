@@ -5,10 +5,10 @@ import "./main.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <div>
+  <>
     <Header />
     <main>
       <HeroView />
     </main>
-  </div>
+  </>
 );

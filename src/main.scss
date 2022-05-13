@@ -6,6 +6,12 @@ body {
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
+  height: 100vh;
+
+  background-color: #000;
+}
+
+* {
   font-family: "Museo100", monospace;
 }
 

@@ -1,5 +1,6 @@
 nav {
   position: fixed;
+  z-index: 3;
 
   width: calc(100% - 2px);
   height: 98px;
@@ -27,6 +28,8 @@ nav {
         list-style-type: none;
         display: flex;
         align-items: center;
+
+        font-size: 16px;
 
         a,
         a:visited {
