@@ -1,8 +1,10 @@
 // @ts-ignore
 import Canvas from "react-responsive-canvas";
 
-import { createRef, useEffect, useRef } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import "./_heroview.scss";
+
+type HeroTypes = 1 | 2 | 3;
 
 type DataElem = {
   header: string;
@@ -56,6 +58,7 @@ const removeGradient = (e: React.MouseEvent<HTMLDivElement>) => {
 
 const HeroView = () => {
   const canvasElement = useRef<HTMLCanvasElement>(null);
+  const [hero, setHero] = useState<HeroTypes>(1);
 
   const draw = (ctx: CanvasRenderingContext2D) => {
     var bodyRect = document.body.getBoundingClientRect();
@@ -72,9 +75,9 @@ const HeroView = () => {
       (offsetX + buttonRect.width + 12) * 2,
       targetY
     );
+
     grad.addColorStop(0, "rgba(255,255,255,0)");
     grad.addColorStop(1, "white");
-
     ctx.strokeStyle = grad;
 
     ctx.beginPath();
@@ -83,8 +86,13 @@ const HeroView = () => {
 
     ctx.lineWidth = 1;
     ctx.moveTo(offsetX + buttonRect.width + 12, offsetY + buttonRect.height / 2);
-    ctx.lineTo((offsetX + buttonRect.width + 12) * 1.3, targetY);
-    // ctx.strokeStyle = "white";
+
+    if (hero !== 3) {
+      ctx.lineTo((offsetX + buttonRect.width + 12) * 1.3, targetY);
+    } else {
+      ctx.lineTo(offsetX + buttonRect.width + 12, targetY);
+    }
+
     ctx.lineTo(targetX - 5, targetY);
 
     ctx.stroke();
@@ -116,17 +124,121 @@ const HeroView = () => {
     }
   };
 
+  const changeHero = () => {
+    const windowWidth = window.innerWidth;
+
+    if (windowWidth > 1200) {
+      setHero(1);
+    } else if (windowWidth > 920) {
+      setHero(2);
+    } else if (windowWidth > 580) {
+      setHero(2);
+    } else {
+      //  телефоны
+      setHero(3);
+    }
+  };
+
   const handleResize = () => {
+    changeHero();
     changeCanvas();
   };
 
   useEffect(() => {
     window.addEventListener("resize", handleResize, false);
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize, false);
     };
-  });
+  }, []);
+
+  const HeroScheme: React.FC = () => {
+    switch (hero) {
+      case 1: {
+        return (
+          <>
+            <div
+              className='main-background borders'
+              style={{ backgroundImage: "url(/images/background.png)" }}
+              draggable={false}></div>
+
+            <div className='content'>
+              <div id='hero'>
+                <div className='title'>
+                  <h1>ПУТЕШЕСТВИЕ</h1>
+                  <span>на красную планету</span>
+                </div>
+                <div
+                  className='planet-background'
+                  style={{ backgroundImage: "url(/images/planet.png)" }}
+                  draggable={false}></div>
+                <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
+
+                <button ref={buttonRef}>Начать путешествие</button>
+              </div>
+              <div id='info-grid'>
+                <DataElement element={data[0]} index={1} />
+                <DataElement element={data[1]} index={2} />
+                <DataElement element={data[2]} index={4} />
+                <DataElement element={data[3]} index={3} />
+              </div>
+            </div>
+          </>
+        );
+      }
+      case 2: {
+        return (
+          <>
+            <div
+              className='main-background borders'
+              style={{ backgroundImage: "url(/images/background.png)" }}
+              draggable={false}></div>
+
+            <div className='content content-tablet'>
+              <div id='hero'>
+                <div className='title'>
+                  <h1>ПУТЕШЕСТВИЕ</h1>
+                  <span>на красную планету</span>
+                </div>
+                <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
+
+                <button ref={buttonRef}>Начать путешествие</button>
+              </div>
+              <div id='info-grid'>
+                <DataElement element={data[0]} index={1} />
+                <DataElement element={data[1]} index={2} />
+                <DataElement element={data[2]} index={4} />
+                <DataElement element={data[3]} index={3} />
+              </div>
+            </div>
+          </>
+        );
+      }
+      case 3: {
+        return (
+          <>
+            <div
+              className='main-background borders'
+              style={{ backgroundImage: "url(/images/background.png)", marginTop: "-6%" }}
+              draggable={false}></div>
+
+            <div className='content content-mobile'>
+              <div id='hero'>
+                <div className='title'>
+                  <h1>ПУТЕШЕСТВИЕ</h1>
+                  <span>на красную планету</span>
+                </div>
+                <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
+
+                <button ref={buttonRef}>Начать путешествие</button>
+              </div>
+            </div>
+          </>
+        );
+      }
+    }
+  };
 
   // сделал для того чтобы нормально ставились градиенты к центру
   const DataElement: React.FC<{ element: DataElem; index: number }> = ({ element, index }) => {
@@ -146,53 +258,7 @@ const HeroView = () => {
 
   return (
     <div id='hero-view' ref={parentRef}>
-      {/* <Canvas
-        canvasRef={(el: HTMLCanvasElement) => (canvasElement = el)}
-        onResize={draw}
-        id='button-to-rocket-canvas'
-      /> */}
-      <div
-        className='main-background'
-        style={{ backgroundImage: "url(/images/background.png)" }}
-        draggable={false}></div>
-      <div />
-      <div className='content'>
-        <div id='hero'>
-          <div className='title'>
-            {/* M -258 -57.5 L 258 -57.5 L 258 -6.518096923828125 C 240.209716796875 7.908935546875 226.4842529296875 30.53997802734375 219.69342041015625 57.5 L -258 57.5 L -258 -57.5 Z  */}
-            <h1>ПУТЕШЕСТВИЕ</h1>
-            <span>на красную планету</span>
-          </div>
-          <div
-            className='planet-background'
-            style={{ backgroundImage: "url(/images/planet.png)" }}
-            draggable={false}></div>
-          <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
-
-          <button ref={buttonRef}>Начать путешествие</button>
-          {/* у button будет after со стрелкой, желательно чтобы она привязывалась к точке (к ракете) */}
-        </div>
-        <div id='info-grid'>
-          {/* {data.map((element, index) => {
-            return (
-              <div
-                className={`info-grid-element info-grid-element${index + 1}`}
-                onMouseMove={(e) => changeGardient(e)}
-                key={index}
-                onMouseLeave={(e) => removeGradient(e)}>
-                <div className='background'></div>
-                <span>{element.header}</span>
-                <h1>{element.body}</h1>
-                <span>{element.footer}</span>
-              </div>
-            );
-          })} */}
-          <DataElement element={data[0]} index={1} />
-          <DataElement element={data[1]} index={2} />
-          <DataElement element={data[2]} index={4} />
-          <DataElement element={data[3]} index={3} />
-        </div>
-      </div>
+      <HeroScheme />
     </div>
   );
 };

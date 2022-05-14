@@ -122,8 +122,6 @@
     #info-grid {
       z-index: 2;
 
-      height: 100px; //костыль
-
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
@@ -186,6 +184,83 @@
           background: linear-gradient(#{360/4 * $variable + 45}deg, #ffffff00 30%, #ffffff21 100%);
         }
       }
+    }
+  }
+
+  .content-tablet {
+    margin-right: 20px;
+    margin-left: 20px;
+    //   flex-direction: row;
+
+    #info-grid {
+      //     display: flex;
+      //     height: auto;
+      //     width: auto;
+      //     margin: 0 !important;
+
+      //     flex-direction: column;
+
+      //     // justify-content: space-between;
+
+      .info-grid-element {
+        width: 150px;
+        height: 150px;
+
+        font-size: 14px;
+
+        h1 {
+          font-size: 50px;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      & {
+        flex-direction: column;
+
+        #info-grid {
+          margin-top: 28%;
+          display: flex;
+          justify-content: space-around;
+          flex-wrap: wrap;
+
+          .info-grid-element {
+            background: none !important;
+          }
+        }
+      }
+    }
+
+    @media only screen and (max-width: 670px) {
+      & {
+        flex-direction: column;
+
+        #info-grid {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .content-mobile {
+    justify-content: center;
+
+    height: 685px;
+
+    #hero {
+      .title {
+        h1 {
+          font-size: 48px;
+        }
+      }
+    }
+
+    button {
+      top: 81% !important;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      width: 60%;
     }
   }
 }
