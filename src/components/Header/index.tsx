@@ -12,7 +12,6 @@ const Header: React.FC<{}> = () => {
     const windowWidth = window.innerWidth;
     // @ https://stackoverflow.com/questions/6665997/switch-statement-for-greater-than-less-than
 
-    console.log("chaing");
     if (windowWidth > 1200) {
       // если окно как у комьютера
       setMenu(1);

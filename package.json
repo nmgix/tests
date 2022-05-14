@@ -1,6 +1,6 @@
 {
-  "name": "elon",
-  "homepage": "https://nmgix.github.io/elon-test-task",
+  "name": "elon-test-task",
+  "homepage": "https://nmgix.github.io/elon-test-task/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

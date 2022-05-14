@@ -1,6 +1,10 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import "./_heroview.scss";
 
+// @ https://stackoverflow.com/questions/52759220/importing-images-in-typescript-react-cannot-find-module
+import backgroundImage from "../../images/background.png";
+import planetImage from "../../images/planet.png";
+
 type HeroTypes = 1 | 2 | 3;
 
 type DataElem = {
@@ -160,7 +164,7 @@ const HeroView = () => {
           <>
             <div
               className='main-background borders'
-              style={{ backgroundImage: `url(${require("../../images//background.png")})` }}
+              style={{ backgroundImage: `url(${backgroundImage})` }}
               draggable={false}></div>
 
             <div className='content'>
@@ -171,7 +175,7 @@ const HeroView = () => {
                 </div>
                 <div
                   className='planet-background'
-                  style={{ backgroundImage: `url(${require("../../images/planet.png")})` }}
+                  style={{ backgroundImage: `url(${planetImage})` }}
                   draggable={false}></div>
                 <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
 
@@ -192,7 +196,7 @@ const HeroView = () => {
           <>
             <div
               className='main-background borders'
-              style={{ backgroundImage: `url(${require("../../images//background.png")})` }}
+              style={{ backgroundImage: `url(${backgroundImage})` }}
               draggable={false}></div>
 
             <div className='content content-tablet'>
@@ -220,7 +224,7 @@ const HeroView = () => {
           <>
             <div
               className='main-background borders'
-              style={{ backgroundImage: `url(${require("../../images//background.png")})`, marginTop: "-6%" }}
+              style={{ backgroundImage: `url(${backgroundImage})`, marginTop: "-6%" }}
               draggable={false}></div>
 
             <div className='content content-mobile'>

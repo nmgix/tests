@@ -1,4 +1,7 @@
 import "./_logo.scss";
+
+import logoImage from "../../images/spacex-logo.png";
+
 type LogoSizes = "s" | "m" | "l";
 
 /**
@@ -23,7 +26,7 @@ const Logo: React.FC<{ size: LogoSizes; onClick?: () => void }> = ({ size, onCli
 
   return (
     <div className={`${appendClass} borders corners`} onClick={onClick}>
-      <img src={require("../../images/spacex-logo.png")} alt='space-logo' />
+      <img src={logoImage} alt='space-logo' />
     </div>
   );
 };
