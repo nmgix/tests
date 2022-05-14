@@ -13,7 +13,6 @@
     "@types/react-dom": "^18.0.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-responsive-canvas": "^1.0.2",
     "react-scripts": "5.0.1",
     "sass": "^1.51.0",
     "sass-svg-uri": "^1.0.0",

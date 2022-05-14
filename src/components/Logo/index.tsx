@@ -23,7 +23,7 @@ const Logo: React.FC<{ size: LogoSizes; onClick?: () => void }> = ({ size, onCli
 
   return (
     <div className={`${appendClass} borders corners`} onClick={onClick}>
-      <img src='/images/spacex-logo.png' alt='space-logo' />
+      <img src={require("../../images/spacex-logo.png")} alt='space-logo' />
     </div>
   );
 };

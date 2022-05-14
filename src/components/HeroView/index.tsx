@@ -1,7 +1,4 @@
-// @ts-ignore
-import Canvas from "react-responsive-canvas";
-
-import { createRef, useEffect, useRef, useState } from "react";
+import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import "./_heroview.scss";
 
 type HeroTypes = 1 | 2 | 3;
@@ -60,43 +57,46 @@ const HeroView = () => {
   const canvasElement = useRef<HTMLCanvasElement>(null);
   const [hero, setHero] = useState<HeroTypes>(1);
 
-  const draw = (ctx: CanvasRenderingContext2D) => {
-    var bodyRect = document.body.getBoundingClientRect();
-    var buttonRect = buttonRef.current!.getBoundingClientRect();
-    var offsetX = buttonRect.left - bodyRect.left;
-    var offsetY = buttonRect.top - bodyRect.top;
+  const draw = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      var bodyRect = document.body.getBoundingClientRect();
+      var buttonRect = buttonRef.current!.getBoundingClientRect();
+      var offsetX = buttonRect.left - bodyRect.left;
+      var offsetY = buttonRect.top - bodyRect.top;
 
-    var targetX = window.innerWidth / 2;
-    var targetY = 450;
+      var targetX = window.innerWidth / 2;
+      var targetY = 450;
 
-    var grad = ctx.createLinearGradient(
-      offsetX + buttonRect.width + 14,
-      offsetY + buttonRect.height,
-      (offsetX + buttonRect.width + 12) * 2,
-      targetY
-    );
+      var grad = ctx.createLinearGradient(
+        offsetX + buttonRect.width + 14,
+        offsetY + buttonRect.height,
+        (offsetX + buttonRect.width + 12) * 2,
+        targetY
+      );
 
-    grad.addColorStop(0, "rgba(255,255,255,0)");
-    grad.addColorStop(1, "white");
-    ctx.strokeStyle = grad;
+      grad.addColorStop(0, "rgba(255,255,255,0)");
+      grad.addColorStop(1, "white");
+      ctx.strokeStyle = grad;
 
-    ctx.beginPath();
+      ctx.beginPath();
 
-    ctx.arc(targetX, targetY, 4, 0, 2 * Math.PI);
+      ctx.arc(targetX, targetY, 4, 0, 2 * Math.PI);
 
-    ctx.lineWidth = 1;
-    ctx.moveTo(offsetX + buttonRect.width + 12, offsetY + buttonRect.height / 2);
+      ctx.lineWidth = 1;
+      ctx.moveTo(offsetX + buttonRect.width + 12, offsetY + buttonRect.height / 2);
 
-    if (hero !== 3) {
-      ctx.lineTo((offsetX + buttonRect.width + 12) * 1.3, targetY);
-    } else {
-      ctx.lineTo(offsetX + buttonRect.width + 12, targetY);
-    }
+      if (hero !== 3) {
+        ctx.lineTo((offsetX + buttonRect.width + 12) * 1.3, targetY);
+      } else {
+        ctx.lineTo(offsetX + buttonRect.width + 12, targetY);
+      }
 
-    ctx.lineTo(targetX - 5, targetY);
+      ctx.lineTo(targetX - 5, targetY);
 
-    ctx.stroke();
-  };
+      ctx.stroke();
+    },
+    [hero]
+  );
 
   useEffect(() => {
     const canvas = canvasElement.current;
@@ -112,7 +112,7 @@ const HeroView = () => {
     }
   }, [draw]);
 
-  const changeCanvas = () => {
+  const changeCanvas = useCallback(() => {
     var canvas = canvasElement.current;
     var parent = parentRef.current;
     const context = canvas!.getContext("2d")!;
@@ -122,7 +122,7 @@ const HeroView = () => {
       canvas.height = parent.clientHeight;
       draw(context);
     }
-  };
+  }, [draw]);
 
   const changeHero = () => {
     const windowWidth = window.innerWidth;
@@ -139,10 +139,10 @@ const HeroView = () => {
     }
   };
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     changeHero();
     changeCanvas();
-  };
+  }, [changeCanvas]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize, false);
@@ -151,7 +151,7 @@ const HeroView = () => {
     return () => {
       window.removeEventListener("resize", handleResize, false);
     };
-  }, []);
+  }, [handleResize]);
 
   const HeroScheme: React.FC = () => {
     switch (hero) {
@@ -160,7 +160,7 @@ const HeroView = () => {
           <>
             <div
               className='main-background borders'
-              style={{ backgroundImage: "url(/images/background.png)" }}
+              style={{ backgroundImage: `url(${require("../../images//background.png")})` }}
               draggable={false}></div>
 
             <div className='content'>
@@ -171,7 +171,7 @@ const HeroView = () => {
                 </div>
                 <div
                   className='planet-background'
-                  style={{ backgroundImage: "url(/images/planet.png)" }}
+                  style={{ backgroundImage: `url(${require("../../images/planet.png")})` }}
                   draggable={false}></div>
                 <canvas id='button-to-rocket-canvas' ref={canvasElement}></canvas>
 
@@ -192,7 +192,7 @@ const HeroView = () => {
           <>
             <div
               className='main-background borders'
-              style={{ backgroundImage: "url(/images/background.png)" }}
+              style={{ backgroundImage: `url(${require("../../images//background.png")})` }}
               draggable={false}></div>
 
             <div className='content content-tablet'>
@@ -220,7 +220,7 @@ const HeroView = () => {
           <>
             <div
               className='main-background borders'
-              style={{ backgroundImage: "url(/images/background.png)", marginTop: "-6%" }}
+              style={{ backgroundImage: `url(${require("../../images//background.png")})`, marginTop: "-6%" }}
               draggable={false}></div>
 
             <div className='content content-mobile'>

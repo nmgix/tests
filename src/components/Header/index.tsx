@@ -62,22 +62,22 @@ const Header: React.FC<{}> = () => {
             <Logo size='l' />
             <ul>
               <li>
-                <a href='#'>Главная</a>
+                <a href='#main'>Главная</a>
               </li>
               <li>
-                <a href='#'>Технология</a>
+                <a href='#tech'>Технология</a>
               </li>
               <li>
-                <a href='#'>График полетов</a>
+                <a href='#schedule'>График полетов</a>
               </li>
               <li>
-                <a href='#'>Гарантии</a>
+                <a href='#guarantees'>Гарантии</a>
               </li>
               <li>
-                <a href='#'>О компании</a>
+                <a href='#about-company'>О компании</a>
               </li>
               <li>
-                <a href='#'>Контакты</a>
+                <a href='#contacts'>Контакты</a>
               </li>
             </ul>
           </div>
@@ -97,22 +97,22 @@ const Header: React.FC<{}> = () => {
             <div className={`side-menu side-menu-${openMenu ? "open" : "closed"} borders`} ref={ref}>
               <ul>
                 <li className='corners'>
-                  <a href='#'>Главная</a>
+                  <a href='#main'>Главная</a>
                 </li>
                 <li className='corners'>
-                  <a href='#'>Технология</a>
+                  <a href='#tech'>Технология</a>
                 </li>
                 <li className='corners'>
-                  <a href='#'>График полетов</a>
+                  <a href='#schedule'>График полетов</a>
                 </li>
                 <li className='corners'>
-                  <a href='#'>Гарантии</a>
+                  <a href='#guarantees'>Гарантии</a>
                 </li>
                 <li className='corners'>
-                  <a href='#'>О компании</a>
+                  <a href='#about-company'>О компании</a>
                 </li>
                 <li className='corners'>
-                  <a href='#'>Контакты</a>
+                  <a href='#contacts'>Контакты</a>
                 </li>
               </ul>
             </div>
@@ -127,22 +127,22 @@ const Header: React.FC<{}> = () => {
               <Logo size='m' />
               <ul>
                 <li className='corners' onClick={() => setOpenMenu(false)}>
-                  <a href='#'>Главная</a>
+                  <a href='#main'>Главная</a>
                 </li>
                 <li className='corners' onClick={() => setOpenMenu(false)}>
-                  <a href='#'>Технология</a>
+                  <a href='#tech'>Технология</a>
                 </li>
                 <li className='corners' onClick={() => setOpenMenu(false)}>
-                  <a href='#'>График полетов</a>
+                  <a href='#schedule'>График полетов</a>
                 </li>
                 <li className='corners' onClick={() => setOpenMenu(false)}>
-                  <a href='#'>Гарантии</a>
+                  <a href='#guarantees'>Гарантии</a>
                 </li>
                 <li className='corners' onClick={() => setOpenMenu(false)}>
-                  <a href='#'>О компании</a>
+                  <a href='#about-company'>О компании</a>
                 </li>
                 <li className='corners' onClick={() => setOpenMenu(false)}>
-                  <a href='#'>Контакты</a>
+                  <a href='#contacts'>Контакты</a>
                 </li>
               </ul>
             </div>
