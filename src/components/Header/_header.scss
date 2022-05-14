@@ -11,6 +11,7 @@ nav {
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     div[class*="logo-"] {
       height: calc(100% - 2px);
@@ -58,6 +59,117 @@ nav {
       }
       li:not(:last-child) {
         margin-right: 13px;
+      }
+    }
+
+    .menu-btn-wrapper {
+      margin: 0px;
+      width: 200px;
+      height: 100px;
+
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      transition: all 0.3s ease-in-out;
+
+      .menu-btn {
+        width: 40px;
+        height: 40px;
+
+        margin: 0 !important;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        cursor: pointer;
+
+        position: relative;
+
+        li {
+          width: 80%;
+          height: 10%;
+          background-color: #fff;
+          margin: 0 !important;
+        }
+      }
+    }
+
+    .side-menu {
+      position: absolute;
+      top: 0;
+
+      width: 200px;
+      height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      background: rgba(0, 0, 0, 0.5);
+
+      transition: all 0.3s ease-in-out;
+
+      ul {
+        display: flex;
+        flex-direction: column;
+
+        margin: 0 auto;
+
+        li {
+          position: relative;
+          padding: 0.5rem;
+          margin: 10% auto !important;
+
+          // background: rgba(255, 255, 255, 0.05);
+
+          font-size: 20px;
+
+          cursor: pointer;
+        }
+      }
+
+      &-closed {
+        right: -250px;
+      }
+
+      &-open {
+        right: 0px;
+      }
+    }
+  }
+}
+
+.menu-bottom {
+  bottom: 0;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .logo-large {
+      margin: 0;
+    }
+
+    .side-menu {
+      position: absolute;
+      top: calc(-100vh + 99px);
+      width: 200px;
+      height: calc(100vh - 100px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease-in-out;
+
+      .logo-medium {
+        margin-bottom: 20% !important;
       }
     }
   }

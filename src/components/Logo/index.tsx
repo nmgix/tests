@@ -1,15 +1,18 @@
 import "./_logo.scss";
-type LogoSizes = "s" | "l";
+type LogoSizes = "s" | "m" | "l";
 
 /**
  * @param size - три типа: `s`- минимальный формат, квадратная форма, `l`- полный формат, прямоугольная форма
  * @returns изображение логотипа
  */
-const Logo: React.FC<{ size: LogoSizes }> = ({ size }) => {
+const Logo: React.FC<{ size: LogoSizes; onClick?: () => void }> = ({ size, onClick }) => {
   const appendClass = (function (size: LogoSizes) {
     switch (size) {
       case "s": {
         return "logo-small";
+      }
+      case "m": {
+        return "logo-medium";
       }
       case "l":
       default: {
@@ -19,7 +22,7 @@ const Logo: React.FC<{ size: LogoSizes }> = ({ size }) => {
   })(size);
 
   return (
-    <div className={`${appendClass} borders corners`}>
+    <div className={`${appendClass} borders corners`} onClick={onClick}>
       <img src='/images/spacex-logo.png' alt='space-logo' />
     </div>
   );

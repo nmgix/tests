@@ -88,7 +88,6 @@ const HeroView = () => {
     ctx.lineTo(targetX - 5, targetY);
 
     ctx.stroke();
-    console.log("drawing");
   };
 
   useEffect(() => {
@@ -104,6 +103,30 @@ const HeroView = () => {
       draw(context);
     }
   }, [draw]);
+
+  const changeCanvas = () => {
+    var canvas = canvasElement.current;
+    var parent = parentRef.current;
+    const context = canvas!.getContext("2d")!;
+
+    if (canvas && parent) {
+      canvas.width = parent.clientWidth;
+      canvas.height = parent.clientHeight;
+      draw(context);
+    }
+  };
+
+  const handleResize = () => {
+    changeCanvas();
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize, false);
+
+    return () => {
+      window.removeEventListener("resize", handleResize, false);
+    };
+  });
 
   // сделал для того чтобы нормально ставились градиенты к центру
   const DataElement: React.FC<{ element: DataElem; index: number }> = ({ element, index }) => {

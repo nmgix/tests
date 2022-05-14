@@ -11,3 +11,12 @@ div[class*="logo-"] {
     margin: 25px 20px 39px;
   }
 }
+
+.logo-medium {
+  margin: 0 !important;
+
+  img {
+    width: 100%;
+    margin: 30px 20px 30px !important;
+  }
+}
