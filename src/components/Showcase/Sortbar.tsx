@@ -3,6 +3,7 @@ import { Book } from "./Showcase";
 import "./_sortbar.scss";
 var downChevron = require("../../resources/images/down-chevron.svg").default;
 var ascDesc = require("../../resources/images/ascdesc.svg").default;
+var searchIcon = require("../../resources/images/search.svg").default;
 
 export type Category = {
   id: number;
@@ -43,6 +44,7 @@ export const Sortbar: React.FC<{
 }> = ({ books, setSortedBooks, setCurrentCategory, asc, setAsc }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [searchString, setSearchString] = useState<string>("");
 
   const GetCategories = () => {
     return setCategories([
@@ -79,6 +81,13 @@ export const Sortbar: React.FC<{
     sortBooks(books);
   }, [asc]);
 
+  const findBooks = (searchString: string) => {
+    return setSortedBooks([]);
+  };
+  useEffect(() => {
+    findBooks(searchString);
+  }, [searchString]);
+
   return (
     <div className='sortbar'>
       <button onClick={() => setAsc(!asc)} className='button button-m'>
@@ -93,6 +102,16 @@ export const Sortbar: React.FC<{
         ) : (
           <></>
         )}
+      </div>
+      <div className='input-wrapper input-wrapper-search'>
+        <img onClick={() => findBooks(searchString)} src={searchIcon} alt='search' />
+        <input
+          value={searchString}
+          onChange={(e) => setSearchString(e.currentTarget.value)}
+          placeholder='Начните вводить название книги'
+          className='input'
+          type={"text"}
+        />
       </div>
     </div>
   );

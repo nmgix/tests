@@ -1,7 +1,9 @@
 .sortbar {
   display: flex;
+  flex-wrap: wrap;
   flex: 0 1;
   align-items: center;
+  margin-right: 10%;
 
   .categories {
     position: relative;
@@ -19,6 +21,30 @@
         word-break: keep-all;
         list-style-type: none;
         padding: 10px 8px;
+      }
+    }
+  }
+
+  .input-wrapper {
+    width: 100%;
+    flex-grow: 2;
+
+    &-search {
+      position: relative;
+      margin-left: 19px;
+
+      input {
+        padding-left: 30px;
+        width: calc(100% - 10px - 30px);
+      }
+
+      img {
+        position: absolute;
+        left: 2%;
+        top: 50%;
+        transform: translate(15%, -53%);
+        opacity: 0.6;
+        cursor: pointer;
       }
     }
   }

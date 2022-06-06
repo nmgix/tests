@@ -43,3 +43,36 @@ body {
     height: 40px;
   }
 }
+
+.input {
+  // $input: &;
+
+  &-wrapper {
+    position: relative;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 10px;
+
+    // &-search #{$input} {
+    //   width: calc(100% - 40px);
+    //   padding-left: 40px;
+    // }
+
+    // &-search::after {
+    //   // cursor: pointer;
+    //   position: absolute;
+    //   top: 50%;
+    //   left: 3.5%;
+    //   opacity: 0.6;
+    //   width: 20px;
+    //   height: 20px;
+    //   transform: translate(-50%, -50%);
+    //   content: url("./resources/images/search.svg");
+    // }
+  }
+
+  width: 100%;
+  padding: 10px;
+  border: none !important;
+
+  background: none;
+}
