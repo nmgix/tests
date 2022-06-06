@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Book } from "./Showcase";
 import "./_sortbar.scss";
 import axios from "axios";
@@ -66,7 +66,7 @@ export const Sortbar: React.FC<{
     }
   };
 
-  const findBooks = async () => {
+  const findBooks = useCallback(async () => {
     const body = {
       filters: {
         search: searchString,
@@ -78,15 +78,15 @@ export const Sortbar: React.FC<{
     const res = await axios.post("http://45.8.249.57/bookstore-api/books", body);
 
     return setSortedBooks(res.data);
-  };
+  }, [asc, currentCaterogy, searchString, setSortedBooks]);
   useEffect(() => {
     if (searchString.length === 0) {
       setSortedBooks(books);
     }
-  }, [searchString]);
+  }, [books, searchString, setSortedBooks]);
   useEffect(() => {
     findBooks();
-  }, [currentCaterogy]);
+  }, [findBooks, currentCaterogy]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

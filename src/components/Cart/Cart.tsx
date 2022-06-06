@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BuyItems, DeleteItem } from "../../store/ActionCreators";
 import { Context } from "../../store/Context";
 import { v4 as uuidv4 } from "uuid";
@@ -38,7 +38,7 @@ const MiniToast: React.FC<ToastData> = ({ uuid, error, timeOut, errors, setError
         clearTimeout(timer);
       };
     }
-  }, []);
+  }, [dispatch, errors, setErrors, timeOut, uuid]);
 
   return (
     <div ref={ref} className='toast toast-error'>
@@ -59,7 +59,7 @@ export const Cart = () => {
     if (error) {
       setErrors([...errors, { error, timeOut: 5000, uuid: uuidv4() }]);
     }
-  }, [error]);
+  }, [error, errors]);
 
   return (
     <div className={`cart ${mobileMenuOpen ? "cart-active" : ""}`}>

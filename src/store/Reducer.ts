@@ -61,12 +61,11 @@ const Reducer = (state: DefaultState, action: CartActions) => {
           error: null,
         };
       } else {
-        var resultItems = state.items.map((element) =>
-          element.id === action.payload.id ? { ...element, count: element.count + 1 } : element
-        );
         return {
           ...state,
-          items: resultItems,
+          items: state.items.map((element) =>
+            element.id === action.payload.id ? { ...element, count: element.count + 1 } : element
+          ),
           error: null,
         };
       }
@@ -76,12 +75,11 @@ const Reducer = (state: DefaultState, action: CartActions) => {
       if (!currentItem) {
         return state;
       } else if (currentItem.count > 1) {
-        var resultItems = state.items.map((element) =>
-          element.id === action.payload.id ? { ...element, count: element.count - 1 } : element
-        );
         return {
           ...state,
-          items: resultItems,
+          items: state.items.map((element) =>
+            element.id === action.payload.id ? { ...element, count: element.count - 1 } : element
+          ),
           error: null,
         };
       } else {

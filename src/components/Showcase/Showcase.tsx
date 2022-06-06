@@ -165,6 +165,7 @@ export const Showcase = () => {
   }, [books]);
 
   const getId = (imageUrl: string): string => {
+    // eslint-disable-next-line
     const regExp = /[^\/]+$/g;
 
     var findResult = imageUrl.search(regExp);
