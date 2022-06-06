@@ -91,11 +91,11 @@ export const Sortbar: React.FC<{
   return (
     <div className='sortbar'>
       <button onClick={() => setAsc(!asc)} className='button button-m'>
-        Соритровать по цене <img src={ascDesc} alt='Сортировка' />
+        Соритровать по цене <img src={ascDesc} alt='Сортировка' draggable={false} />
       </button>
       <div className='categories'>
         <button onClick={() => setMenuOpen(!menuOpen)} className='button button-m'>
-          Категории <img src={downChevron} alt='Категории' />
+          Категории <img src={downChevron} alt='Категории' draggable={false} />
         </button>
         {menuOpen ? (
           <DropdownMenu categories={categories} closeMenu={setMenuOpen} setCategory={setCurrentCategory} />
@@ -104,7 +104,7 @@ export const Sortbar: React.FC<{
         )}
       </div>
       <div className='input-wrapper input-wrapper-search'>
-        <img onClick={() => findBooks(searchString)} src={searchIcon} alt='search' />
+        <img onClick={() => findBooks(searchString)} src={searchIcon} alt='search' draggable={false} />
         <input
           value={searchString}
           onChange={(e) => setSearchString(e.currentTarget.value)}

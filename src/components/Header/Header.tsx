@@ -7,7 +7,7 @@ export const Header = () => {
   return (
     <header>
       <div className='title'>
-        <img src={logo} alt='bookshop logo' />
+        <img src={logo} alt='bookshop logo' draggable={false} />
         <h3>Магазин книг</h3>
       </div>
       <div className='balance'>

@@ -42,6 +42,18 @@ body {
   &-x {
     height: 40px;
   }
+
+  &-main {
+    padding: 6px 26px;
+    font-size: 16px;
+    font-weight: 600;
+    background: rgba(196, 196, 196, 1);
+    border-radius: 8px;
+  }
+
+  &-main:hover {
+    background: rgb(130, 130, 130);
+  }
 }
 
 .input {
