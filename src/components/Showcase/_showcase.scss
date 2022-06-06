@@ -1,0 +1,15 @@
+.showcase {
+  display: flex;
+  width: 70%;
+  flex-direction: column;
+  height: auto;
+
+  .book {
+    &-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1 1;
+    }
+  }
+}

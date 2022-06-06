@@ -1,0 +1,45 @@
+@use "./resources/fonts/fonts";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: "Gilroy";
+}
+
+.helper-text {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.button {
+  cursor: pointer;
+
+  border: none;
+  padding: 8px 10px;
+  margin: 5px 10px;
+  width: auto;
+
+  display: flex;
+  align-items: center;
+
+  background: none;
+
+  img {
+    margin-left: 7px;
+  }
+
+  &-s {
+    height: 20px;
+  }
+
+  &-m {
+    height: 30px;
+  }
+
+  &-x {
+    height: 40px;
+  }
+}

@@ -1,5 +1,5 @@
-import React from "react";
+import "./_cart.scss";
 
 export const Cart = () => {
-  return <div>Cart</div>;
+  return <div className='cart'>Cart</div>;
 };
