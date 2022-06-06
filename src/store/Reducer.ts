@@ -13,12 +13,16 @@ type ActionMap<M extends { [index: string]: any }> = {
 };
 
 export enum Actions {
+  LoadState = "LOAD_STATE",
   BuyCart = "BUY_CART",
   ItemAdd = "ITEM_ADD",
   ItemDelete = "ITEM_DELETE",
+  ClearError = "CLEAR_ERROR",
 }
 
 type CartPayload = {
+  [Actions.LoadState]: DefaultState;
+  [Actions.ClearError]: undefined; //пока что undefined, потом можно сделать массив с текстом и uuid, а не только локально в корзине
   [Actions.BuyCart]: undefined;
   [Actions.ItemAdd]: CartItem;
   [Actions.ItemDelete]: {
@@ -30,6 +34,9 @@ export type CartActions = ActionMap<CartPayload>[keyof ActionMap<CartPayload>];
 
 const Reducer = (state: DefaultState, action: CartActions) => {
   switch (action.type) {
+    case Actions.LoadState: {
+      return action.payload;
+    }
     case Actions.BuyCart: {
       var totalSum = state.items.reduce((sum, item) => sum + item.price * item.count, 0);
       if (state.balance >= totalSum) {
@@ -39,7 +46,10 @@ const Reducer = (state: DefaultState, action: CartActions) => {
           items: [],
         };
       } else {
-        return state;
+        return {
+          ...state,
+          error: "Недостаточно денег для заказа",
+        };
       }
     }
     case Actions.ItemAdd: {
@@ -48,6 +58,7 @@ const Reducer = (state: DefaultState, action: CartActions) => {
         return {
           ...state,
           items: [...state.items, action.payload],
+          error: null,
         };
       } else {
         var resultItems = state.items.map((element) =>
@@ -56,6 +67,7 @@ const Reducer = (state: DefaultState, action: CartActions) => {
         return {
           ...state,
           items: resultItems,
+          error: null,
         };
       }
     }
@@ -70,13 +82,21 @@ const Reducer = (state: DefaultState, action: CartActions) => {
         return {
           ...state,
           items: resultItems,
+          error: null,
         };
       } else {
         return {
           ...state,
           items: [...state.items.filter((item) => item.id !== action.payload.id)],
+          error: null,
         };
       }
+    }
+    case Actions.ClearError: {
+      return {
+        ...state,
+        error: null,
+      };
     }
 
     default:

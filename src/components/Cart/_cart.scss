@@ -11,6 +11,7 @@
 
   @media screen and (max-width: index.$sm-tablet-width) {
     position: fixed;
+    justify-content: space-between;
     width: 100vw;
     top: 92%;
     left: 0%;
@@ -27,10 +28,6 @@
     }
   }
 
-  & > *:not(&-header) {
-    flex: 1 0;
-  }
-
   &-header {
     display: flex;
     align-items: center;
@@ -45,10 +42,11 @@
 
   &-list {
     padding: 0;
+    overflow-y: scroll;
+    flex: 1 1;
 
     @media screen and (max-width: index.$sm-tablet-width) {
       margin: 0 5%;
-      overflow-y: scroll;
     }
 
     &::-webkit-scrollbar {
@@ -105,6 +103,10 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+
+    @media screen and (max-width: index.$sm-tablet-width) {
+      flex: 1 1;
+    }
   }
 
   &-total {

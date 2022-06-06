@@ -9,7 +9,7 @@ export const loadState = (dispatch: React.Dispatch<CartActions>) => {
     if (serializedState === null) {
       return undefined;
     }
-    return dispatch(JSON.parse(serializedState));
+    return dispatch({ type: Actions.LoadState, payload: JSON.parse(serializedState) });
   } catch (err) {
     return undefined;
   }

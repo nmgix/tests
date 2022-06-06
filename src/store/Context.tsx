@@ -1,16 +1,18 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useReducer, useState } from "react";
 import { CartItem } from "../components/Cart/Cart";
-import { loadState } from "./ActionCreators";
+import { loadState, saveState } from "./ActionCreators";
 import Reducer from "./Reducer";
 
 export type DefaultState = {
   items: CartItem[];
   balance: number;
+  error: string | null;
 };
 
 const initialState: DefaultState = {
   items: [],
   balance: 10000,
+  error: null,
 };
 
 export const Context = createContext<{ state: DefaultState; dispatch: React.Dispatch<any> }>({
@@ -24,6 +26,9 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
   useEffect(() => {
     loadState(dispatch);
   }, []);
+  useEffect(() => {
+    saveState(state);
+  }, [state]);
 
   return (
     <Context.Provider

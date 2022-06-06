@@ -1,7 +1,9 @@
-import { useContext, useState } from "react";
+import React, { createRef, useContext, useEffect, useRef, useState } from "react";
 import { BuyItems, DeleteItem } from "../../store/ActionCreators";
 import { Context } from "../../store/Context";
+import { v4 as uuidv4 } from "uuid";
 import "./_cart.scss";
+import { Actions, CartActions } from "../../store/Reducer";
 var cartIcon = require("../../resources/images/cart.svg").default;
 var cross = require("../../resources/images/cross.svg").default;
 
@@ -12,12 +14,52 @@ export type CartItem = {
   price: number;
 };
 
+type ToastShortened = {
+  uuid: string;
+  error: string;
+  timeOut: number;
+};
+
+type ToastData = {
+  errors: ToastShortened[];
+  setErrors: React.Dispatch<React.SetStateAction<ToastShortened[]>>;
+  dispatch: React.Dispatch<CartActions>;
+} & ToastShortened;
+
+const MiniToast: React.FC<ToastData> = ({ uuid, error, timeOut, errors, setErrors, dispatch }) => {
+  var ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) {
+      var timer = setTimeout(() => {
+        setErrors(errors.filter((currentError) => currentError.uuid !== uuid));
+        dispatch({ type: Actions.ClearError });
+      }, timeOut);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, []);
+
+  return (
+    <div ref={ref} className='toast toast-error'>
+      {error}
+    </div>
+  );
+};
+
 export const Cart = () => {
   const [mobileMenuOpen, setMenu] = useState<boolean>(false);
   const {
-    state: { items },
+    state: { items, error },
     dispatch,
   } = useContext(Context);
+
+  const [errors, setErrors] = useState<ToastShortened[]>([]);
+  useEffect(() => {
+    if (error) {
+      setErrors([...errors, { error, timeOut: 5000, uuid: uuidv4() }]);
+    }
+  }, [error]);
 
   return (
     <div className={`cart ${mobileMenuOpen ? "cart-active" : ""}`}>
@@ -50,6 +92,19 @@ export const Cart = () => {
               <span>
                 <h2>{items.reduce((sum, item) => sum + item.price * item.count, 0)}</h2> руб.
               </span>
+              <div className='toast-wrapper'>
+                {errors.map((currentError) => (
+                  <MiniToast
+                    key={currentError.uuid}
+                    error={currentError.error}
+                    errors={errors}
+                    setErrors={setErrors}
+                    uuid={currentError.uuid}
+                    timeOut={currentError.timeOut}
+                    dispatch={dispatch}
+                  />
+                ))}
+              </div>
               <button className='button button-main button-x' onClick={() => BuyItems(dispatch)}>
                 Купить
               </button>

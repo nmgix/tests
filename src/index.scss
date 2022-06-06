@@ -98,3 +98,15 @@ body {
 
   background: none;
 }
+
+.toast {
+  border-radius: 10px;
+  padding: 8px 15px;
+  font-weight: 700;
+  margin: 10px;
+
+  &-error {
+    background: red;
+    color: #fff;
+  }
+}
