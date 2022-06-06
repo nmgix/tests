@@ -1,7 +1,14 @@
 @use "./resources/fonts/fonts";
 
 $laptop-width: 1240px;
+
+$tablet-width: 960px;
+$mid-tablet-width: 865px;
+$sm-tablet-width: 720px;
+
 $mobile-witdh: 600px;
+$mid-mobile-witdh: 500px;
+$sm-mobile-witdh: 400px;
 
 html,
 body {

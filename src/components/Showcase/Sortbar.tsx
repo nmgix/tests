@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Book } from "./Showcase";
 import "./_sortbar.scss";
 import axios from "axios";
@@ -73,22 +73,19 @@ export const Sortbar: React.FC<{
     GetCategories();
   }, []);
 
-  const sortBooks = (books: Book[]) => {
+  const sortBooks = (books: Book[], asc: boolean) => {
     if (asc) {
       setSortedBooks(books.sort((book1, book2) => book1.price - book2.price));
     } else {
       setSortedBooks(books.sort((book1, book2) => book2.price - book1.price));
     }
   };
-  useEffect(() => {
-    sortBooks(sortedBooks);
-  }, [asc]);
 
-  const findBooks = async (searchString: string, currentCaterogy: number, sortPrice: boolean) => {
+  const findBooks = async () => {
     const body = {
       filters: {
         search: searchString,
-        sortPrice: sortPrice ? "ASC" : "DESC",
+        sortPrice: asc ? "ASC" : "DESC",
         categoryId: currentCaterogy,
       },
     };
@@ -101,17 +98,24 @@ export const Sortbar: React.FC<{
     if (searchString.length === 0) {
       setSortedBooks(books);
     }
-    //  else {
-    //   findBooks(searchString);
-    // }
   }, [searchString]);
   useEffect(() => {
-    findBooks(searchString, currentCaterogy, asc);
+    findBooks();
   }, [currentCaterogy]);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    findBooks();
+  };
 
   return (
     <div className='sortbar'>
-      <button onClick={() => setAsc(!asc)} className='button button-m'>
+      <button
+        onClick={() => {
+          setAsc(!asc);
+          sortBooks(sortedBooks, !asc);
+        }}
+        className='button button-m'>
         Соритровать по цене <img src={ascDesc} alt='Сортировка' draggable={false} />
       </button>
       <div className='categories'>
@@ -125,19 +129,16 @@ export const Sortbar: React.FC<{
         )}
       </div>
       <div className='input-wrapper input-wrapper-search'>
-        <img
-          onClick={() => findBooks(searchString, currentCaterogy, asc)}
-          src={searchIcon}
-          alt='search'
-          draggable={false}
-        />
-        <input
-          value={searchString}
-          onChange={(e) => setSearchString(e.currentTarget.value)}
-          placeholder='Начните вводить название книги'
-          className='input'
-          type={"text"}
-        />
+        <img onClick={findBooks} src={searchIcon} alt='search' draggable={false} />
+        <form onSubmit={(e) => onSubmit(e)}>
+          <input
+            value={searchString}
+            onChange={(e) => setSearchString(e.currentTarget.value)}
+            placeholder='Начните вводить название книги'
+            className='input'
+            type={"text"}
+          />
+        </form>
       </div>
     </div>
   );

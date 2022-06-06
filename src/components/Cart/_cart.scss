@@ -1,7 +1,14 @@
+@use "../../index.scss";
+
 .cart {
   display: flex;
   width: 30%;
   flex-direction: column;
+  justify-content: flex-end;
+
+  @media screen and (max-width: index.$sm-tablet-width) {
+    position: fixed;
+  }
 
   & > *:not(&-header) {
     flex: 1 1;
@@ -19,23 +26,73 @@
     }
   }
 
-  // &-list {
-  // }
+  &-list {
+    padding: 0;
+  }
+  &-item {
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: start;
+
+      h3 {
+        margin: 0;
+      }
+    }
+
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+    padding-bottom: 7px;
+    margin: 20px 0;
+
+    .price {
+      display: flex;
+      align-items: center;
+      margin-top: 7px;
+
+      & > * {
+        margin-right: 5px;
+        font-size: 24px;
+      }
+    }
+
+    img {
+      cursor: pointer;
+      width: 13px;
+      height: 13px;
+      margin: 0 60px;
+    }
+
+    @media screen and (max-width: index.$laptop-width) {
+      img {
+        margin: 0 30px;
+      }
+    }
+  }
 
   & > .helper-text {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    vertical-align: baseline;
   }
 
   &-total {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin: 0 10%;
-    border-top: 1px solid rgba(128, 128, 128, 0.5);
+    display: flex;
+    align-items: flex-end;
+
+    & > .main {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top: 1px solid rgba(128, 128, 128, 0.5);
+    }
 
     span {
       display: flex;

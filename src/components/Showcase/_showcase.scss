@@ -1,8 +1,17 @@
+@use "../../index.scss";
+
 .showcase {
+  margin-right: 2%;
   display: flex;
   width: 70%;
   flex-direction: column;
   height: auto;
+
+  @media screen and (max-width: index.$sm-tablet-width) {
+    position: fixed;
+    width: calc(100% - 2%);
+    margin-right: 0%;
+  }
 
   .book {
     width: 47.5%;
@@ -10,9 +19,13 @@
     display: flex;
     margin: 23px 10px;
 
+    @media screen and (max-width: index.$laptop-width) {
+      width: 100%;
+    }
+
     img {
       object-fit: cover;
-      max-width: 35%;
+      width: 35%;
       flex: 0 1;
       // max-height: 35%;
     }
@@ -47,13 +60,21 @@
     }
 
     &-list {
-      margin: 0 20px;
+      margin: 20px 5px 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       flex: 1 1;
       overflow-y: scroll;
       overflow-x: hidden;
+
+      .helper-text {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
       &::-webkit-scrollbar {
         display: none;
