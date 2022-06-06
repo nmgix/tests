@@ -189,11 +189,7 @@ export const Showcase = () => {
         {sortedBooks.length > 0 ? (
           sortedBooks.map((book, i) => (
             <div className='book' key={i}>
-              <img
-                src={book.coverUrl}
-                alt={`Обложка книги ${book.name} авторства ${book.authorName}`}
-                draggable={false}
-              />
+              <img src={book.coverUrl} alt='' draggable={false} />
               <div className='book-info'>
                 <h3>{book.name}</h3>
                 <div className='book-priceinfo'>
