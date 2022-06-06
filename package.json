@@ -1,6 +1,6 @@
 {
-  "name": "reacttest",
-  "homepage": "/sferum-qualification-app",
+  "name": "sferum-qualification-app",
+  "homepage": "https://nmgix.github.io/sferum-qualification-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
