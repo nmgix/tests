@@ -6,7 +6,6 @@
   display: flex;
   width: 30%;
   flex-direction: column;
-  justify-content: flex-end;
   background: #fff;
 
   @media screen and (max-width: index.$sm-tablet-width) {
@@ -103,10 +102,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-
-    @media screen and (max-width: index.$sm-tablet-width) {
-      flex: 1 1;
-    }
+    flex: 1 1;
   }
 
   &-total {
