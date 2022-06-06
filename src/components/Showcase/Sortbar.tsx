@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Book } from "./Showcase";
 import "./_sortbar.scss";
+import axios from "axios";
 var downChevron = require("../../resources/images/down-chevron.svg").default;
 var ascDesc = require("../../resources/images/ascdesc.svg").default;
 var searchIcon = require("../../resources/images/search.svg").default;
@@ -37,11 +38,13 @@ const DropdownMenu: React.FC<{
 
 export const Sortbar: React.FC<{
   books: Book[];
+  sortedBooks: Book[];
+  currentCaterogy: number;
   setSortedBooks: React.Dispatch<React.SetStateAction<Book[]>>;
   setCurrentCategory: React.Dispatch<React.SetStateAction<number>>;
   asc: boolean;
   setAsc: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ books, setSortedBooks, setCurrentCategory, asc, setAsc }) => {
+}> = ({ books, sortedBooks, currentCaterogy, setSortedBooks, setCurrentCategory, asc, setAsc }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [searchString, setSearchString] = useState<string>("");
@@ -78,15 +81,33 @@ export const Sortbar: React.FC<{
     }
   };
   useEffect(() => {
-    sortBooks(books);
+    sortBooks(sortedBooks);
   }, [asc]);
 
-  const findBooks = (searchString: string) => {
-    return setSortedBooks([]);
+  const findBooks = async (searchString: string, currentCaterogy: number, sortPrice: boolean) => {
+    const body = {
+      filters: {
+        search: searchString,
+        sortPrice: sortPrice ? "ASC" : "DESC",
+        categoryId: currentCaterogy,
+      },
+    };
+
+    const res = await axios.post("http://45.8.249.57/bookstore-api/books", body);
+
+    return setSortedBooks(res.data);
   };
   useEffect(() => {
-    findBooks(searchString);
+    if (searchString.length === 0) {
+      setSortedBooks(books);
+    }
+    //  else {
+    //   findBooks(searchString);
+    // }
   }, [searchString]);
+  useEffect(() => {
+    findBooks(searchString, currentCaterogy, asc);
+  }, [currentCaterogy]);
 
   return (
     <div className='sortbar'>
@@ -104,7 +125,12 @@ export const Sortbar: React.FC<{
         )}
       </div>
       <div className='input-wrapper input-wrapper-search'>
-        <img onClick={() => findBooks(searchString)} src={searchIcon} alt='search' draggable={false} />
+        <img
+          onClick={() => findBooks(searchString, currentCaterogy, asc)}
+          src={searchIcon}
+          alt='search'
+          draggable={false}
+        />
         <input
           value={searchString}
           onChange={(e) => setSearchString(e.currentTarget.value)}

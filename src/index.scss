@@ -1,5 +1,8 @@
 @use "./resources/fonts/fonts";
 
+$laptop-width: 1240px;
+$mobile-witdh: 600px;
+
 html,
 body {
   margin: 0;
@@ -44,11 +47,13 @@ body {
   }
 
   &-main {
+    cursor: pointer;
     padding: 6px 26px;
     font-size: 16px;
     font-weight: 600;
     background: rgba(196, 196, 196, 1);
     border-radius: 8px;
+    border: none;
   }
 
   &-main:hover {

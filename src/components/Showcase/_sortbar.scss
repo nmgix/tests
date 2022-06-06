@@ -3,7 +3,8 @@
   flex-wrap: wrap;
   flex: 0 1;
   align-items: center;
-  margin-right: 10%;
+  width: 100%;
+  // margin-right: 10%;
 
   .categories {
     position: relative;
@@ -28,6 +29,7 @@
   }
 
   .input-wrapper {
+    margin-right: 50%;
     margin-top: 5px;
     width: 100%;
     flex-grow: 2;

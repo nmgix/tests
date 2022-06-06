@@ -1,15 +1,63 @@
 .showcase {
   display: flex;
-  width: 60%;
+  width: 70%;
   flex-direction: column;
   height: auto;
 
   .book {
-    &-list {
+    width: 47.5%;
+    height: 200px;
+    display: flex;
+    margin: 23px 10px;
+
+    img {
+      object-fit: cover;
+      max-width: 35%;
+      flex: 0 1;
+      // max-height: 35%;
+    }
+
+    &-info {
+      flex: 1 1;
+      margin-left: 10px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
+    }
+
+    &-priceinfo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > * {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      span {
+        height: 25px;
+        display: flex;
+        align-items: center;
+
+        & > * {
+          margin-right: 5px;
+        }
+      }
+    }
+
+    &-list {
+      margin: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
       flex: 1 1;
+      overflow-y: scroll;
+      overflow-x: hidden;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 }
