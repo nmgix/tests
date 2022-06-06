@@ -1,6 +1,8 @@
 import "./_showcase.scss";
 import { Sortbar } from "./Sortbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "../../store/Context";
+import { AddItem } from "../../store/ActionCreators";
 
 export type Book = {
   name: string;
@@ -15,6 +17,7 @@ export const Showcase = () => {
   const [sortedBooks, setSortedBooks] = useState<Book[]>(books);
   const [asc, setAsc] = useState<boolean>(false); // сначала самые дорогие (desc)
   const [currentCategory, setCurrentCategory] = useState<number>(0);
+  const { dispatch } = useContext(Context);
 
   const GetBooks = () => {
     return setBooks([
@@ -161,6 +164,15 @@ export const Showcase = () => {
     setSortedBooks(books);
   }, [books]);
 
+  const getId = (imageUrl: string): string => {
+    const regExp = /[^\/]+$/g;
+
+    var findResult = imageUrl.search(regExp);
+    var result = imageUrl.slice(findResult);
+
+    return result.replace('.webp"', "");
+  };
+
   return (
     <div className='showcase'>
       <Sortbar
@@ -187,7 +199,18 @@ export const Showcase = () => {
                   <span>
                     <h3>{book.price}</h3> руб.
                   </span>
-                  <button className='button-main button-x'>В корзину</button>
+                  <button
+                    className='button-main button-x'
+                    onClick={() =>
+                      AddItem(dispatch, {
+                        id: getId(book.coverUrl),
+                        count: 1,
+                        price: book.price,
+                        title: book.name,
+                      })
+                    }>
+                    В корзину
+                  </button>
                 </div>
               </div>
             </div>

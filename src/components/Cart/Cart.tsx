@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { BuyItems, DeleteItem } from "../../store/ActionCreators";
+import { Context } from "../../store/Context";
 import "./_cart.scss";
 var cartIcon = require("../../resources/images/cart.svg").default;
 var cross = require("../../resources/images/cross.svg").default;
@@ -11,29 +13,11 @@ export type CartItem = {
 };
 
 export const Cart = () => {
-  const [items, setItems] = useState<CartItem[]>([
-    {
-      id: "6053518393",
-      title: "Не заставляйте меня думать",
-      count: 1,
-      price: 870,
-    },
-    {
-      id: "6012485021",
-      title: "Отзывчивый веб-дизайн",
-      count: 2,
-      price: 700,
-    },
-    {
-      id: "6013099362",
-      title: "Дизайн - это работа",
-      count: 3,
-      price: 320,
-    },
-  ]);
   const [mobileMenuOpen, setMenu] = useState<boolean>(false);
-
-  const deleteItem = (itemId: string) => {};
+  const {
+    state: { items },
+    dispatch,
+  } = useContext(Context);
 
   return (
     <div className={`cart ${mobileMenuOpen ? "cart-active" : ""}`}>
@@ -53,16 +37,22 @@ export const Cart = () => {
                     <b>{item.count * item.price}</b> руб.
                   </span>
                 </div>
-                <img src={cross} alt={`Удалить ${item.title} из корзины`} />
+                <img
+                  src={cross}
+                  alt={`Удалить ${item.title} из корзины`}
+                  onClick={() => DeleteItem(dispatch, item.id)}
+                />
               </li>
             ))}
           </ul>
           <div className='cart-total'>
             <div className='main'>
               <span>
-                <h2>{"3230"}</h2> руб.
+                <h2>{items.reduce((sum, item) => sum + item.price * item.count, 0)}</h2> руб.
               </span>
-              <button className='button button-main button-x'>Купить</button>
+              <button className='button button-main button-x' onClick={() => BuyItems(dispatch)}>
+                Купить
+              </button>
             </div>
           </div>
         </>
