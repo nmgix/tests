@@ -49,25 +49,10 @@ export const Sortbar: React.FC<{
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [searchString, setSearchString] = useState<string>("");
 
-  const GetCategories = () => {
-    return setCategories([
-      {
-        id: 1,
-        name: "Дизайн",
-      },
-      {
-        id: 2,
-        name: "Управление проектами",
-      },
-      {
-        id: 3,
-        name: "Разработка",
-      },
-      {
-        id: 4,
-        name: "Тестирование",
-      },
-    ]);
+  const GetCategories = async () => {
+    const res = await axios.get("http://45.8.249.57/bookstore-api/books/categories");
+
+    return setCategories(res.data);
   };
   useEffect(() => {
     GetCategories();
