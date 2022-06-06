@@ -8,7 +8,6 @@
   height: auto;
 
   @media screen and (max-width: index.$sm-tablet-width) {
-    position: fixed;
     width: calc(100% - 2%);
     margin-right: 0%;
   }
@@ -43,6 +42,14 @@
       justify-content: space-between;
       align-items: center;
 
+      @media screen and (max-width: index.$mobile-witdh) {
+        flex-direction: column;
+
+        & > *:not(:last-child) {
+          margin-bottom: 7px;
+        }
+      }
+
       & > * {
         margin-left: 5px;
         margin-right: 5px;
@@ -67,6 +74,10 @@
       flex: 1 1;
       overflow-y: scroll;
       overflow-x: hidden;
+
+      @media screen and (max-width: index.$sm-tablet-width) {
+        margin-bottom: 41px;
+      }
 
       .helper-text {
         width: 100%;

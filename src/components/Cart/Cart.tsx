@@ -31,12 +31,13 @@ export const Cart = () => {
       price: 320,
     },
   ]);
+  const [mobileMenuOpen, setMenu] = useState<boolean>(false);
 
   const deleteItem = (itemId: string) => {};
 
   return (
-    <div className='cart'>
-      <div className='cart-header'>
+    <div className={`cart ${mobileMenuOpen ? "cart-active" : ""}`}>
+      <div className='cart-header' onClick={() => setMenu(!mobileMenuOpen)}>
         <h2>Корзина</h2>
         <img src={cartIcon} alt='Изображение корзины' draggable={false} />
       </div>

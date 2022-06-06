@@ -52,14 +52,6 @@
         padding-left: 30px;
         width: calc(100% - 10px - 30px);
       }
-      @media screen and (max-width: index.$sm-tablet-width) {
-        margin-right: 19px;
-
-        input {
-          width: calc(100% - 20px - 30px);
-        }
-      }
-
       img {
         position: absolute;
         left: 5px;
