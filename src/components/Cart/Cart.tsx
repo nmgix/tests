@@ -59,7 +59,7 @@ export const Cart = () => {
     if (error) {
       setErrors([...errors, { error, timeOut: 5000, uuid: uuidv4() }]);
     }
-  }, [error, errors]);
+  }, [error]);
 
   return (
     <div className={`cart ${mobileMenuOpen ? "cart-active" : ""}`}>
