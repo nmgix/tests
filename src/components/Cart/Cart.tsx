@@ -57,7 +57,7 @@ export const Cart = () => {
   const [errors, setErrors] = useState<ToastShortened[]>([]);
   useEffect(() => {
     if (error) {
-      setErrors([...errors, { error, timeOut: 5000, uuid: uuidv4() }]);
+      setErrors((errors) => [...errors, { error, timeOut: 5000, uuid: uuidv4() }]);
     }
   }, [error]);
 
