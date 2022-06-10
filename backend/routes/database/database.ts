@@ -1,6 +1,7 @@
 import express, { RequestHandler, Request, Response } from "express";
 import { CargoItem, IGetCargoLimitedReq } from "../../helpers/cargodb_data";
 import { execute } from "../../helpers/sqlconnection";
+import { getCargo } from "./database.queries";
 
 const cargoInfo: CargoItem[] = [
   {
@@ -125,7 +126,8 @@ const databaseQueryLimited: RequestHandler = async (req: IGetCargoLimitedReq, re
       return res.status(400).send("Query is not set");
     }
     var size = page * limit;
-    res.status(200).json(cargoInfo.slice(size - limit, size));
+    var cargo = await getCargo(size - limit, limit);
+    res.status(200).json(cargo);
   } catch (error) {
     console.log("database error, ", error);
     res.status(500).send("Database error occured");
