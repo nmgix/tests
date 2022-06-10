@@ -12,7 +12,34 @@ export type CargoItem = {
   id?: number;
 };
 
+export type CompareType = {
+  text: string;
+  option: number;
+};
+
 function App() {
+  const filterOptions: CompareType[] = [
+    {
+      text: "Не выбрано",
+      option: 0,
+    },
+    {
+      text: "Меньше",
+      option: 1,
+    },
+    {
+      text: "Больше",
+      option: 2,
+    },
+    {
+      text: "Равно",
+      option: 3,
+    },
+    {
+      text: "Содержит",
+      option: 4,
+    },
+  ];
   const [columnData, setColumnData] = useState<CargoItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const getData = async (page: number) => {
@@ -28,7 +55,10 @@ function App() {
   return (
     <div className='App'>
       {columnData.length > 0 ? (
-        <NavigationBar availableColumns={Object.keys(columnData[0]).filter((field) => field != ("id" || "date"))} />
+        <NavigationBar
+          availableColumns={Object.keys(columnData[0]).filter((field) => field != ("id" || "date"))}
+          filterOptions={filterOptions}
+        />
       ) : (
         <></>
       )}
