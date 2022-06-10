@@ -20,7 +20,7 @@ export function connectMySQL() {
   }
 }
 
-export function execute<T>(query: string, params: string[] | number[]): Promise<T> {
+export function execute<T>(query: string, params: string | number | string[] | number[]): Promise<T> {
   try {
     if (!pool) throw new Error("adapater not yet made");
 

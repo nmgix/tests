@@ -1,124 +1,13 @@
 import express, { RequestHandler, Request, Response } from "express";
-import { CargoItem, IGetCargoLimitedReq } from "../../helpers/cargodb_data";
-import { execute } from "../../helpers/sqlconnection";
-import { getCargo } from "./database.queries";
+import { IDeleteCargoReq, IGetCargoLimitedReq, IPostCargoReq } from "./cargodb.types";
+import { deleteCargoOne, getCargo, setNewCargo } from "./database.queries";
 
-const cargoInfo: CargoItem[] = [
-  {
-    name: "a",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 1,
-  },
-  {
-    name: "b",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 2,
-  },
-  {
-    name: "c",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 3,
-  },
-  {
-    name: "d",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 4,
-  },
-  {
-    name: "e",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 5,
-  },
-  {
-    name: "f",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 6,
-  },
-  {
-    name: "g",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 7,
-  },
-  {
-    name: "h",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 8,
-  },
-  {
-    name: "i",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 9,
-  },
-  {
-    name: "j",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 10,
-  },
-  {
-    name: "k",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 11,
-  },
-  {
-    name: "l",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 12,
-  },
-  {
-    name: "m",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 13,
-  },
-  {
-    name: "n",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 14,
-  },
-  {
-    name: "o",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 15,
-  },
-  {
-    name: "p",
-    count: 1,
-    date: new Date(),
-    distance: 10,
-    id: 16,
-  },
-];
-
-const databaseQueryLimited: RequestHandler = async (req: IGetCargoLimitedReq, res: Response) => {
+/**
+ * Обработчик запросов на базу данных для получения текущих грузов
+ * @param {number} req.query.limit - Параметр, отвечающий за лимит элементов на странице (пагинация)
+ * @param {number} req.query.page - Текущая страница (пагинация)
+ */
+const databaseGetLimited: RequestHandler = async (req: IGetCargoLimitedReq, res: Response) => {
   const { limit, page } = req.query;
 
   try {
@@ -134,8 +23,37 @@ const databaseQueryLimited: RequestHandler = async (req: IGetCargoLimitedReq, re
   }
 };
 
+const databaseInsert: RequestHandler = async (req: IPostCargoReq, res: Response) => {
+  const { cargo } = req.body;
+
+  try {
+    if (!cargo) {
+      return res.status(400).send("Body is not set");
+    }
+    await setNewCargo(cargo).then(() => res.sendStatus(200));
+  } catch (error) {
+    console.log("database error, ", error);
+    res.status(500).send("Database error occured");
+  }
+};
+
+const databaseDeleteOne: RequestHandler = async (req: IDeleteCargoReq, res: Response) => {
+  const { id } = req.query;
+  try {
+    if (!id) {
+      return res.status(400).send("Query is not set");
+    }
+    await deleteCargoOne(id).then(() => res.sendStatus(200));
+  } catch (error) {
+    console.log("database error, ", error);
+    res.status(500).send("Database error occured");
+  }
+};
+
 const router = express.Router();
 
-router.get("/cargo", databaseQueryLimited);
+router.get("/cargo", databaseGetLimited);
+router.post("/cargo", databaseInsert);
+router.delete("/cargo", databaseDeleteOne);
 
 export default router;
