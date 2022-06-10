@@ -23,6 +23,10 @@ const databaseGetLimited: RequestHandler = async (req: IGetCargoLimitedReq, res:
   }
 };
 
+/**
+ * Обработчик запросов на базу данных для добавления одного или несколько грузов
+ * @param {number} req.body.cargo - Параметр, являющийся массивом грузов
+ */
 const databaseInsert: RequestHandler = async (req: IPostCargoReq, res: Response) => {
   const { cargo } = req.body;
 
@@ -37,6 +41,10 @@ const databaseInsert: RequestHandler = async (req: IPostCargoReq, res: Response)
   }
 };
 
+/**
+ * Обработчик запросов на базу данных для удаления груза по его ID
+ * @param {number} req.query.id - ID текущего груза, приходит при удалении ячейки из таблицы
+ */
 const databaseDeleteOne: RequestHandler = async (req: IDeleteCargoReq, res: Response) => {
   const { id } = req.query;
   try {
