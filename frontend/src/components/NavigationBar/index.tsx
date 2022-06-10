@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CompareType } from "../../App";
+import { CompareType } from "../App/App";
 import "./navigation.scss";
 
 const NavigationBar: React.FC<{ availableColumns: string[]; filterOptions: CompareType[] }> = ({
@@ -29,6 +29,10 @@ const NavigationBar: React.FC<{ availableColumns: string[]; filterOptions: Compa
   };
   return (
     <nav>
+      <div className='title'>
+        <h3>React Tables</h3>
+        <span>Made for Kanal Servis</span>
+      </div>
       <button onClick={() => setDropdown(!sortingDropdown)}>Сортировка</button>
       {sortingDropdown ? (
         <form onSubmit={(e) => onFormSubmit(e)} className='sorting-wrapper' ref={dropdownRef}>

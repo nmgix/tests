@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "../NavigationBar";
 import axios from "axios";
-import Columns from "./components/Columns";
-import Pagnation from "./components/Pagination";
+import Columns from "../Columns";
+import Pagnation from "../Pagination";
+import "./app.scss";
 
 export type CargoItem = {
   date: Date;
@@ -55,15 +56,17 @@ function App() {
   return (
     <div className='App'>
       {columnData.length > 0 ? (
-        <NavigationBar
-          availableColumns={Object.keys(columnData[0]).filter((field) => field != ("id" || "date"))}
-          filterOptions={filterOptions}
-        />
+        <>
+          <NavigationBar
+            availableColumns={Object.keys(columnData[0]).filter((field) => field != ("id" || "date"))}
+            filterOptions={filterOptions}
+          />
+          <Columns data={columnData} />
+          <Pagnation />
+        </>
       ) : (
         <></>
       )}
-      <Columns />
-      <Pagnation />
     </div>
   );
 }

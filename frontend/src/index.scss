@@ -4,12 +4,17 @@ $background-color: #fff;
 
 html,
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
   font-family: "Gilroy";
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 button {

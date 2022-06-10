@@ -5,7 +5,7 @@ nav {
 
   width: calc(100% - 4em);
   height: auto;
-  padding: 2em;
+  padding: 1.3em 2em;
 
   -webkit-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
@@ -14,12 +14,22 @@ nav {
   border-bottom-left-radius: 1em;
   border-bottom-right-radius: 1em;
 
+  display: flex;
+  justify-content: space-between;
+
+  & > .title {
+    h3 {
+      margin: 0;
+    }
+  }
+
   .sorting {
     &-wrapper {
-      margin: 2em;
+      z-index: 3;
+      margin: calc(-1.5em - 1em) 2em;
       position: absolute;
       top: 0%;
-      left: 0%;
+      left: 100%;
 
       display: grid;
       grid-template-columns: 1fr 1fr;
