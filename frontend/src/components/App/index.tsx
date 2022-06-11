@@ -6,6 +6,11 @@ import Pagnation from "../Pagination";
 import "./app.scss";
 import { CargoItem, CompareType } from "../../types";
 
+const settings = {
+  rowsPerTable: 10,
+  paginationPages: 8,
+};
+
 function App() {
   const filterOptions: CompareType[] = [
     {
@@ -49,11 +54,11 @@ function App() {
             availableColumns={Object.keys(columnData[0]).filter((field) => field != ("id" || "date"))}
             filterOptions={filterOptions}
           />
-          <Columns data={columnData} currentPage={currentPage} limit={10} />
+          <Columns data={columnData} currentPage={currentPage} limit={settings.rowsPerTable} />
           <Pagnation
             currentPage={currentPage}
-            limit={9}
-            paginationPagesLimit={8}
+            limit={settings.rowsPerTable}
+            paginationPagesLimit={settings.paginationPages}
             setPage={setCurrentPage}
             totalColumns={columnData.length}
           />
