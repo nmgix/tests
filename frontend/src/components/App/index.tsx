@@ -44,14 +44,14 @@ function App() {
 
   useEffect(() => {
     getData(currentPage);
-  }, []);
+  });
 
   return (
     <div className='App'>
       {columnData.length > 0 ? (
         <>
           <NavigationBar
-            availableColumns={Object.keys(columnData[0]).filter((field) => field != ("id" || "date"))}
+            availableColumns={Object.keys(columnData[0]).filter((field) => field !== ("id" || "date"))}
             filterOptions={filterOptions}
           />
           <Columns data={columnData} currentPage={currentPage} limit={settings.rowsPerTable} />

@@ -11,7 +11,11 @@
   -moz-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
 
-  & > * {
-    margin: 1.5em auto;
+  & > *:not(:first-child) {
+    margin: 1.5em auto 0;
+  }
+
+  & > *:not(:last-child) {
+    margin: 0 auto 1.5em;
   }
 }

@@ -5,10 +5,14 @@
   flex-direction: row;
   justify-content: center;
 
+  flex-wrap: wrap;
+
   li {
     list-style-type: none;
-    margin: 0 1em;
+    margin: 0.5em;
 
-    width: 2em;
+    button {
+      width: 3em;
+    }
   }
 }
