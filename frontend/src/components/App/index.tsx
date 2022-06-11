@@ -50,7 +50,7 @@ function App() {
             filterOptions={filterOptions}
           />
           <Columns data={columnData} currentPage={currentPage} limit={10} />
-          <Pagnation currentPage={currentPage} limit={10} setPage={setCurrentPage} totalColumns={columnData.length} />
+          <Pagnation currentPage={currentPage} limit={8} setPage={setCurrentPage} totalColumns={columnData.length} />
         </>
       ) : (
         <></>

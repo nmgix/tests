@@ -13,7 +13,7 @@ export function connectMySQL() {
       database: dataSource.DB_DATABASE,
     });
 
-    console.log("MySql Adapter Pool generated successfully");
+    console.log("MySQL Adapter Pool generated successfully");
   } catch (error) {
     console.log("MySQL Adatper connecting error: ", error);
     throw new Error("fatal error of sql adapter");
