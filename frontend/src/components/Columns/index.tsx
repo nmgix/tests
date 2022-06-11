@@ -1,7 +1,7 @@
-import { CargoItem } from "../App/App";
-import "./coulmns.scss";
+import { CargoItem } from "../../types";
+import "./columns.scss";
 
-const Columns: React.FC<{ data: CargoItem[] }> = ({ data }) => {
+const Columns: React.FC<{ data: CargoItem[]; currentPage: number; limit: number }> = ({ data, currentPage, limit }) => {
   return (
     <table>
       <tbody>
@@ -10,7 +10,7 @@ const Columns: React.FC<{ data: CargoItem[] }> = ({ data }) => {
             <td key={title}>{title}</td>
           ))}
         </tr>
-        {data.map((element) => (
+        {data.slice(currentPage * limit - limit, currentPage * limit).map((element) => (
           <tr key={element.id}>
             {Object.keys(element).map((key) => {
               // <td key={key}>{element[key as keyof CargoItem]!.toString()}</td>

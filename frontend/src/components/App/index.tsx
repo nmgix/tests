@@ -4,19 +4,7 @@ import axios from "axios";
 import Columns from "../Columns";
 import Pagnation from "../Pagination";
 import "./app.scss";
-
-export type CargoItem = {
-  date: Date;
-  name: string;
-  distance: number;
-  count: number;
-  id?: number;
-};
-
-export type CompareType = {
-  text: string;
-  option: number;
-};
+import { CargoItem, CompareType } from "../../types";
 
 function App() {
   const filterOptions: CompareType[] = [
@@ -61,8 +49,8 @@ function App() {
             availableColumns={Object.keys(columnData[0]).filter((field) => field != ("id" || "date"))}
             filterOptions={filterOptions}
           />
-          <Columns data={columnData} />
-          <Pagnation />
+          <Columns data={columnData} currentPage={currentPage} limit={10} />
+          <Pagnation currentPage={currentPage} limit={10} setPage={setCurrentPage} totalColumns={columnData.length} />
         </>
       ) : (
         <></>

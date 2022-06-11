@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CompareType } from "../App/App";
+import { CompareType } from "../../types";
 import "./navigation.scss";
 
 const NavigationBar: React.FC<{ availableColumns: string[]; filterOptions: CompareType[] }> = ({
@@ -33,7 +33,8 @@ const NavigationBar: React.FC<{ availableColumns: string[]; filterOptions: Compa
         <h3>React Tables</h3>
         <span>Made for Kanal Servis</span>
       </div>
-      <button onClick={() => setDropdown(!sortingDropdown)}>Сортировка</button>
+      {/* <button onClick={() => setDropdown(!sortingDropdown)}>Сортировка</button> */}
+      <button>Сортировка</button>
       {sortingDropdown ? (
         <form onSubmit={(e) => onFormSubmit(e)} className='sorting-wrapper' ref={dropdownRef}>
           <div className='sorting-list sorting-column'>
