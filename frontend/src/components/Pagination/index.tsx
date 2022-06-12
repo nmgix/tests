@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./pagination.scss";
 
-const Pagnation: React.FC<{
+const Pagination: React.FC<{
   totalColumns: number;
   currentPage: number;
   limit: number;
@@ -35,19 +35,31 @@ const Pagnation: React.FC<{
           pages.indexOf(page) > pages.indexOf(currentPage) - halfLimit - 1)
     );
 
+    // если кол-во страниц слева от текущей страницы меньше чем половина лимита)
     if (leftPages.length < halfLimit) {
       for (var i = 1; i < halfLimit - leftPages.length + 1; i++) {
-        tempArr.push(pages[pages.indexOf(currentPage) + toInteger(paginationPagesLimit) - halfLimit + i]);
+        var futurePage = pages[pages.indexOf(currentPage) + toInteger(paginationPagesLimit) - halfLimit + i];
+        if (futurePage !== undefined) {
+          tempArr.push(futurePage);
+        }
       }
     }
+
+    // если кол-во страниц справа от текущей страницы меньше чем половина лимита)
     if (rightPages.length < halfLimit) {
       for (var j = 1; j < halfLimit - rightPages.length + 1; j++) {
-        tempArr.unshift(pages[pages.indexOf(currentPage) - toInteger(paginationPagesLimit) + halfLimit - j]);
+        var futurePage = pages[pages.indexOf(currentPage) - toInteger(paginationPagesLimit) + halfLimit - j];
+        if (futurePage !== undefined) {
+          tempArr.unshift(futurePage);
+        }
       }
     }
+
+    // сделано чтобы при добавлении страниц слева убиралась одна и туда вставала стрелка назад
     if (pages.indexOf(tempArr[0]) !== 0) {
       tempArr.shift();
     }
+    // сделано чтобы при добавлении страниц справа убиралась одна и туда вставала стрелка вперед
     if (pages.indexOf(tempArr[tempArr.length - 1]) !== pages.indexOf(pages[pages.length - 1])) {
       tempArr.pop();
     }
@@ -57,24 +69,33 @@ const Pagnation: React.FC<{
 
   return (
     <ul className='pagination'>
-      {pages.indexOf(currentRenderPages[0]) !== 0 ? (
+      {/* если индекс последней страницы в списке текущих страниц равен первому в списке всех страниц */}
+      {/* и длина списка текущих страниц равна лимиту пагинации (иначе всего страниц меньше чем лимит пагинации)  */}
+      {pages.indexOf(currentRenderPages[0]) !== 0 && currentRenderPages.length === paginationPagesLimit ? (
         <li>
           <button onClick={() => setPage(currentRenderPages[0] - 1)}>{"<-"}</button>
         </li>
       ) : (
         <></>
       )}
-      {currentRenderPages.map((page) => (
-        <li key={page}>
+
+      {currentRenderPages.map((page, i) => (
+        <li key={i}>
+          {/* вот это плохо, лучше i не ставить в ключ */}
           <button
+            key={page}
             onClick={() => (page === currentPage ? null : setPage(page))}
             className={page === currentPage ? "active" : ""}>
             {page}
           </button>
         </li>
       ))}
-      {pages.indexOf(currentRenderPages[currentRenderPages.length - 1]) !== pages.indexOf(pages[pages.length - 1]) ? (
-        <li>
+
+      {/* если индекс последней страницы в списке текущих страниц не равен последнему в списке всех страниц */}
+      {/* и длина списка текущих страниц равна лимиту пагинации (иначе всего страниц меньше чем лимит пагинации)  */}
+      {pages.indexOf(currentRenderPages[currentRenderPages.length - 1]) !== pages.indexOf(pages[pages.length - 1]) &&
+      currentRenderPages.length === paginationPagesLimit ? (
+        <li key={currentRenderPages[currentRenderPages.length - 1]}>
           <button onClick={() => setPage(currentRenderPages[currentRenderPages.length - 1] + 1)}>{"->"}</button>
         </li>
       ) : (
@@ -84,4 +105,4 @@ const Pagnation: React.FC<{
   );
 };
 
-export default Pagnation;
+export default Pagination;

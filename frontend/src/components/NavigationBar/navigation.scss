@@ -1,7 +1,7 @@
 @use "../../index.scss";
 
 nav {
-  position: relative;
+  // position: relative;
 
   width: calc(100% - 4em);
   height: auto;
@@ -26,13 +26,12 @@ nav {
   .sorting {
     &-wrapper {
       z-index: 3;
-      margin: calc(-1.5em - 1em) 2em;
       position: absolute;
-      top: 0%;
-      left: 100%;
+      top: 1px;
+      left: 1px;
 
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 0.6fr 1fr;
       grid-template-rows: 1fr 1fr;
       gap: 10px 10px;
       grid-template-areas:
@@ -48,6 +47,7 @@ nav {
       grid-area: sorting-misc;
     }
     &-column {
+      text-align: center;
       grid-area: sorting-column;
     }
     &-compare {
@@ -93,6 +93,10 @@ nav {
           & > * {
             width: 100%;
           }
+
+          button {
+            height: 100%;
+          }
         }
       }
 
@@ -111,9 +115,5 @@ nav {
     & > * {
       width: 50%;
     }
-
-    // &-misc {
-    //   width: 100%;
-    // }
   }
 }
