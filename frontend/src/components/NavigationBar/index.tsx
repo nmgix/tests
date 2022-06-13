@@ -41,6 +41,7 @@ const NavigationBar: React.FC<{
   const onSortingDataChange = useCallback(
     (data: SortingData) => {
       const { column, search } = data;
+
       var resultArray: CargoItem[] = JSON.parse(JSON.stringify(array));
       if (sortingWindowData.sortingData.compare.id !== 0) {
         var result = filterOptions.find((option) => option.id === sortingWindowData.sortingData.compare.id)!
@@ -48,12 +49,12 @@ const NavigationBar: React.FC<{
         updateArray(result);
       }
     },
-    [sortingWindowData.sortingData]
+    [sortingWindowData.sortingData, array, filterOptions, updateArray]
   );
 
   useEffect(() => {
     onSortingDataChange(sortingWindowData.sortingData);
-  }, [sortingWindowData.sortingData]);
+  }, [sortingWindowData.sortingData, onSortingDataChange]);
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

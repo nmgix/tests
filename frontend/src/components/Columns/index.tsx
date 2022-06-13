@@ -16,7 +16,7 @@ const Columns: React.FC<{ data: CargoItem[]; currentPage: number; limit: number 
               // <td key={key}>{element[key as keyof CargoItem]!.toString()}</td>
               var data = element[key as keyof CargoItem]!;
               try {
-                if (key == "date") {
+                if (key === "date") {
                   var formatter = new Intl.DateTimeFormat("ru", {
                     year: "numeric",
                     month: "numeric",

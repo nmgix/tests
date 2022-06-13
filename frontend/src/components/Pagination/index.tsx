@@ -38,9 +38,9 @@ const Pagination: React.FC<{
     // если кол-во страниц слева от текущей страницы меньше чем половина лимита)
     if (leftPages.length < halfLimit) {
       for (var i = 1; i < halfLimit - leftPages.length + 1; i++) {
-        var futurePage = pages[pages.indexOf(currentPage) + toInteger(paginationPagesLimit) - halfLimit + i];
-        if (futurePage !== undefined) {
-          tempArr.push(futurePage);
+        var futurePageI = pages[pages.indexOf(currentPage) + toInteger(paginationPagesLimit) - halfLimit + i];
+        if (futurePageI !== undefined) {
+          tempArr.push(futurePageI);
         }
       }
     }
@@ -48,9 +48,9 @@ const Pagination: React.FC<{
     // если кол-во страниц справа от текущей страницы меньше чем половина лимита)
     if (rightPages.length < halfLimit) {
       for (var j = 1; j < halfLimit - rightPages.length + 1; j++) {
-        var futurePage = pages[pages.indexOf(currentPage) - toInteger(paginationPagesLimit) + halfLimit - j];
-        if (futurePage !== undefined) {
-          tempArr.unshift(futurePage);
+        var futurePageJ = pages[pages.indexOf(currentPage) - toInteger(paginationPagesLimit) + halfLimit - j];
+        if (futurePageJ !== undefined) {
+          tempArr.unshift(futurePageJ);
         }
       }
     }

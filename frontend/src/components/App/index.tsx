@@ -4,7 +4,7 @@ import axios from "axios";
 import Columns from "../Columns";
 import Pagnation from "../Pagination";
 import "./app.scss";
-import { CargoItem, CompareType, filterOptions } from "../../types";
+import { CargoItem, filterOptions } from "../../types";
 
 const settings = {
   rowsPerTable: 10,
@@ -18,12 +18,17 @@ function App() {
   const getData = useCallback(async () => {
     const res = await axios.get<CargoItem[]>(`/api/cargo?limit=5&page=${currentPage}`);
     setColumnData(res.data);
+    setSortedArray(res.data);
     console.log(Object.keys(res.data[0]).filter((field) => field !== "id" && field !== "date"));
   }, [currentPage]);
 
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortedArray]);
 
   return (
     <div className='App'>
@@ -45,7 +50,7 @@ function App() {
             limit={settings.rowsPerTable}
             paginationPagesLimit={settings.paginationPages}
             setPage={setCurrentPage}
-            totalColumns={columnData.length}
+            totalColumns={sortedArray.length}
           />
         </>
       ) : (
