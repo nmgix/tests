@@ -15,10 +15,20 @@ export enum DatabaseQueries {
   DeleteCargo = `
     DELETE FROM travel_table WHERE id = ?
   `,
+  // ,
+  // GetCargoLimited = `
+  // SELECT id, name, distance, count, date
+  // FROM travel_table
+  // ORDER BY id
+  // OFFSET  50 ROWS
+  // FETCH NEXT 25 ROWS ONLY
+  // `,
 }
 
-export const getCargo = async (offset: number, next: number) => {
-  return execute<CargoItem[]>(DatabaseQueries.GetCargo, [offset, next]);
+export const getCargo = async (/*offset: number, next: number*/) => {
+  return execute<CargoItem[]>(DatabaseQueries.GetCargo, [
+    /*offset, next*/
+  ]);
 };
 
 export const setNewCargo = async (cargo: CargoItem[]) => {
@@ -33,3 +43,7 @@ export const setNewCargo = async (cargo: CargoItem[]) => {
 export const deleteCargoOne = async (id: number) => {
   return execute<{}>(DatabaseQueries.DeleteCargo, id);
 };
+
+// export const GetCargoLimited = async () => {
+//   return execute<{}>(DatabaseQueries.GetCargoLimited, []);
+// };

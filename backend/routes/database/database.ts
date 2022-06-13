@@ -7,7 +7,7 @@ import { deleteCargoOne, getCargo, setNewCargo } from "./database.queries";
  * @param {number} req.query.limit - Параметр, отвечающий за лимит элементов на странице (пагинация)
  * @param {number} req.query.page - Текущая страница (пагинация)
  */
-const databaseGetLimited: RequestHandler = async (req: IGetCargoLimitedReq, res: Response) => {
+const databaseGetCargo: RequestHandler = async (req: IGetCargoLimitedReq, res: Response) => {
   const { limit, page } = req.query;
 
   try {
@@ -15,7 +15,7 @@ const databaseGetLimited: RequestHandler = async (req: IGetCargoLimitedReq, res:
       return res.status(400).send("Query is not set");
     }
     var size = page * limit;
-    var cargo = await getCargo(size - limit, limit);
+    var cargo = await getCargo(/*size - limit, limit*/);
     res.status(200).json(cargo);
   } catch (error) {
     console.log("database error, ", error);
@@ -58,10 +58,20 @@ const databaseDeleteOne: RequestHandler = async (req: IDeleteCargoReq, res: Resp
   }
 };
 
+// const databaseGetCargoLimited: RequestHandler = async (req: Request, res: Response) => {
+//   try {
+//     await GetCargoLimited().then(() => res.sendStatus(200));
+//   } catch (error) {
+//     console.log("database error, ", error);
+//     res.status(500).send("Database error occured");
+//   }
+// };
+
 const router = express.Router();
 
-router.get("/cargo", databaseGetLimited);
+router.get("/cargo", databaseGetCargo);
 router.post("/cargo", databaseInsert);
 router.delete("/cargo", databaseDeleteOne);
+// router.get("/cargo-lim", databaseGetCargoLimited);
 
 export default router;

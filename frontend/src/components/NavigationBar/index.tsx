@@ -56,6 +56,10 @@ const NavigationBar: React.FC<{
     onSortingDataChange(sortingWindowData.sortingData);
   }, [sortingWindowData.sortingData, onSortingDataChange]);
 
+  // useEffect(() => {
+  //   // тут будет запрос в бд
+  // }, [sortingWindowData.sortingData.column]);
+
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
