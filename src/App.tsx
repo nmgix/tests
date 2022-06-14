@@ -38,7 +38,9 @@ export type RenderCodes = 0 | 1 | 2;
 // ];
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>(JSON.parse(localStorage.getItem("todos")!));
+  const [todos, setTodos] = useState<Todo[]>(
+    localStorage.getItem("todos") !== null ? JSON.parse(localStorage.getItem("todos")!) : []
+  );
   const [currentRenderCode, setRenderCode] = useState<RenderCodes>(0);
   const [newTodoModalOpen, setModal] = useState<boolean>(false);
 
