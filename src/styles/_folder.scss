@@ -1,0 +1,21 @@
+.folder {
+  cursor: pointer;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+
+  span {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-left: 0.5em;
+    font-family: "Gilroy";
+  }
+
+  &-wrapper {
+    padding: 0;
+
+    & > * {
+      margin-bottom: 0.5em;
+    }
+  }
+}
