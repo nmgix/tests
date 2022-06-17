@@ -53,8 +53,8 @@
     position: relative;
     border-radius: 12px;
 
-    width: 320px;
-    height: 480px;
+    // width: 320px;
+    // height: 480px;
 
     display: flex;
     flex-direction: column;
@@ -168,7 +168,7 @@
     // background-clip: text;
     // filter: invert(1) grayscale(1);
     a {
-      color: index.$outline-blue !important;
+      color: index.$outline-blue;
       text-decoration: none;
     }
   }

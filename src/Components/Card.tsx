@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import "_card.scss";
 
-type CardProps = {
-  selected: boolean;
+export type CardProps = {
+  id: number;
+  size: {
+    width: number;
+    height: number;
+  };
+  selected?: boolean;
+  hovered?: boolean;
   aboveTitle: {
     default: React.ReactElement;
     selected: React.ReactElement;
@@ -26,9 +32,13 @@ type CardProps = {
   };
   outOfStock: boolean;
   defaultFont: boolean; // для Storybook
+  style?: React.CSSProperties;
 };
 
 export const Card: React.FC<CardProps> = ({
+  id,
+  size,
+  hovered,
   selected,
   aboveTitle,
   mainTitle,
@@ -40,36 +50,32 @@ export const Card: React.FC<CardProps> = ({
   backgroundImage,
   underCardText,
   outOfStock,
-  defaultFont,
+  style,
 }) => {
-  const [isSelected, setSelected] = useState<boolean>(selected);
+  const [isSelected, setSelected] = useState<boolean>(selected ? selected : false);
   const handleCardSelect = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
+    // console.log(e.currentTarget, e.target); // возвращает один и тот-же элемент
     setSelected(!isSelected);
   };
   useEffect(() => {
-    setSelected(selected);
-  }, [selected]);
-
-  // сделано для Storybook'а чтобы можно было сранвить дефолтный Arial и Exo (в зипе был только тонкий шрифт)
-  const [inlineStyles, setInlineStyles] = useState<React.CSSProperties>({});
-  useEffect(() => {
-    setInlineStyles((styles) => {
-      return { ...styles, fontFamily: defaultFont ? "Arial" : "Exo" };
-    });
-  }, [defaultFont]);
+    setSelected(selected !== undefined ? selected : false);
+    setHover(hovered !== undefined ? hovered : false);
+  }, [selected, hovered]);
 
   const [hover, setHover] = useState<boolean>(false);
 
   return (
     <button
+      id={`card${id}`}
       className={`card ${isSelected ? "card-selected" : ""}`}
       disabled={outOfStock}
-      style={inlineStyles}
+      style={style}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}>
       <div className='card-content-wrapper' onClick={handleCardSelect}>
-        <div className='card-content' style={{ backgroundColor: backgroundColor }}>
+        <div
+          className='card-content'
+          style={{ backgroundColor: backgroundColor, width: size.width + "px", height: size.height + "px" }}>
           <div className='card-content-description'>
             {hover && isSelected ? (
               <p className='card-content-description-above card-undercard'>{aboveTitle.selected}</p>
@@ -77,10 +83,13 @@ export const Card: React.FC<CardProps> = ({
               <p className='card-content-description-above'>{aboveTitle.default}</p>
             )}
             <h1 className='card-content-description-title'>{mainTitle}</h1>
-            <h3 className='card-content-description-under'>c {mainComponent}</h3>
+            <h3 className='card-content-description-under'>{mainComponent}</h3>
             <ul className='card-content-description-bonuses'>
-              {parameters.map((param) => (
-                <li className='card-content-description-bonuses-bonus' /*key={param}*/>{param}</li>
+              {/* i как key это плохо, но параметры динамически обновляться не собираются */}
+              {parameters.map((param, i) => (
+                <li className='card-content-description-bonuses-bonus' key={i}>
+                  {param}
+                </li>
               ))}
             </ul>
           </div>
@@ -105,7 +114,7 @@ export const Card: React.FC<CardProps> = ({
           <p className='card-undercard'>{underCardText.selected}</p>
         )
       ) : (
-        <p className='warning-text'>Печалька, с {mainComponent} закончился.</p>
+        <p className='warning-text'>Печалька, {mainComponent} закончился.</p>
       )}
     </button>
   );

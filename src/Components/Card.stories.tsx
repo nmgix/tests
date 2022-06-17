@@ -1,13 +1,26 @@
 // import "@src/index.scss";
 import { Card } from "./Card";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { useEffect, useState } from "react";
 
 export default {
-  title: "Basic/Card",
+  title: "Components/Card",
   component: Card,
 } as ComponentMeta<typeof Card>;
 
-const GenericCard: ComponentStory<typeof Card> = (args) => <Card {...args} />;
+const GenericCard: ComponentStory<typeof Card> = (args) => {
+  // сделано для Storybook'а чтобы можно было сранвить дефолтный Arial и Exo (в зипе был только тонкий шрифт)
+  const [inlineStyles, setInlineStyles] = useState<React.CSSProperties>({});
+  useEffect(() => {
+    setInlineStyles((styles) => {
+      return {
+        ...styles,
+        fontFamily: args.defaultFont ? "Arial" : "Exo",
+      };
+    });
+  }, [args.defaultFont]);
+  return <Card style={inlineStyles} {...args} />;
+};
 
 export const DefaultCard = GenericCard.bind({});
 
@@ -48,4 +61,9 @@ DefaultCard.args = {
   },
   outOfStock: false,
   defaultFont: true,
+  size: {
+    width: 320,
+    height: 480,
+  },
+  hovered: false,
 };
