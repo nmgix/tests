@@ -1,7 +1,5 @@
 import { Card, CardProps } from "../Components/Card";
-import "_defaultScene.scss";
-
-import BackgroundImage from "../Content/images/Pattern.png";
+import "./_defaultScene.scss";
 
 const CardsProps: CardProps[] = [
   {
@@ -9,7 +7,7 @@ const CardsProps: CardProps[] = [
     selected: false,
     aboveTitle: {
       default: <>Сказочное заморское яство</>,
-      selected: <a href='#'>Котэ не одобряет?</a>,
+      selected: <a href='#0'>Котэ не одобряет?</a>,
     },
     mainTitle: "Нямушка",
     mainComponent: "с фуа-гра",
@@ -23,7 +21,7 @@ const CardsProps: CardProps[] = [
     produceMassUnits: "кг",
     backgroundColor: "#FFF",
     backgroundImage: {
-      src: "/Content/images/catLogo1.png",
+      src: "/images/catLogo1.png",
       absolutePosition: {
         x: 0,
         y: 43,
@@ -33,7 +31,7 @@ const CardsProps: CardProps[] = [
       default: (
         <>
           Чего сидишь, порадуй{" "}
-          <a href='#' className='underline-dashed'>
+          <a href='#0' className='underline-dashed'>
             котэ.
           </a>
         </>
@@ -53,7 +51,7 @@ const CardsProps: CardProps[] = [
     selected: false,
     aboveTitle: {
       default: <>Сказочное заморское яство</>,
-      selected: <a href='#'>Котэ не одобряет?</a>,
+      selected: <a href='#1'>Котэ не одобряет?</a>,
     },
     mainTitle: "Нямушка",
     mainComponent: "с рыбой",
@@ -67,7 +65,7 @@ const CardsProps: CardProps[] = [
     produceMassUnits: "кг",
     backgroundColor: "#FFF",
     backgroundImage: {
-      src: "/Content/images/catLogo1.png",
+      src: "/images/catLogo1.png",
       absolutePosition: {
         x: 0,
         y: 43,
@@ -77,7 +75,7 @@ const CardsProps: CardProps[] = [
       default: (
         <>
           Чего сидишь, порадуй{" "}
-          <a href='#' className='underline-dashed'>
+          <a href='#1' className='underline-dashed'>
             котэ.
           </a>
         </>
@@ -97,7 +95,7 @@ const CardsProps: CardProps[] = [
     selected: false,
     aboveTitle: {
       default: <>Сказочное заморское яство</>,
-      selected: <a href='#'>Котэ не одобряет?</a>,
+      selected: <a href='#2'>Котэ не одобряет?</a>,
     },
     mainTitle: "Нямушка",
     mainComponent: "с курой",
@@ -112,7 +110,7 @@ const CardsProps: CardProps[] = [
     produceMassUnits: "кг",
     backgroundColor: "#FFF",
     backgroundImage: {
-      src: "/Content/images/catLogo1.png",
+      src: "/images/catLogo1.png",
       absolutePosition: {
         x: 0,
         y: 43,
@@ -122,7 +120,7 @@ const CardsProps: CardProps[] = [
       default: (
         <>
           Чего сидишь, порадуй{" "}
-          <a href='#' className='underline-dashed'>
+          <a href='#2' className='underline-dashed'>
             котэ.
           </a>
         </>
@@ -139,14 +137,16 @@ const CardsProps: CardProps[] = [
   },
 ];
 
-export const DefaultScene = () => {
+// CardsProps[0].backgroundImage.src = "/Content/images/catLogo1.png"
+
+export const DefaultScene: React.FC<{ backgroundImage: string }> = ({ backgroundImage }) => {
   return (
-    <div className='scene' style={{ backgroundImage: `url(${BackgroundImage})` }}>
+    <div className='scene' style={{ backgroundImage: `url(${process.env.PUBLIC_URL + backgroundImage})` }}>
       <h1 className='scene-title'>Ты сегодня покормил кота?</h1>
       <ul className='scene-cards'>
         {CardsProps.map((props) => (
-          <li>
-            <Card {...props} key={props.id} />
+          <li key={props.id}>
+            <Card {...props} />
           </li>
         ))}
       </ul>

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import "_card.scss";
+import React, { useEffect, useState } from "react";
+import "./_card.scss";
 
 export type CardProps = {
   id: number;
@@ -67,7 +67,7 @@ export const Card: React.FC<CardProps> = ({
       setSelected(selected !== undefined ? selected : false);
       setHover(hovered !== undefined ? hovered : false);
     }
-  }, [selected, hovered]);
+  }, [selected, hovered, outOfStock]);
 
   const [hover, setHover] = useState<boolean>(false);
 
@@ -106,7 +106,9 @@ export const Card: React.FC<CardProps> = ({
               top: `${backgroundImage.absolutePosition.y}%`,
               left: `${backgroundImage.absolutePosition.x}%`,
             }}
-            src={backgroundImage.src}
+            src={process.env.PUBLIC_URL + backgroundImage.src}
+            alt={mainTitle}
+            draggable={false}
           />
           <div className='card-content-mass'>
             <h1>{String(productMass).replace(".", ",")}</h1>

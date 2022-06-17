@@ -6,6 +6,12 @@ export default {
   component: DefaultScene,
 } as ComponentMeta<typeof DefaultScene>;
 
-const GenericScene: ComponentStory<typeof DefaultScene> = () => <DefaultScene />;
+const GenericScene: ComponentStory<typeof DefaultScene> = ({ backgroundImage }) => (
+  <DefaultScene backgroundImage={backgroundImage} />
+);
 
 export const Scene = GenericScene.bind({});
+
+Scene.args = {
+  backgroundImage: "/images/Pattern.png",
+};

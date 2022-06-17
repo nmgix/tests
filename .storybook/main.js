@@ -10,5 +10,5 @@ module.exports = {
   core: {
     builder: "@storybook/builder-webpack5",
   },
-  // "staticDirs": [{ from: '../src/Content/images', to: '/images' }]
+  // staticDirs: [{ from: "./images", to: "/images" }],
 };

@@ -42,7 +42,7 @@ DefaultCard.args = {
   produceMassUnits: "кг",
   backgroundColor: "#FFF",
   backgroundImage: {
-    src: "/Content/images/catLogo1.png",
+    src: "/images/catLogo1.png",
     absolutePosition: {
       x: 0,
       y: 43,
