@@ -13,6 +13,10 @@
     border-bottom: 0.1em index.$outline-blue dashed;
   }
 
+  & > * {
+    font-family: inherit !important;
+  }
+
   &-selected {
     #{$cardParent} {
       &-undercard {
@@ -23,6 +27,10 @@
       &-content {
         &-wrapper {
           background-color: index.$outline-pink;
+
+          &::after {
+            border: 4px solid index.$outline-pink;
+          }
         }
         &-mass {
           background-color: index.$outline-pink;
@@ -35,8 +43,9 @@
   }
 
   &:disabled {
-    background-color: rgb(0, 0, 0);
-    filter: grayscale(100%);
+    #{$cardParent}-content-wrapper {
+      filter: grayscale(100%);
+    }
   }
 
   &-content {
@@ -61,11 +70,24 @@
     );
 
     &-wrapper {
+      cursor: pointer;
       border-radius: 12px;
       height: 100%;
       position: relative;
       background-color: index.$outline-blue;
       clip-path: polygon(0 43px, 0px 43px, 43px 0, 100% 0, 100% 100%, 0 100%);
+
+      &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        background-color: transparent;
+        border: 4px solid index.$outline-blue;
+        width: calc(100% - 8px);
+        height: calc(100% - 8px);
+        border-radius: 12px;
+      }
     }
 
     &-description {
@@ -141,8 +163,12 @@
 
   &-undercard {
     color: #fff;
+    // background-color: inherit;
+    // color: transparent;
+    // background-clip: text;
+    // filter: invert(1) grayscale(1);
     a {
-      color: index.$outline-blue;
+      color: index.$outline-blue !important;
       text-decoration: none;
     }
   }

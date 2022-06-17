@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "_card.scss";
 
 type CardProps = {
@@ -25,6 +25,7 @@ type CardProps = {
     selected: React.ReactElement;
   };
   outOfStock: boolean;
+  defaultFont: boolean; // для Storybook
 };
 
 export const Card: React.FC<CardProps> = ({
@@ -39,21 +40,41 @@ export const Card: React.FC<CardProps> = ({
   backgroundImage,
   underCardText,
   outOfStock,
+  defaultFont,
 }) => {
   const [isSelected, setSelected] = useState<boolean>(selected);
+  const handleCardSelect = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    setSelected(!isSelected);
+  };
   useEffect(() => {
     setSelected(selected);
   }, [selected]);
 
+  // сделано для Storybook'а чтобы можно было сранвить дефолтный Arial и Exo (в зипе был только тонкий шрифт)
+  const [inlineStyles, setInlineStyles] = useState<React.CSSProperties>({});
+  useEffect(() => {
+    setInlineStyles((styles) => {
+      return { ...styles, fontFamily: defaultFont ? "Arial" : "Exo" };
+    });
+  }, [defaultFont]);
+
+  const [hover, setHover] = useState<boolean>(false);
+
   return (
-    <button className={`card ${isSelected ? "card-selected" : ""}`} disabled={outOfStock}>
-      <div className='card-content-wrapper'>
+    <button
+      className={`card ${isSelected ? "card-selected" : ""}`}
+      disabled={outOfStock}
+      style={inlineStyles}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}>
+      <div className='card-content-wrapper' onClick={handleCardSelect}>
         <div className='card-content' style={{ backgroundColor: backgroundColor }}>
           <div className='card-content-description'>
-            {!isSelected ? (
-              <p className='card-content-description-above'>{aboveTitle.default}</p>
-            ) : (
+            {hover && isSelected ? (
               <p className='card-content-description-above card-undercard'>{aboveTitle.selected}</p>
+            ) : (
+              <p className='card-content-description-above'>{aboveTitle.default}</p>
             )}
             <h1 className='card-content-description-title'>{mainTitle}</h1>
             <h3 className='card-content-description-under'>c {mainComponent}</h3>

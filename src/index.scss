@@ -1,4 +1,4 @@
-@use "./Content/Fonts/fonts";
+@use "./Content/fonts/fonts";
 
 $outline-blue: #2ea8e6;
 $outline-pink: #d91667;
@@ -10,5 +10,9 @@ html {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  font-family: "Exo", Helvetica, sans-serif !important;
+  font-family: "Exo", Helvetica, Tahoma, sans-serif;
+}
+
+.warning-text {
+  color: $warning;
 }

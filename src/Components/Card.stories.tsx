@@ -29,7 +29,7 @@ DefaultCard.args = {
   produceMassUnits: "кг",
   backgroundColor: "#FFF",
   backgroundImage: {
-    src: "/images/catLogo1.png",
+    src: "/Content/images/catLogo1.png",
     absolutePosition: {
       x: 0,
       y: 43,
@@ -47,4 +47,5 @@ DefaultCard.args = {
     selected: <>Печень утки разварная с артишоками.</>,
   },
   outOfStock: false,
+  defaultFont: true,
 };
