@@ -54,12 +54,19 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const [isSelected, setSelected] = useState<boolean>(selected ? selected : false);
   const handleCardSelect = (e: React.MouseEvent<HTMLElement>) => {
-    // console.log(e.currentTarget, e.target); // возвращает один и тот-же элемент
-    setSelected(!isSelected);
+    if (e.target instanceof HTMLAnchorElement || e.target instanceof HTMLButtonElement) {
+      return;
+    } else {
+      if (!outOfStock) {
+        setSelected(!isSelected);
+      }
+    }
   };
   useEffect(() => {
-    setSelected(selected !== undefined ? selected : false);
-    setHover(hovered !== undefined ? hovered : false);
+    if (!outOfStock) {
+      setSelected(selected !== undefined ? selected : false);
+      setHover(hovered !== undefined ? hovered : false);
+    }
   }, [selected, hovered]);
 
   const [hover, setHover] = useState<boolean>(false);
