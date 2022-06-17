@@ -16,8 +16,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": { "@public/*": ["../public/*"] }
+    "paths": { "@src/*": ["./src/*"] }
   },
-  "include": ["src", "src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src", "index.d.ts", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,14 @@
+@use "./Content/Fonts/fonts";
+
+$outline-blue: #2ea8e6;
+$outline-pink: #d91667;
+$warning: #ffff66;
+
+body,
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: "Exo", Helvetica, sans-serif !important;
+}
