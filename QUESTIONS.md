@@ -71,7 +71,7 @@
    Софтварина и утилиты: Postman, Git, pm2, совсем немного nginx, gh-pages, Figma, немного Photoshop.
 
    - 1. Фронтенд
-        > HTML, CSS, SCSS (пока что базовый), React(функциональные компоненты, React-Router-Router6), Redux(+thunk), MobX (пока что базовый), немного Bootstrap, localStorage, cookies, headers.
+        > HTML, CSS, SCSS (пока что базовый), React(функциональные компоненты, React-Router-Router6), Redux(+thunk), MobX (пока что базовый), немного Bootstrap, совсем немного Enzyme с Jest, localStorage, cookies, headers.
    - 2. Бекенд
         > Node.JS (fs базовый), Express, Multer, Bcrypt, JWT (куками), cookies, headers, знаком с csurf, много дрался с CORS, MySQL (пока что базовые запросы), MongoDB, немного Redis (один раз пользовался).
 
