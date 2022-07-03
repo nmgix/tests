@@ -1,0 +1,16 @@
+body,
+html,
+* {
+  font-family: "Helvetica";
+  transition: all 100ms ease-in-out;
+};
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+$font-default: rgb(50, 50, 50);
+$background-default: #FFF;

@@ -1,0 +1,68 @@
+.search-bar {
+  background-image: url(https://get.pxhere.com/photo/book-read-wing-light-wood-sunlight-leaf-dark-line-color-shadow-darkness-black-paper-close-up-pages-books-bound-shape-cover-screenshot-macro-photography-browse-book-pages-computer-wallpaper-1061079.jpg);
+  background-size: 100%;
+  height: auto;
+  padding: 5em 0;
+
+  animation: 30s backgroundAnimation infinite;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  @keyframes backgroundAnimation {
+    0% {
+      background-position: 50% 0%;
+    }
+    50% {
+      background-position: 50% 100%;
+    }
+    100% {
+      background-position: 50% 0%;
+    }
+  }
+
+  & > * {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &-title {
+    text-align: center;
+  }
+
+  &-request-bar {
+    display: flex;
+    justify-content: center;
+
+    input {
+      min-width: 151%;
+      padding: 7px;
+    }
+
+    button {
+      cursor: pointer;
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  &-dropdown {
+    label {
+      margin-right: 7px;
+    }
+    select {
+      padding: 7px;
+    }
+    margin: 0 10px;
+
+    &-wrapper {
+      margin-top: 10px;
+      display: flex;
+    }
+  }
+}
