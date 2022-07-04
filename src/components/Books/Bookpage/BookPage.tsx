@@ -1,15 +1,20 @@
 import { useParams } from "react-router-dom";
 import { useTypedSelector } from "../../../redux/helpers/useTypedSelector";
+import { Navigate, useNavigate } from "react-router-dom";
 
 /**
  * Страница книги.
  * @returns {React.FC} Functional Component.
  */
 
-export const BookPage = () => {
+export const BookPage: React.FC<{}> = () => {
   const params = useParams<{ bookId: string }>();
-  console.log(params);
-  const { state, error } = useTypedSelector((state) => state.books);
+  const { state } = useTypedSelector((state) => state.books);
 
-  return <div>BookPage</div>;
+  const book = state.items.find((item) => item.id === params.bookId);
+  if (!book) {
+    return <Navigate to='/' />;
+  } else {
+    return <div>BookPage of {book.volumeInfo.title}</div>;
+  }
 };

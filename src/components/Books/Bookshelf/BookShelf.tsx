@@ -41,46 +41,38 @@ const BookShelfBook: React.FC<GoogleBook> = ({
  * @returns {React.FC} Functional Component.
  */
 export const BookShelf: React.FC<{}> = observer(() => {
-  // useEffect(() => {
-  //   bookStore.searchBooks("A", searchStore.searchState.category, searchStore.searchState.sortBy);
-  // }, []);
-
   const { searchBooks } = useAction();
 
-  const { state, error } = useTypedSelector((state) => state.books);
+  const { books, search } = useTypedSelector((state) => state);
 
-  // useEffect(() => {
-  //   searchBooks("A", searchStore.searchState.category, searchStore.searchState.sortBy);
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(bookStore.books);
-  // }, [bookStore.books]);
+  useEffect(() => {
+    searchBooks("Terminator", search.state.category, search.state.sortBy);
+  }, []);
 
   return (
     <div className='book-shelf'>
-      {error ? (
-        <h4 className='book-shelf-error'>{error}</h4>
+      {books.error ? (
+        <h4 className='book-shelf-error'>{books.error}</h4>
       ) : (
         <>
           <div className='book-shelf-shelves'>
-            {toJS(state.items).map((book) => {
+            {books.state.items.map((book) => {
               return <BookShelfBook {...book} key={book.id} />;
             })}
           </div>
-          {/* <button
+          <button
             className='book-shelf-load-more'
             onClick={() =>
               searchBooks(
-                searchStore.searchState.searchString,
-                searchStore.searchState.category,
-                searchStore.searchState.sortBy,
-                bookStore.books.length,
+                search.state.searchString,
+                search.state.category,
+                search.state.sortBy,
+                books.state.items.length,
                 "add"
               )
             }>
             Load more
-          </button> */}
+          </button>
         </>
       )}
     </div>
