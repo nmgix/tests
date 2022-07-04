@@ -1,18 +1,15 @@
-import { observer } from "mobx-react-lite";
-import React from "react";
 import { useParams } from "react-router-dom";
-import { bookStore } from "../../../store/books.store";
+import { useTypedSelector } from "../../../redux/helpers/useTypedSelector";
 
 /**
  * Страница книги.
  * @returns {React.FC} Functional Component.
  */
 
-export const BookPage = observer(() => {
+export const BookPage = () => {
   const params = useParams<{ bookId: string }>();
-  console.log(params)
-  console.log(bookStore.books)
-  console.log(bookStore.books.find(book => book.id === params.bookId))
+  console.log(params);
+  const { state, error } = useTypedSelector((state) => state.books);
 
   return <div>BookPage</div>;
-});
+};

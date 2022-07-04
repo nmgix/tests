@@ -2,8 +2,8 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { bookStore } from "../../../store/books.store";
-import { searchStore } from "../../../store/search.store";
+import { useAction } from "../../../redux/helpers/useAction";
+import { useTypedSelector } from "../../../redux/helpers/useTypedSelector";
 import { GoogleBook } from "../../../types/GoogleBookTypes";
 import "./_bookShelf.scss";
 
@@ -41,29 +41,37 @@ const BookShelfBook: React.FC<GoogleBook> = ({
  * @returns {React.FC} Functional Component.
  */
 export const BookShelf: React.FC<{}> = observer(() => {
-  useEffect(() => {
-    bookStore.searchBooks("A", searchStore.searchState.category, searchStore.searchState.sortBy);
-  }, []);
+  // useEffect(() => {
+  //   bookStore.searchBooks("A", searchStore.searchState.category, searchStore.searchState.sortBy);
+  // }, []);
 
-  useEffect(() => {
-    console.log(bookStore.books);
-  }, [bookStore.books]);
+  const { searchBooks } = useAction();
+
+  const { state, error } = useTypedSelector((state) => state.books);
+
+  // useEffect(() => {
+  //   searchBooks("A", searchStore.searchState.category, searchStore.searchState.sortBy);
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log(bookStore.books);
+  // }, [bookStore.books]);
 
   return (
     <div className='book-shelf'>
-      {bookStore.error ? (
-        <h4 className='book-shelf-error'>{bookStore.error}</h4>
+      {error ? (
+        <h4 className='book-shelf-error'>{error}</h4>
       ) : (
         <>
           <div className='book-shelf-shelves'>
-            {toJS(bookStore.books).map((book) => {
+            {toJS(state.items).map((book) => {
               return <BookShelfBook {...book} key={book.id} />;
             })}
           </div>
-          <button
+          {/* <button
             className='book-shelf-load-more'
             onClick={() =>
-              bookStore.searchBooks(
+              searchBooks(
                 searchStore.searchState.searchString,
                 searchStore.searchState.category,
                 searchStore.searchState.sortBy,
@@ -72,7 +80,7 @@ export const BookShelf: React.FC<{}> = observer(() => {
               )
             }>
             Load more
-          </button>
+          </button> */}
         </>
       )}
     </div>
