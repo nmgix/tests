@@ -1,12 +1,6 @@
 import { Dispatch } from "redux";
-import { SearchDataProps, SearchTypes, SortBy } from "../types/SearchTypes";
+import { SearchDataProps, SearchTypes } from "../types/SearchTypes";
 import { SearchActions } from "../actions/searchAction";
-
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 
 export const updateSearch =
   (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => (dispatch: Dispatch<SearchActions>) => {

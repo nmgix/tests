@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { GoogleBook, GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
+import { GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
 import { PresetCategories, SortBy } from "../../types/SearchTypes";
 import { BooksActions } from "../actions/booksAction";
 import { RootState } from "../reducers";
@@ -24,12 +24,16 @@ export const searchBooks =
   ): ThunkAction<Promise<void>, {}, RootState, BooksActions> =>
   async (dispatch: Dispatch<BooksActions>) => {
     try {
+      dispatch({
+        type: BooksTypes.GET_BOOKS,
+      });
+
       const res = await axios.get<GoogleBooksAPIResults>(
-        `${process.env.REACT_APP_GOOGLE_BOOKS_URL}q="${searchString.replace(" ", "+")}"${
+        `${process.env.REACT_APP_GOOGLE_BOOKS_URL}?q="${searchString.replace(" ", "+")}"${
           category !== "all" ? `+subject:${category}` : ""
-        }&orderBy=${sortBy}&startIndex=${fromIndex}&maxResults=${limit}&keyes&key=${process.env.REACT_APP_GOOGLE_API}`
+        }&orderBy=${sortBy}&startIndex=${fromIndex}&maxResults=${limit}&keyes&key=${process.env.REACT_APP_GOOGLE_API}`,
+        config
       );
-      // .then((res: AxiosResponse<GoogleBooksAPIResults>): GoogleBook[] => res.data.items);
 
       if (res.status === 403 || res.status === 400) {
         dispatch({
@@ -44,6 +48,7 @@ export const searchBooks =
           payload: res.data,
         });
       } else {
+        console.log(res.data);
         dispatch({
           type: BooksTypes.GET_BOOKS_SUCCESS,
           payload: res.data,

@@ -1,6 +1,7 @@
-import { GoogleBook, GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
+import { GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
 
 export enum BooksTypes {
+  GET_BOOKS = "GET_BOOKS",
   GET_BOOKS_SUCCESS = "GET_BOOKS_SUCCESS",
   ADD_BOOKS = "ADD_BOOKS",
   GET_BOOKS_ERROR = "GET_BOOKS_ERROR",
@@ -9,5 +10,6 @@ export enum BooksTypes {
 
 export type BooksListState = {
   state: GoogleBooksAPIResults;
+  loading: boolean;
   error?: string | null;
 };

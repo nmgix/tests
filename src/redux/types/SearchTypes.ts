@@ -1,5 +1,3 @@
-import { GoogleBook, GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
-
 export enum PresetCategories {
   all,
   art,

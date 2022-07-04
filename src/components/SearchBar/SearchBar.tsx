@@ -1,12 +1,11 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import "./_searchBar.scss";
 import { ReactComponent as SearchButtonIcon } from "../../resources/search-icon.svg";
 import { PresetCategories, SortBy } from "../../types/SearchTypes";
-import { observer } from "mobx-react-lite";
 import { useAction } from "../../redux/helpers/useAction";
 import { useTypedSelector } from "../../redux/helpers/useTypedSelector";
 
-export const SearchBar = observer(() => {
+export const SearchBar = () => {
   const { searchBooks, updateSearch } = useAction();
   const { state } = useTypedSelector((state) => state.search);
   const { category, searchString, sortBy } = state;
@@ -55,4 +54,4 @@ export const SearchBar = observer(() => {
       </form>
     </div>
   );
-});
+};

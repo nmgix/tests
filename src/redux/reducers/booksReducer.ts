@@ -7,13 +7,17 @@ const initialState: BooksListState = {
     totalItems: 0,
     items: [],
   },
+  loading: true,
   error: null,
 };
 
 export const booksReducer = (bookState: BooksListState = initialState, action: BooksActions): BooksListState => {
   switch (action.type) {
+    case BooksTypes.GET_BOOKS: {
+      return { state: bookState.state, loading: true, error: null };
+    }
     case BooksTypes.GET_BOOKS_SUCCESS: {
-      return { ...bookState, state: action.payload!, error: null };
+      return { state: action.payload!, loading: false, error: null };
     }
     case BooksTypes.ADD_BOOKS: {
       return {
@@ -23,14 +27,15 @@ export const booksReducer = (bookState: BooksListState = initialState, action: B
           totalItems: action.payload!.totalItems,
           kind: action.payload!.kind,
         },
+        loading: false,
         error: null,
       };
     }
     case BooksTypes.GET_BOOKS_ERROR: {
-      return { ...bookState, state: { kind: "", totalItems: 0, items: [] }, error: action.payload };
+      return { state: { kind: "", totalItems: 0, items: [] }, loading: false, error: action.payload };
     }
     case BooksTypes.CLEAR_BOOKS: {
-      return { ...bookState, state: { kind: "", totalItems: 0, items: [] }, error: null };
+      return { state: { kind: "", totalItems: 0, items: [] }, loading: false, error: null };
     }
 
     default: {

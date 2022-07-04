@@ -1,7 +1,9 @@
 import * as BookActionCreators from "./BooksActionCreator";
 import * as SearchActionCreators from "./SearchAction";
 
-export default {
+const ActionsTuple = {
   ...BookActionCreators,
   ...SearchActionCreators,
 };
+
+export default ActionsTuple;

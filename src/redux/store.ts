@@ -1,6 +1,6 @@
-import { AnyAction, applyMiddleware, compose, createStore } from "redux";
-import thunk, { ThunkDispatch } from "redux-thunk";
-import { rootReducer, RootState } from "./reducers";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
+import { rootReducer } from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 const composeEnchancers = composeWithDevTools({
