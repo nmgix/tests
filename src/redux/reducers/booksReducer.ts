@@ -24,7 +24,7 @@ export const booksReducer = (bookState: BooksListState = initialState, action: B
         ...bookState,
         state: {
           items: [...bookState.state.items, ...action.payload!.items],
-          totalItems: action.payload!.totalItems,
+          totalItems: bookState.state.totalItems,
           kind: action.payload!.kind,
         },
         loading: false,

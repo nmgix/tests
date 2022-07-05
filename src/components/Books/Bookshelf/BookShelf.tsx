@@ -1,13 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAction } from "../../../redux/helpers/useAction";
-import { useTypedSelector } from "../../../redux/helpers/useTypedSelector";
-import { GoogleBook } from "../../../types/GoogleBookTypes";
-import { Loader } from "../../Loader/Loader";
+import { useAction } from "@store/helpers/useAction";
+import { useTypedSelector } from "@store/helpers/useTypedSelector";
+import { GoogleBook } from "@appTypes/GoogleBookTypes";
+import { Loader } from "@components/Loader/Loader";
 import "./_bookShelf.scss";
 
+/**
+ * Элемент книга для отрисовки в компоненте BookShelf.
+ *
+ * @param id - id книги в реестре Google Books API, необходим для перехода на страницу этой книги.
+ * @param volumeInfo - информация о книге, ссылки на изображение обложки.
+ *
+ * @returns {React.FC} Функциональный компонент.
+ */
 const BookShelfBook: React.FC<GoogleBook> = React.memo(
-  ({ accessInfo, id, kind, layerInfo, volumeInfo }) => {
+  ({ id, volumeInfo }) => {
     return (
       <Link className='book-shelf-book' to={`/book/${id}`} replace={false}>
         <div className='book-cover'>
@@ -21,7 +29,9 @@ const BookShelfBook: React.FC<GoogleBook> = React.memo(
         <h3 className='book-title'>
           {volumeInfo.title.length > 50 ? `${volumeInfo.title.slice(0, 50)}...` : volumeInfo.title}
         </h3>
-        <span className='book-author'>{volumeInfo.authors ? volumeInfo.authors.join(", ") : volumeInfo.publisher}</span>
+        <span className='book-author'>
+          {volumeInfo.authors ? volumeInfo.authors[0] : volumeInfo.publisher ? volumeInfo.publisher : <></>}
+        </span>
       </Link>
     );
   },
@@ -31,16 +41,16 @@ const BookShelfBook: React.FC<GoogleBook> = React.memo(
 /**
  * Витрина книг, необходима для отрисовки книг по фильтру.
  *
- * @returns {React.FC} Functional Component.
+ * @returns {React.FC} Функциональный компонент.
  */
 export const BookShelf: React.FC<{}> = () => {
   const { searchBooks } = useAction();
 
   const { books, search } = useTypedSelector((state) => state);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (books.state.items.length === 0) {
-      searchBooks("Terminator", search.state.category, search.state.sortBy);
+      searchBooks(search.state.searchString, search.state.category, search.state.sortBy);
     }
   }, []);
 
@@ -56,13 +66,13 @@ export const BookShelf: React.FC<{}> = () => {
             <>
               <h3>Found {books.state.totalItems} results</h3>
               <div className='book-shelf-shelves'>
-                {books.state.items.map((book) => {
-                  return <BookShelfBook {...book} key={book.id} />;
+                {books.state.items.map((book, i) => {
+                  return <BookShelfBook {...book} key={book.etag} />;
                 })}
               </div>
               {books.loading ? (
                 <Loader />
-              ) : (
+              ) : books.state.totalItems > books.state.items.length && books.state.items.length % 30 === 0 ? (
                 <button
                   className='book-shelf-load-more'
                   onClick={() =>
@@ -76,6 +86,8 @@ export const BookShelf: React.FC<{}> = () => {
                   }>
                   Load more
                 </button>
+              ) : (
+                <></>
               )}
             </>
           )}

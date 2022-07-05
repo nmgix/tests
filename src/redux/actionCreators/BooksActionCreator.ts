@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
-import { PresetCategories, SortBy } from "../../types/SearchTypes";
+import { GoogleBooksAPIResults } from "@appTypes/GoogleBookTypes";
+import { PresetCategories, SortBy } from "@appTypes/SearchTypes";
 import { BooksActions } from "../actions/booksAction";
 import { RootState } from "../reducers";
 import { BooksTypes } from "../types/BookTypes";
@@ -20,7 +20,7 @@ export const searchBooks =
     sortBy: keyof typeof SortBy,
     fromIndex: number = 0,
     mode: "add" | "change" = "change",
-    limit: number = 30
+    limit: number = Number(process.env.REACT_APP_MAX_RESULTS!)
   ): ThunkAction<Promise<void>, {}, RootState, BooksActions> =>
   async (dispatch: Dispatch<BooksActions>) => {
     try {
@@ -28,31 +28,40 @@ export const searchBooks =
         type: BooksTypes.GET_BOOKS,
       });
 
-      const res = await axios.get<GoogleBooksAPIResults>(
-        `${process.env.REACT_APP_GOOGLE_BOOKS_URL}?q="${searchString.replace(" ", "+")}"${
-          category !== "all" ? `+subject:${category}` : ""
-        }&orderBy=${sortBy}&startIndex=${fromIndex}&maxResults=${limit}&keyes&key=${process.env.REACT_APP_GOOGLE_API}`,
-        config
-      );
-
-      if (res.status === 403 || res.status === 400) {
+      if (category === "all" && searchString.length === 0) {
         dispatch({
           type: BooksTypes.GET_BOOKS_ERROR,
-          payload: "Книги не найдены! Попробуйте другой запрос!",
-        });
-      }
-
-      if (mode === "add") {
-        dispatch({
-          type: BooksTypes.ADD_BOOKS,
-          payload: res.data,
+          payload: "Пустой запрос!",
         });
       } else {
-        console.log(res.data);
-        dispatch({
-          type: BooksTypes.GET_BOOKS_SUCCESS,
-          payload: res.data,
-        });
+        const res = await axios.get<GoogleBooksAPIResults>(
+          `${process.env.REACT_APP_GOOGLE_BOOKS_URL}?q=${searchString.replace(" ", "+")}${
+            category !== "all" ? `+subject:${category}` : ""
+          }&orderBy=${sortBy}&startIndex=${fromIndex}&maxResults=${limit}&printType=books&key=${
+            process.env.REACT_APP_GOOGLE_API
+          }`,
+          config
+        );
+        // &filter=full
+
+        if (res.status === 403 || res.status === 400) {
+          dispatch({
+            type: BooksTypes.GET_BOOKS_ERROR,
+            payload: "Книги не найдены! Попробуйте другой запрос!",
+          });
+        }
+
+        if (mode === "add") {
+          dispatch({
+            type: BooksTypes.ADD_BOOKS,
+            payload: res.data,
+          });
+        } else {
+          dispatch({
+            type: BooksTypes.GET_BOOKS_SUCCESS,
+            payload: res.data,
+          });
+        }
       }
     } catch {
       dispatch({

@@ -4,7 +4,7 @@ import { SearchState, SearchTypes } from "../types/SearchTypes";
 const initialState: SearchState = {
   state: {
     category: "all",
-    searchString: "",
+    searchString: "js",
     sortBy: "relevance",
   },
   error: null,

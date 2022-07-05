@@ -1,4 +1,4 @@
-import { GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
+import { GoogleBooksAPIResults } from "../../appTypes/GoogleBookTypes";
 
 export enum BooksTypes {
   GET_BOOKS = "GET_BOOKS",

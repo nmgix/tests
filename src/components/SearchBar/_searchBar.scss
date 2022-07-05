@@ -1,28 +1,45 @@
+@use "../../index.scss";
+
 .search-bar {
-  background-color: #4e270c;
-  background-image: url(https://get.pxhere.com/photo/book-read-wing-light-wood-sunlight-leaf-dark-line-color-shadow-darkness-black-paper-close-up-pages-books-bound-shape-cover-screenshot-macro-photography-browse-book-pages-computer-wallpaper-1061079.jpg);
-  background-size: 100%;
-  height: auto;
-  padding: 5em 0;
+  &-wrapper {
+    width: 100%;
 
-  animation: 30s backgroundAnimation infinite;
+    background-color: index.$color-main;
+    background-image: url(../../resources/background.jpg);
+    background-size: cover;
 
-  color: white;
+    animation: 30s backgroundAnimation infinite;
+
+    @keyframes backgroundAnimation {
+      0% {
+        background-position: 50% 0%;
+      }
+      50% {
+        background-position: 50% 100%;
+      }
+      100% {
+        background-position: 50% 0%;
+      }
+    }
+  }
+
+  width: 30%;
+  @media screen and (max-width: index.$width-laptop) {
+    width: 50%;
+  }
+  @media screen and (max-width: index.$width-tablet) {
+    width: 75%;
+  }
+  @media screen and (max-width: index.$width-smartphone) {
+    width: 90%;
+  }
 
   display: flex;
   flex-direction: column;
+  padding: 5em 0;
+  margin: 0 auto;
 
-  @keyframes backgroundAnimation {
-    0% {
-      background-position: 50% 0%;
-    }
-    50% {
-      background-position: 50% 100%;
-    }
-    100% {
-      background-position: 50% 0%;
-    }
-  }
+  color: index.$background-default;
 
   & > * {
     display: flex;
@@ -35,15 +52,20 @@
   }
 
   &-request-bar {
+    width: 100%;
+
     display: flex;
     justify-content: center;
 
     input {
-      min-width: 151%;
+      flex: 1 1;
+      min-width: 1em;
       padding: 7px;
     }
 
     button {
+      flex: 0 1;
+
       cursor: pointer;
       svg {
         width: 20px;
@@ -59,11 +81,29 @@
     select {
       padding: 7px;
     }
-    margin: 0 10px;
+    margin: 10px 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+
+    @media screen and (max-width: index.$width-smartphone) {
+      justify-content: center;
+    }
 
     &-wrapper {
       margin-top: 10px;
       display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      @media screen and (max-width: index.$width-smartphone) {
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      flex-wrap: wrap;
     }
   }
 }

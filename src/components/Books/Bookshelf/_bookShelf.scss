@@ -1,4 +1,5 @@
 @use "../../../index.scss";
+@use "../books";
 
 .book-shelf {
   display: flex;
@@ -35,42 +36,6 @@
     &:hover {
       opacity: 0.5;
     }
-
-    .book {
-      &-cover {
-        width: 150px;
-        height: 200px;
-        padding: 5% 0%;
-        margin: 0 auto;
-        margin-bottom: 10px;
-
-        img,
-        &-missing {
-          width: 100%;
-          height: 200px;
-          box-shadow: 10px 10px 20px 0px rgba(34, 60, 80, 0.5);
-        }
-
-        &-missing {
-          background-color: index.$font-default;
-        }
-      }
-
-      &-category {
-        text-decoration: underline;
-        opacity: 0.5;
-      }
-
-      &-title {
-        font-size: 1.3em;
-        font-weight: bolder;
-        margin: 0.4em 0;
-      }
-
-      &-author {
-        opacity: 0.5;
-      }
-    }
   }
 
   &-load-more {
@@ -79,11 +44,23 @@
     font-size: 1.3em;
     margin: 50px;
     border: none;
-    background-color: rgb(170, 170, 170);
+    background-color: darken($color: index.$background-default, $amount: 20%);
+    color: rgba(darken($color: index.$background-default, $amount: 80%), 0.8);
+    border: 2px solid rgba(darken($color: index.$background-default, $amount: 80%), 0.6);
     border-radius: 5px;
 
     &:hover {
-      background-color: darken(rgb(170, 170, 170), 20%);
+      color: index.$background-default;
+      background-color: index.$color-main;
+      border: 2px solid index.$background-default;
+      border-radius: 7px;
+    }
+
+    &:active {
+      color: index.$background-default;
+      background-color: darken(index.$color-main, 20%);
+      border: 2px solid index.$background-default;
+      border-radius: 7px;
     }
 
     padding: 10px 20px;

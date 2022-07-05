@@ -1,5 +1,5 @@
 import { Action } from "../helpers";
-import { GoogleBooksAPIResults } from "../../types/GoogleBookTypes";
+import { GoogleBooksAPIResults } from "@appTypes/GoogleBookTypes";
 import { BooksTypes } from "../types/BookTypes";
 
 type GetBooks = Action<typeof BooksTypes.GET_BOOKS, void>;
