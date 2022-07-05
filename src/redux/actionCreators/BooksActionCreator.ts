@@ -37,11 +37,10 @@ export const searchBooks =
         const res = await axios.get<GoogleBooksAPIResults>(
           `${process.env.REACT_APP_GOOGLE_BOOKS_URL}?q=${searchString.replace(" ", "+")}${
             category !== "all" ? `+subject:${category}` : ""
-          }&orderBy=${sortBy}&startIndex=${fromIndex}&maxResults=${limit}&printType=books&key=${
-            process.env.REACT_APP_GOOGLE_API
-          }`,
+          }&orderBy=${sortBy}&startIndex=${fromIndex}&maxResults=${limit}&key=${process.env.REACT_APP_GOOGLE_API}`,
           config
         );
+        // &printType=books
         // &filter=full
 
         if (res.status === 403 || res.status === 400) {

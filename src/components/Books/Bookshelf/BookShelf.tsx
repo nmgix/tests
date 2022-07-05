@@ -52,6 +52,7 @@ export const BookShelf: React.FC<{}> = () => {
     if (books.state.items.length === 0) {
       searchBooks(search.state.searchString, search.state.category, search.state.sortBy);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
