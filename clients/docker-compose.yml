@@ -1,0 +1,20 @@
+version: "3"
+services:
+  clients:
+    container_name: clients
+    image: node:16
+    build:
+      context: ./service/
+    ports:
+      - "8080:8080"
+  database:
+    env_file: .env
+    container_name: database
+    build:
+      context: ./database/
+      args:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_PORT=${MYSQL_PORT}
+    ports:
+      - "${MYSQL_PORT}:3306"
