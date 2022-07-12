@@ -1,20 +1,22 @@
 version: "3"
+
 services:
   clients:
-    container_name: clients
+    container_name: clientapp
     image: node:16
+    env_file: ./.env
     build:
       context: ./service/
     ports:
       - "8080:8080"
   database:
-    env_file: .env
     container_name: database
+    env_file: ./.env
     build:
       context: ./database/
       args:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        - MYSQL_PORT=${MYSQL_PORT}
+        - MYSQL_PORT=${MYSQL_PORT_LOCAL}
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "${MYSQL_PORT_OUTSIDE}:${MYSQL_PORT_LOCAL}"

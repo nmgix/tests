@@ -2,13 +2,7 @@ FROM node:16
 
 WORKDIR /app
 COPY package.json /app/package.json
-
-#необходимо для bcrypt
-# RUN apt-get update -y
-# RUN apt-get install -y build-essential python
-
-RUN apt-get update  && apt-get install -y build-essential && apt install -y make gcc g++ python && npm install --production
-
+RUN npm cache clean --force && rm -rf node_modules && npm install --only=prod
 COPY . /app
 
 RUN npm run build

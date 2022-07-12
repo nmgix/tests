@@ -10,7 +10,8 @@ import { sequelize } from "./helper/createDatabaseConnection";
 sequelize
   .authenticate()
   .then(() => console.log("Sequelize connection generated successfully"))
-  .catch(() => {
+  .catch((e) => {
+    console.log(e);
     throw new Error("Sequelize error occured");
   });
 

@@ -6,8 +6,8 @@ export const sequelize = new Sequelize(
   process.env.SQL_USER!.toString(),
   process.env.SQL_PASSWORD!.toString(),
   {
-    host: process.env.SQL_HOST ? process.env.SQL_HOST!.toString() : "localhost",
-    port: Number(process.env.MYSQL_PORT),
+    host: process.env.SQL_HOST!.toString(),
+    port: Number(process.env.MYSQL_PORT_LOCAL),
     dialect: "mysql",
   }
 );
