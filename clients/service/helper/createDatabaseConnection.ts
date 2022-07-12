@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 import { userFactory } from "../models/User";
-import bcrypt from "bcrypt";
 
 export const sequelize = new Sequelize(
   process.env.MYSQL_DATABASE!.toString(),
@@ -12,6 +11,7 @@ export const sequelize = new Sequelize(
     dialect: "mysql",
   }
 );
+
 sequelize.sync();
 
 export const User = userFactory(sequelize);

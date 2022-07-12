@@ -1,21 +1,17 @@
 import { Sequelize, Model, DataTypes, InferAttributes, InferCreationAttributes, BuildOptions } from "sequelize";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
-interface UserAttributes {
+export interface UserAttributes {
   id: string | null;
   name: string;
   email: string;
   password: string;
+  level: number | null;
 }
 
 interface UserModel extends Model<UserAttributes>, UserAttributes {
   validPassword(password: string): boolean;
 }
-// class User extends Model<UserModel, UserAttributes> {
-//   validPassword = async function (password) {
-//     return await bcrypt.compare(password, this.password);
-//   };
-// }
 
 type UserStatic = typeof Model & {
   new (values?: object, options?: BuildOptions): UserModel;
@@ -49,6 +45,11 @@ export function userFactory(sequelize: Sequelize): UserStatic {
         allowNull: false,
         autoIncrement: false,
         type: DataTypes.STRING,
+      },
+      level: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
     },
     {

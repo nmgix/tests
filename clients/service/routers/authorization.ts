@@ -2,40 +2,46 @@ import express, { RequestHandler, Request, Response } from "express";
 import { User } from "../helper/createDatabaseConnection";
 import { Op } from "sequelize";
 import jwt from "jsonwebtoken";
+import { JWTPayload } from "../middleware/auth";
+import { UserAttributes } from "../models/User";
 
-type RegisterRequest = Request<{}, {}, { name: string; email: string; password: string }>;
+type RegisterRequest = Request<{}, {}, UserAttributes>;
 
-const registerUser: RequestHandler = async (req: RegisterRequest, res: Response) => {
+export const registerUser: RequestHandler = async (req: RegisterRequest, res: Response) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, name, password } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).send("User data error");
     } else {
-      const existingUser = await User.findOne({ where: { email } });
+      const existingUser = await User.findOne({ where: { email }, attributes: { exclude: ["password"] } });
       if (existingUser) {
         return res.status(400).send("User exists");
       } else {
         const user = await User.create(req.body);
 
-        const payload = {
-          id: user.id,
-        };
+        if (!user) {
+          return res.status(400).send("User creating error");
+        } else {
+          const payload: JWTPayload = {
+            id: user.id!,
+          };
 
-        jwt.sign(
-          payload,
-          process.env.JWT_SECRET!.toString(),
-          { expiresIn: process.env.JWT_EXPIRES_IN },
-          (err, token) => {
-            if (err) {
-              console.log(err);
-              return res.status(400).json("User auth error");
-            } else {
-              res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
-              return res.status(200).json(user);
+          jwt.sign(
+            payload,
+            process.env.JWT_SECRET!.toString(),
+            { expiresIn: process.env.JWT_EXPIRES_IN },
+            (err, token) => {
+              if (err) {
+                console.log(err);
+                return res.status(400).json("User auth error");
+              } else {
+                res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
+                return res.status(200).json(user);
+              }
             }
-          }
-        );
+          );
+        }
       }
     }
   } catch (error) {
@@ -63,12 +69,14 @@ const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: Respons
       },
     }).then(async (user) => {
       if (!user) {
+        res.clearCookie("token");
         return res.status(400).send("Wrong credentials");
       } else if (!(await user.validPassword(password))) {
+        res.clearCookie("token");
         return res.status(400).send("Wrong credentials");
       } else {
-        const payload = {
-          id: user.id,
+        const payload: JWTPayload = {
+          id: user.id!,
         };
 
         jwt.sign(
@@ -78,6 +86,7 @@ const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: Respons
           (err, token) => {
             if (err) {
               console.log(err);
+              res.clearCookie("token");
               return res.status(400).json("User auth error");
             } else {
               res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });

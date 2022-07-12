@@ -3,7 +3,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import cookies from "cookie-parser";
 dotenv.config({ path: `${__dirname}/../.env` });
-import { AuthorizationRouter } from "./routers";
+import { AuthorizationRouter, ManipulationRouter } from "./routers";
 
 import { sequelize } from "./helper/createDatabaseConnection";
 
@@ -21,7 +21,8 @@ app.use(cookies());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(AuthorizationRouter);
+app.use("/auth", AuthorizationRouter);
+app.use("/user", ManipulationRouter);
 
 const port = process.env.PORT ? process.env.PORT : 8080;
 
