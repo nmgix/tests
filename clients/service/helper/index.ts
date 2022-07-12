@@ -1,1 +1,0 @@
-export { connectMySQL } from "./createDatabaseConnection";
