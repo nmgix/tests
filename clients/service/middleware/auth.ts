@@ -9,7 +9,6 @@ export type JWTPayload = {
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(req.headers);
     var token = req.cookies.token;
     if (!token) {
       token = req.headers.authorization!.replace("Bearer ", "");
@@ -21,18 +20,19 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET!.toString()) as JWTPayload;
+      console.log(decoded);
       const existingUser = await User.findOne({ where: { id: decoded.id } });
       if (existingUser) {
         req.body.userId = existingUser.id!;
       } else {
-        return res.status(400).send("User not authed");
+        res.status(400).send("User not authed");
       }
       return next();
     } catch (e) {
-      return res.status(400).send("User not authed");
+      res.status(400).send("User not authed");
     }
   } catch (e) {
     console.log(e);
-    return res.status(500).send("Service Error");
+    res.status(500).send("Service Error");
   }
 };

@@ -3,10 +3,9 @@ import { transporter } from "..";
 
 type MailerCongratsData = Request<{}, {}, { to: string }>;
 /**
- * /inform эндпоинт.
- * @param to - массив адресатов.
- * @param subject - Заголовок, темпа письма.
- * @param text - Текст сообщения, дублируется в html
+ * /congrats эндпоинт.
+ * Поздравление нового пользователя на почту.
+ * @param {string} to - массив адресатов.
  */
 const MailCongrats: RequestHandler = async (req: MailerCongratsData, res: Response) => {
   const { to } = req.body;
@@ -29,9 +28,10 @@ const MailCongrats: RequestHandler = async (req: MailerCongratsData, res: Respon
 type MailerInformData = Request<{}, {}, { to: string[]; subject: string; text: string }>;
 /**
  * /inform эндпоинт.
- * @param to - массив адресатов.
- * @param subject - Заголовок, темпа письма.
- * @param text - Текст сообщения, дублируется в html
+ * Письмо для оповещения группы людей о чём-то.
+ * @param {string} to - массив адресатов.
+ * @param {string} subject - Заголовок, темпа письма.
+ * @param {string} text - Текст сообщения, дублируется в html.
  */
 const MailInformCongrats: RequestHandler = async (req: MailerInformData, res: Response) => {
   const { to, subject, text } = req.body;

@@ -8,6 +8,10 @@ import axios from "axios";
 
 type RegisterRequest = Request<{}, {}, UserAttributes>;
 
+/**
+ * /register эндпоинт.
+ * @param {UserAttributes} attrbutes - атрибуты для регистрации нового пользователя.
+ */
 export const registerUser: RequestHandler = async (req: RegisterRequest, res: Response) => {
   try {
     const { email, name, password } = req.body;
@@ -61,15 +65,26 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
 
 type AuthorizeRequest = Request<{}, {}, { login: string; password: string; userId?: string }, { id?: string }>;
 
+/**
+ * /authorize эндпоинт.
+ * @param {string} login - атрибут для авторизации пользователя.
+ * @param {string} password - атрибут для авторизации пользователя.
+ * @param {string} userId - атрибут администратора, чтобы испльзовать `spy/:id`.
+ * @param {string} id - атрибут администратора, чтобы испльзовать `spy/:id`.
+ */
 export const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: Response) => {
   try {
     const { id } = req.query;
     const { login, password, userId } = req.body;
 
+    var admin: boolean = false;
+
     if (userId !== undefined) {
       const currentUser = await User.findOne({ where: { id: userId } });
       if (currentUser && currentUser.level! < 1) {
         return res.status(400).send("Access denied");
+      } else {
+        admin = true;
       }
     }
 
@@ -77,10 +92,10 @@ export const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: 
       where: {
         [Op.or]: [
           {
-            name: userId !== undefined ? id : login,
+            name: admin ? id : login,
           },
           {
-            email: userId !== undefined ? id : login,
+            email: admin ? id : login,
           },
         ],
       },

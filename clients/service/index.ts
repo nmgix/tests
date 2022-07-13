@@ -6,7 +6,6 @@ dotenv.config({ path: `${__dirname}/../.env` });
 import { AuthorizationRouter, ManipulationRouter } from "./routers";
 
 import { sequelize } from "./helper/createDatabaseConnection";
-import axios from "axios";
 
 sequelize
   .authenticate()
@@ -17,16 +16,6 @@ sequelize
   });
 
 const app = express();
-
-// app.use(function (req: Request, res: Response, next: NextFunction) {
-//   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
-//   res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
-//   if (req.method === "OPTIONS") {
-//     return res.end();
-//   }
-//   next();
-// });
 
 app.use(helmet());
 app.use(cookies());

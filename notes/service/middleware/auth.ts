@@ -35,11 +35,9 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       }
       return next();
     } catch (e) {
-      // console.log(e);
       return res.status(400).send("User not authed");
     }
   } catch (e) {
-    // console.log(e);
     return res.status(500).send("Service Error");
   }
 };

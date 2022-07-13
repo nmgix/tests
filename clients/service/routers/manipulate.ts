@@ -4,17 +4,34 @@ import { Op } from "sequelize";
 import { auth } from "../middleware/auth";
 import { UserAttributes } from "../models/User";
 import { checkRole } from "../middleware/privilege";
-import { authorizeUser, registerUser } from "./authorization";
+import { authorizeUser } from "./authorization";
 
 type UserGetRequest = Request<{}, {}, { userId: string }, { id?: string }>;
+
+/**
+ * /getUser эндпоинт.
+ * @param {string} userId - универсальный атрибут, если администратор, есть возможность посмотреть другого пользователя, иначе только себя.
+ * @param {string} id - атрибут администратора, чтобы испльзовать `spy/:id`.
+ */
 const getUser: RequestHandler = async (req: UserGetRequest, res: Response) => {
   try {
     const { id } = req.query;
     const { userId } = req.body;
 
+    var admin: boolean = false;
+
+    if (userId !== undefined) {
+      const currentUser = await User.findOne({ where: { id: userId } });
+      if (currentUser && currentUser.level! < 1) {
+        return res.status(400).send("Access denied");
+      } else {
+        admin = true;
+      }
+    }
+
     await User.findOne({
       where:
-        id !== undefined
+        admin && id
           ? {
               [Op.or]: [
                 {
@@ -43,9 +60,14 @@ const getUser: RequestHandler = async (req: UserGetRequest, res: Response) => {
   }
 };
 
+/**
+ * /getUsers эндпоинт.
+ * Получать всех пользователей.
+ */
 const getUsers: RequestHandler = async (req: Request, res: Response) => {
   try {
     await User.findAll({ attributes: { exclude: ["password"] } }).then(async (users) => {
+      console.log(users);
       if (!users) {
         return res.status(400).send("Users not found");
       } else {
@@ -59,16 +81,33 @@ const getUsers: RequestHandler = async (req: Request, res: Response) => {
 };
 
 type UserUpdateRequest = Request<{}, {}, { userId: string; payload: Partial<UserAttributes> }, { id?: string }>;
+
+/**
+ * /updateUser эндпоинт.
+ * @param {string} userId - атрибут пользователя для обновления, универсальный для администратора.
+ * @param {Partial<UserAttributes>} payload - поля для обновления.
+ */
 const updateUser: RequestHandler = async (req: UserUpdateRequest, res: Response) => {
   try {
     const { id } = req.query;
     const { userId, payload } = req.body;
 
+    var admin: boolean = false;
+
+    if (userId !== undefined) {
+      const currentUser = await User.findOne({ where: { id: userId } });
+      if (currentUser && currentUser.level! < 1) {
+        return res.status(400).send("Access denied");
+      } else {
+        admin = true;
+      }
+    }
+
     if (!payload) {
       return res.sendStatus(304);
     } else {
       await User.findOne({
-        where: id !== undefined ? { id: id } : { id: userId },
+        where: admin && id ? { id: id } : { id: userId },
         attributes: { exclude: ["password"] },
       }).then(async (user) => {
         if (!user) {
@@ -86,6 +125,11 @@ const updateUser: RequestHandler = async (req: UserUpdateRequest, res: Response)
 };
 
 type UserDeleteRequest = Request<{}, {}, { userId: string }, { id?: string }>;
+/**
+ * /delete эндпоинт.
+ * @param {string} userId - атрибут для авторизации пользователя.
+ * @param {string} id - атрибут администратора, чтобы испльзовать `spy/:id`.
+ */
 const deleteUser: RequestHandler = async (req: UserDeleteRequest, res: Response) => {
   try {
     const { id } = req.query;
@@ -125,10 +169,11 @@ const deleteUser: RequestHandler = async (req: UserDeleteRequest, res: Response)
 
 export const ManipulationRouter = express.Router();
 
-ManipulationRouter.get("/", auth, getUser);
-ManipulationRouter.get("/:id", auth, getUser); //user read
-ManipulationRouter.put("/", auth, updateUser); //user update
-ManipulationRouter.delete("/", auth, deleteUser); //user delete
-
 ManipulationRouter.get("/all/", auth, checkRole(1), getUsers); //admin read all
 ManipulationRouter.post("/spy/:id", auth, checkRole(1), authorizeUser);
+
+ManipulationRouter.get("/", auth, getUser);
+ManipulationRouter.get("/:id", auth, getUser); //user read
+
+ManipulationRouter.put("/", auth, updateUser); //user update
+ManipulationRouter.delete("/", auth, deleteUser); //user delete

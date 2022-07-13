@@ -2,14 +2,23 @@ import axios from "axios";
 import express, { RequestHandler, Request, Response } from "express";
 import { auth, UserAttributes } from "../middleware/auth";
 
-const createUser: RequestHandler = async (req: Request, res: Response) => {};
+type UserNotesRequest = Request<{ id?: string }, {}, { user: UserAttributes }>;
+/**
+ * /create эндпоинт.
+ * @param {string} id - цель удаления.
+ * @param {UserAttributes} user - Объект пользотваеля, полученный с промежуточного по.
+ */
+const createUser: RequestHandler = async (req: UserNotesRequest, res: Response) => {};
 
-type UserDeleteRequest = Request<{ id?: string }, {}, { user: UserAttributes }>;
-
-const deleteUser: RequestHandler = async (req: Request, res: Response) => {
+/**
+ * /delete эндпоинт.
+ * @param {string} id - цель удаления.
+ * @param {UserAttributes} user - Объект пользотваеля, полученный с промежуточного по.
+ */
+const deleteUser: RequestHandler = async (req: UserNotesRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const { userId } = req.body;
+    const { user } = req.body;
     const currentUser = await axios
       .get<UserAttributes>(
         `http://${process.env.NODE_ENV === "dev" ? "localhost" : process.env.CLIENT_URL}:${
