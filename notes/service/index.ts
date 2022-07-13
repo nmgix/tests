@@ -24,9 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/notes", NotesRouter);
-app.use("/users", UsersRouter);
+app.use("/user", UsersRouter);
 
-const port = process.env.PORT ? process.env.PORT : 8080;
+const port = process.env.PORT ? process.env.PORT : 8082;
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

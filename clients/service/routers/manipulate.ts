@@ -6,10 +6,10 @@ import { UserAttributes } from "../models/User";
 import { checkRole } from "../middleware/privilege";
 import { authorizeUser, registerUser } from "./authorization";
 
-type UserGetRequest = Request<{ id?: string }, {}, { userId: string }>;
+type UserGetRequest = Request<{}, {}, { userId: string }, { id?: string }>;
 const getUser: RequestHandler = async (req: UserGetRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = req.query;
     const { userId } = req.body;
 
     await User.findOne({
@@ -58,10 +58,10 @@ const getUsers: RequestHandler = async (req: Request, res: Response) => {
   }
 };
 
-type UserUpdateRequest = Request<{ id?: string }, {}, { userId: string; payload: Partial<UserAttributes> }>;
+type UserUpdateRequest = Request<{}, {}, { userId: string; payload: Partial<UserAttributes> }, { id?: string }>;
 const updateUser: RequestHandler = async (req: UserUpdateRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = req.query;
     const { userId, payload } = req.body;
 
     if (!payload) {
@@ -85,10 +85,10 @@ const updateUser: RequestHandler = async (req: UserUpdateRequest, res: Response)
   }
 };
 
-type UserDeleteRequest = Request<{ id?: string }, {}, { userId: string }>;
+type UserDeleteRequest = Request<{}, {}, { userId: string }, { id?: string }>;
 const deleteUser: RequestHandler = async (req: UserDeleteRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = req.query;
     const { userId } = req.body;
 
     await User.findOne({
@@ -125,7 +125,8 @@ const deleteUser: RequestHandler = async (req: UserDeleteRequest, res: Response)
 
 export const ManipulationRouter = express.Router();
 
-ManipulationRouter.get("/", auth, getUser); //user read
+ManipulationRouter.get("/", auth, getUser);
+ManipulationRouter.get("/:id", auth, getUser); //user read
 ManipulationRouter.put("/", auth, updateUser); //user update
 ManipulationRouter.delete("/", auth, deleteUser); //user delete
 

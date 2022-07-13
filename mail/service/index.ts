@@ -25,7 +25,7 @@ export var transporter = nodemailer.createTransport(nodemailerOptions);
 
 app.use(MailingRouter);
 
-const port = process.env.PORT;
+const port = process.env.PORT ? process.env.PORT : 8083;
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

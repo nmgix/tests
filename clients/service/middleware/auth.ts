@@ -9,7 +9,11 @@ export type JWTPayload = {
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies.token;
+    console.log(req.headers);
+    var token = req.cookies.token;
+    if (!token) {
+      token = req.headers.authorization!.replace("Bearer ", "");
+    }
 
     if (!token) {
       return res.status(401).json("User not authed");

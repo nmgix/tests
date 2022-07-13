@@ -59,11 +59,11 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
   }
 };
 
-type AuthorizeRequest = Request<{ id?: string }, {}, { login: string; password: string; userId?: string }>;
+type AuthorizeRequest = Request<{}, {}, { login: string; password: string; userId?: string }, { id?: string }>;
 
 export const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = req.query;
     const { login, password, userId } = req.body;
 
     if (userId !== undefined) {

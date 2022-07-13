@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { RequestWithUser } from "./auth";
-// import { User } from "../helper/createDatabaseConnection";
 
 export const checkRole = (minimumLevel: number) => {
   return async (req: RequestWithUser, res: Response, next: NextFunction) => {

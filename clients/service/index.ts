@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import cookies from "cookie-parser";
@@ -18,6 +18,16 @@ sequelize
 
 const app = express();
 
+// app.use(function (req: Request, res: Response, next: NextFunction) {
+//   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, HEAD, DELETE, OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
+//   if (req.method === "OPTIONS") {
+//     return res.end();
+//   }
+//   next();
+// });
+
 app.use(helmet());
 app.use(cookies());
 app.use(express.json());
@@ -26,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth", AuthorizationRouter);
 app.use("/user", ManipulationRouter);
 
-const port = process.env.PORT ? process.env.PORT : 8080;
+const port = process.env.PORT ? process.env.PORT : 8081;
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
