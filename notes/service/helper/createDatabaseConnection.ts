@@ -7,8 +7,9 @@ export const sequelize = new Sequelize(
   process.env.SQL_USER!.toString(),
   process.env.SQL_PASSWORD!.toString(),
   {
-    host: process.env.SQL_HOST!.toString(),
-    port: Number(process.env.MYSQL_PORT_LOCAL),
+    host: process.env.NODE_ENV === "dev" ? "localhost" : process.env.SQL_HOST!.toString(),
+    port:
+      process.env.NODE_ENV === "dev" ? Number(process.env.MYSQL_PORT_OUTSIDE) : Number(process.env.MYSQL_PORT_LOCAL),
     dialect: "mysql",
   }
 );

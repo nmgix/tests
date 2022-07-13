@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_PATH=./build node build/index.js",
     "build": "tsc -p .",
-    "dev": "nodemon index.ts"
+    "dev": "cross-env NODE_ENV=dev nodemon index.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "axios": "^0.27.2",
     "cookie-parser": "^1.4.6",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "helmet": "^5.1.0",

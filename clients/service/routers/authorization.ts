@@ -37,9 +37,14 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
                 console.log(err);
                 return res.status(400).json("User auth error");
               } else {
-                await axios.post(`http://${process.env.MAIL_URL}/congrats`, {
-                  to: user.email,
-                });
+                await axios.post(
+                  `http://${process.env.NODE_ENV === "dev" ? "localhost" : process.env.MAIL_URL}:${
+                    process.env.MAIL_PORT
+                  }/congrats`,
+                  {
+                    to: user.email,
+                  }
+                );
                 res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
                 return res.status(200).json(user);
               }

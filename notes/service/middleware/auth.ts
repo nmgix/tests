@@ -21,7 +21,9 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
-      const authServiceResponse = await axios.get<UserAttributes>(`http://${process.env.CLIENT_URL}/`);
+      const authServiceResponse = await axios.get<UserAttributes>(
+        `http://${process.env.NODE_ENV === "dev" ? "localhost" : process.env.CLIENT_URL}:${process.env.CLIENT_PORT}/`
+      );
       if (authServiceResponse.status === 200) {
         req.body.user = authServiceResponse.data;
       } else {

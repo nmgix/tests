@@ -17,7 +17,8 @@
    JWT_SECRET=secret_word
    JWT_EXPIRES_IN=1800000
 
-   MAIL_URL=mail-reverse-proxy-1:8083
+   MAIL_URL=mail-reverse-proxy-1
+   MAIL_PORT=8083
 ```
 
 **Указать кол-во процессов в `./nginx.conf` и в `docker-compose.yml`**

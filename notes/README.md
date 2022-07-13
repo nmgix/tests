@@ -17,7 +17,8 @@
    SQL_USER=root
    SQL_PASSWORD=pass
 
-   CLIENT_URL=clients-reverse-proxy-1:8081
+   CLIENT_URL=clients-reverse-proxy-1
+   CLIENT_PORT=8081
 ```
 
 **Указать кол-во процессов в `./nginx.conf` и в `docker-compose.yml`**
