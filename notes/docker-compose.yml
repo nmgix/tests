@@ -1,16 +1,39 @@
+# version: "3"
+
+# services:
+#   notes:
+#     container_name: notesapp
+#     env_file: ./.env
+#     build:
+#       context: ./service/
+#     restart: on-failure
+#     ports:
+#       - "${APP_OUTSIDE}:${APP_LOCAL}"
+#   database:
+#     container_name: database
+#     env_file: ./.env
+#     build:
+#       context: ./database/
+#       args:
+#         - MYSQL_DATABASE=${MYSQL_DATABASE}
+#         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+#         - MYSQL_PORT=${MYSQL_PORT_LOCAL}
+#     ports:
+#       - "${MYSQL_PORT_OUTSIDE}:${MYSQL_PORT_LOCAL}"
+
 version: "3"
 
 services:
-  notes:
-    container_name: notesapp
+  app:
     env_file: ./.env
-    build:
-      context: ./service/
+    image: notes
     restart: on-failure
-    ports:
-      - "${APP_OUTSIDE}:${APP_LOCAL}"
+    environment:
+      - PORT=3000
+    deploy:
+      replicas: 4
   database:
-    container_name: database
+    container_name: notes-database
     env_file: ./.env
     build:
       context: ./database/
@@ -20,3 +43,14 @@ services:
         - MYSQL_PORT=${MYSQL_PORT_LOCAL}
     ports:
       - "${MYSQL_PORT_OUTSIDE}:${MYSQL_PORT_LOCAL}"
+  reverse-proxy:
+    image: nginx:1.17.9
+    restart: on-failure
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8082:8082
+networks:
+  default:
+    name: service
+    external: true

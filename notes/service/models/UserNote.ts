@@ -1,4 +1,4 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize/types";
+import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 export interface UserNoteAttributes {
   id: string;

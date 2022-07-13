@@ -2,11 +2,27 @@
 
 Отвечает за отправку сообщений пользователям.
 
+В локальном билде использовался SMTP сервер от компании Sendinblue.
+
 ## Как стартовать
 
-Для начала необходимо указать кол-во процессов в `./nginx.conf` и в `docker-compose.yml`
+**Создать `env` как в примере ниже в текущей директории:**
 
-Находясь в директории прописать
+```json
+   SMTP_LOGIN=<почта>
+   SMTP_PASSWORD=<пароль>
+   SMTP_SERVER=<smtp.domain.com>
+   SMTP_PORT=587
+   SENDER_EMAIL=<почта>
+
+   CLIENT_URL=clients-reverse-proxy-1:8081
+```
+
+> Если используется SMTP от Sendinblue, то в `SENDER_EMAIL` можно поставить значение `SMTP_LOGIN`.
+
+**Указать кол-во процессов в `./nginx.conf` и в `docker-compose.yml`**
+
+**Находясь в директории прописать**
 
 1. `docker build -t mailingapp ./service/`
 2. `docker-compose build && docker-compose up -d`

@@ -37,10 +37,9 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
                 console.log(err);
                 return res.status(400).json("User auth error");
               } else {
-                // const response = await axios.post(`http://${process.env.MAIL_URL}/congrats`, {
-                //   to: user.email,
-                // });
-                // console.log(response.data);
+                await axios.post(`http://${process.env.MAIL_URL}/congrats`, {
+                  to: user.email,
+                });
                 res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
                 return res.status(200).json(user);
               }
@@ -55,51 +54,56 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
   }
 };
 
-type AuthorizeRequest = Request<{}, {}, { login: string; password: string }>;
+type AuthorizeRequest = Request<{ id?: string }, {}, { login: string; password: string; userId?: string }>;
 
-const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: Response) => {
+export const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: Response) => {
   try {
-    const { login, password } = req.body;
+    const { id } = req.params;
+    const { login, password, userId } = req.body;
+
+    if (userId !== undefined) {
+      const currentUser = await User.findOne({ where: { id: userId } });
+      if (currentUser && currentUser.level! < 1) {
+        return res.status(400).send("Access denied");
+      }
+    }
 
     await User.findOne({
       where: {
         [Op.or]: [
           {
-            name: login,
+            name: userId !== undefined ? id : login,
           },
           {
-            email: login,
+            email: userId !== undefined ? id : login,
           },
         ],
       },
     }).then(async (user) => {
       if (!user) {
-        res.clearCookie("token");
         return res.status(400).send("Wrong credentials");
-      } else if (!(await user.validPassword(password))) {
-        res.clearCookie("token");
-        return res.status(400).send("Wrong credentials");
-      } else {
-        const payload: JWTPayload = {
-          id: user.id!,
-        };
-
-        jwt.sign(
-          payload,
-          process.env.JWT_SECRET!.toString(),
-          { expiresIn: process.env.JWT_EXPIRES_IN },
-          (err, token) => {
-            if (err) {
-              console.log(err);
-              res.clearCookie("token");
-              return res.status(400).json("User auth error");
-            } else {
-              res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
-              return res.status(200).json("Authed");
-            }
-          }
-        );
       }
+      if (userId === undefined) {
+        if (!(await user.validPassword(password))) {
+          res.clearCookie("token");
+          return res.status(400).send("Wrong credentials");
+        }
+      }
+
+      const payload: JWTPayload = {
+        id: user.id!,
+      };
+
+      jwt.sign(payload, process.env.JWT_SECRET!.toString(), { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
+        if (err) {
+          console.log(err);
+          res.clearCookie("token");
+          return res.status(400).json("User auth error");
+        } else {
+          res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
+          return res.status(200).json("Authed");
+        }
+      });
     });
   } catch (error) {
     console.log(error);

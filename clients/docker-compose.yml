@@ -10,7 +10,7 @@ services:
     deploy:
       replicas: 4
   database:
-    container_name: database
+    container_name: clients-database
     env_file: ./.env
     build:
       context: ./database/

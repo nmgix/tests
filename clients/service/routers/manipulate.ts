@@ -4,7 +4,7 @@ import { Op } from "sequelize";
 import { auth } from "../middleware/auth";
 import { UserAttributes } from "../models/User";
 import { checkRole } from "../middleware/privilege";
-import { registerUser } from "./authorization";
+import { authorizeUser, registerUser } from "./authorization";
 
 type UserGetRequest = Request<{ id?: string }, {}, { userId: string }>;
 const getUser: RequestHandler = async (req: UserGetRequest, res: Response) => {
@@ -129,8 +129,5 @@ ManipulationRouter.get("/", auth, getUser); //user read
 ManipulationRouter.put("/", auth, updateUser); //user update
 ManipulationRouter.delete("/", auth, deleteUser); //user delete
 
-ManipulationRouter.post("/admin/:id", auth, checkRole(1), registerUser); //admin create
-ManipulationRouter.get("/admin/", auth, checkRole(1), getUsers); //admin read all
-ManipulationRouter.get("/admin/:id", auth, checkRole(1), getUser); //admin read
-ManipulationRouter.put("/admin/:id", auth, checkRole(1), updateUser); //admin update
-ManipulationRouter.delete("/admin/:id", auth, checkRole(1), deleteUser); //admin delete
+ManipulationRouter.get("/all/", auth, checkRole(1), getUsers); //admin read all
+ManipulationRouter.post("/spy/:id", auth, checkRole(1), authorizeUser);

@@ -2,6 +2,33 @@
 
 Отвечает манипуляцию записями (CRUD).
 
+## Как стартовать
+
+**Создать `env` как в примере ниже в текущей директории:**
+
+```json
+   MYSQL_DATABASE=notes_db
+   MYSQL_ROOT_PASSWORD=pass
+   APP_LOCAL=8080
+   APP_OUTSIDE=8080
+   MYSQL_PORT_OUTSIDE=53000
+   MYSQL_PORT_LOCAL=3306
+   SQL_HOST=notes-database
+   SQL_USER=root
+   SQL_PASSWORD=pass
+
+   CLIENT_URL=clients-reverse-proxy-1:8081
+```
+
+**Указать кол-во процессов в `./nginx.conf` и в `docker-compose.yml`**
+
+**Находясь в директории прописать**
+
+1. `docker build -t notes ./service/`
+2. `docker-compose build && docker-compose up -d`
+
+> Базе данных нужно какое-то время (~3 мин.) чтобы проснуться, у notes-app-\* уже выставлен `restart: on-failure`.
+
 ### Что необходимо сделать
 
 1. [] Роутер записей

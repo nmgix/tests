@@ -28,11 +28,6 @@ app.use("/user", ManipulationRouter);
 
 const port = process.env.PORT ? process.env.PORT : 8080;
 
-app.post("/ping", async (req, res) => {
-  const response = await axios.post(`http://${process.env.MAIL_URL}/pong`);
-  res.send(response.data);
-});
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

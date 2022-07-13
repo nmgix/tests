@@ -25,10 +25,6 @@ export var transporter = nodemailer.createTransport(nodemailerOptions);
 
 app.use(MailingRouter);
 
-app.post("/pong", (req, res) => {
-  res.send("ponged");
-});
-
 const port = process.env.PORT;
 
 app.listen(port, () => {
