@@ -4,6 +4,7 @@ import { Op } from "sequelize";
 import jwt from "jsonwebtoken";
 import { JWTPayload } from "../middleware/auth";
 import { UserAttributes } from "../models/User";
+import axios from "axios";
 
 type RegisterRequest = Request<{}, {}, UserAttributes>;
 
@@ -31,11 +32,15 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
             payload,
             process.env.JWT_SECRET!.toString(),
             { expiresIn: process.env.JWT_EXPIRES_IN },
-            (err, token) => {
+            async (err, token) => {
               if (err) {
                 console.log(err);
                 return res.status(400).json("User auth error");
               } else {
+                // const response = await axios.post(`http://${process.env.MAIL_URL}/congrats`, {
+                //   to: user.email,
+                // });
+                // console.log(response.data);
                 res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
                 return res.status(200).json(user);
               }

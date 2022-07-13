@@ -21,14 +21,15 @@ const nodemailerOptions: SMTPTransport.Options = {
     pass: process.env.SMTP_PASSWORD!.toString(),
   },
 };
-
 export var transporter = nodemailer.createTransport(nodemailerOptions);
-
-console.log("Transport set");
 
 app.use(MailingRouter);
 
-const port = process.env.APP_LOCAL ? process.env.APP_LOCAL : 8080;
+app.post("/pong", (req, res) => {
+  res.send("ponged");
+});
+
+const port = process.env.PORT;
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

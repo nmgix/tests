@@ -11,6 +11,7 @@ type MailerCongratsData = Request<{}, {}, { to: string }>;
 const MailCongrats: RequestHandler = async (req: MailerCongratsData, res: Response) => {
   const { to } = req.body;
   try {
+    console.log("sending email to " + to);
     await transporter.sendMail({
       from: `"Dan 😀" <${process.env.SENDER_EMAIL}>`,
       to: to,

@@ -1,11 +1,21 @@
-version: "3"
+version: "3.7"
 
 services:
-  mailing:
-    container_name: mailapp
-    env_file: ./.env
-    build:
-      context: ./service/
-    restart: on-failure
+  reverse-proxy:
+    image: nginx:1.17.9
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "${APP_OUTSIDE}:${APP_LOCAL}"
+      - 8083:8083
+  app:
+    env_file: ./.env
+    image: mailingapp
+    restart: on-failure
+    environment:
+      - PORT=3000
+    deploy:
+      replicas: 4
+networks:
+  default:
+    name: service
+    external: true
