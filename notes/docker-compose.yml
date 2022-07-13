@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  clients:
-    container_name: clientapp
+  notes:
+    container_name: notesapp
     env_file: ./.env
     build:
       context: ./service/

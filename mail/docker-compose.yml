@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  mailing:
+    container_name: mailapp
+    env_file: ./.env
+    build:
+      context: ./service/
+    restart: on-failure
+    ports:
+      - "${APP_OUTSIDE}:${APP_LOCAL}"
