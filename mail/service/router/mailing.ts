@@ -31,7 +31,7 @@ type MailerInformData = Request<{}, {}, { to: string[]; subject: string; text: s
  * @param {string} subject - Заголовок, темпа письма.
  * @param {string} text - Текст сообщения, дублируется в html.
  */
-const MailInformCongrats: RequestHandler = async (req: MailerInformData, res: Response) => {
+const MailInform: RequestHandler = async (req: MailerInformData, res: Response) => {
   const { to, subject, text } = req.body;
   try {
     await transporter.sendMail({
@@ -50,4 +50,4 @@ const MailInformCongrats: RequestHandler = async (req: MailerInformData, res: Re
 export const MailingRouter = express.Router();
 
 MailingRouter.post("/congrats", MailCongrats);
-MailingRouter.post("/inform", MailInformCongrats);
+MailingRouter.post("/inform", MailInform);
