@@ -34,3 +34,23 @@
 3. [x] Настроить Nginx для масштабирования
 4. [x] Настроить контейнер для приложения
 5. [x] Настроить docker-compose.yml
+
+## Примеры запросов
+
+### `POST` http://localhost:8083/congrats
+
+```json
+{
+  "to": "email.example@gmail.com"
+}
+```
+
+### `POST` http://localhost:8083/inform
+
+```json
+{
+  "to": ["email.example@gmail.com"],
+  "subject": "Test info",
+  "text": "Some example text"
+}
+```

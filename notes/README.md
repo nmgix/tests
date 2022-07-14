@@ -41,3 +41,33 @@
 3. [x] Настроить контейнер для приложения
 4. [x] Настроить контейнер для базы данных
 5. [x] Настроить docker-compose.yml
+
+## Примеры запросов
+
+### `POST` http://localhost:8082/user/ или http://localhost:8082/user/UUID-NUMBER-USER
+
+### `DELETE` http://localhost:8082/user/UUID-NUMBER-USER
+
+### `POST` http://localhost:8082/note/
+
+```json
+{
+  "payload": {
+    "title": "New note!",
+    "text": "This new note is very interesting"
+  }
+}
+```
+
+### `PUT` http://localhost:8082/note/UUID-NUMBER-NOTE
+
+```json
+{
+  "payload": {
+    "title": "Third Note!",
+    "text": "This is really third note"
+  }
+}
+```
+
+### `GET` http://localhost:8082/note/all

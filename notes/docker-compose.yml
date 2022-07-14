@@ -1,26 +1,3 @@
-# version: "3"
-
-# services:
-#   notes:
-#     container_name: notesapp
-#     env_file: ./.env
-#     build:
-#       context: ./service/
-#     restart: on-failure
-#     ports:
-#       - "${APP_OUTSIDE}:${APP_LOCAL}"
-#   database:
-#     container_name: database
-#     env_file: ./.env
-#     build:
-#       context: ./database/
-#       args:
-#         - MYSQL_DATABASE=${MYSQL_DATABASE}
-#         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-#         - MYSQL_PORT=${MYSQL_PORT_LOCAL}
-#     ports:
-#       - "${MYSQL_PORT_OUTSIDE}:${MYSQL_PORT_LOCAL}"
-
 version: "3"
 
 services:

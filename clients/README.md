@@ -46,3 +46,32 @@
 4. [x] Настроить контейнер для приложения
 5. [x] Настроить контейнер для базы данных
 6. [x] Настроить docker-compose.yml
+
+## Примеры запросов
+
+### `POST` http://localhost:8081/auth/register
+
+```json
+{
+  "name": "danya",
+  "email": "danyatchistoff@yandex.ru",
+  "password": "123"
+}
+```
+
+### `POST` http://localhost:8081/auth/authorize
+
+```json
+{
+  "login": "danya",
+  "password": "123"
+}
+```
+
+### `GET` http://localhost:8081/user/all/
+
+### `POST` http://localhost:8081/user/spy/?id=new_user
+
+### `DELETE` http://localhost:8081/user/ или http://localhost:8081/user/?id=danya
+
+### `PUT` http://localhost:8081/user/
