@@ -10,7 +10,6 @@ type MailerCongratsData = Request<{}, {}, { to: string }>;
 const MailCongrats: RequestHandler = async (req: MailerCongratsData, res: Response) => {
   const { to } = req.body;
   try {
-    console.log("sending email to " + to);
     await transporter.sendMail({
       from: `"Dan 😀" <${process.env.SENDER_EMAIL}>`,
       to: to,
@@ -20,7 +19,6 @@ const MailCongrats: RequestHandler = async (req: MailerCongratsData, res: Respon
     });
     res.status(200).send(`Message is sent to ${to} successfully!`);
   } catch (error) {
-    console.log(error);
     return res.status(500).send("Service Error");
   }
 };
@@ -45,7 +43,6 @@ const MailInformCongrats: RequestHandler = async (req: MailerInformData, res: Re
     });
     res.status(200).send(`Message is sent to ${to.join(", ")} successfully!`);
   } catch (error) {
-    console.log(error);
     return res.status(500).send("Service Error");
   }
 };

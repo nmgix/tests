@@ -6,7 +6,7 @@ export type NoteAttributes = {
   title: string;
   text: string;
 };
-interface NoteModel extends Model<NoteModel>, NoteAttributes {
+export interface NoteModel extends Model<Partial<NoteModel>>, NoteAttributes {
   // validPassword(password: string): boolean;
 }
 type NoteStatic = typeof Model & {
@@ -25,7 +25,11 @@ export function noteFactory(sequelize: Sequelize): NoteStatic {
         unique: true,
       },
       userId: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
+        references: {
+          model: "user_notes",
+          key: "id",
+        },
       },
       title: {
         allowNull: false,

@@ -3,7 +3,7 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 export interface UserNoteAttributes {
   id: string;
 }
-interface UserNoteModel extends Model<UserNoteModel>, UserNoteAttributes {
+interface UserNoteModel extends Model<Partial<UserNoteModel>>, UserNoteAttributes {
   // validPassword(password: string): boolean;
 }
 type UserNoteStatic = typeof Model & {
@@ -19,7 +19,6 @@ export function userNoteFactory(sequelize: Sequelize): UserNoteStatic {
         autoIncrement: false,
         primaryKey: true,
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
         unique: true,
       },
     },

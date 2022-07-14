@@ -12,7 +12,6 @@ sequelize
   .authenticate()
   .then(() => console.log("Sequelize connection generated successfully"))
   .catch((e) => {
-    console.log(e);
     throw new Error("Sequelize error occured");
   });
 
@@ -23,7 +22,7 @@ app.use(cookies());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/notes", NotesRouter);
+app.use("/note", NotesRouter);
 app.use("/user", UsersRouter);
 
 const port = process.env.PORT ? process.env.PORT : 8082;

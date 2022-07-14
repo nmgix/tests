@@ -11,13 +11,11 @@ export const checkRole = (minimumLevel: number) => {
         if (user.level! >= minimumLevel) {
           return next();
         } else {
-          return res.status(400).send("Access denied");
+          res.status(400).send("Access denied");
         }
       }
     } catch (e) {
-      console.log(e);
-
-      return res.status(500).send("Service Error");
+      res.status(500).send("Service Error");
     }
   };
 };

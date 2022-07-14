@@ -11,6 +11,9 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     var token = req.cookies.token;
     if (!token) {
+      if (!req.headers.authorization) {
+        return res.status(401).json("User not authed");
+      }
       token = req.headers.authorization!.replace("Bearer ", "");
     }
 
@@ -20,7 +23,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET!.toString()) as JWTPayload;
-      console.log(decoded);
       const existingUser = await User.findOne({ where: { id: decoded.id } });
       if (existingUser) {
         req.body.userId = existingUser.id!;
@@ -32,7 +34,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       res.status(400).send("User not authed");
     }
   } catch (e) {
-    console.log(e);
     res.status(500).send("Service Error");
   }
 };

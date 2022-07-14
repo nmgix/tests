@@ -38,17 +38,26 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
             { expiresIn: process.env.JWT_EXPIRES_IN },
             async (err, token) => {
               if (err) {
-                console.log(err);
                 return res.status(400).json("User auth error");
               } else {
-                await axios.post(
-                  `http://${process.env.NODE_ENV === "dev" ? "localhost" : process.env.MAIL_URL}:${
-                    process.env.MAIL_PORT
-                  }/congrats`,
-                  {
-                    to: user.email,
-                  }
-                );
+                try {
+                  await axios.post(
+                    `http://${process.env.NODE_ENV === "dev" ? "localhost" : process.env.MAIL_URL}:${
+                      process.env.MAIL_PORT
+                    }/congrats`,
+                    {
+                      to: user.email,
+                    }
+                  );
+                } catch (error) {}
+                try {
+                  await axios.post(
+                    `http://${process.env.NODE_ENV === "dev" ? "localhost" : process.env.NOTES_URL}:${
+                      process.env.NOTES_PORT
+                    }/${user.id}`
+                  );
+                } catch (error) {}
+
                 res.cookie("token", token!, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRES_IN) });
                 return res.status(200).json(user);
               }
@@ -58,7 +67,6 @@ export const registerUser: RequestHandler = async (req: RegisterRequest, res: Re
       }
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send("Service Error");
   }
 };
@@ -92,10 +100,10 @@ export const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: 
       where: {
         [Op.or]: [
           {
-            name: admin ? id : login,
+            name: admin && id ? id : login,
           },
           {
-            email: admin ? id : login,
+            email: admin && id ? id : login,
           },
         ],
       },
@@ -116,7 +124,6 @@ export const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: 
 
       jwt.sign(payload, process.env.JWT_SECRET!.toString(), { expiresIn: process.env.JWT_EXPIRES_IN }, (err, token) => {
         if (err) {
-          console.log(err);
           res.clearCookie("token");
           return res.status(400).json("User auth error");
         } else {
@@ -126,7 +133,6 @@ export const authorizeUser: RequestHandler = async (req: AuthorizeRequest, res: 
       });
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send("Service Error");
   }
 };

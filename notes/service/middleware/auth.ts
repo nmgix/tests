@@ -17,7 +17,10 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     var token = req.cookies.token;
 
     if (!token) {
-      return res.status(401).json("User not authed");
+      if (!req.headers.authorization) {
+        return res.status(401).json("User not authed");
+      }
+      token = req.headers.authorization!.replace("Bearer ", "");
     } else {
       axios.defaults.headers.common["Authorization"] = token;
     }
