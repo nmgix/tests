@@ -1,5 +1,12 @@
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import Player from "./components/Player";
+import SongPlaylist from "./components/SongsPlaylist";
+import "./index.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
-root.render(<div></div>);
+root.render(
+  <>
+    <Player />
+    <SongPlaylist />
+  </>
+);
