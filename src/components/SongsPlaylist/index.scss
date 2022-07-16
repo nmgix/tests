@@ -19,10 +19,13 @@
     @media screen and (max-width: index.$width-laptop) {
       position: relative;
       width: 35%;
-      border-radius: 20px;
+      border-radius: 0px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      margin-bottom: 20px;
 
       transform: none;
-      top: 33%;
+      top: 35%;
     }
 
     @media screen and (max-width: index.$width-laptop-s) {

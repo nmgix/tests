@@ -14,7 +14,7 @@ const mockSongs: Song[] = [
   },
   {
     id: 1,
-    cover: "more-plastic-old-streets.jpg",
+    cover: "more-plastic-old-school.jpg",
     duration: "2.56",
     info: {
       author: "Simbai & Fizzy The Streets",

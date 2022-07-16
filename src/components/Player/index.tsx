@@ -11,7 +11,7 @@ export type PlayingState = {
 };
 
 const Player: React.FC<Song> = (song) => {
-  const [playingState, setPlayingState] = useState<PlayingState>({
+  const [playingState /*, setPlayingState*/] = useState<PlayingState>({
     currentTime: 97,
     volume: 50,
     playing: true,
