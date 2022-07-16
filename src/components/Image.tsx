@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Icon } from "./Icon";
 
-const Image: React.FC<{ imgSrc: string; fallBackSrc: string; className: string }> = ({
-  imgSrc,
-  fallBackSrc,
-  className,
-}) => {
+const Image: React.FC<{ imgSrc: string; className: string }> = ({ imgSrc, className }) => {
   const [image, setImage] = useState<boolean>(true);
 
   const onError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {

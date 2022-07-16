@@ -1,0 +1,37 @@
+.player-content {
+  &-controller {
+    width: 80%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: white;
+
+    &-header {
+      margin: 0 !important;
+      text-align: center;
+    }
+
+    &-timeline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      margin: 20px 0;
+
+      &-waveform {
+      }
+
+      &-time {
+        font-weight: 700;
+      }
+    }
+
+    &-controls {
+      width: 80%;
+      height: 10%;
+      margin-bottom: 10px !important;
+    }
+  }
+}

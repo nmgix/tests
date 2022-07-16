@@ -1,3 +1,53 @@
+@use "../../index.scss";
+
 .player {
-  height: 80%;
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 30px;
+    width: calc(30% - 60px);
+    // aspect-ratio: 1/1;
+    height: 50%;
+
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.5);
+
+    &-cover {
+      height: 60%;
+      width: 60%;
+      border-radius: 15px;
+
+      margin-bottom: 7px;
+    }
+
+    @media screen and (max-width: index.$width-laptop) {
+      transform: translate(-50%, -30%);
+      width: 40%;
+    }
+
+    @media screen and (max-width: index.$width-laptop-s) {
+      width: 50%;
+    }
+
+    @media screen and (max-width: index.$width-tablet) {
+      width: 70%;
+    }
+
+    @media screen and (max-width: index.$width-smartphone) {
+      width: 80%;
+    }
+  }
 }

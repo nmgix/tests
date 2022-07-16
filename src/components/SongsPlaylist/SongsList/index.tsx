@@ -37,11 +37,7 @@ const SongListTrack: React.FC<{ song: Song; active: boolean; changeOptions: { li
             )}
           </button>
           <div className='song-list-track-content-info'>
-            <Image
-              imgSrc={`resources/covers/${song.cover}`}
-              fallBackSrc='resources/utils/fallback-cover.svg'
-              className='song-list-track-content-cover'
-            />
+            <Image imgSrc={`resources/covers/${song.cover}`} className='song-list-track-content-cover' />
             <div className='song-list-track-content-info-description'>
               <h4 className='song-list-track-content-info-description-name'>{trunicateWord(song.info.name, 10)}</h4>
               <h5 className='song-list-track-content-info-description-author'>{trunicateWord(song.info.author, 10)}</h5>
