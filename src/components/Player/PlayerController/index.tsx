@@ -104,7 +104,7 @@ const PlayerController: React.FC<Song> = ({ duration, id, info }) => {
         <button>
           <Icon color='white' icon='skip-backward' size={{ width: "50px", height: "30px" }} />
         </button>
-        <button onClick={() => dispatch(changePlaying())}>
+        <button onClick={() => dispatch(changePlaying({}))}>
           <Icon color='white' icon={playing ? "pause" : "play"} size={{ width: "30px", height: "30px" }} />
         </button>
         <button>

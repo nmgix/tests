@@ -15,5 +15,5 @@ export type SongState = {
   songs: Song[];
 };
 
-export type ChangeCurrentSongAction = PayloadAction<{ songId: number }>;
+export type ChangeCurrentSongAction = PayloadAction<{ songId?: number }>;
 export type ChangeSongPositionAction = PayloadAction<{ songId: number; exchangeWithAbove: boolean }>;

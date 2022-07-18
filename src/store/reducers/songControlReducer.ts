@@ -39,7 +39,12 @@ const songControlSlice = createSlice({
   initialState,
   reducers: {
     changeCurrentSong(state, action: ChangeCurrentSongAction) {
-      return { ...state, currentSongId: action.payload.songId };
+      console.log(action.payload);
+      if (action.payload.songId !== undefined) {
+        return { ...state, currentSongId: action.payload.songId };
+      } else {
+        return state;
+      }
     },
     shuffleSongs(state) {
       function shuffle<T>(array: T[]) {

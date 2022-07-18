@@ -6,5 +6,6 @@ export type PlayerControlsState = {
   playing: boolean;
 };
 
+export type PlayAction = PayloadAction<{ play?: boolean }>;
 export type VolumeAction = PayloadAction<{ volume: number }>;
 export type CurrentTimeAction = PayloadAction<{ currentTime: number }>;

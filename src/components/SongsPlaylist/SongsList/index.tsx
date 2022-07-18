@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../store/helpers";
 import { changePlaying } from "../../../store/reducers/playerControlReducer";
+import { changeCurrentSong } from "../../../store/reducers/songControlReducer";
 import { Song } from "../../../store/types/SongControlTypes";
 import { Icon } from "../../Icon";
 import Image from "../../Image";
@@ -16,45 +17,47 @@ const trunicateWord = (word: string, length: number) => {
   }
 };
 
-const SongListTrack: React.FC<{ song: Song; active: boolean; changeOptions: { liftUp: boolean; liftDown: boolean } }> =
-  ({ song, active, changeOptions }) => {
-    const dispatch = useDispatch();
+const SongListTrack: React.FC<{
+  song: Song;
+  active: boolean;
+  changeOptions: { liftUp: boolean; liftDown: boolean };
+  current: boolean;
+}> = ({ song, active, changeOptions, current }) => {
+  const dispatch = useDispatch();
 
-    return (
-      <li className='song-list-track'>
-        <div className='song-list-track-order'>
-          {changeOptions.liftUp ? (
-            <Icon icon='arrow-up' color='white' size={{ width: "25px", height: "25px" }} />
+  return (
+    <li className='song-list-track'>
+      <div className='song-list-track-order'>
+        {changeOptions.liftUp ? <Icon icon='arrow-up' color='white' size={{ width: "25px", height: "25px" }} /> : <></>}
+        {changeOptions.liftDown ? (
+          <Icon icon='arrow-down' color='white' size={{ width: "25px", height: "25px" }} />
+        ) : (
+          <></>
+        )}
+      </div>
+      <div className='song-list-track-content'>
+        <button
+          className='song-list-track-content-control'
+          onClick={() => dispatch(changeCurrentSong(current ? {} : { songId: song.id }))}>
+          {current && active ? (
+            <Icon icon='pause' color='black' size={{ width: "20px", height: "20px" }} />
           ) : (
-            <></>
+            <Icon icon='play' color='black' size={{ width: "20px", height: "20px" }} />
           )}
-          {changeOptions.liftDown ? (
-            <Icon icon='arrow-down' color='white' size={{ width: "25px", height: "25px" }} />
-          ) : (
-            <></>
-          )}
-        </div>
-        <div className='song-list-track-content'>
-          <button className='song-list-track-content-control' onClick={() => dispatch(changePlaying())}>
-            {active ? (
-              <Icon icon='pause' color='black' size={{ width: "20px", height: "20px" }} />
-            ) : (
-              <Icon icon='play' color='black' size={{ width: "20px", height: "20px" }} />
-            )}
-          </button>
-          <div className='song-list-track-content-info'>
-            <Image imgSrc={`resources/covers/${song.cover}`} className='song-list-track-content-cover' />
-            <div className='song-list-track-content-info-description'>
-              <h4 className='song-list-track-content-info-description-name'>{trunicateWord(song.info.name, 10)}</h4>
-              <h5 className='song-list-track-content-info-description-author'>{trunicateWord(song.info.author, 10)}</h5>
-            </div>
-            {/* мб duration будет считаться через функцию */}
+        </button>
+        <div className='song-list-track-content-info'>
+          <Image imgSrc={`resources/covers/${song.cover}`} className='song-list-track-content-cover' />
+          <div className='song-list-track-content-info-description'>
+            <h4 className='song-list-track-content-info-description-name'>{trunicateWord(song.info.name, 10)}</h4>
+            <h5 className='song-list-track-content-info-description-author'>{trunicateWord(song.info.author, 10)}</h5>
           </div>
-          <h3 className='song-list-track-content-duration'>{trunicateWord(song.duration.toString(), 7)}</h3>
+          {/* мб duration будет считаться через функцию */}
         </div>
-      </li>
-    );
-  };
+        <h3 className='song-list-track-content-duration'>{trunicateWord(song.duration.toString(), 7)}</h3>
+      </div>
+    </li>
+  );
+};
 
 const SongsList: React.FC<{}> = () => {
   const playerState = useAppSelector((state) => state.playerControls);
@@ -65,7 +68,8 @@ const SongsList: React.FC<{}> = () => {
       {songState.songs.map((song, i) => (
         <SongListTrack
           song={song}
-          active={song.id === songState.currentSongId && playerState.playing}
+          current={song.id === songState.currentSongId}
+          active={playerState.playing}
           key={song.info.name}
           changeOptions={{ liftUp: i !== 0, liftDown: i !== songState.songs.length - 1 }}
         />

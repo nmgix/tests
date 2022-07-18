@@ -17,7 +17,7 @@ const SongsController = () => {
       <button onClick={() => dispatch(shuffleSongs())}>
         <Icon icon='shuffle' size={{ width: "35px", height: "35px" }} classnames={["shuffle-icon"]} />
       </button>
-      <button onClick={() => dispatch(changePlaying())}>
+      <button onClick={() => dispatch(changePlaying({}))}>
         <Icon icon={playerState.playing ? "pause" : "play"} color='white' size={{ width: "35px", height: "35px" }} />
       </button>
       <button onClick={() => dispatch(changeSortAsc())}>

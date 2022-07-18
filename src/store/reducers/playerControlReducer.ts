@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CurrentTimeAction, VolumeAction } from "../types/PlayerControlTypes";
+import { CurrentTimeAction, PlayAction, VolumeAction } from "../types/PlayerControlTypes";
 import { PlayerControlsState } from "../types/PlayerControlTypes";
 
 const initialState: PlayerControlsState = {
@@ -12,11 +12,15 @@ const playerControlSlice = createSlice({
   name: "playerControls",
   initialState,
   reducers: {
-    changePlaying(state) {
-      if (state.playing) {
-        return { ...state, playing: false };
+    changePlaying(state, action: PlayAction) {
+      if (action.payload.play) {
+        return { ...state, playing: action.payload.play };
       } else {
-        return { ...state, playing: true };
+        if (state.playing) {
+          return { ...state, playing: false };
+        } else {
+          return { ...state, playing: true };
+        }
       }
     },
     changeVolume(state, action: VolumeAction) {
