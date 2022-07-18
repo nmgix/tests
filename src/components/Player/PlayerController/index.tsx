@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { PlayingState } from "..";
 import { Icon } from "../../Icon";
-import { Song } from "../../SongsPlaylist/SongsList";
 import Waveform from "waveform-react";
 import "./index.scss";
+import { /*useAppDispatch,*/ useAppSelector } from "../../../store/helpers";
+import { useDispatch } from "react-redux";
+import { changePlaying } from "../../../store/reducers/playerControlReducer";
+import { Song } from "../../../store/types/SongControlTypes";
 
 type AudioType = {
   context: AudioContext | null;
@@ -25,26 +27,29 @@ type AudioType = {
   width: number; //900
 };
 
-const PlayerController: React.FC<Song & PlayingState> = ({ duration, id, info, currentTime, volume, playing }) => {
-  const toNormalCurrentTime = (currentTime: number) => {
-    let minutes = Math.floor(currentTime / 60);
-    let seconds = currentTime - minutes * 60;
-    return `${minutes}:${seconds}`;
-  };
-
-  const getAudioBuffer = async (path: string, context: AudioContext): Promise<AudioBuffer> => {
-    const response = await fetch(path);
-    const audioData = await response.arrayBuffer();
-    return new Promise((resolve, reject) => {
-      context.decodeAudioData(audioData, (buffer) => {
-        return resolve(buffer);
-      });
+const toNormalCurrentTime = (currentTime: number) => {
+  let minutes = Math.floor(currentTime / 60);
+  let seconds = currentTime - minutes * 60;
+  return `${minutes}:${seconds}`;
+};
+const getAudioBuffer = async (path: string, context: AudioContext): Promise<AudioBuffer> => {
+  const response = await fetch(path);
+  const audioData = await response.arrayBuffer();
+  return new Promise((resolve, reject) => {
+    context.decodeAudioData(audioData, (buffer) => {
+      return resolve(buffer);
     });
-  };
-  const getContext = () => {
-    const context = new AudioContext();
-    return context;
-  };
+  });
+};
+const getContext = () => {
+  const context = new AudioContext();
+  return context;
+};
+
+const PlayerController: React.FC<Song> = ({ duration, id, info }) => {
+  const dispatch = useDispatch();
+  // const { } = useAppDispatch()
+  const { currentTime, playing, volume } = useAppSelector((store) => store.playerControls);
 
   const [audioState, setAudioState] = useState<AudioType>({
     context: null,
@@ -99,7 +104,7 @@ const PlayerController: React.FC<Song & PlayingState> = ({ duration, id, info, c
         <button>
           <Icon color='white' icon='skip-backward' size={{ width: "50px", height: "30px" }} />
         </button>
-        <button>
+        <button onClick={() => dispatch(changePlaying())}>
           <Icon color='white' icon={playing ? "pause" : "play"} size={{ width: "30px", height: "30px" }} />
         </button>
         <button>

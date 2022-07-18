@@ -1,38 +1,31 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../store/helpers";
+import { changePlaying } from "../../../store/reducers/playerControlReducer";
+import { shuffleSongs } from "../../../store/reducers/songControlReducer";
+import { changeSortAsc } from "../../../store/reducers/sortControlReducer";
 import { Icon } from "../../Icon";
 import "./index.scss";
 
 const SongsController = () => {
-  type Options = {
-    shuffle: boolean;
-    play: boolean; //будет браться из общего скоупа
-    sortAsc: boolean;
-  };
-  const [options /*, setOptions*/] = useState<Options>({
-    play: true,
-    shuffle: false,
-    sortAsc: false,
-  });
+  const dispatch = useDispatch();
+  const playerState = useAppSelector((state) => state.playerControls);
+  const sortState = useAppSelector((state) => state.sortControls);
 
   return (
     <div className='song-controller'>
-      <button>
-        <Icon
-          icon='shuffle'
-          color={options.shuffle ? "white" : "black"}
-          size={{ width: "35px", height: "35px" }}
-          opacity={options.shuffle ? 1 : 0.3}
-        />
+      <button onClick={() => dispatch(shuffleSongs())}>
+        <Icon icon='shuffle' size={{ width: "35px", height: "35px" }} classnames={["shuffle-icon"]} />
       </button>
-      <button>
-        <Icon icon={options.play ? "pause" : "play"} color='white' size={{ width: "35px", height: "35px" }} />
+      <button onClick={() => dispatch(changePlaying())}>
+        <Icon icon={playerState.playing ? "pause" : "play"} color='white' size={{ width: "35px", height: "35px" }} />
       </button>
-      <button>
+      <button onClick={() => dispatch(changeSortAsc())}>
         <Icon
           icon='sort'
-          color={options.shuffle ? "white" : "black"}
+          color={sortState.sortAsc === null ? "black" : sortState.sortAsc === true ? "green" : "red"}
           size={{ width: "35px", height: "35px" }}
-          opacity={options.sortAsc ? 1 : 0.3}
+          opacity={sortState.sortAsc !== null ? 1 : 0.3}
         />
       </button>
     </div>

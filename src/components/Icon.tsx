@@ -15,15 +15,19 @@ enum Icons {
 
 export const Icon: React.FC<{
   icon: keyof typeof Icons;
-  color: string;
   size: { width: string; height: string };
+  color?: string;
   opacity?: number;
-}> = ({ icon, color, size, opacity = 1 }) => {
-  console.log();
-
+  classnames?: string[];
+}> = ({ icon, color, size, opacity = 1, classnames }) => {
   return (
     <>
-      <svg className={`icon icon-${icon}`} fill={color} width={size.width} height={size.height} opacity={opacity}>
+      <svg
+        className={`icon icon-${icon} ${classnames ? classnames.join(" ") : ""}`}
+        fill={color ? color : undefined}
+        width={size.width}
+        height={size.height}
+        opacity={opacity}>
         <use xlinkHref={`${IconsSprite}#icon-${icon}`} />
       </svg>
     </>

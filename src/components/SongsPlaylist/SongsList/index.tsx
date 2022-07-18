@@ -1,18 +1,24 @@
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../store/helpers";
+import { changePlaying } from "../../../store/reducers/playerControlReducer";
+import { Song } from "../../../store/types/SongControlTypes";
 import { Icon } from "../../Icon";
 import Image from "../../Image";
 import "./index.scss";
 
+const trunicateWord = (word: string, length: number) => {
+  let targetWord = word.split("");
+
+  if (targetWord.length > length) {
+    return targetWord.slice(0, length).join("") + "...";
+  } else {
+    return word;
+  }
+};
+
 const SongListTrack: React.FC<{ song: Song; active: boolean; changeOptions: { liftUp: boolean; liftDown: boolean } }> =
   ({ song, active, changeOptions }) => {
-    const trunicateWord = (word: string, length: number) => {
-      let targetWord = word.split("");
-
-      if (targetWord.length > length) {
-        return targetWord.slice(0, length).join("") + "...";
-      } else {
-        return word;
-      }
-    };
+    const dispatch = useDispatch();
 
     return (
       <li className='song-list-track'>
@@ -29,7 +35,7 @@ const SongListTrack: React.FC<{ song: Song; active: boolean; changeOptions: { li
           )}
         </div>
         <div className='song-list-track-content'>
-          <button className='song-list-track-content-control'>
+          <button className='song-list-track-content-control' onClick={() => dispatch(changePlaying())}>
             {active ? (
               <Icon icon='pause' color='black' size={{ width: "20px", height: "20px" }} />
             ) : (
@@ -50,25 +56,18 @@ const SongListTrack: React.FC<{ song: Song; active: boolean; changeOptions: { li
     );
   };
 
-export type Song = {
-  id: number;
-  info: {
-    name: string;
-    author: string;
-  };
-  duration: number | string;
-  cover: string;
-};
+const SongsList: React.FC<{}> = () => {
+  const playerState = useAppSelector((state) => state.playerControls);
+  const songState = useAppSelector((state) => state.songControls);
 
-const SongsList: React.FC<{ songs: Song[]; activeSong: number }> = ({ songs, activeSong }) => {
   return (
     <ul className='song-list'>
-      {songs.map((song, i) => (
+      {songState.songs.map((song, i) => (
         <SongListTrack
           song={song}
-          active={song.id === activeSong}
+          active={song.id === songState.currentSongId && playerState.playing}
           key={song.info.name}
-          changeOptions={{ liftUp: i !== 0, liftDown: i !== songs.length - 1 }}
+          changeOptions={{ liftUp: i !== 0, liftDown: i !== songState.songs.length - 1 }}
         />
       ))}
     </ul>
