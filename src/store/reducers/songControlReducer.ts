@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ChangeCurrentSongAction, ChangeSongPositionAction, SongState } from "../types/SongControlTypes";
+import { ChangeSortAction } from "../types/SortControlTypes";
 
 const initialState: SongState = {
   currentSongId: 0,
@@ -108,9 +109,43 @@ const songControlSlice = createSlice({
 
       void (state.songs = newArr);
     },
+    sortSongs(state, action: ChangeSortAction) {
+      const { sortAsc } = action.payload;
+
+      var reA = /[^a-zA-Z]/g;
+      var reN = /[^0-9]/g;
+
+      function sortAlphaNum(a: string, b: string, asc: boolean) {
+        var aA = a.replace(reA, "");
+        var bA = b.replace(reA, "");
+        if (aA === bA) {
+          var aN = parseInt(a.replace(reN, ""), 10);
+          var bN = parseInt(b.replace(reN, ""), 10);
+          return aN === bN ? 0 : asc ? (aN > bN ? 1 : -1) : aN < bN ? 1 : -1;
+        } else {
+          return asc ? (aA > bA ? 1 : -1) : aA < bA ? 1 : -1;
+        }
+      }
+      console.log("sorting");
+
+      switch (sortAsc) {
+        case true:
+        case false: {
+          void (state.songs = state.songs.sort((song1, song2) =>
+            sortAlphaNum(song1.info.name, song2.info.name, action.payload.sortAsc!)
+          ));
+          return;
+        }
+
+        default:
+        case null: {
+          return state;
+        }
+      }
+    },
   },
 });
 
-export const { changeCurrentSong, changeSongPosition, shuffleSongs } = songControlSlice.actions;
+export const { changeCurrentSong, changeSongPosition, shuffleSongs, sortSongs } = songControlSlice.actions;
 
 export default songControlSlice.reducer;

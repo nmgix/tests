@@ -6,8 +6,10 @@
 import { all, put, PutEffect, select, SelectEffect, takeLatest } from "redux-saga/effects";
 import { changeCurrentTime, changePlaying } from "../reducers/playerControlReducer";
 import { rootReducer, RootState } from "../reducers/rootReducer";
-import { changeCurrentSong } from "../reducers/songControlReducer";
+import { changeCurrentSong, sortSongs } from "../reducers/songControlReducer";
+import { changeSortAsc } from "../reducers/sortControlReducer";
 import { ChangeCurrentSongAction, SongState } from "../types/SongControlTypes";
+import { ChangeSortAction } from "../types/SortControlTypes";
 // function* controllerPlay(
 //   action: PayloadAction<ControllerPlayAction>
 // ): Generator<PutEffect<PayloadAction<ControllerPlayAction>>, void, ControllerPlayAction> {
@@ -47,8 +49,15 @@ export function* changeTrack(
   }
 }
 
+export function* changeSort(): Generator<PutEffect | SelectEffect, void, ChangeSortAction> {
+  // на момент выполнения саги из-за того что редьюсер синхронный, стейт УЖЕ обновлен
+  const { sortControls } = (yield select((state: RootState) => state)) as unknown as RootState;
+
+  yield put(sortSongs({ sortAsc: sortControls.sortAsc }));
+}
+
 export function* playerControlSaga() {
-  yield all([takeLatest(changeCurrentSong.type, changeTrack)]);
+  yield all([takeLatest(changeCurrentSong.type, changeTrack), takeLatest(changeSortAsc.type, changeSort)]);
 }
 
 export default null;
