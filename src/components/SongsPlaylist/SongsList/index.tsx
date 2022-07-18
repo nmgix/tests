@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../store/helpers";
 import { changePlaying } from "../../../store/reducers/playerControlReducer";
-import { changeCurrentSong } from "../../../store/reducers/songControlReducer";
+import { changeCurrentSong, changeSongPosition } from "../../../store/reducers/songControlReducer";
 import { Song } from "../../../store/types/SongControlTypes";
 import { Icon } from "../../Icon";
 import Image from "../../Image";
@@ -28,9 +28,17 @@ const SongListTrack: React.FC<{
   return (
     <li className='song-list-track'>
       <div className='song-list-track-order'>
-        {changeOptions.liftUp ? <Icon icon='arrow-up' color='white' size={{ width: "25px", height: "25px" }} /> : <></>}
+        {changeOptions.liftUp ? (
+          <button onClick={() => dispatch(changeSongPosition({ songId: song.id, exchangeWithAbove: true }))}>
+            <Icon icon='arrow-up' color='white' size={{ width: "25px", height: "25px" }} />
+          </button>
+        ) : (
+          <></>
+        )}
         {changeOptions.liftDown ? (
-          <Icon icon='arrow-down' color='white' size={{ width: "25px", height: "25px" }} />
+          <button onClick={() => dispatch(changeSongPosition({ songId: song.id, exchangeWithAbove: false }))}>
+            <Icon icon='arrow-down' color='white' size={{ width: "25px", height: "25px" }} />
+          </button>
         ) : (
           <></>
         )}

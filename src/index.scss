@@ -38,6 +38,12 @@ html {
   }
 }
 
+button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
 .icon {
   cursor: pointer;
   &:hover {
