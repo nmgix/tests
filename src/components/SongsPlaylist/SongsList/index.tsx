@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../store/helpers";
-import { changeCurrentSong, changeSongPosition } from "../../../store/reducers/songControlReducer";
+import { setCurrentSong, changeSongPosition } from "../../../store/reducers/songControlReducer";
 import { Song } from "../../../store/types/SongControlTypes";
 import { Icon } from "../../Icon";
 import Image from "../../Image";
@@ -32,20 +32,20 @@ const SongListTrack: React.FC<{
             <Icon icon='arrow-up' color='white' size={{ width: "25px", height: "25px" }} />
           </button>
         ) : (
-          <></>
+          <div></div>
         )}
         {changeOptions.liftDown ? (
           <button onClick={() => dispatch(changeSongPosition({ songId: song.id, exchangeWithAbove: false }))}>
             <Icon icon='arrow-down' color='white' size={{ width: "25px", height: "25px" }} />
           </button>
         ) : (
-          <></>
+          <div></div>
         )}
       </div>
       <div className='song-list-track-content'>
         <button
           className='song-list-track-content-control'
-          onClick={() => dispatch(changeCurrentSong(current ? {} : { songId: song.id }))}>
+          onClick={() => dispatch(setCurrentSong(current ? {} : { songId: song.id }))}>
           {current && active ? (
             <Icon icon='pause' color='black' size={{ width: "20px", height: "20px" }} />
           ) : (

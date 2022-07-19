@@ -102,9 +102,11 @@ const songControlSlice = createSlice({
   name: "songControls",
   initialState,
   reducers: {
+    setCurrentSong(state, action: ChangeCurrentSongAction) {},
     changeCurrentSong(state, action: ChangeCurrentSongAction) {
-      console.log(action.payload);
+      // console.log(state.songs.map((song) => song.id));
       if (action.payload.songId !== undefined) {
+        // console.log(action.payload.songId);
         return { ...state, currentSongId: action.payload.songId };
       } else {
         return state;
@@ -189,15 +191,16 @@ const songControlSlice = createSlice({
           return asc ? (aA > bA ? 1 : -1) : aA < bA ? 1 : -1;
         }
       }
-      console.log("sorting");
 
       switch (sortAsc) {
         case true:
         case false: {
-          void (state.songs = state.songs.sort((song1, song2) =>
+          var resultArray = state.songs.sort((song1, song2) =>
             sortAlphaNum(song1.info.name, song2.info.name, action.payload.sortAsc!)
-          ));
-          return;
+          );
+          state.songs = resultArray;
+          console.log(state.songs.map((cursong) => cursong.id));
+          return state;
         }
 
         default:
@@ -209,6 +212,7 @@ const songControlSlice = createSlice({
   },
 });
 
-export const { changeCurrentSong, changeSongPosition, shuffleSongs, sortSongs } = songControlSlice.actions;
+export const { setCurrentSong, changeCurrentSong, changeSongPosition, shuffleSongs, sortSongs } =
+  songControlSlice.actions;
 
 export default songControlSlice.reducer;
