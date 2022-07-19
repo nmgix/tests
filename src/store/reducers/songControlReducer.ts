@@ -7,30 +7,93 @@ const initialState: SongState = {
   songs: [
     {
       id: 0,
-      cover: "jnatun-dioma.jpg",
+      cover: "dioma.jpg",
       duration: "2.36",
       info: {
         author: "Jnatun",
         name: "Dioma",
       },
+      mp3name: "dioma.mp3",
     },
     {
       id: 1,
-      cover: "simbai-fizzy-the-streets-set-me-free.jpg",
+      cover: "set-me-free.jpg",
       duration: "2.56",
       info: {
         author: "Simbai & Fizzy The Streets",
         name: "Set Me Free",
       },
+      mp3name: "set-me-free.mp3",
     },
     {
       id: 2,
-      cover: "more-plastic-old-school.jpg",
-      duration: "1.50",
+      cover: "royalty.jpg",
+      duration: "3.43",
       info: {
-        author: "More Plastic",
-        name: "Old Streets",
+        author: "Maestro Chives, Egzod, Neoni",
+        name: "Royalty",
       },
+      mp3name: "royalty.mp3",
+    },
+    {
+      id: 3,
+      cover: "nobody.jpg",
+      duration: "3.10",
+      info: {
+        author: "Zack Merci, CRVN",
+        name: "Nobody",
+      },
+      mp3name: "nobody.mp3",
+    },
+    {
+      id: 4,
+      cover: "feel.jpg",
+      duration: "2.36",
+      info: {
+        author: "DigEx, Raptures.",
+        name: "Feel",
+      },
+      mp3name: "feel.mp3",
+    },
+    {
+      id: 5,
+      cover: "alone.jpg",
+      duration: "3.34",
+      info: {
+        author: "Cajama",
+        name: "Alone",
+      },
+      mp3name: "alone.mp3",
+    },
+    {
+      id: 6,
+      cover: "pressure.png",
+      duration: "3.14",
+      info: {
+        author: "Perk Pietrek, Abstrakt",
+        name: "Pressure",
+      },
+      mp3name: "pressure.mp3",
+    },
+    {
+      id: 7,
+      cover: "feelings.jpg",
+      duration: "2.41",
+      info: {
+        author: "Cajama, Tisoki",
+        name: "Feelings",
+      },
+      mp3name: "feelings.mp3",
+    },
+    {
+      id: 8,
+      cover: "house.jpg",
+      duration: "3.52",
+      info: {
+        author: "3rd Prototype, Emdi",
+        name: "House",
+      },
+      mp3name: "house.mp3",
     },
   ],
 };

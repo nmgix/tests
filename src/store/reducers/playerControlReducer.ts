@@ -3,7 +3,7 @@ import { CurrentTimeAction, PlayAction, VolumeAction } from "../types/PlayerCont
 import { PlayerControlsState } from "../types/PlayerControlTypes";
 
 const initialState: PlayerControlsState = {
-  playing: true,
+  playing: false,
   currentTime: 0,
   volume: 0,
 };

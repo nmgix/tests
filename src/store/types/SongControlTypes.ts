@@ -8,6 +8,7 @@ export type Song = {
   };
   duration: number | string;
   cover: string;
+  mp3name: string;
 };
 
 export type SongState = {

@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../store/helpers";
-import { changePlaying } from "../../../store/reducers/playerControlReducer";
 import { changeCurrentSong, changeSongPosition } from "../../../store/reducers/songControlReducer";
 import { Song } from "../../../store/types/SongControlTypes";
 import { Icon } from "../../Icon";

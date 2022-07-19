@@ -46,7 +46,7 @@ const getContext = () => {
   return context;
 };
 
-const PlayerController: React.FC<Song> = ({ duration, id, info }) => {
+const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
   const dispatch = useDispatch();
   // const { } = useAppDispatch()
   const { currentTime, playing, volume } = useAppSelector((store) => store.playerControls);
@@ -73,9 +73,9 @@ const PlayerController: React.FC<Song> = ({ duration, id, info }) => {
 
   useEffect(() => {
     setAudioState({ ...audioState, context: getContext() });
-  }, []);
+  }, [id]);
 
-  const getFile = async (path = "resources/music/dioma.mp3") => {
+  const getFile = async (path: string) => {
     if (audioState.context) {
       const buffer = await getAudioBuffer(path, audioState.context);
       setAudioState({ ...audioState, buffer: buffer });
@@ -83,7 +83,7 @@ const PlayerController: React.FC<Song> = ({ duration, id, info }) => {
   };
 
   useEffect(() => {
-    getFile();
+    getFile(`resources/music/${mp3name}`);
   }, [audioState.context]);
 
   return (
