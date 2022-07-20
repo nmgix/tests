@@ -56,7 +56,7 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
   songAfter,
 }) => {
   const dispatch = useDispatch();
-  const { currentTime, playing, volume, waveformReadyToLoad } = useAppSelector((store) => store.playerControls);
+  const { playing, volume, waveformReadyToLoad } = useAppSelector((store) => store.playerControls);
 
   const [audioState, setAudioState] = useState<AudioType>({
     context: null,
@@ -77,6 +77,7 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
     },
     width: 900,
   });
+  const [audio, setAudio] = useState<HTMLAudioElement>();
 
   useEffect(() => {
     if (waveformReadyToLoad === true) {
@@ -101,6 +102,32 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioState.context]);
 
+  useEffect(() => {
+    if (audio) {
+      if (playing === true) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }, [playing, audio]);
+  useEffect(() => {
+    if (audio) {
+      audio.volume = volume / 100;
+    }
+  }, [volume, audio]);
+
+  useEffect(() => {
+    setAudio(new Audio(`resources/music/${mp3name}`));
+    if (audio) {
+      audio.load();
+      audio.onended = () => {
+        if (songAfter) {
+          dispatch(setCurrentSong({ songId: songAfter.id }));
+        }
+      };
+    }
+  }, [id]);
   return (
     <div className='player-content-controller'>
       <div className='player-content-controller-header song-list-track-content-info-description'>
@@ -112,7 +139,7 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
           <Waveform {...audioState} />
         </div>
         <span className='player-content-controller-timeline-time'>{`${toNormalCurrentTime(
-          currentTime
+          audio ? audio.currentTime : 0
         )} / ${duration}`}</span>
       </div>
       <div className='player-content-controller-controls song-controller'>

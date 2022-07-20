@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CurrentTimeAction, PlayAction, VolumeAction, WaveformAction } from "../types/PlayerControlTypes";
+import { PlayAction, VolumeAction, WaveformAction } from "../types/PlayerControlTypes";
 import { PlayerControlsState } from "../types/PlayerControlTypes";
 
 const initialState: PlayerControlsState = {
   playing: false,
-  currentTime: 0,
   volume: 50,
   waveformReadyToLoad: true,
 };
@@ -30,12 +29,9 @@ const playerControlSlice = createSlice({
     changeVolume(state, action: VolumeAction) {
       return { ...state, volume: action.payload.volume };
     },
-    changeCurrentTime(state, action: CurrentTimeAction) {
-      return { ...state, currentTime: action.payload.currentTime };
-    },
   },
 });
 
-export const { setWaveformLoadState, changeCurrentTime, changePlaying, changeVolume } = playerControlSlice.actions;
+export const { setWaveformLoadState, changePlaying, changeVolume } = playerControlSlice.actions;
 
 export default playerControlSlice.reducer;

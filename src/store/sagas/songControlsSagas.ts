@@ -1,5 +1,5 @@
 import { all, call, CallEffect, delay, put, PutEffect, select, SelectEffect, takeLatest } from "redux-saga/effects";
-import { changeCurrentTime, changePlaying, setWaveformLoadState } from "../reducers/playerControlReducer";
+import { changePlaying, setWaveformLoadState } from "../reducers/playerControlReducer";
 import { RootState } from "../reducers/rootReducer";
 import { setCurrentSong, changeCurrentSong, sortSongs, shuffleSongs } from "../reducers/songControlReducer";
 import { changeSortAsc } from "../reducers/sortControlReducer";
@@ -13,7 +13,6 @@ export function* changeTrack(
 ): Generator<PutEffect | SelectEffect | CallEffect, void, ChangeCurrentSongAction> {
   if (action.payload.songId !== undefined) {
     yield put(changeCurrentSong({ songId: action.payload.songId }));
-    yield put(changeCurrentTime({ currentTime: 0 }));
     yield put(changePlaying({ play: true }));
   } else {
     yield put(changePlaying({}));
