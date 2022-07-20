@@ -1,5 +1,4 @@
 import { useAppSelector } from "../../store/helpers";
-import { Song } from "../../store/types/SongControlTypes";
 import Image from "../Image";
 import "./index.scss";
 import PlayerController from "./PlayerController";
@@ -7,17 +6,37 @@ import PlayerController from "./PlayerController";
 const Player: React.FC<{}> = () => {
   const songState = useAppSelector((state) => state.songControls);
 
+  // let currentSong: Song | null = null;
+  // let songBefore: Song | null = null;
+  // let songAfter: Song | null = null;
+
+  // songState.songs.map((song, i) => {
+  //   if (song.id === songState.currentSongId) {
+  //     currentSong = song;
+  //     songBefore = songState.songs[i - 1];
+  //     songAfter = songState.songs[i + 1];
+  //   }
+  // });
+
   let currentSong = songState.songs.find((song) => song.id === songState.currentSongId);
 
   if (!currentSong) {
     return <></>;
   }
+  let songBefore =
+    songState.songs.indexOf(currentSong) === 0
+      ? songState.songs[songState.songs.length - 1]
+      : songState.songs.find((song, index) => index === songState.songs.indexOf(currentSong!) - 1);
+  let songAfter =
+    songState.songs.indexOf(currentSong) === songState.songs.length - 1
+      ? songState.songs[0]
+      : songState.songs.find((song, index) => index === songState.songs.indexOf(currentSong!) + 1);
 
   return (
     <div className='player'>
       <div className='player-content'>
         <Image imgSrc={`resources/covers/${currentSong.cover}`} className='player-content-cover' />
-        <PlayerController {...currentSong} />
+        <PlayerController {...currentSong} songBefore={songBefore} songAfter={songAfter} />
       </div>
     </div>
   );

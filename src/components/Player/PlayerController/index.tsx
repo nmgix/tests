@@ -6,6 +6,7 @@ import { /*useAppDispatch,*/ useAppSelector } from "../../../store/helpers";
 import { useDispatch } from "react-redux";
 import { changePlaying, changeVolume } from "../../../store/reducers/playerControlReducer";
 import { Song } from "../../../store/types/SongControlTypes";
+import { setCurrentSong } from "../../../store/reducers/songControlReducer";
 
 type AudioType = {
   context: AudioContext | null;
@@ -46,7 +47,14 @@ const getContext = () => {
   return context;
 };
 
-const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
+const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfter: Song | undefined }> = ({
+  duration,
+  id,
+  info,
+  mp3name,
+  songBefore,
+  songAfter,
+}) => {
   const dispatch = useDispatch();
   const { currentTime, playing, volume, waveformReadyToLoad } = useAppSelector((store) => store.playerControls);
 
@@ -76,6 +84,7 @@ const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
     } else {
       setAudioState({ ...audioState, context: null });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [waveformReadyToLoad]);
 
   const getFile = async (path: string) => {
@@ -89,6 +98,7 @@ const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
     if (audioState.context) {
       getFile(`resources/music/${mp3name}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioState.context]);
 
   return (
@@ -106,15 +116,23 @@ const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
         )} / ${duration}`}</span>
       </div>
       <div className='player-content-controller-controls song-controller'>
-        <button>
-          <Icon color='white' icon='skip-backward' size={{ width: "50px", height: "30px" }} />
-        </button>
+        {songBefore ? (
+          <button onClick={() => dispatch(setCurrentSong({ songId: songBefore.id }))}>
+            <Icon color='white' icon='skip-backward' size={{ width: "50px", height: "30px" }} />
+          </button>
+        ) : (
+          <></>
+        )}
         <button onClick={() => dispatch(changePlaying({}))}>
           <Icon color='white' icon={playing ? "pause" : "play"} size={{ width: "30px", height: "30px" }} />
         </button>
-        <button>
-          <Icon color='white' icon='skip-forward' size={{ width: "50px", height: "30px" }} />
-        </button>
+        {songAfter ? (
+          <button onClick={() => dispatch(setCurrentSong({ songId: songAfter.id }))}>
+            <Icon color='white' icon='skip-forward' size={{ width: "50px", height: "30px" }} />
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
       <input
         className='player-content-controller-volume'
