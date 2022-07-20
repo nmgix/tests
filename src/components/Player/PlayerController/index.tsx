@@ -106,7 +106,12 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
   useEffect(() => {
     if (audio) {
       if (playing === true) {
-        audio.play();
+        var playLoading = audio.play();
+        if (playLoading !== undefined) {
+          playLoading.catch((err) => {
+            audio.pause();
+          });
+        }
       } else {
         audio.pause();
       }
@@ -122,7 +127,9 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
   useEffect(() => {
     setAudio(new Audio(`resources/music/${mp3name}`));
     if (audio) {
-      audio.load();
+      try {
+        audio.load();
+      } catch (e) {}
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);

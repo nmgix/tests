@@ -8,7 +8,7 @@ import { ChangeCurrentSongAction } from "../types/SongControlTypes";
 /**
  * Устанавливает необходимую по songID песню как текущую
  */
-export function* changeTrack(
+function* changeTrack(
   action: ChangeCurrentSongAction
 ): Generator<PutEffect | SelectEffect | CallEffect, void, ChangeCurrentSongAction> {
   if (action.payload.songId !== undefined) {
@@ -22,7 +22,7 @@ export function* changeTrack(
 /**
  * Сага для установки задержки в delayMS
  */
-export function* setDelayedWaveformState(delayMS: number): Generator<PutEffect | CallEffect | void, void> {
+function* setDelayedWaveformState(delayMS: number): Generator<PutEffect | CallEffect | void, void> {
   yield put(setWaveformLoadState({ ready: false }));
   yield delay(delayMS);
   yield put(setWaveformLoadState({ ready: true }));
@@ -31,7 +31,7 @@ export function* setDelayedWaveformState(delayMS: number): Generator<PutEffect |
 /**
  * Устанавливает нулевую по индексу песню для проигрывания в плеере
  */
-export function* setFirstSong(): Generator<CallEffect | SelectEffect | PutEffect, void> {
+function* setFirstSong(): Generator<CallEffect | SelectEffect | PutEffect, void> {
   const { songControls } = (yield select((state: RootState) => state)) as unknown as RootState;
   yield call(changeTrack, { payload: { songId: songControls.songs[0].id }, type: "" });
 }
@@ -39,14 +39,14 @@ export function* setFirstSong(): Generator<CallEffect | SelectEffect | PutEffect
 /**
  * Восставноить sort при shuffle
  */
-export function* resetSort(): Generator<PutEffect, void> {
+function* resetSort(): Generator<PutEffect, void> {
   yield put(changeSortAsc({ sortAsc: null }));
 }
 
 /**
  * Сортирует пенси при изменении стейта sortAsc, устанавливает первую песню
  */
-export function* changeSort(): Generator<PutEffect | SelectEffect | CallEffect, void> {
+function* changeSort(): Generator<PutEffect | SelectEffect | CallEffect, void> {
   const { sortControls } = (yield select((state: RootState) => state)) as unknown as RootState;
   yield put(sortSongs({ sortAsc: sortControls.sortAsc }));
   yield call(setFirstSong);
@@ -65,5 +65,3 @@ export function* playerControlSaga() {
     takeLatest(shuffleSongs.type, setDelayedWaveformState, 3000),
   ]);
 }
-
-export default null;

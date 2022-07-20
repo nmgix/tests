@@ -98,15 +98,29 @@ const initialState: SongState = {
   ],
 };
 
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 const songControlSlice = createSlice({
   name: "songControls",
   initialState,
   reducers: {
     setCurrentSong(state, action: ChangeCurrentSongAction) {},
     changeCurrentSong(state, action: ChangeCurrentSongAction) {
-      // console.log(state.songs.map((song) => song.id));
       if (action.payload.songId !== undefined) {
-        // console.log(action.payload.songId);
+        const root = document.getElementById("root");
+
+        if (root) {
+          // root.style.filter = "hue-rotate(10deg)";
+          root.style.backgroundColor = getRandomColor();
+        }
+
         return { ...state, currentSongId: action.payload.songId };
       } else {
         return state;
