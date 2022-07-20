@@ -17,13 +17,18 @@
     flex-direction: column;
 
     @media screen and (max-width: index.$width-laptop) {
+      // position: relative;
       position: relative;
+      // position: absolute;
       width: 35%;
       border-radius: 0px;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
       margin-bottom: 20px;
 
+      // transform: none;
+      top: 0;
+      left: 0;
       transform: none;
       // top: 35%;
     }

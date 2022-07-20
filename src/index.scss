@@ -27,7 +27,7 @@ html {
 #root {
   width: 100vw;
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #5b88c1; //в дальнейшем будем перелив цветов
 
   @media screen and (max-width: $width-laptop) {
