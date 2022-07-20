@@ -68,9 +68,9 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
     },
     position: 0,
     responsive: true,
-    showPosition: true,
+    showPosition: false,
     waveStyle: {
-      animate: false,
+      animate: true,
       color: "white",
       plot: "line",
       pointWidth: 0.2,
@@ -124,20 +124,13 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
     if (audio) {
       audio.load();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  // обновлять таймер
-  function updateTimer() {
-    if (audio) {
-      setCurrentTime(audio.currentTime);
-    }
-  }
-
-  // при измении источника звука, простым языком, буфера песни, самой песни
   useEffect(() => {
     if (audio) {
       audio.ontimeupdate = function () {
-        updateTimer();
+        setCurrentTime(audio.currentTime);
       };
       audio.onended = () => {
         if (songAfter && !audio.loop) {
@@ -145,14 +138,15 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
         }
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audio]);
 
-  // обновлять таймлайн, внутри updateTimer работать не хочет
-  useEffect(() => {
-    if (audio && audioState.context) {
-      setAudioState({ ...audioState, position: (audio.currentTime * 100) / audio.duration / 100 });
+  const changePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (audio) {
+      let current = audio.duration * Number(e.target.value);
+      audio.currentTime = !isNaN(current) ? current : 0;
     }
-  }, [currentTime, id]);
+  };
 
   return (
     <div className='player-content-controller'>
@@ -163,6 +157,21 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
       <div className='player-content-controller-timeline'>
         <div className='player-content-controller-timeline-waveform'>
           <Waveform {...audioState} />
+          <input
+            className='player-content-controller-timeline-waveform-range'
+            type={"range"}
+            value={
+              audio
+                ? !isNaN((audio.currentTime * 100) / audio.duration / 100)
+                  ? (audio.currentTime * 100) / audio.duration / 100
+                  : 0
+                : 0
+            }
+            onChange={changePosition}
+            min={0}
+            max={1}
+            step={0.0001}
+          />
         </div>
         <span className='player-content-controller-timeline-time'>{`${toNormalCurrentTime(
           currentTime
@@ -170,7 +179,14 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
       </div>
       <div className='player-content-controller-controls song-controller'>
         {songBefore ? (
-          <button onClick={() => dispatch(setCurrentSong({ songId: songBefore.id }))}>
+          <button
+            onClick={() =>
+              currentTime !== 0
+                ? audio
+                  ? (audio.currentTime = 0)
+                  : null
+                : dispatch(setCurrentSong({ songId: songBefore.id }))
+            }>
             <Icon color='white' icon='skip-backward' size={{ width: "50px", height: "30px" }} />
           </button>
         ) : (

@@ -17,6 +17,7 @@ const playerControlSlice = createSlice({
     },
     changePlaying(state, action: PlayAction) {
       if (action.payload.play) {
+        console.log("acf");
         return { ...state, playing: action.payload.play };
       } else {
         if (state.playing) {
