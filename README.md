@@ -39,7 +39,7 @@
 - Indicate whether to send a cookie in a cross-site request by specifying its SameSite attribute.
   > Не `https` подключение.
 
-## Если не подгруажется или доступ закрыт, то вот описание задания:
+## Если не подгружается или доступ закрыт, то вот описание задания:
 
 **Функционал**
 
