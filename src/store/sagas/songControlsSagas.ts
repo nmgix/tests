@@ -61,6 +61,7 @@ export function* playerControlSaga() {
     // takeLatest(shuffleSongs.type, yield put(sortSongs({ sortAsc: sortControls.sortAsc })))
 
     takeLatest(setCurrentSong.type, setDelayedWaveformState, 3000),
+    takeLatest(changeCurrentSong.type, setDelayedWaveformState, 3000),
     takeLatest(changeSortAsc.type, setDelayedWaveformState, 3000),
     takeLatest(shuffleSongs.type, setDelayedWaveformState, 3000),
   ]);
