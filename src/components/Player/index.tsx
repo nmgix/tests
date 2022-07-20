@@ -6,18 +6,6 @@ import PlayerController from "./PlayerController";
 const Player: React.FC<{}> = () => {
   const songState = useAppSelector((state) => state.songControls);
 
-  // let currentSong: Song | null = null;
-  // let songBefore: Song | null = null;
-  // let songAfter: Song | null = null;
-
-  // songState.songs.map((song, i) => {
-  //   if (song.id === songState.currentSongId) {
-  //     currentSong = song;
-  //     songBefore = songState.songs[i - 1];
-  //     songAfter = songState.songs[i + 1];
-  //   }
-  // });
-
   let currentSong = songState.songs.find((song) => song.id === songState.currentSongId);
 
   if (!currentSong) {

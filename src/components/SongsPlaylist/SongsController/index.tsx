@@ -20,7 +20,7 @@ const SongsController = () => {
       <button onClick={() => dispatch(changePlaying({}))}>
         <Icon icon={playerState.playing ? "pause" : "play"} color='white' size={{ width: "35px", height: "35px" }} />
       </button>
-      <button onClick={() => dispatch(changeSortAsc())}>
+      <button onClick={() => dispatch(changeSortAsc({}))}>
         <Icon
           icon='sort'
           color={sortState.sortAsc === null ? "black" : sortState.sortAsc === true ? "green" : "red"}

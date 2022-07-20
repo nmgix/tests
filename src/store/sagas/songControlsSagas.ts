@@ -3,7 +3,6 @@ import { changeCurrentTime, changePlaying, setWaveformLoadState } from "../reduc
 import { RootState } from "../reducers/rootReducer";
 import { setCurrentSong, changeCurrentSong, sortSongs, shuffleSongs } from "../reducers/songControlReducer";
 import { changeSortAsc } from "../reducers/sortControlReducer";
-import { WaveformAction } from "../types/PlayerControlTypes";
 import { ChangeCurrentSongAction } from "../types/SongControlTypes";
 
 /**
@@ -39,6 +38,13 @@ export function* setFirstSong(): Generator<CallEffect | SelectEffect | PutEffect
 }
 
 /**
+ * Восставноить sort при shuffle
+ */
+export function* resetSort(): Generator<PutEffect, void> {
+  yield put(changeSortAsc({ sortAsc: null }));
+}
+
+/**
  * Сортирует пенси при изменении стейта sortAsc, устанавливает первую песню
  */
 export function* changeSort(): Generator<PutEffect | SelectEffect | CallEffect, void> {
@@ -52,9 +58,9 @@ export function* playerControlSaga() {
     takeLatest(setCurrentSong.type, changeTrack),
     takeLatest(changeSortAsc.type, changeSort),
     takeLatest(shuffleSongs.type, setFirstSong),
+    takeLatest(shuffleSongs.type, resetSort),
+    // takeLatest(shuffleSongs.type, yield put(sortSongs({ sortAsc: sortControls.sortAsc })))
 
-    // не нашёл как сгруппировать все action в один и поставить им одну сагу на все три, т.е takeLatest(setCurrentSong.type | changeSortAsc.type и пр., setDelayedWaveformState...)
-    // увы это вешает по лишнему обработчику на каждое движение, а не не все сразу
     takeLatest(setCurrentSong.type, setDelayedWaveformState, 3000),
     takeLatest(changeSortAsc.type, setDelayedWaveformState, 3000),
     takeLatest(shuffleSongs.type, setDelayedWaveformState, 3000),
