@@ -30,8 +30,8 @@ type AudioType = {
 
 const toNormalCurrentTime = (currentTime: number) => {
   let minutes = Math.floor(currentTime / 60);
-  let seconds = currentTime - minutes * 60;
-  return `${minutes}:${seconds}`;
+  let seconds = Math.round(currentTime - minutes * 60);
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 const getAudioBuffer = async (path: string, context: AudioContext): Promise<AudioBuffer> => {
   const response = await fetch(path);
@@ -78,6 +78,7 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
     width: 900,
   });
   const [audio, setAudio] = useState<HTMLAudioElement>();
+  const [currentTime, setCurrentTime] = useState<number>(0);
 
   useEffect(() => {
     if (waveformReadyToLoad === true) {
@@ -117,17 +118,42 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
     }
   }, [volume, audio]);
 
+  // при смене песни (переключение автоматическое/не автоматическое)
   useEffect(() => {
     setAudio(new Audio(`resources/music/${mp3name}`));
     if (audio) {
       audio.load();
+    }
+  }, [id]);
+
+  // обновлять таймер
+  function updateTimer() {
+    if (audio) {
+      setCurrentTime(audio.currentTime);
+    }
+  }
+
+  // при измении источника звука, простым языком, буфера песни, самой песни
+  useEffect(() => {
+    if (audio) {
+      audio.ontimeupdate = function () {
+        updateTimer();
+      };
       audio.onended = () => {
-        if (songAfter) {
+        if (songAfter && !audio.loop) {
           dispatch(setCurrentSong({ songId: songAfter.id }));
         }
       };
     }
-  }, [id]);
+  }, [audio]);
+
+  // обновлять таймлайн, внутри updateTimer работать не хочет
+  useEffect(() => {
+    if (audio && audioState.context) {
+      setAudioState({ ...audioState, position: (audio.currentTime * 100) / audio.duration / 100 });
+    }
+  }, [currentTime, id]);
+
   return (
     <div className='player-content-controller'>
       <div className='player-content-controller-header song-list-track-content-info-description'>
@@ -139,7 +165,7 @@ const PlayerController: React.FC<Song & { songBefore: Song | undefined; songAfte
           <Waveform {...audioState} />
         </div>
         <span className='player-content-controller-timeline-time'>{`${toNormalCurrentTime(
-          audio ? audio.currentTime : 0
+          currentTime
         )} / ${duration}`}</span>
       </div>
       <div className='player-content-controller-controls song-controller'>

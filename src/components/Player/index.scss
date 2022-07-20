@@ -45,6 +45,7 @@
       width: 40%;
       top: 0;
       left: 0;
+      padding: 30px 40px;
     }
 
     @media screen and (max-width: index.$width-laptop-s) {
@@ -54,6 +55,7 @@
     @media screen and (max-width: index.$width-tablet) {
       width: 70%;
       margin: 0 20px;
+      padding: 30px 20px;
     }
 
     @media screen and (max-width: index.$width-smartphone) {

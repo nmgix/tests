@@ -8,7 +8,7 @@ const initialState: SongState = {
     {
       id: 0,
       cover: "dioma.jpg",
-      duration: "2.36",
+      duration: "3.52",
       info: {
         author: "Jnatun",
         name: "Dioma",
@@ -18,7 +18,7 @@ const initialState: SongState = {
     {
       id: 1,
       cover: "set-me-free.jpg",
-      duration: "2.56",
+      duration: "2.49",
       info: {
         author: "Simbai & Fizzy The Streets",
         name: "Set Me Free",
@@ -28,7 +28,7 @@ const initialState: SongState = {
     {
       id: 2,
       cover: "royalty.jpg",
-      duration: "3.43",
+      duration: "3.44",
       info: {
         author: "Maestro Chives, Egzod, Neoni",
         name: "Royalty",

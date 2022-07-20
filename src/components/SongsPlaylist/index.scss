@@ -43,7 +43,7 @@
     }
 
     @media screen and (max-width: index.$width-smartphone) {
-      width: 85%;
+      width: calc(100% - 40px - 40px);
     }
   }
 }
