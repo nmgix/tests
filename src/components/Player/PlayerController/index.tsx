@@ -4,27 +4,27 @@ import Waveform from "waveform-react";
 import "./index.scss";
 import { /*useAppDispatch,*/ useAppSelector } from "../../../store/helpers";
 import { useDispatch } from "react-redux";
-import { changePlaying } from "../../../store/reducers/playerControlReducer";
+import { changePlaying, changeVolume } from "../../../store/reducers/playerControlReducer";
 import { Song } from "../../../store/types/SongControlTypes";
 
 type AudioType = {
   context: AudioContext | null;
   buffer: AudioBuffer | null;
-  height: number; //150
+  height: number;
   markerStyle: {
-    color: string; //'white
-    width: number; // 4
+    color: string;
+    width: number;
   };
-  position: number; // 0
-  responsive: boolean; //true
-  showPosition: boolean; //false
+  position: number;
+  responsive: boolean;
+  showPosition: boolean;
   waveStyle: {
-    animate: boolean; //false
-    color: string; //'white'
-    plot: "bar" | "line"; //'line'
-    pointWidth: number; //1
+    animate: boolean;
+    color: string;
+    plot: "bar" | "line";
+    pointWidth: number;
   };
-  width: number; //900
+  width: number;
 };
 
 const toNormalCurrentTime = (currentTime: number) => {
@@ -48,8 +48,7 @@ const getContext = () => {
 
 const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
   const dispatch = useDispatch();
-  // const { } = useAppDispatch()
-  const { currentTime, playing, volume } = useAppSelector((store) => store.playerControls);
+  const { currentTime, playing, volume, waveformReadyToLoad } = useAppSelector((store) => store.playerControls);
 
   const [audioState, setAudioState] = useState<AudioType>({
     context: null,
@@ -72,8 +71,12 @@ const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
   });
 
   useEffect(() => {
-    setAudioState({ ...audioState, context: getContext() });
-  }, [id]);
+    if (waveformReadyToLoad === true) {
+      setAudioState({ ...audioState, context: getContext() });
+    } else {
+      setAudioState({ ...audioState, context: null });
+    }
+  }, [waveformReadyToLoad]);
 
   const getFile = async (path: string) => {
     if (audioState.context) {
@@ -83,7 +86,9 @@ const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
   };
 
   useEffect(() => {
-    getFile(`resources/music/${mp3name}`);
+    if (audioState.context) {
+      getFile(`resources/music/${mp3name}`);
+    }
   }, [audioState.context]);
 
   return (
@@ -111,7 +116,15 @@ const PlayerController: React.FC<Song> = ({ duration, id, info, mp3name }) => {
           <Icon color='white' icon='skip-forward' size={{ width: "50px", height: "30px" }} />
         </button>
       </div>
-      <input className='player-content-controller-volume' type={"range"} min={0} max={100} value={volume} />
+      <input
+        className='player-content-controller-volume'
+        type={"range"}
+        min={0}
+        max={100}
+        step={1}
+        value={volume}
+        onChange={(e) => dispatch(changeVolume({ volume: Number(e.target.value) }))}
+      />
     </div>
   );
 };

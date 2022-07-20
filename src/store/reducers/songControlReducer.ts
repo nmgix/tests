@@ -135,7 +135,7 @@ const songControlSlice = createSlice({
           const resultArray = shuffle(array);
 
           // не работает нормально, проблема с прокси
-          for (var i = 0; i < resultArray.length; i++) {
+          for (let i = 0; i < resultArray.length; i++) {
             if (resultArray[i].id === array[i].id) {
               tries++;
               return shuffleRecoursive(resultArray, triesLimit, tries);
@@ -158,7 +158,7 @@ const songControlSlice = createSlice({
         // https://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
         console.log(old_index, new_index);
         if (new_index >= arr.length) {
-          var k = new_index - arr.length + 1;
+          let k = new_index - arr.length + 1;
           while (k--) {
             arr.push(undefined);
           }
@@ -168,24 +168,24 @@ const songControlSlice = createSlice({
         return arr as T[];
       }
 
-      var songIndex = state.songs.indexOf(state.songs.find((el) => el.id === songId)!);
+      let songIndex = state.songs.indexOf(state.songs.find((el) => el.id === songId)!);
 
-      var newArr = array_move(state.songs, songIndex, exchangeWithAbove ? songIndex - 1 : songIndex + 1);
+      let newArr = array_move(state.songs, songIndex, exchangeWithAbove ? songIndex - 1 : songIndex + 1);
 
       void (state.songs = newArr);
     },
     sortSongs(state, action: ChangeSortAction) {
       const { sortAsc } = action.payload;
 
-      var reA = /[^a-zA-Z]/g;
-      var reN = /[^0-9]/g;
+      let reA = /[^a-zA-Z]/g;
+      let reN = /[^0-9]/g;
 
       function sortAlphaNum(a: string, b: string, asc: boolean) {
-        var aA = a.replace(reA, "");
-        var bA = b.replace(reA, "");
+        let aA = a.replace(reA, "");
+        let bA = b.replace(reA, "");
         if (aA === bA) {
-          var aN = parseInt(a.replace(reN, ""), 10);
-          var bN = parseInt(b.replace(reN, ""), 10);
+          let aN = parseInt(a.replace(reN, ""), 10);
+          let bN = parseInt(b.replace(reN, ""), 10);
           return aN === bN ? 0 : asc ? (aN > bN ? 1 : -1) : aN < bN ? 1 : -1;
         } else {
           return asc ? (aA > bA ? 1 : -1) : aA < bA ? 1 : -1;
@@ -195,11 +195,10 @@ const songControlSlice = createSlice({
       switch (sortAsc) {
         case true:
         case false: {
-          var resultArray = state.songs.sort((song1, song2) =>
+          let resultArray = state.songs.sort((song1, song2) =>
             sortAlphaNum(song1.info.name, song2.info.name, action.payload.sortAsc!)
           );
           state.songs = resultArray;
-          console.log(state.songs.map((cursong) => cursong.id));
           return state;
         }
 
