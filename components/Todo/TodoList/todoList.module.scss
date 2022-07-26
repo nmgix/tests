@@ -1,7 +1,17 @@
+@use "../../../styles/breakpointMixins.scss";
+
 .todoList {
   padding: 0;
   list-style-type: "nome";
 
+  margin: 0 auto;
+
+  width: 50%;
+
   display: flex;
   flex-direction: column;
+
+  @include breakpointMixins.maxTablet {
+    width: 80%;
+  }
 }

@@ -39,7 +39,7 @@ input[type="checkbox"] {
   }
 
   &:focus {
-    outline: 0.05em solid colors.$font;
+    outline: 0.05em solid colors.$secondary;
     outline-offset: max(0px, 0px);
   }
 }

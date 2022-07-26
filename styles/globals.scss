@@ -1,4 +1,5 @@
 @use "./colors.scss";
+@use './breakpointMixins.scss';
 
 @use "./globalElements/input.scss";
 
@@ -7,12 +8,6 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Fira Sans", sans-serif;
-}
-
-html,
-body,
-* {
-  transition: all 100ms ease-in-out;
 }
 
 a {

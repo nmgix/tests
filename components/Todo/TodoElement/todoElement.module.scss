@@ -1,6 +1,8 @@
 @use "../../../styles/colors.scss";
 
 .todoElement {
+  width: 100%;
+
   margin: 10px auto;
   padding: 1em;
   border-radius: 10px;
@@ -17,42 +19,22 @@
   }
 
   .dragZone {
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 2px;
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    height: 50px;
-    aspect-ratio: 1/1;
+    height: 20px;
+    aspect-ratio: 2/1;
 
     margin-right: 1em;
 
     & > * {
       background-color: darken($color: colors.$primary, $amount: 15%);
       width: 100%;
-      height: 100%;
-      border-radius: 0.2em;
+      height: 10%;
+      border-radius: 0.1em;
       animation: 5s opactiyBlink ease-in-out infinite;
-
-      @keyframes opactiyBlink {
-        0% {
-          opacity: 0.6;
-        }
-
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0.6;
-        }
-      }
-    }
-
-    @for $i from 1 through 4 {
-      & > *:nth-child(#{$i}) {
-        animation-delay: #{$i * 0.7}s;
-      }
     }
   }
 
@@ -69,8 +51,8 @@
       }
 
       input[type="checkbox"] {
-        width: 1.7em;
         height: 1.7em;
+        aspect-ratio: 1/1;
         margin-left: 0.7em;
       }
     }
