@@ -2,6 +2,7 @@ import { DndType, TodoElement, TodoElementProps } from "./TodoElement";
 import { render, fireEvent } from "@testing-library/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { expect } from "@jest/globals";
 
 describe("TodoElement", () => {
   let exampleData: TodoElementProps & DndType;

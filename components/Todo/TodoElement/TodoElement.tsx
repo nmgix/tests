@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { CSSProperties, useRef, useState } from "react";
 import styles from "./todoElement.module.scss";
 import { useDrag, useDrop } from "react-dnd";
 
@@ -80,12 +80,8 @@ export const TodoElement = ({
   drag(drop(ref));
 
   return (
-    <li
-      id={id}
-      className={styles.todoElement}
-      ref={dragPreview}
-      style={{ transform: isDragging ? "scale(1.05)" : "scale(1)" }}>
-      <div className={styles.dragZone} draggable={true} ref={ref}>
+    <li className={styles.todoElement} ref={dragPreview} style={{ transform: isDragging ? "scale(1.05)" : "scale(1)" }}>
+      <div className={styles.dragZone} ref={ref} id={id}>
         <div />
         <div />
         <div />
