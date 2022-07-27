@@ -26,6 +26,7 @@ export const TodoElement = ({
   description,
 }: TodoElementProps & DndType) => {
   const ref = useRef<HTMLDivElement>(null);
+  const { updateTodo } = useAction();
 
   // @ React-DnD docs
   const [, drop] = useDrop({
@@ -62,13 +63,6 @@ export const TodoElement = ({
     }),
   });
 
-  const { updateTodo } = useAction();
-
-  const changeChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setChecked((prevChecked) => !prevChecked);}
-    updateTodo({ uuid, completed: !completed });
-  };
-
   const trunicateString = (text: string, length: number) => {
     let currentText = text;
     if (currentText.length > length) {
@@ -80,8 +74,6 @@ export const TodoElement = ({
 
   drag(drop(ref));
 
-  // console.log(completed);
-
   return (
     <li className={styles.todoElement} ref={dragPreview} style={{ transform: isDragging ? "scale(1.05)" : "scale(1)" }}>
       <div className={styles.dragZone} ref={ref} id={uuid}>
@@ -92,7 +84,7 @@ export const TodoElement = ({
       <div className={styles.todoContent}>
         <header>
           <h3 className={styles.title}>{title}</h3>
-          <input type={"checkbox"} checked={completed} onChange={changeChecked} />
+          <input type={"checkbox"} checked={completed} onChange={() => updateTodo({ uuid, completed: !completed })} />
         </header>
         {description ? <main>{trunicateString(description, 140)}</main> : <></>}
       </div>

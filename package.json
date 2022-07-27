@@ -6,14 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:cy": "cypress run",
-    "test:jest": "jest --watch --verbose",
-    "test:ci": "jest --ci",
+    "test": "cypress open --component",
+    "styles": "concurrently 'npx typed-scss-modules components --watch' 'npx typed-scss-modules styles --watch'",
     "storybook": "start-storybook -p 6006 -s ./public",
-    "build-storybook": "build-storybook -s public"
+    "beginDev": "concurrently 'npm:dev' 'npm:styles' 'npm:test' 'npm:storybook'"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
+    "concurrently": "^7.3.0",
     "cypress": "^10.1.0",
     "next": "12.2.3",
     "react": "18.2.0",
