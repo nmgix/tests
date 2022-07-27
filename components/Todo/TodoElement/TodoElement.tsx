@@ -1,9 +1,10 @@
-import { CSSProperties, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./todoElement.module.scss";
 import { useDrag, useDrop } from "react-dnd";
+import { useAction } from "@/store/helpers";
 
 export type TodoElementProps = {
-  id: string;
+  uuid: string;
   title: string;
   description: string;
   completed: boolean;
@@ -14,13 +15,12 @@ export type MoveCard = (dragIndex: number, hoverIndex: number) => TodoElementPro
 export type DndType = {
   index: number;
   moveCardHandler: MoveCard;
-  setState: React.Dispatch<React.SetStateAction<TodoElementProps[]>>;
 };
 
 export const TodoElement = ({
   index,
   moveCardHandler,
-  id,
+  uuid,
   title,
   completed,
   description,
@@ -56,16 +56,17 @@ export const TodoElement = ({
 
   const [{ isDragging }, drag, dragPreview] = useDrag({
     type: "todo",
-    item: { index, id, type: "todo" },
+    item: { index, uuid, type: "todo" },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
-  const [checked, setChecked] = useState<boolean>(completed);
+  const { updateTodo } = useAction();
 
   const changeChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked((prevChecked) => !prevChecked);
+    // setChecked((prevChecked) => !prevChecked);}
+    updateTodo({ uuid, completed: !completed });
   };
 
   const trunicateString = (text: string, length: number) => {
@@ -79,9 +80,11 @@ export const TodoElement = ({
 
   drag(drop(ref));
 
+  // console.log(completed);
+
   return (
     <li className={styles.todoElement} ref={dragPreview} style={{ transform: isDragging ? "scale(1.05)" : "scale(1)" }}>
-      <div className={styles.dragZone} ref={ref} id={id}>
+      <div className={styles.dragZone} ref={ref} id={uuid}>
         <div />
         <div />
         <div />
@@ -89,7 +92,7 @@ export const TodoElement = ({
       <div className={styles.todoContent}>
         <header>
           <h3 className={styles.title}>{title}</h3>
-          <input type={"checkbox"} checked={checked} onChange={changeChecked} />
+          <input type={"checkbox"} checked={completed} onChange={changeChecked} />
         </header>
         {description ? <main>{trunicateString(description, 140)}</main> : <></>}
       </div>

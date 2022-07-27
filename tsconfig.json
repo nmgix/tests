@@ -18,10 +18,11 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/public/*": ["public/*"],
-      "@/store/*": ["store/*"]
+      "@/store/*": ["store/*"],
+      "@/styles/*": ["styles/*"]
       // "@/styles/*": ["styles/"]
     },
-    "types": ["jest", "@testing-library/jest-dom", "cypress", "@4tw/cypress-drag-drop"]
+    "types": ["cypress", "@4tw/cypress-drag-drop"]
   },
   "include": [".", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

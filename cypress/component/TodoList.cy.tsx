@@ -1,6 +1,8 @@
 import React from "react";
 import { TodoList } from "@/components/Todo/TodoList/TodoList";
 import { TodoElementProps } from "@/components/Todo/TodoElement/TodoElement";
+import { Provider } from "react-redux";
+import store from "@/store/store";
 
 describe("TodoList", () => {
   let exampleData: TodoElementProps[];
@@ -8,19 +10,19 @@ describe("TodoList", () => {
     cy.viewport(1000, 500);
     exampleData = [
       {
-        id: "uuid-1",
+        uuid: "uuid-1",
         completed: false,
         description: "Какое-то описание",
         title: "Заголовок заметки 1",
       },
       {
-        id: "uuid-2",
+        uuid: "uuid-2",
         completed: true,
         description: "Какое-то странное",
         title: "Заголовок заметки 2",
       },
       {
-        id: "uuid-3",
+        uuid: "uuid-3",
         completed: false,
         description: "Какое-то описание",
         title: "Заголовок заметки 3",
@@ -28,17 +30,34 @@ describe("TodoList", () => {
     ];
   });
 
-  it("Отрисовывает три элемента в списке", () => {
-    cy.mount(<TodoList todos={exampleData} />);
-    cy.get("ul").find("li").should("have.length", 3);
+  it("Отрисовывает пять элементов в списке", () => {
+    cy.mount(
+      <Provider store={store}>
+        <div style={{ width: "50%" }}>
+          <TodoList />
+        </div>
+      </Provider>
+    );
+    cy.get("ul").find("li").should("have.length", 5);
   });
 
   it("После перетаскивания второй задачи наверх, первая и вторая задачи должны поменяться местами", () => {
-    cy.mount(<TodoList todos={exampleData} />);
+    cy.mount(
+      <Provider store={store}>
+        <div style={{ width: "50%", boxSizing: "border-box" }}>
+          <TodoList />
+        </div>
+      </Provider>
+    );
 
-    cy.get("#uuid-2").drag("#uuid-1");
+    cy.get("ul").get("li").eq(0).find("div").first().as("firstHandle");
 
-    cy.get("ul").get("li").eq(0).find("div").first().should("have.id", "uuid-2");
-    cy.get("ul").get("li").eq(1).find("div").first().should("have.id", "uuid-1");
+    cy.get("ul").get("li").eq(1).find("div").first().as("secondHandle");
+    // cy.get('@secondHandle').invoke('attr','id').as("secondHandleID")
+
+    cy.get("@secondHandle").drag("@firstHandle");
+
+    cy.get("ul").get("li").eq(0).find("h3").should("have.text", "Заголовок заметки 2");
+    // хотел сравнивать по айди, но should("have.id", "@secondHandleID")) не работает, а вложенный should устраивает бесконечный цикл
   });
 });

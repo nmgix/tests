@@ -19,6 +19,15 @@ a {
   box-sizing: border-box;
 }
 
+#__next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  min-height: 100vh;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -27,4 +36,16 @@ a {
     color: colors.$font;
     background: colors.$primary;
   }
+}
+
+button {
+  cursor: pointer;
+}
+
+#errors-wrapper {
+  position: fixed;
+}
+
+#modal {
+  position: fixed;
 }
