@@ -3,7 +3,7 @@
 
 .container {
   width: calc(50% - 8em);
-  margin: 0 auto;
+  margin: 3em auto;
   padding: 2em 4em;
 
   @include breakpointMixins.maxLaptop {

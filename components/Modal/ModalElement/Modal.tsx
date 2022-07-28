@@ -1,28 +1,38 @@
 import { useAction } from "@/store/helpers";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, Children, FormEvent, useContext, useState } from "react";
 import styles from "./modal.module.scss";
 import { v4 as uuid } from "uuid";
+import React from "react";
 
 export type ModalProps = {
   uuid: string;
   title: string;
-  closeForm: () => void;
+  closeForm: (uuid: string) => void;
   children: React.ReactNode;
 };
 
 export const Modal: React.FC<ModalProps> = ({ uuid, title, closeForm, children }) => {
+  const childrenWithProps = Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement<ModalProps>(child, { closeForm, uuid, key: 0 });
+    }
+    return child;
+  });
+
   return (
     <li className={styles.modalWrapper} id={uuid}>
-      <div className={styles.modalBackground} onClick={closeForm} />
+      <div className={styles.modalBackground} onClick={() => closeForm(uuid)} />
       <div className={styles.modalContent}>
         <h2 className={styles.title}>{title}</h2>
-        {children}
+        {childrenWithProps}
       </div>
     </li>
   );
 };
 
-export const CreateTodoModal: React.FC<ModalProps & { customClasses: any }> = (args) => {
+export const CreateTodo: React.FC<Omit<Partial<ModalProps>, "children" | "title"> & { customClasses: any }> = (
+  args
+) => {
   const { createTodo } = useAction();
 
   type FormData = {
@@ -39,6 +49,9 @@ export const CreateTodoModal: React.FC<ModalProps & { customClasses: any }> = (a
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!args.uuid || !args.closeForm) {
+      return;
+    }
     const { title, description } = formState;
 
     if (!title) {
@@ -54,19 +67,18 @@ export const CreateTodoModal: React.FC<ModalProps & { customClasses: any }> = (a
     }
 
     createTodo({ ...formState, uuid: uuid() });
-    args.closeForm();
+    args.closeForm(args.uuid);
     return;
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormState((prevState) => {
-      console.log(e.target.value);
       return { ...prevState, [e.target.name]: e.target[e.target.name !== "completed" ? "value" : "checked"] };
     });
   };
 
-  const content = (
-    <form onSubmit={onSubmit}>
+  return (
+    <form onSubmit={onSubmit} className={args.customClasses.formWrapper}>
       <div className={args.customClasses.formInputWrapper}>
         <label htmlFor='title'>Todo's title</label>
         <input name='title' type={"text"} value={formState.title} onChange={onChange} />
@@ -83,11 +95,5 @@ export const CreateTodoModal: React.FC<ModalProps & { customClasses: any }> = (a
         <b>+</b>Add new todo
       </button>
     </form>
-  );
-
-  return (
-    <Modal uuid={args.uuid} title={args.title} closeForm={args.closeForm}>
-      {content}
-    </Modal>
   );
 };
