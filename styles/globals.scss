@@ -44,8 +44,22 @@ button {
 
 #errors-wrapper {
   position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 
-#modal {
+#modals {
   position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }

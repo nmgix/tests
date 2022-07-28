@@ -9,14 +9,15 @@ module.exports = {
     "@storybook/preset-scss",
   ],
   framework: "@storybook/react",
-  core: {
-    builder: "@storybook/builder-webpack5",
-  },
-  webpackFinal: async (config, { configType }) => {
+  webpackFinal: async (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@/": path.resolve(__dirname, "../"),
     };
+    config.resolve.extensions.push(".ts", ".tsx");
     return config;
+  },
+  core: {
+    builder: "@storybook/builder-webpack5",
   },
 };

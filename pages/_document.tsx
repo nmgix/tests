@@ -13,8 +13,6 @@ export default class MyDocument extends Document {
           />
         </Head>
         <body>
-          <ul id='errors-wrapper' />
-          <div id='modal' />
           <Main />
           <NextScript />
         </body>

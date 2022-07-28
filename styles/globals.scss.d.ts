@@ -1,3 +1,3 @@
 export const errorsWrapper: string;
-export const modal: string;
+export const modals: string;
 export const next: string;
