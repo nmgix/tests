@@ -1,7 +1,32 @@
 @use "../colors.scss";
 
+input {
+  background-color: colors.$primary;
+  border: 2px solid black;
+  outline: none;
+  color: black;
+
+  &:hover {
+    border: 2px solid colors.$secondary;
+    background-color: darken(colors.$primary, 10%);
+    color: colors.$secondary;
+    font-weight: 700;
+  }
+
+  &:focus {
+    border: 2px solid colors.$secondary;
+    background-color: darken(colors.$primary, 10%);
+    outline: 0.05em solid colors.$secondary;
+    color: colors.$secondary;
+    font-weight: 700;
+  }
+}
+
 input[type="checkbox"] {
   cursor: pointer;
+
+  min-width: calc(1.2em + 4px);
+  min-height: calc(1.2em + 4px);
 
   z-index: 1;
   display: grid;
@@ -29,9 +54,6 @@ input[type="checkbox"] {
   }
 
   &:hover {
-    border: 2px solid colors.$secondary;
-    background-color: darken(colors.$primary, 10%);
-
     &::before {
       transition: all 100ms ease-in-out;
       box-shadow: inset 1em 1em colors.$secondary;

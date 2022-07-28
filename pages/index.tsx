@@ -58,6 +58,9 @@ const Home: NextPage = () => {
           </li>
         </ul>
         {windowReady === true ? <TodoList /> : <p>Todos loading</p>}
+        <button className={styles.addTodo}>
+          <b>+</b>Add new todo
+        </button>
       </div>
     </Fragment>
   );

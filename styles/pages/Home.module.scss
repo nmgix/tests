@@ -25,7 +25,8 @@
   }
 
   .status {
-    margin: 0.3em;
+    margin: 0.3em 0;
+    margin-bottom: calc(2em - 10px);
     text-align: center;
 
     padding: 0;
@@ -36,10 +37,27 @@
   }
 
   .active {
-    background-color: white;
-    border: 2px solid black;
-    color: black;
+    background-color: colors.$primary;
+    border: 2px solid colors.$secondary;
+    color: colors.$secondary;
     font-weight: 700;
     border-radius: 0.3em;
+
+    &:hover {
+      background-color: darken(colors.$primary, 10%);
+    }
+  }
+
+  .addTodo {
+    margin: 0 auto;
+    margin-top: calc(2em - 10px);
+
+    display: flex;
+    align-items: center;
+
+    b {
+      font-size: 1.7em;
+      margin-right: 0.3em;
+    }
   }
 }

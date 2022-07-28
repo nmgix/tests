@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <ul id='errors-wrapper' />
-          <div id='modal' />
+          <ul id='modals' />
           <Main />
           <NextScript />
         </body>
