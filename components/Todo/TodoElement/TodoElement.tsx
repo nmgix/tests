@@ -83,7 +83,7 @@ export const TodoElement = ({
       </div>
       <div className={styles.todoContent}>
         <header>
-          <h3 className={styles.title}>{title}</h3>
+          <h3 className={styles.title}>{trunicateString(title, 20)}</h3>
           <input type={"checkbox"} checked={completed} onChange={() => updateTodo({ uuid, completed: !completed })} />
         </header>
         {description ? <main>{trunicateString(description, 140)}</main> : <></>}

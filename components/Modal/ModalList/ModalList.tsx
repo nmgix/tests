@@ -23,14 +23,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setModals([...modals, { ...args, closeForm, uuid: uuid() }]);
   };
 
-  const [modals, setModals] = useState<ModalProps[]>([
-    {
-      closeForm: closeForm,
-      title: "Add new todo",
-      uuid: "UUID-1",
-      children: <CreateTodo customClasses={customStyles} />,
-    },
-  ]);
+  const [modals, setModals] = useState<ModalProps[]>([]);
 
   return (
     <ModalContext.Provider value={{ modals, createModal, destroyModal: closeForm }}>{children}</ModalContext.Provider>
@@ -43,7 +36,6 @@ export const ModalList: React.FC<{}> = () => {
   return modals.length > 0 ? (
     <ul className={styles.modalsWrapper}>
       {modals.map((modal) => {
-        console.log(modal.uuid);
         return <Modal {...modal} key={modal.uuid} />;
       })}
     </ul>

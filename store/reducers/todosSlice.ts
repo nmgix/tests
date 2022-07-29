@@ -3,10 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   ChangeFilterAction,
   CreateTodoAction,
-  DeleteCompletedAction,
   FilterOptions,
-  FilterTodoAction,
-  GetTodosAction,
   SetTodosAction,
   UpdateTodoAction,
 } from "../types/todoActions";
@@ -123,7 +120,9 @@ const TodosSlice = createSlice({
       });
     },
 
-    deleteCompletedTodos(state, action: DeleteCompletedAction) {},
+    deleteCompletedTodos(state) {
+      state.todos = state.todos.filter((todo) => todo.completed === false);
+    },
 
     changeFilter(state, action: ChangeFilterAction) {
       state.currentFilter = action.payload;

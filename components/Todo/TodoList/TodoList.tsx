@@ -26,11 +26,12 @@ export const TodoList = () => {
   return (
     <ul className={styles.todoList}>
       <DndProvider backend={window.innerWidth < 768 ? TouchBackend : HTML5Backend}>
-        {todosState.todos
-          .filter((todo) => handleFilter(todo, todosState.currentFilter))
-          .map((todo, i) => {
-            return <TodoElement {...todo} index={i} moveCardHandler={moveCardHandler} key={todo.uuid} />;
-          })}
+        {todosState.todos &&
+          todosState.todos
+            .filter((todo) => handleFilter(todo, todosState.currentFilter))
+            .map((todo, i) => {
+              return <TodoElement {...todo} index={i} moveCardHandler={moveCardHandler} key={todo.uuid} />;
+            })}
       </DndProvider>
     </ul>
   );

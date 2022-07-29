@@ -5,7 +5,6 @@ import { Action, PayloadAction } from "@reduxjs/toolkit";
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type SetTodosAction = PayloadAction<TodoElementProps[]>;
-export type GetTodosAction = Action<string>;
 export type CreateTodoAction = PayloadAction<TodoElementProps>;
 export type UpdateTodoAction = PayloadAction<WithOptional<TodoElementProps, "completed" | "description" | "title">>;
 // export type DeleteTodoAction = PayloadAction<{ uuid: string }>;
@@ -24,5 +23,4 @@ export type FilterTodoAction = PayloadAction<{
   value: TodoElementProps[FilterKey];
   comparer: keyof typeof FilterOptions;
 } | null>;
-export type DeleteCompletedAction = Action<string>;
 export type ChangeFilterAction = PayloadAction<number | null>;
