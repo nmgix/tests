@@ -44,6 +44,7 @@
       align-items: center;
 
       .title {
+        word-break: break-all;
         line-height: 1em;
         font-weight: 800;
         font-size: 1.3em;
@@ -54,6 +55,7 @@
         height: 1.7em;
         aspect-ratio: 1/1;
         margin-left: 0.7em;
+        flex-shrink: 0;
       }
     }
 

@@ -2,12 +2,11 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
 import { RootState } from "../reducers";
-import errorsSlice, { errorsAction } from "../reducers/errorsSlice";
+import { notificationsAction } from "../reducers/notificationsSlice";
 import { todosActions } from "../reducers/todosSlice";
-import { AppDispatch } from "../store";
 
 const ActionCreators = {
-  ...errorsAction,
+  ...notificationsAction,
   ...todosActions,
 };
 

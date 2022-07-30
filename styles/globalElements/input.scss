@@ -54,6 +54,8 @@ input[type="checkbox"] {
   }
 
   &:hover {
+    border: 2px solid colors.$secondary;
+
     &::before {
       transition: all 100ms ease-in-out;
       box-shadow: inset 1em 1em colors.$secondary;
