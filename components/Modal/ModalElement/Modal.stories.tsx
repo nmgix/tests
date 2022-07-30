@@ -1,5 +1,5 @@
-import { Modal as Component, CreateTodo as ModalAlias } from "./Modal";
-import { ComponentStory, ComponentMeta, configure } from "@storybook/react";
+import { Modal as Component, CreateTodo } from "./Modal";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Provider } from "react-redux";
 import store from "@/store/store";
 import customStyles from "./createTodo.module.scss";
@@ -22,5 +22,5 @@ ModalComponent.args = {
   closeForm: () => console.log("clicked outside"),
   title: "Add new todo",
   uuid: uuid(),
-  children: <ModalAlias customClasses={customStyles} />,
+  children: <CreateTodo customClasses={customStyles} />, // из-за CreateTodo необходимо оборачивать redux-стором
 };

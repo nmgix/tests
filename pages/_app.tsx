@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { ModalList, ModalProvider } from "@/components/Modal/ModalList/ModalList";
 import { EnhancedStore } from "@reduxjs/toolkit";
 import { useEffect } from "react";
+import { NotificationList } from "@/components/Error/NotificationList/NotificationList";
 
 declare global {
   interface Window {
@@ -24,8 +25,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
+      <NotificationList />
       <ModalProvider>
-        <ul id='errors-wrapper' />
         <ModalList />
         <Component {...pageProps} />
       </ModalProvider>

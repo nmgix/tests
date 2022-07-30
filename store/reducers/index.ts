@@ -1,10 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import errorsSlice from "./errorsSlice";
+import notificationsSlice from "./notificationsSlice";
 import todosSlice from "./todosSlice";
 
 export const rootReducer = combineReducers({
   todos: todosSlice,
-  errors: errorsSlice,
+  notifications: notificationsSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

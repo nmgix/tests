@@ -1,6 +1,5 @@
-import { TodoElementProps } from "@/components/Todo/TodoElement/TodoElement";
-import { Action, PayloadAction } from "@reduxjs/toolkit";
-import { CustomError } from "../reducers/errorsSlice";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { INotification } from "../reducers/notificationsSlice";
 
-export type CreateErrorAction = PayloadAction<CustomError>;
-export type DeleteErrorAction = PayloadAction<{ uuid: string }>;
+export type CreateNotifocationAction = PayloadAction<INotification>;
+export type DeleteNotifocationAction = PayloadAction<{ uuid: string }>;

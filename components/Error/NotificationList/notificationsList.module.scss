@@ -1,0 +1,16 @@
+.notificationsWrapper {
+  position: fixed;
+  width: 25%;
+
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  z-index: 5;
+
+  top: 4.75%;
+  right: 2%;
+
+  & > li:not(:last-child) {
+    margin-bottom: 0.5em;
+  }
+}
