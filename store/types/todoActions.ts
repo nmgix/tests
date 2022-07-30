@@ -24,3 +24,4 @@ export type FilterTodoAction = PayloadAction<{
   comparer: keyof typeof FilterOptions;
 } | null>;
 export type ChangeFilterAction = PayloadAction<number | null>;
+export type DeleteTodos = PayloadAction<{ all: boolean }>;

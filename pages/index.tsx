@@ -11,8 +11,7 @@ import customModalStyles from "@/components/Modal/ModalElement/createTodo.module
 
 const Home: NextPage = () => {
   const todosState = useAppSelector((state) => state.todos);
-
-  const { changeFilter, setTodos, deleteCompletedTodos } = useAction();
+  const { changeFilter, setTodos, deleteTodos } = useAction();
 
   const [windowReady, setWindowReady] = useState<boolean>(false);
   useEffect(() => {
@@ -22,26 +21,23 @@ const Home: NextPage = () => {
     }
   }, [typeof window]);
 
-  // желательно переписать на сагу
   useEffect(() => {
     try {
       let localTodos = localStorage.getItem("todos");
       let parsedTodos = JSON.parse(localTodos!);
       if (parsedTodos) {
-        setTodos(parsedTodos);
+        // если parsedTodos скорраптится
+        if (parsedTodos.todos) {
+          setTodos(parsedTodos.todos);
+        } else if (parsedTodos.length > 0) {
+          setTodos(parsedTodos);
+        }
       }
     } catch (e) {}
   }, []);
 
-  // желательно переписать на сагу
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todosState.todos === null ? [] : todosState.todos));
-  }, [todosState.todos]);
-
   const { createModal } = useContext(ModalContext);
-
   const createNewTodoModal = () => {
-    // может вернусь к CreateTodoModal, но тогда CreateTodo в контексте будет необходимо отрефакторить
     createModal({ children: <CreateTodo customClasses={customModalStyles} />, title: "Create new Todo" });
   };
 
@@ -75,7 +71,7 @@ const Home: NextPage = () => {
             </ul>
             <ul>
               <li>
-                <button className={styles.menuButton} onClick={() => deleteCompletedTodos()}>
+                <button className={styles.menuButton} onClick={() => deleteTodos({ all: false })}>
                   <b>x</b>Delete completed todos
                 </button>
               </li>
@@ -85,7 +81,7 @@ const Home: NextPage = () => {
                 </button>
               </li>
               <li>
-                <button className={styles.menuButton} onClick={() => setTodos([])}>
+                <button className={styles.menuButton} onClick={() => deleteTodos({ all: true })}>
                   <b>x</b>Delete all todos
                 </button>
               </li>

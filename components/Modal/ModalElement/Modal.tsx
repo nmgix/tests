@@ -3,6 +3,7 @@ import { ChangeEvent, Children, FormEvent, useContext, useState } from "react";
 import styles from "./modal.module.scss";
 import { v4 as uuid } from "uuid";
 import React from "react";
+import { createNotificationTemplate } from "@/store/reducers/notificationsSlice";
 
 export type ModalProps = {
   uuid: string;
@@ -33,7 +34,7 @@ export const Modal: React.FC<ModalProps> = ({ uuid, title, closeForm, children }
 export const CreateTodo: React.FC<Omit<Partial<ModalProps>, "children" | "title"> & { customClasses: any }> = (
   args
 ) => {
-  const { createTodo } = useAction();
+  const { createTodo, createNotification } = useAction();
 
   type FormData = {
     title: string;
@@ -55,14 +56,12 @@ export const CreateTodo: React.FC<Omit<Partial<ModalProps>, "children" | "title"
     const { title, description } = formState;
 
     if (!title) {
-      console.log("error! title field is empty");
-      // вызов redux метода error...
+      createNotification(createNotificationTemplate("Ошибка, нет заголовка задачи", "warning", 15000));
       return;
     }
 
     if (!description) {
-      console.log("error! description field is empty");
-      // вызов redux метода error...
+      createNotification(createNotificationTemplate("Ошибка, нет описания задачи", "warning", 15000));
       return;
     }
 
