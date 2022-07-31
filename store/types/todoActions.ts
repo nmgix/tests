@@ -7,7 +7,6 @@ type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type SetTodosAction = PayloadAction<TodoElementProps[]>;
 export type CreateTodoAction = PayloadAction<TodoElementProps>;
 export type UpdateTodoAction = PayloadAction<WithOptional<TodoElementProps, "completed" | "description" | "title">>;
-// export type DeleteTodoAction = PayloadAction<{ uuid: string }>;
 
 export enum FilterOptions {
   "Equal",

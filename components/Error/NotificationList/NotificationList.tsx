@@ -5,7 +5,6 @@ import { useAppSelector } from "@/store/helpers";
 
 export const NotificationList: React.FC<{}> = () => {
   const notifications = useAppSelector((state) => state.notifications);
-  // console.log(notifications);
 
   return notifications.length > 0 ? (
     <ul className={styles.notificationsWrapper}>

@@ -53,11 +53,9 @@ describe("TodoList", () => {
     cy.get("ul").get("li").eq(0).find("div").first().as("firstHandle");
 
     cy.get("ul").get("li").eq(1).find("div").first().as("secondHandle");
-    // cy.get('@secondHandle').invoke('attr','id').as("secondHandleID")
 
     cy.get("@secondHandle").drag("@firstHandle");
 
     cy.get("ul").get("li").eq(0).find("h3").should("have.text", "Заголовок заметки 2");
-    // хотел сравнивать по айди, но should("have.id", "@secondHandleID")) не работает, а вложенный should устраивает бесконечный цикл
   });
 });

@@ -56,12 +56,12 @@ export const CreateTodo: React.FC<Omit<Partial<ModalProps>, "children" | "title"
     const { title, description } = formState;
 
     if (!title) {
-      createNotification(createNotificationTemplate("Ошибка, нет заголовка задачи", "warning", 15000));
+      createNotification(createNotificationTemplate("Ошибка, нет заголовка задачи", "warning", 3000));
       return;
     }
 
     if (!description) {
-      createNotification(createNotificationTemplate("Ошибка, нет описания задачи", "warning", 15000));
+      createNotification(createNotificationTemplate("Ошибка, нет описания задачи", "warning", 3000));
       return;
     }
 

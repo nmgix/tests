@@ -94,6 +94,37 @@ describe("Проверка базового поведения проекта", 
     cy.get("button").contains("Delete all todos").should("exist");
     cy.get('[class*="home_container"]').get('[class*="home_addTodo"]').should("have.length", 2);
   });
+
+  it("Проверка оповещений", () => {
+    cy.get("button").contains("Add new todo").click();
+    cy.get("input[name='title']")
+      .type("Example New Todo")
+      .should("have.value", "Example New Todo")
+      .get("form")
+      .submit();
+
+    cy.get('[class*="notificationsList"]').get('[class*="notification_warning"]').should("exist");
+
+    cy.wait(3000);
+    cy.get('[class*="notificationsList"]').should("not.exist");
+
+    cy.get("input[name='description']")
+      .type("Description for new todo")
+      .should("have.value", "Description for new todo")
+      .get("form")
+      .submit();
+
+    cy.get('[class*="notificationsList"]').get('[class*="notification_success"]').should("exist");
+
+    cy.wait(5000);
+    cy.get('[class*="notificationsList"]').should("not.exist");
+
+    cy.get("button").contains("Delete completed todos").click();
+    cy.get('[class*="notificationsList"]').get('[class*="notification_informative"]').should("exist");
+
+    cy.get("button").contains("Delete all todos").click();
+    cy.get('[class*="notificationsList"]').children().should("have.length", 2);
+  });
 });
 
 export {};

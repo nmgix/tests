@@ -22,5 +22,5 @@ ModalComponent.args = {
   closeForm: () => console.log("clicked outside"),
   title: "Add new todo",
   uuid: uuid(),
-  children: <CreateTodo customClasses={customStyles} />, // из-за CreateTodo необходимо оборачивать redux-стором
+  children: <CreateTodo customClasses={customStyles} />,
 };

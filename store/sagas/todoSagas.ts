@@ -1,15 +1,7 @@
-import { CallEffect, PutEffect, all, takeEvery, select, SelectEffect, put } from "redux-saga/effects";
+import { PutEffect, all, takeEvery, select, SelectEffect, put } from "redux-saga/effects";
 import { RootState } from "../reducers";
 import { createNotificationTemplate, notificationsAction } from "../reducers/notificationsSlice";
 import { todosActions } from "../reducers/todosSlice";
-// import {
-//   ChangeFilterAction,
-//   CreateTodoAction,
-//   FilterOptions,
-//   FilterTodoAction,
-//   SetTodosAction,
-//   UpdateTodoAction,
-// } from "../types/todoActions";
 
 function* updateLocalStorage(): Generator<SelectEffect | void, void, void> {
   const { todos } = (yield select((state: RootState) => state)) as unknown as RootState;
