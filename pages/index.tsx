@@ -44,10 +44,10 @@ const Home: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Nginx's todo-app</title>
+        <title>Nginx&apos;s todo-app</title>
       </Head>
       <div className={styles.container}>
-        <h1 className={styles.header}>Nginx's todos</h1>
+        <h1 className={styles.header}>Nginx&apos;s todos</h1>
         {windowReady && todosState.todos && todosState.todos.length > 0 ? (
           <div className={styles.status}>
             <ul>

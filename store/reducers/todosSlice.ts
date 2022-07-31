@@ -97,7 +97,6 @@ const TodosSlice = createSlice({
   initialState,
   reducers: {
     setTodos(state, action: SetTodosAction) {
-      console.log(action.payload);
       state.todos = action.payload;
     },
     createTodo(state, action: CreateTodoAction) {

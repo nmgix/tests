@@ -20,7 +20,6 @@
       "@/public/*": ["public/*"],
       "@/store/*": ["store/*"],
       "@/styles/*": ["styles/*"]
-      // "@/styles/*": ["styles/"]
     },
     "types": ["cypress", "@4tw/cypress-drag-drop"]
   },

@@ -79,15 +79,15 @@ export const CreateTodo: React.FC<Omit<Partial<ModalProps>, "children" | "title"
   return (
     <form onSubmit={onSubmit} className={args.customClasses.formWrapper}>
       <div className={args.customClasses.formInputWrapper}>
-        <label htmlFor='title'>Todo's title</label>
+        <label htmlFor='title'>Todo&apos;s title</label>
         <input name='title' type={"text"} value={formState.title} onChange={onChange} />
       </div>
       <div className={args.customClasses.formInputWrapper}>
-        <label htmlFor='description'>Todo's description</label>
+        <label htmlFor='description'>Todo&apos;s description</label>
         <input name='description' type={"text"} value={formState.description} onChange={onChange} />
       </div>
       <div className={args.customClasses.formInputWrapper}>
-        <label htmlFor='completed'>Todo's completed state</label>
+        <label htmlFor='completed'>Todo&apos;s completed state</label>
         <input name='completed' type={"checkbox"} checked={formState.completed} onChange={onChange} />
       </div>
       <button type='submit' className={args.customClasses.addTodo}>
