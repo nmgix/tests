@@ -16,10 +16,10 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/public/*": ["public/*"],
-      "@/store/*": ["store/*"],
-      "@/styles/*": ["styles/*"]
+      "@/components/*": ["components/*", "/components/*"],
+      "@/public/*": ["public/*", "/public/*"],
+      "@/store/*": ["store/*", "/store/*"],
+      "@/styles/*": ["styles/*", "/styles/*"]
     },
     "types": ["cypress", "@4tw/cypress-drag-drop"]
   },
