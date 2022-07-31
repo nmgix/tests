@@ -1,3 +1,5 @@
+@use "../../../styles/breakpointMixins";
+
 .notificationsWrapper {
   position: fixed;
   width: 25%;
@@ -9,6 +11,10 @@
 
   top: 4.75%;
   right: 2%;
+
+  @include breakpointMixins.maxPhone {
+    width: 80%;
+  }
 
   & > li:not(:last-child) {
     margin-bottom: 0.5em;

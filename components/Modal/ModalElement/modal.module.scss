@@ -1,4 +1,5 @@
 @use "../../../styles/colors.scss";
+@use "../../../styles/breakpointMixins";
 
 .modal {
   &Wrapper {
@@ -40,6 +41,10 @@
     background-color: colors.$primary;
     padding: 2em;
     border-radius: 10px;
+
+    @include breakpointMixins.maxPhone {
+      width: 90%;
+    }
 
     & .title {
       margin: 0 0 1em;
