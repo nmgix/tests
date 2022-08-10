@@ -1,4 +1,5 @@
 import styled, { ThemeProvider } from "styled-components";
+import DateBar from "./components/DateBar";
 import Header from "./components/Header";
 import GlobalStyle from "./styles/global";
 
@@ -13,6 +14,7 @@ function App() {
       <ThemeProvider theme={{ mode: "default" }}>
         <GlobalStyle />
         <Header />
+        <DateBar />
       </ThemeProvider>
     </AppWrapper>
   );

@@ -30,6 +30,7 @@ export default createGlobalStyle`
         font-family: 'Gilroy', sans-serif; 
         transition: all 0.1s ease-in-out;
         font-size: 16px;
+        font-weight: 500;
     }
     #root{
         margin:0 auto;

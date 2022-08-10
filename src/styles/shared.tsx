@@ -5,7 +5,7 @@ type ButtonProps = {
   children: React.ReactNode;
   type?: "cross" | "arrowLeft" | "arrowRight";
 };
-const StyledButton = styled.button<ButtonProps>`
+export const StyledButton = styled.button<ButtonProps>`
   background-color: ${(props) => (props.type ? accentColor : "transparent")};
   color: ${(props) => (!props.type ? accentColor : "transparent")};
   font-weight: ${(props) => (!props.type ? "300" : 0)};
@@ -25,5 +25,5 @@ export const Button: React.FC<ButtonProps> = ({ type, children }) => {
 };
 
 export const StyledContainer = styled.div`
-  border-bottom: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #efefef;
 `;
