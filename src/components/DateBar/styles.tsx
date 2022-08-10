@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { useRef } from "react";
 import styled from "styled-components";
+import { AppContext } from "../../Context";
 import { Button, StyledButton } from "../../styles/shared";
 import { backgroundColor, accentColor } from "../../styles/themes";
 
@@ -104,10 +106,12 @@ const StyledBarDayDate = styled.div<{ selected: boolean }>`
   font-size: 1.5rem;
 `;
 const BarDay: React.FC<DayProps> = ({ selected, weekDay, weekDayNumber }) => {
+  const { setSelectedCell } = useContext(AppContext);
+
   return (
     <StyledDay>
       <StyledDayWeekDay>{weekDay}</StyledDayWeekDay>
-      <Button>
+      <Button onClick={() => setSelectedCell(null)}>
         <StyledBarDayDate selected={selected}>{weekDayNumber}</StyledBarDayDate>
       </Button>
     </StyledDay>
