@@ -16,7 +16,8 @@ import { DateData, DayProps } from "./components/DateBar/styles";
 const oneDay = 24 * 60 * 60 * 1000;
 
 const getWeekDayName = (weekDayNum: number) => {
-  let arrWeekDaysName = ["M", "T", "W", "T", "F", "S", "S"];
+  //   let arrWeekDaysName = ["M", "T", "W", "T", "F", "S", "S"];
+  let arrWeekDaysName = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
   return arrWeekDaysName[weekDayNum];
 };
 const getMonthName = (monthNum: number) => {
@@ -52,13 +53,17 @@ const getWeekData = (date: Date): DayProps[] => {
 
   console.log(weekDaysResult);
   //   преобразуем массив из дат в название дня недели и числа
-  return weekDaysResult.map((weekDay) => {
+  let result = weekDaysResult.map((weekDay) => {
+    console.log("returning");
     return {
       selected: false,
-      weekDay: getWeekDayName(weekDay.getDay() + 1),
-      weekDayNumber: weekDay.getDay() + 1,
+      weekDay: getWeekDayName(weekDay.getDay()),
+      weekDayNumber: weekDay.getDate(),
     };
   });
+  console.log(result);
+
+  return result;
 };
 
 type CalendarEvent = {
@@ -92,9 +97,9 @@ export const AppContext = createContext<AppContextProps>({
   setDateData: (): void => console.log("Function didnt bundle correct"),
   dateData: {
     dayProps: {
-      currentWeek: getWeekData(new Date()),
-      nextWeek: getWeekData(new Date(Date.now() - 7 * oneDay)),
-      prevWeek: getWeekData(new Date(Date.now() + 7 * oneDay)),
+      currentWeek: [],
+      nextWeek: [],
+      prevWeek: [],
     },
     monthProps: {
       month: getMonthName(new Date().getMonth()),
@@ -109,9 +114,9 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [selectedCell, setSelectedCell] = useState<CalendarEvent | null>(null);
   const [dateData, setDateData] = useState<DateData>({
     dayProps: {
-      currentWeek: [],
-      nextWeek: [],
-      prevWeek: [],
+      prevWeek: getWeekData(new Date(Date.now() - 7 * oneDay)),
+      currentWeek: getWeekData(new Date()),
+      nextWeek: getWeekData(new Date(Date.now() + 7 * oneDay)),
     },
     monthProps: {
       month: getMonthName(new Date().getMonth()),
