@@ -1,60 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
+import { useState } from "react";
 import { StyledContainer } from "../../styles/shared";
-import { BarMonth, DayProps, DaysBar, MonthProps, StyledDateBar } from "./styles";
+import { BarMonth, DateData, DaysBar, DaysBarProps, MonthProps, StyledDateBar } from "./styles";
 
-const DateBar = () => {
-  // const { currentMonth, currentDay, currentYear, days } = useContext()
+const DateBar: React.FC<DateData> = ({ dayProps, monthProps }) => {
+  const [currentScroll, setCurrentScroll] = useState<number>(-33.3);
 
-  const mockData: { dayProps: DayProps[]; monthProps: MonthProps } = {
-    dayProps: [
-      {
-        selected: false,
-        weekDay: "M",
-        weekNumber: 23,
-      },
-      {
-        selected: true,
-        weekDay: "T",
-        weekNumber: 24,
-      },
-      {
-        selected: false,
-        weekDay: "W",
-        weekNumber: 25,
-      },
-      {
-        selected: false,
-        weekDay: "T",
-        weekNumber: 26,
-      },
-      {
-        selected: false,
-        weekDay: "F",
-        weekNumber: 27,
-      },
-      {
-        selected: false,
-        weekDay: "S",
-        weekNumber: 28,
-      },
-      {
-        selected: false,
-        weekDay: "S",
-        weekNumber: 29,
-      },
-    ],
-    monthProps: {
-      month: "March",
-      year: 2022,
-    },
+  const moveScrollableWeekdays = (move: number) => {
+    console.log(currentScroll);
+    switch (move) {
+      case -1: {
+        setCurrentScroll((prevScroll) => prevScroll + 33.3);
+        // тут меняется неделя
+        break;
+      }
+      case 1: {
+        setCurrentScroll((prevScroll) => prevScroll - 33.3);
+        // тут меняется неделя
+        break;
+      }
+      default: {
+        return;
+      }
+    }
   };
 
   return (
     <StyledContainer>
       <StyledDateBar>
-        {/* вообще весь месяц должен быть, но пока 7 дней */}
-        <DaysBar days={mockData.dayProps} />
-        <BarMonth {...mockData.monthProps} />
+        <DaysBar {...dayProps} currentScroll={currentScroll} />
+        <BarMonth {...monthProps} moveAction={moveScrollableWeekdays} />
       </StyledDateBar>
     </StyledContainer>
   );

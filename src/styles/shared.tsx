@@ -3,6 +3,7 @@ import { backgroundColor, accentColor } from "../styles/themes";
 
 type ButtonProps = {
   children: React.ReactNode;
+  onClick?: (props: any) => void;
   type?: "cross" | "arrowLeft" | "arrowRight";
 };
 export const StyledButton = styled.button<ButtonProps>`
@@ -20,8 +21,8 @@ export const StyledButton = styled.button<ButtonProps>`
     opacity: 0.5;
   }
 `;
-export const Button: React.FC<ButtonProps> = ({ type, children }) => {
-  return <StyledButton>{!type ? children : <img />}</StyledButton>;
+export const Button: React.FC<ButtonProps> = ({ type, children, onClick }) => {
+  return <StyledButton onClick={onClick}>{!type ? children : <img />}</StyledButton>;
 };
 
 export const StyledContainer = styled.div`
