@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useRef } from "react";
 import styled from "styled-components";
@@ -5,12 +6,15 @@ import { AppContext } from "../../Context";
 import { Button, StyledButton } from "../../styles/shared";
 import { backgroundColor, accentColor } from "../../styles/themes";
 
-export type DateData = { dayProps: Omit<DaysBarProps, "currentScroll">; monthProps: Omit<MonthProps, "moveAction"> };
+export type DateData = {
+  dayProps: Omit<DaysBarProps, "currentScroll" | "setCurrentScroll">;
+  monthProps: Omit<MonthProps, "moveAction">;
+};
 
 export const StyledDateBar = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1em 4rem;
+  padding: 1em 1rem 1em 7em;
   background-color: #f6f6f6;
   align-items: center;
 
@@ -47,6 +51,7 @@ export type DayProps = {
   selected: boolean;
   weekDay: string;
   weekDayNumber: number;
+  date: Date;
 };
 
 export type DaysBarProps = {
@@ -54,6 +59,7 @@ export type DaysBarProps = {
   currentWeek: DayProps[];
   nextWeek: DayProps[];
   currentScroll: number;
+  setCurrentScroll: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const StyledDaysBar = styled.div`
@@ -66,7 +72,25 @@ const StyledDaysBar = styled.div`
 const StyledDaysWrapper = styled(StyledBar)`
   justify-content: center;
 `;
-export const DaysBar: React.FC<DaysBarProps> = ({ currentWeek, nextWeek, prevWeek, currentScroll }) => {
+export const DaysBar: React.FC<DaysBarProps> = ({
+  currentWeek,
+  nextWeek,
+  prevWeek,
+  currentScroll,
+  setCurrentScroll,
+}) => {
+  const [renderWeeks, setRenderWeeks] = useState<DayProps[]>([]);
+
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    listRef!.current!.style.transition = "none";
+    setCurrentScroll(-33.3);
+    setRenderWeeks([...prevWeek, ...currentWeek, ...nextWeek]);
+    // @issue 1 хотел чтобы была анимация при передвижении, но она практически не работает, subject to change, но задача уже заняла много времени
+    // listRef!.current!.style.transition = "all 0.1s ease-in-out";
+  }, [currentWeek, nextWeek, prevWeek]);
+
   return (
     <StyledDaysBar>
       <div
@@ -75,15 +99,10 @@ export const DaysBar: React.FC<DaysBarProps> = ({ currentWeek, nextWeek, prevWee
           display: "flex",
           width: "300%",
           transform: `translate(${currentScroll}%, 0)`,
-        }}>
+        }}
+        ref={listRef}>
         <StyledDaysWrapper>
-          {prevWeek.map((day) => (
-            <BarDay {...day} key={day.weekDayNumber} />
-          ))}
-          {currentWeek.map((day) => (
-            <BarDay {...day} key={day.weekDayNumber} />
-          ))}
-          {nextWeek.map((day) => (
+          {renderWeeks.map((day) => (
             <BarDay {...day} key={day.weekDayNumber} />
           ))}
         </StyledDaysWrapper>
@@ -130,8 +149,8 @@ const StyledMonthYear = styled.span`
   font-size: 1.2rem;
 `;
 const StyledMonthYearBar = styled(StyledBar)`
-  width: calc(100% - 1.4rem);
-  padding: 0 1.5em;
+  width: calc(100%);
+  padding: 0 1.2em;
   margin-bottom: -0.75rem;
 
   ${StyledButton} {

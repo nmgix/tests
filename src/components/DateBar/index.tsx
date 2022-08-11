@@ -17,14 +17,10 @@ const DateBar: React.FC<{}> = () => {
     updateWeeks,
   } = useContext(AppContext);
 
-  useEffect(() => {
-    // updateWeeks(new Date());
-  }, []);
-
   return (
     <StyledContainer>
       <StyledDateBar>
-        <DaysBar {...dateData.dayProps} currentScroll={currentScroll} />
+        <DaysBar {...dateData.dayProps} currentScroll={currentScroll} setCurrentScroll={setCurrentScroll} />
         <BarMonth {...dateData.monthProps} moveAction={moveScrollableWeekdays} />
       </StyledDateBar>
     </StyledContainer>
