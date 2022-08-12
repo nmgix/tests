@@ -1,1 +1,1 @@
-export const locale = "en-EN"; //'ru-RU'
+export const locale = "ru-RU"; //'ru-RU'

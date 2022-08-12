@@ -11,12 +11,12 @@ export type DayProps = {
 };
 
 export const BarDay: React.FC<DayProps> = ({ selected, weekDay, weekDayNumber }) => {
-  const { setSelectedCell } = useContext(AppContext);
+  const { setSelectedDay } = useContext(AppContext);
 
   return (
     <StyledDay>
       <StyledDayWeekDay>{weekDay}</StyledDayWeekDay>
-      <Button onClick={() => setSelectedCell(null)}>
+      <Button onClick={() => setSelectedDay(weekDayNumber)}>
         <StyledBarDayDate selected={selected}>{weekDayNumber}</StyledBarDayDate>
       </Button>
     </StyledDay>

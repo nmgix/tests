@@ -20,6 +20,9 @@ type AppContextProps = {
   selectedCell: CalendarEvent | null;
   setSelectedCell: React.Dispatch<React.SetStateAction<CalendarEvent | null>>;
 
+  selectedDay: number;
+  setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
+
   dateData: DateData;
 
   activeWeek: number;
@@ -29,6 +32,9 @@ type AppContextProps = {
 export const AppContext = createContext<AppContextProps>({
   selectedCell: null,
   setSelectedCell: (): void => console.log("Function didnt bundle correct"),
+
+  selectedDay: new Date().getDate(),
+  setSelectedDay: (): void => console.log("Function didnt bundle correct"),
 
   dateData: {
     dayProps: {
@@ -46,6 +52,7 @@ export const AppContext = createContext<AppContextProps>({
 
 const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeWeek, setActiveWeek] = useState<number>(0);
+  const [selectedDay, setSelectedDay] = useState<number>(new Date().getDate());
   const [selectedCell, setSelectedCell] = useState<CalendarEvent | null>(null);
   const [dateData, setDateData] = useState<DateData>(() => {
     return {
@@ -87,6 +94,8 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         selectedCell,
         setSelectedCell,
+        selectedDay,
+        setSelectedDay,
         dateData,
         activeWeek,
         setActiveWeek,

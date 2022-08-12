@@ -1,12 +1,12 @@
 import { MonthProps } from "../components/DateBarGroup/DateMonthBar";
-import { DaysBarProps } from "../components/DateBarGroup/DateWeek";
-import { DayProps } from "../components/DateBarGroup/DateWeek/DateDay";
+import { DaysBarProps } from "../components/DateBarGroup/DateWeekBar";
+import { DayProps } from "../components/DateBarGroup/DateWeekBar/DateDay";
 import { locale } from "./settings";
 
 export const oneDay = 24 * 60 * 60 * 1000;
 
 export type DateData = {
-  dayProps: Omit<DaysBarProps, "currentScroll" | "setCurrentScroll">;
+  dayProps: Omit<DaysBarProps, "selected">;
   monthProps: Omit<MonthProps, "moveAction">;
 };
 
@@ -18,7 +18,7 @@ export const getWeekData = (date: Date): DayProps[] => {
   const day = date.getDay();
   weekDays.forEach((dayNumber) => {
     //@issue 2, необходимо избавиться от магических чисел ("2")
-    let resultDay = new Date(+date + 8 * 3600 * 1000 + (day - 2 - dayNumber) * oneDay);
+    let resultDay = new Date(+date + 8 * 3600 * 1000 + (day - dayNumber) * oneDay);
     weekDaysResult.push(resultDay);
   });
 
