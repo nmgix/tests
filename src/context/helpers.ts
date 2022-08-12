@@ -6,20 +6,16 @@ import { locale } from "./settings";
 export const oneDay = 24 * 60 * 60 * 1000;
 
 export type DateData = {
-  dayProps: Omit<DaysBarProps, "selected">;
+  dayProps: Omit<DaysBarProps, "selected" | "setSelectedDay">;
   monthProps: Omit<MonthProps, "moveAction">;
 };
 
 // считает всю неделю, сохраняет всё в массив Date, далее преобразуя в массив DayProps
 export const getWeekData = (date: Date): DayProps[] => {
-  let weekDaysResult: Date[] = [];
-  const weekDays = [0, 1, 2, 3, 4, 5, 6];
-
-  const day = date.getDay();
-  weekDays.forEach((dayNumber) => {
-    //@issue 2, необходимо избавиться от магических чисел ("2")
-    let resultDay = new Date(+date + 8 * 3600 * 1000 + (day - dayNumber) * oneDay);
-    weekDaysResult.push(resultDay);
+  let weekDaysResult: Date[] = Array.from(Array(7).keys()).map((i) => {
+    const resultDate = new Date(date);
+    resultDate.setDate(resultDate.getDate() - resultDate.getDay() + 1 + i);
+    return resultDate;
   });
 
   weekDaysResult.sort((aDate, bDate) => aDate.getDate() - bDate.getDate());
@@ -31,6 +27,9 @@ export const getWeekData = (date: Date): DayProps[] => {
       weekDay: weekDay.toLocaleDateString(locale, { weekday: "narrow" }),
       weekDayNumber: weekDay.getDate(),
       date: weekDay,
+      setSelectedDay: () => {
+        console.log("Function didn't load");
+      },
     };
   });
 };
@@ -73,4 +72,10 @@ export const decideYear = (dates: DayProps[]) => {
   const { month1, month2 } = countWeekData(dates);
 
   return (month1.length > month2.length ? month1[0] : month2[0]).date.getFullYear() as any;
+};
+
+export const formatDate = (date: Date) => {
+  const month = date.getUTCMonth();
+  const day = date.getUTCDate();
+  return day + "/" + month;
 };

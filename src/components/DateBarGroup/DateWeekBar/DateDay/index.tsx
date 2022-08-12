@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { AppContext } from "../../../../context/Context";
+import { memo } from "react";
 import { Button } from "../../../../styles/shared";
 import { StyledBarDayDate, StyledDay, StyledDayWeekDay } from "./styles";
 
@@ -8,17 +7,19 @@ export type DayProps = {
   weekDay: string;
   weekDayNumber: number;
   date: Date;
+  setSelectedDay: React.Dispatch<React.SetStateAction<Date>>;
 };
 
-export const BarDay: React.FC<DayProps> = ({ selected, weekDay, weekDayNumber }) => {
-  const { setSelectedDay } = useContext(AppContext);
-
-  return (
-    <StyledDay>
-      <StyledDayWeekDay>{weekDay}</StyledDayWeekDay>
-      <Button onClick={() => setSelectedDay(weekDayNumber)}>
-        <StyledBarDayDate selected={selected}>{weekDayNumber}</StyledBarDayDate>
-      </Button>
-    </StyledDay>
-  );
-};
+export const BarDay: React.FC<DayProps> = memo(
+  ({ date, selected, weekDay, weekDayNumber, setSelectedDay }) => {
+    return (
+      <StyledDay>
+        <StyledDayWeekDay>{weekDay}</StyledDayWeekDay>
+        <Button onClick={() => setSelectedDay(date)}>
+          <StyledBarDayDate selected={selected}>{weekDayNumber}</StyledBarDayDate>
+        </Button>
+      </StyledDay>
+    );
+  },
+  (prev, next) => prev.selected === next.selected && prev.date === next.date
+);

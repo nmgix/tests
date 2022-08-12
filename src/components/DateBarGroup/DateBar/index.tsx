@@ -6,7 +6,7 @@ import { BarMonth } from "../DateMonthBar";
 import { DaysBar } from "../DateWeekBar";
 
 const DateBar: React.FC<{}> = () => {
-  const { dateData, setActiveWeek, selectedDay } = useContext(AppContext);
+  const { dateData, setActiveWeek, selectedDay, setSelectedDay } = useContext(AppContext);
 
   const moveAction = (move: number) => {
     setActiveWeek((prev) => prev + move);
@@ -15,7 +15,7 @@ const DateBar: React.FC<{}> = () => {
   return (
     <StyledContainer>
       <StyledDateBar>
-        <DaysBar week={dateData.dayProps.week} selected={selectedDay} />
+        <DaysBar week={dateData.dayProps.week} selected={selectedDay} setSelectedDay={setSelectedDay} />
         <BarMonth {...dateData.monthProps} moveAction={moveAction} />
       </StyledDateBar>
     </StyledContainer>
