@@ -4,6 +4,8 @@ import Header from "../Header";
 import AppContextProvider from "../../context/Context";
 import GlobalStyle from "../../styles/global";
 import { AppWrapper } from "./styles";
+import Grid from "../EventsGrid/Grid";
+import Footer from "../Footer";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
           <GlobalStyle />
           <Header />
           <DateBar />
+          <Grid />
+          <Footer />
         </ThemeProvider>
       </AppWrapper>
     </AppContextProvider>

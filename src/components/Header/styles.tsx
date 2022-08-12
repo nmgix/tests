@@ -1,15 +1,10 @@
 import styled from "styled-components";
-import { StyledContainer } from "../../styles/shared";
-import { backgroundColor, accentColor } from "../../styles/themes";
 
-export const Header = styled(StyledContainer)`
-  background-color: ${backgroundColor};
+export const Header = styled.div`
   width: 100%;
-  min-height: 10vh;
-  padding: 1.5em 2em;
+  height: 100%;
   display: flex;
   justify-content: space-between;
-  margin: 0;
 `;
 
 export const Title = styled.h2`

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { DateData, decideMonth, decideYear, getWeekData, oneDay } from "./helpers";
+import { DateData, decideMonth, decideYear, formatDate, getWeekData, oneDay } from "./helpers";
 import { locale } from "./settings";
 
 // localstorage pattern
@@ -80,6 +80,7 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setDateData(newData);
   };
 
+  // переключение на другую неделю
   useEffect(() => {
     let days = 7;
     let date = new Date();
@@ -88,6 +89,13 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     updateWeeks(newdate);
   }, [activeWeek]);
+
+  // если переключение идёт через футер на сегодняшнюю дату
+  useEffect(() => {
+    if (formatDate(selectedDay) === formatDate(new Date())) {
+      setActiveWeek(0);
+    }
+  }, [selectedDay]);
 
   return (
     <AppContext.Provider

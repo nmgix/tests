@@ -13,7 +13,7 @@ const DateBar: React.FC<{}> = () => {
   };
 
   return (
-    <StyledContainer>
+    <StyledContainer darkenBackground>
       <StyledDateBar>
         <DaysBar week={dateData.dayProps.week} selected={selectedDay} setSelectedDay={setSelectedDay} />
         <BarMonth {...dateData.monthProps} moveAction={moveAction} />

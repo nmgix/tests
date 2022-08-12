@@ -1,13 +1,17 @@
 import React from "react";
-import { Button } from "../../styles/shared";
-import { Header as HeaderWrapper, Title } from "./styles";
+import { Button, StyledPaddingContainer, StyledContainer } from "../../styles/shared";
+import { Header as HeaderMain, Title } from "./styles";
 
 const Header = () => {
   return (
-    <HeaderWrapper>
-      <Title>Interview Calendar</Title>
-      <Button>+</Button>
-    </HeaderWrapper>
+    <StyledContainer>
+      <StyledPaddingContainer>
+        <HeaderMain>
+          <Title>Interview Calendar</Title>
+          <Button>+</Button>
+        </HeaderMain>
+      </StyledPaddingContainer>
+    </StyledContainer>
   );
 };
 

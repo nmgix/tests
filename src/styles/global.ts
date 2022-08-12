@@ -37,6 +37,7 @@ export default createGlobalStyle`
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
     }
 
     @font-face {
