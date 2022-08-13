@@ -2,19 +2,9 @@ import React, { useState, useEffect, createContext } from "react";
 import { DateData, decideMonth, decideYear, formatDate, getWeekData, oneDay } from "./helpers";
 import { locale } from "./settings";
 
-// localstorage pattern
-// {
-//     "events": {
-//         "date-year-month-day-etc": [
-//             "date-hour-minutes": "EventName",
-//             "date-hour-minutes": "EventName",
-//         ]
-//     }
-// }
-
-type CalendarEvent = {
+export type CalendarEvent = {
+  id: number;
   date: Date;
-  content: string;
 };
 type AppContextProps = {
   selectedCell: CalendarEvent | null;

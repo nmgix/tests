@@ -11,7 +11,7 @@ const Footer = () => {
       <StyledPaddingContainer>
         <FooterMain>
           <Button onClick={() => setSelectedDay(new Date())}>Today</Button>
-          {true ? <Button>Delete</Button> : <></>}
+          {selectedCell ? <Button>Delete</Button> : <></>}
         </FooterMain>
       </StyledPaddingContainer>
     </StyledContainer>

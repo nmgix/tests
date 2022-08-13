@@ -74,8 +74,9 @@ export const decideYear = (dates: DayProps[]) => {
   return (month1.length > month2.length ? month1[0] : month2[0]).date.getFullYear() as any;
 };
 
-export const formatDate = (date: Date) => {
+export const formatDate = (date: Date, includeYear = false) => {
+  const year = date.getUTCFullYear();
   const month = date.getUTCMonth();
   const day = date.getUTCDate();
-  return day + "/" + month;
+  return includeYear ? day + "/" + month + "/" + year : day + "/" + month;
 };
