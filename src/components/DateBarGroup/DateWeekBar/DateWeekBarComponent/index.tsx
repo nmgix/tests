@@ -1,10 +1,11 @@
-import { formatDate } from "../../../context/helpers";
-import { BarDay, DayProps } from "./DateDay";
+import { formatDate } from "../../../../context/helpers";
+import { BarDay, DayProps } from "../DateDayComponent";
 import { StyledDaysBar, StyledDaysWrapper } from "./styles";
 
 export type DaysBarProps = {
   week: DayProps[];
   selected: Date;
+  // так пропдриллинг обусловлен ререндером каждого числа, но в угоду чистоты кода, можно использовать контекст и вытаскивать setSelectedDay оттуда
   setSelectedDay: React.Dispatch<React.SetStateAction<Date>>;
 };
 

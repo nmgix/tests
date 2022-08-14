@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { StyledTD } from "../Memoized/MemoizedTD/styles";
-import { StyledTR } from "../Memoized/MemoizedTR/styles";
+import { StyledTD } from "../MemoizedGroup/MemoizedTDComponent/styles";
+import { StyledTR } from "../MemoizedGroup/MemoizedTRComponent/styles";
 
 export type GridButtonProps = {
   selected: boolean;

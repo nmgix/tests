@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "../../../context/Context";
-import { MemoizedTR } from "../Memoized/MemoizedTR";
+import { MemoizedTR } from "../MemoizedGroup/MemoizedTRComponent";
 import { useGetDates } from "./getDatesHook";
 import { GridWrapper, StyledTableGrid } from "./styles";
 

@@ -1,5 +1,5 @@
 import { CalendarEvent } from "../../../../context/Context";
-import { GridButton, GridButtonProps } from "../../Grid/styles";
+import { GridButton, GridButtonProps } from "../../GridComponent/styles";
 import { memo } from "react";
 import { StyledTD } from "./styles";
 

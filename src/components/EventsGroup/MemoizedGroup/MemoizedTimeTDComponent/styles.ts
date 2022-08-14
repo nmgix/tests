@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StyledTD } from "../MemoizedTD/styles";
+import { StyledTD } from "../MemoizedTDComponent/styles";
 
 export const TimeStyledTD = styled(StyledTD)`
   position: relative;

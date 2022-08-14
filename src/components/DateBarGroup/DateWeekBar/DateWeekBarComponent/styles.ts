@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StyledBar } from "../shared";
+import { StyledBar } from "../../shared";
 
 export const StyledDaysBar = styled.div`
   display: flex;

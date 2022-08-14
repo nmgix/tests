@@ -18,8 +18,8 @@ export const BarDay: React.FC<DayProps> = memo(
         <Button
           onClick={() => {
             // чтобы не очищать выделение при нажатии на уже выбранную дату
-            if(!selected) {
-              setSelectedDay(date)
+            if (!selected) {
+              setSelectedDay(date);
             }
           }}>
           <StyledBarDayDate selected={selected}>{weekDayNumber}</StyledBarDayDate>

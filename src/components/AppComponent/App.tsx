@@ -1,11 +1,11 @@
 import { ThemeProvider } from "styled-components";
-import DateBar from "../DateBarGroup/DateBar";
-import Header from "../Header";
+import DateBar from "../DateBarGroup/DateBarComponent";
 import AppContextProvider from "../../context/Context";
 import GlobalStyle from "../../styles/global";
 import { AppWrapper } from "./styles";
-import Grid from "../EventsGrid/Grid";
-import Footer from "../Footer";
+import Footer from "../FooterComponent";
+import Header from "../HeaderComponent";
+import Grid from "../EventsGroup/GridComponent";
 
 function App() {
   return (

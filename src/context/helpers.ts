@@ -1,6 +1,6 @@
-import { MonthProps } from "../components/DateBarGroup/DateMonthBar";
-import { DaysBarProps } from "../components/DateBarGroup/DateWeekBar";
-import { DayProps } from "../components/DateBarGroup/DateWeekBar/DateDay";
+import { MonthProps } from "../components/DateBarGroup/DateMonthBarComponent";
+import { DaysBarProps } from "../components/DateBarGroup/DateWeekBar/DateWeekBarComponent";
+import { DayProps } from "../components/DateBarGroup/DateWeekBar/DateDayComponent";
 import { locale } from "./settings";
 
 export const oneDay = 24 * 60 * 60 * 1000;

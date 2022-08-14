@@ -1,9 +1,9 @@
 import { CalendarEvent } from "../../../../context/Context";
 import { memo } from "react";
 import { StyledTR } from "./styles";
-import { MemoizedTimeTD } from "../MemoizedTimeTD";
-import { StyledTD } from "../MemoizedTD/styles";
-import { MemoizedTD } from "../MemoizedTD";
+import { MemoizedTimeTD } from "../MemoizedTimeTDComponent";
+import { StyledTD } from "../MemoizedTDComponent/styles";
+import { MemoizedTD } from "../MemoizedTDComponent";
 
 type MemoizedTRProps = {
   rowId: number;

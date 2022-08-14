@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GridWrapper } from "../EventsGrid/Grid/styles";
+import { GridWrapper } from "../EventsGroup/GridComponent/styles";
 
 export const AppWrapper = styled.div`
   width: 740px;

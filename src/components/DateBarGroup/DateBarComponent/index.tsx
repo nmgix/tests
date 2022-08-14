@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { AppContext } from "../../../context/Context";
 import { StyledContainer } from "../../../styles/shared";
 import { StyledDateBar } from "./styles";
-import { BarMonth } from "../DateMonthBar";
-import { DaysBar } from "../DateWeekBar";
+import { BarMonth } from "../DateMonthBarComponent";
+import { DaysBar } from "../DateWeekBar/DateWeekBarComponent";
 
 const DateBar: React.FC<{}> = () => {
   const { dateData, setActiveWeek, selectedDay, setSelectedDay } = useContext(AppContext);
