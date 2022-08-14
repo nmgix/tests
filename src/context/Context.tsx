@@ -47,25 +47,29 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [selectedCell, setSelectedCell] = useState<CalendarEvent | null>(null);
 
   const [dateData, setDateData] = useState<DateData>(() => {
+    let weekData = getWeekData(new Date());
+
     return {
       dayProps: {
-        week: getWeekData(new Date()),
+        week: weekData,
       },
       monthProps: {
-        month: decideMonth(getWeekData(new Date())),
-        year: decideYear(getWeekData(new Date())),
+        month: decideMonth(weekData),
+        year: decideYear(weekData),
       },
     };
   });
 
   const updateWeeks = (mainDate: Date) => {
+    let weekData = getWeekData(mainDate);
+
     let newData = {
       dayProps: {
-        week: getWeekData(mainDate),
+        week: weekData,
       },
       monthProps: {
-        month: decideMonth(getWeekData(mainDate)),
-        year: decideYear(getWeekData(mainDate)),
+        month: decideMonth(weekData),
+        year: decideYear(weekData),
       },
     };
     setDateData(newData);

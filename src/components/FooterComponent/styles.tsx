@@ -34,9 +34,13 @@ export const MemoizedFooter: React.FC<FooterProps> = memo(
     if (!next.selectedCell) {
       return false;
     }
-    if (prev.selectedCell !== null && prev.selectedCell.scheduled !== next.selectedCell.scheduled) {
+
+    if (prev.selectedCell === null && next.selectedCell.scheduled === true) {
+      return false;
+    } else if (prev.selectedCell !== null && prev.selectedCell.scheduled !== next.selectedCell.scheduled) {
       return false;
     }
+
     return true;
   }
 );

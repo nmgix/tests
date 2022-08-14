@@ -83,3 +83,11 @@ export const formatDate = (date: Date, includeYear = false) => {
   const day = date.getUTCDate();
   return includeYear ? day + "/" + month + "/" + year : day + "/" + month;
 };
+
+export let formatHours = (date: string) => {
+  let formateDate = date.split(":")[0];
+  if (Number(formateDate) < 10) {
+    formateDate.replace("0", "");
+  }
+  return Number(formateDate);
+};

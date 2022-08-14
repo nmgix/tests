@@ -4,6 +4,7 @@ import { StyledTR } from "./styles";
 import { MemoizedTimeTD } from "../MemoizedTimeTDComponent";
 import { StyledTD } from "../MemoizedTDComponent/styles";
 import { MemoizedTD } from "../MemoizedTDComponent";
+import { formatHours } from "../../../../context/helpers";
 
 type MemoizedTRProps = {
   rowId: number;
@@ -24,7 +25,7 @@ export const MemoizedTR: React.FC<MemoizedTRProps> = memo(
             <StyledTD key={eventIdx}></StyledTD>
           ) : (
             <MemoizedTD
-              scheduled={false}
+              scheduled={event.scheduled}
               selectedCell={selectedCell}
               eventId={event.id}
               date={event.date}
@@ -40,8 +41,8 @@ export const MemoizedTR: React.FC<MemoizedTRProps> = memo(
     if (!next.selectedCell) {
       return false;
     }
-    let rowDate = prev.date.split(":")[0];
-    rowDate.replace("0", "");
+    let rowDate = formatHours(prev.date);
+
     let nextSelectedCellDate = next.selectedCell.date.getHours();
 
     if (
