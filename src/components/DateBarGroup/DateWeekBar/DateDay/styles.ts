@@ -21,6 +21,10 @@ export const StyledDay = styled.li`
   align-items: center;
   margin-bottom: 0.3rem;
   width: 10%;
+
+  @media screen and (max-width: 450px) {
+    width: 15%;
+  }
 `;
 export const StyledDayWeekDay = styled.span`
   font-weight: 600;

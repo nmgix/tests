@@ -15,7 +15,13 @@ export const BarDay: React.FC<DayProps> = memo(
     return (
       <StyledDay>
         <StyledDayWeekDay>{weekDay}</StyledDayWeekDay>
-        <Button onClick={() => setSelectedDay(date)}>
+        <Button
+          onClick={() => {
+            // чтобы не очищать выделение при нажатии на уже выбранную дату
+            if(!selected) {
+              setSelectedDay(date)
+            }
+          }}>
           <StyledBarDayDate selected={selected}>{weekDayNumber}</StyledBarDayDate>
         </Button>
       </StyledDay>

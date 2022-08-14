@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "../../context/Context";
-import { Button, StyledContainer, StyledPaddingContainer } from "../../styles/shared";
-import { Footer as FooterMain } from "./styles";
+import { StyledContainer, StyledPaddingContainer } from "../../styles/shared";
+import { MemoizedFooter } from "./styles";
 
 const Footer = () => {
   const { selectedCell, setSelectedDay } = useContext(AppContext);
@@ -9,10 +9,7 @@ const Footer = () => {
   return (
     <StyledContainer invertedBorder darkenBackground>
       <StyledPaddingContainer>
-        <FooterMain>
-          <Button onClick={() => setSelectedDay(new Date())}>Today</Button>
-          {selectedCell ? <Button>Delete</Button> : <></>}
-        </FooterMain>
+        <MemoizedFooter selectedCell={selectedCell} setSelectedDay={setSelectedDay} />
       </StyledPaddingContainer>
     </StyledContainer>
   );

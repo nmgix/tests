@@ -1,17 +1,13 @@
-import React, { memo, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { CalendarEvent } from "../../../context/Context";
+import { StyledTD } from "../Memoized/MemoizedTD/styles";
+import { StyledTR } from "../Memoized/MemoizedTR/styles";
 
 export type GridButtonProps = {
   selected: boolean;
   scheduled: boolean;
 };
 
-export type MemoizedTDProps = GridButtonProps & {
-  eventId: number;
-  date: Date;
-  setSelectedCell: React.Dispatch<React.SetStateAction<CalendarEvent | null>>;
-};
 //
 export const GridButton = styled.button<GridButtonProps>`
   background-color: ${(props) => (props.selected ? "#b3b7ff" : props.scheduled ? "#ebecff" : "transparent")};
@@ -36,52 +32,9 @@ export const GridWrapper = styled.div`
 
   padding-left: 0.75rem;
 `;
+
 //
-export const StyledTD = styled.td`
-  padding: 0.2rem;
-  flex: 1;
-
-  height: 55px;
-`;
-export const TimeStyledTD = styled(StyledTD)`
-  position: relative;
-  time {
-    position: absolute;
-    opacity: 0.35;
-    transform: translate(0%, calc(-50% - 0.2rem));
-  }
-`;
-export const MemoizedTD: React.FC<MemoizedTDProps> = memo(
-  (props) => {
-    return (
-      <StyledTD>
-        <GridButton {...props} onClick={() => props.setSelectedCell({ date: props.date, id: props.eventId })} />
-      </StyledTD>
-    );
-  },
-  (prev, next) => prev.scheduled === next.scheduled && prev.selected === next.selected
-);
-//
-export const StyledTR = styled.tr`
-  display: flex;
-  justify-content: space-between;
-
-  ${StyledTD} {
-    border-right: 1px solid #d5d5d5;
-    border-bottom: 1px solid #d5d5d5;
-  }
-
-  ${StyledTD}:nth-child(1) {
-    border-right: none;
-    border-bottom: none;
-  }
-
-  ${StyledTD}:last-child {
-    border-right: none;
-  }
-`;
-//
-export const StyledTable = styled.table`
+const StyledTable = styled.table`
   padding: 2.5rem 0;
   display: flex;
   flex-direction: column;
@@ -100,3 +53,11 @@ export const StyledTable = styled.table`
     }
   }
 `;
+
+export const StyledTableGrid: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <StyledTable>
+      <tbody>{children}</tbody>
+    </StyledTable>
+  );
+};

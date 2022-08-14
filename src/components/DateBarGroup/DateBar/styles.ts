@@ -6,11 +6,7 @@ export const StyledDateBar = styled.div`
   padding: 1em 1rem 1em 7em;
   align-items: center;
 
-  @media screen and (max-width: 400px) {
-    padding: 1em 1.4rem;
-  }
-
-  @media screen and (max-width: 350px) {
-    padding: 1em 1rem;
+  @media screen and (max-width: 550px) {
+    padding: 1em 1em;
   }
 `;

@@ -13,9 +13,6 @@ export const DaysBar: React.FC<DaysBarProps> = ({ week, selected, setSelectedDay
     <StyledDaysBar>
       <StyledDaysWrapper>
         {week.map((day) => {
-          // console.log(day.date, selected);
-          // console.log(formatDate(day.date), formatDate(selected));
-          // console.log(" ");
           return (
             <BarDay
               {...day}

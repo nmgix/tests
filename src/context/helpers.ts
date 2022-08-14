@@ -14,7 +14,10 @@ export type DateData = {
 export const getWeekData = (date: Date): DayProps[] => {
   let weekDaysResult: Date[] = Array.from(Array(7).keys()).map((i) => {
     const resultDate = new Date(date);
-    resultDate.setDate(resultDate.getDate() - resultDate.getDay() + 1 + i);
+    resultDate.setDate(
+      // неделя по-европейским меркам начинается с воскресенья, из-за этого появляются "магические" числа
+      resultDate.getDate() - (resultDate.getDay() === 0 ? resultDate.getDay() + i : resultDate.getDay() + 1 + i)
+    );
     return resultDate;
   });
 

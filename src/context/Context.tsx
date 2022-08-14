@@ -5,6 +5,7 @@ import { locale } from "./settings";
 export type CalendarEvent = {
   id: number;
   date: Date;
+  scheduled: boolean;
 };
 type AppContextProps = {
   selectedCell: CalendarEvent | null;
@@ -44,6 +45,7 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeWeek, setActiveWeek] = useState<number>(0);
   const [selectedDay, setSelectedDay] = useState<Date>(new Date());
   const [selectedCell, setSelectedCell] = useState<CalendarEvent | null>(null);
+
   const [dateData, setDateData] = useState<DateData>(() => {
     return {
       dayProps: {
@@ -66,7 +68,6 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         year: decideYear(getWeekData(mainDate)),
       },
     };
-
     setDateData(newData);
   };
 
@@ -75,16 +76,18 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     let days = 7;
     let date = new Date();
     let dtms = date.valueOf();
-    let newdate = new Date(dtms + (activeWeek === 0 ? 1 : oneDay * activeWeek * days));
-
-    updateWeeks(newdate);
+    let newDate = new Date(dtms + (activeWeek === 0 ? 1 : oneDay * activeWeek * days));
+    updateWeeks(newDate);
   }, [activeWeek]);
 
-  // если переключение идёт через футер на сегодняшнюю дату
   useEffect(() => {
+    // если переключение идёт через футер на сегодняшнюю дату
     if (formatDate(selectedDay) === formatDate(new Date())) {
       setActiveWeek(0);
     }
+
+    // удаление селекта при смене дня
+    setSelectedCell(null);
   }, [selectedDay]);
 
   return (
