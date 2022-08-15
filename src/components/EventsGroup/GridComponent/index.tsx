@@ -1,13 +1,10 @@
 import { useContext } from "react";
 import { AppContext } from "../../../context/Context";
 import { MemoizedTR } from "../MemoizedGroup/MemoizedTRComponent";
-import { useGetDates } from "./getDatesHook";
 import { GridWrapper, StyledTableGrid } from "./styles";
 
-const Grid = () => {
-  const { selectedCell, setSelectedCell } = useContext(AppContext);
-
-  const cellsState = useGetDates();
+const Grid: React.FC = () => {
+  const { selectedCell, setSelectedCell, cellsState } = useContext(AppContext);
 
   return (
     <GridWrapper>

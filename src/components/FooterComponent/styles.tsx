@@ -19,14 +19,19 @@ const Footer = styled.div`
 type FooterProps = {
   selectedCell: CalendarEvent | null;
   setSelectedDay: React.Dispatch<React.SetStateAction<Date>>;
+  deleteScheduled: (event: CalendarEvent) => void;
 };
 
 export const MemoizedFooter: React.FC<FooterProps> = memo(
-  ({ selectedCell, setSelectedDay }) => {
+  ({ selectedCell, setSelectedDay, deleteScheduled }) => {
     return (
       <Footer>
         <Button onClick={() => setSelectedDay(new Date())}>Today</Button>
-        {selectedCell && selectedCell.scheduled === true ? <Button>Delete</Button> : <></>}
+        {selectedCell && selectedCell.scheduled === true ? (
+          <Button onClick={() => deleteScheduled(selectedCell)}>Delete</Button>
+        ) : (
+          <></>
+        )}
       </Footer>
     );
   },

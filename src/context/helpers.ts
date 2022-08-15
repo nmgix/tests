@@ -2,6 +2,7 @@ import { MonthProps } from "../components/DateBarGroup/DateMonthBarComponent";
 import { DaysBarProps } from "../components/DateBarGroup/DateWeekBar/DateWeekBarComponent";
 import { DayProps } from "../components/DateBarGroup/DateWeekBar/DateDayComponent";
 import { locale } from "./settings";
+import { RawDayData } from "./Context";
 
 export const oneDay = 24 * 60 * 60 * 1000;
 
@@ -12,19 +13,15 @@ export type DateData = {
 
 // считает всю неделю, сохраняет всё в массив Date, далее преобразуя в массив DayProps
 export const getWeekData = (date: Date): DayProps[] => {
-  let weekDaysResult: Date[] = Array.from(Array(7).keys()).map((i) => {
-    const resultDate = new Date(date);
-    resultDate.setDate(
-      // неделя по-европейским меркам начинается с воскресенья, из-за этого появляются "магические" числа
-      resultDate.getDate() - (resultDate.getDay() === 0 ? resultDate.getDay() + i : resultDate.getDay() + 1 + i)
-    );
-    return resultDate;
-  });
+  let week = [];
 
-  weekDaysResult.sort((aDate, bDate) => aDate.getDate() - bDate.getDate());
-  weekDaysResult.sort((aDate, bDate) => aDate.getMonth() - bDate.getMonth());
+  for (let i = 1; i <= 7; i++) {
+    let first = date.getDate() - date.getDay() + i;
+    let day = new Date(date.setDate(first));
+    week.push(day);
+  }
 
-  return weekDaysResult.map((weekDay) => {
+  return week.map((weekDay) => {
     return {
       selected: false,
       weekDay: weekDay.toLocaleDateString(locale, { weekday: "narrow" }),
@@ -77,17 +74,68 @@ export const decideYear = (dates: DayProps[]) => {
   return (month1.length > month2.length ? month1[0] : month2[0]).date.getFullYear() as any;
 };
 
+// форматировать дату до типа day/month(/year)
 export const formatDate = (date: Date, includeYear = false) => {
   const year = date.getUTCFullYear();
-  const month = date.getUTCMonth();
+  const month = date.getUTCMonth() + 1;
   const day = date.getUTCDate();
-  return includeYear ? day + "/" + month + "/" + year : day + "/" + month;
+  return includeYear ? day + "/" + (month < 10 ? `0${month}` : month) + "/" + year : day + "/" + month;
 };
 
+// форматировать время от "08:00" до 8
 export let formatHours = (date: string) => {
   let formateDate = date.split(":")[0];
   if (Number(formateDate) < 10) {
     formateDate.replace("0", "");
   }
   return Number(formateDate);
+};
+
+// типы с измененным date типом
+type LocalStorageRawCalendarData = {
+  [time: string]: LocalStorageRawDayData;
+};
+type LocalStorageRawDayData = {
+  [time: string]: LocalStorageCalandarEvent[];
+};
+type LocalStorageCalandarEvent = {
+  id: number;
+  date: number;
+  scheduled: boolean;
+};
+export const saveEventsLocalStorage = (date: Date, dayData: RawDayData) => {
+  let localStorageData = localStorage.getItem("events");
+
+  let data: LocalStorageRawCalendarData = {};
+
+  if (localStorageData) {
+    data = JSON.parse(localStorageData);
+  }
+
+  let formatedDate = formatDate(date, true);
+
+  let resultData: LocalStorageRawDayData = {};
+
+  Object.keys(dayData).forEach((key) => {
+    let dateArray: LocalStorageCalandarEvent[] = [];
+
+    dayData[key].forEach((day) => {
+      let event: LocalStorageCalandarEvent = {
+        date: day.date.valueOf(),
+        id: day.id,
+        scheduled: day.scheduled,
+      };
+      if (event.scheduled === true) {
+        dateArray.push(event);
+      }
+    });
+
+    if (dateArray.length > 0) {
+      resultData[key] = dateArray;
+    }
+  });
+
+  data[formatedDate] = resultData;
+
+  localStorage.setItem("events", JSON.stringify(data));
 };
