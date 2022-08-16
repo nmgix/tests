@@ -76,9 +76,9 @@ export const decideYear = (dates: DayProps[]) => {
 
 // форматировать дату до типа day/month(/year)
 export const formatDate = (date: Date, includeYear = false) => {
-  const year = date.getUTCFullYear();
-  const month = date.getUTCMonth() + 1;
-  const day = date.getUTCDate();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
   return includeYear ? day + "/" + (month < 10 ? `0${month}` : month) + "/" + year : day + "/" + month;
 };
 
@@ -135,7 +135,11 @@ export const saveEventsLocalStorage = (date: Date, dayData: RawDayData) => {
     }
   });
 
-  data[formatedDate] = resultData;
+  if (Object.keys(resultData).length === 0) {
+    delete data[formatedDate];
+  } else {
+    data[formatedDate] = resultData;
+  }
 
   localStorage.setItem("events", JSON.stringify(data));
 };

@@ -32,7 +32,8 @@ type AppContextProps = {
   setActiveWeek: React.Dispatch<React.SetStateAction<number>>;
 
   cellsState: RawDayData;
-  setCellsState: React.Dispatch<React.SetStateAction<RawDayData>>;
+  createEvent: () => void;
+  deleteScheduled: (event: CalendarEvent) => void;
 };
 
 export const AppContext = createContext<AppContextProps>({
@@ -56,12 +57,15 @@ export const AppContext = createContext<AppContextProps>({
   setActiveWeek: (): void => console.log("Function didnt bundle correct"),
 
   cellsState: {},
-  setCellsState: (): void => console.log("Function didnt bundle correct"),
+  createEvent: (): void => console.log("Function didnt bundle correct"),
+  deleteScheduled: (): void => console.log("Function didnt bundle correct"),
 });
 const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeWeek, setActiveWeek] = useState<number>(0);
   const [selectedDay, setSelectedDay] = useState<Date>(new Date());
   const [selectedCell, setSelectedCell] = useState<CalendarEvent | null>(null);
+  const [cellsState, setCellsState] = useState<RawDayData>({});
+
   const [dateData, setDateData] = useState<DateData>(() => {
     let weekData = getWeekData(new Date());
 
@@ -75,75 +79,98 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       },
     };
   });
+  const updateWeeks = (mainDate: Date) => {
+    let weekData = getWeekData(mainDate);
+
+    let newData = {
+      dayProps: {
+        week: weekData,
+      },
+      monthProps: {
+        month: decideMonth(weekData),
+        year: decideYear(weekData),
+      },
+    };
+    setDateData(newData);
+  };
+
+  const getFreeCell = (date: Date): CalendarEvent | null => {
+    // нужна будет для выставления ивентов с localStorage и создания нового ивента
+    let dateRowKey = Object.keys(cellsState).find((key) => formatHours(key) === date.getHours());
+    if (!dateRowKey) {
+      return null;
+    }
+    let dateRow = cellsState[dateRowKey];
+    let closestEvent = dateRow.reduce(function (prev, curr) {
+      return Math.abs(curr.date.valueOf() - date.valueOf()) < Math.abs(prev.date.valueOf() - date.valueOf())
+        ? curr
+        : prev;
+    });
+
+    if (!closestEvent.scheduled) {
+      return closestEvent;
+    } else {
+      let closestEventIndex = dateRow.indexOf(closestEvent);
+
+      let nextCell = dateRow.at(closestEventIndex + 1);
+      let previousCell = dateRow.at(closestEventIndex - 1);
+
+      // если справа и слева есть клетка
+      if (nextCell && previousCell) {
+        let differenceWithRight =
+          nextCell.date.getMinutes() * 60 +
+          nextCell.date.getSeconds() -
+          (closestEvent.date.getMinutes() * 60 + closestEvent.date.getSeconds());
+        let differenceWithLeft =
+          closestEvent.date.getMinutes() * 60 +
+          closestEvent.date.getSeconds() -
+          (previousCell.date.getMinutes() * 60 + previousCell.date.getSeconds());
+
+        if (differenceWithRight > differenceWithLeft) {
+          if (nextCell.scheduled === false) {
+            return nextCell;
+          } else {
+            return null;
+          }
+        } else {
+          if (previousCell!.scheduled === false) {
+            return nextCell;
+          } else {
+            return null;
+          }
+        }
+        // если справа есть клетка
+      } else if (nextCell) {
+        if (nextCell.scheduled === false) {
+          return nextCell;
+        } else {
+          return null;
+        }
+        // если слева есть клетка
+      } else if (previousCell) {
+        if (previousCell.scheduled === false) {
+          return previousCell;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    }
+  };
 
   const getDates = useCallback(() => {
+    let rows = 7;
+
     let resultData: RawDayData = {};
     for (let i = 0; i < 25; i++) {
       let localDate = `${i < 10 ? `0${i}` : i}:00`;
       resultData[localDate] = Array.from(Array(7).keys()).map((key) => ({
-        date: new Date(new Date(selectedDay).setHours(i, 0, 0)),
+        date: new Date(new Date(selectedDay).setHours(i, (60 / rows) * key, 0)),
         id: key,
         scheduled: false,
       }));
     }
-
-    // console.log("Mockup data for LocalStorage!");
-    console.log(
-      JSON.stringify({
-        "15/08/2022": {
-          "09:00": [
-            {
-              date: new Date().setHours(9),
-              id: 0,
-              scheduled: true,
-            },
-            {
-              date: new Date().setHours(9, 30),
-              id: 1,
-              scheduled: false,
-            },
-          ],
-          "10:00": [
-            {
-              date: new Date().setHours(10),
-              id: 0,
-              scheduled: true,
-            },
-            {
-              date: new Date().setHours(10, 30),
-              id: 1,
-              scheduled: true,
-            },
-          ],
-        },
-        "16/08/2022": {
-          "09:00": [
-            {
-              date: new Date().setHours(9),
-              id: 0,
-              scheduled: false,
-            },
-            {
-              date: new Date().setHours(9, 30),
-              id: 1,
-              scheduled: false,
-            },
-          ],
-          "10:00": [
-            {
-              date: new Date().setHours(10),
-              id: 0,
-              scheduled: false,
-            },
-            {
-              date: new Date().setHours(10, 30),
-              id: 1,
-              scheduled: false,
-            },
-          ],
-        },
-      })
-    );
 
     let localStorageData = localStorage.getItem("events");
 
@@ -166,36 +193,85 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       let dayData = rawEventsData[dayDataKey];
 
       Object.keys(dayData).forEach((key) => {
-        let eventsArray = dayData[key];
-        eventsArray.forEach((event) => {
-          event.date = new Date(event.date);
-        });
-
         let gridDataDay = Object.keys(resultData).find((gridKey) => {
           return formatHours(key) === formatHours(gridKey);
         });
         let gridData = resultData[gridDataDay!];
-        gridData.splice(0, eventsArray.length, ...eventsArray);
+
+        let eventsArray = dayData[key];
+        eventsArray.forEach((event) => {
+          // преобразовывание даты в нормальный вид
+          event.date = new Date(event.date);
+
+          let gridCellIndex = gridData.indexOf(gridData.find((cell) => cell.id === event.id)!);
+          gridData[gridCellIndex] = event;
+        });
       });
     }
 
     return resultData;
   }, [selectedDay]);
-  const updateWeeks = (mainDate: Date) => {
-    let weekData = getWeekData(mainDate);
 
-    let newData = {
-      dayProps: {
-        week: weekData,
-      },
-      monthProps: {
-        month: decideMonth(weekData),
-        year: decideYear(weekData),
-      },
-    };
-    setDateData(newData);
+  const deleteScheduled = (event: CalendarEvent) => {
+    setCellsState((prev) => {
+      let resultData: RawDayData = structuredClone(prev);
+
+      let dateRowKey = Object.keys(resultData).find((key) => formatHours(key) === event.date.getHours());
+      if (!dateRowKey) {
+        return resultData;
+      }
+
+      let dateRow = resultData[dateRowKey];
+      let exactCell = dateRow.find((rowEvent) => rowEvent.id === event.id);
+      if (!exactCell) {
+        return resultData;
+      }
+      exactCell.scheduled = false;
+      setSelectedCell(null);
+
+      return resultData;
+    });
   };
-  const [cellsState, setCellsState] = useState<RawDayData>({});
+  const createEvent = () => {
+    let currentDate = new Date();
+    let formatedMonthYear = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+    let formatedHours = currentDate.toTimeString().split(" ")[0];
+    let eventDate = prompt("Enter event time: \n YYYY-MM-DD HH:mm:ss", `${formatedMonthYear} ${formatedHours}`);
+    if (!eventDate) {
+      return;
+    }
+
+    let date = new Date(eventDate);
+    if (date instanceof Date && !isNaN(date.getTime())) {
+      let newEvent = getFreeCell(date);
+      if (!newEvent) {
+        return alert("Cant process planning on set date, please choose another");
+      }
+
+      setCellsState((prev) => {
+        let resultData: RawDayData = structuredClone(prev);
+
+        let dateRowKey = Object.keys(resultData).find((key) => formatHours(key) === newEvent!.date.getHours());
+        if (!dateRowKey) {
+          return resultData;
+        }
+
+        let dateRow = resultData[dateRowKey];
+        let exactCell = dateRow.find((rowEvent) => rowEvent.id === newEvent!.id);
+        if (!exactCell) {
+          alert("Cant process planning on set date, please choose another");
+          return resultData;
+        }
+        exactCell.scheduled = true;
+
+        return resultData;
+      });
+      setSelectedCell({ date: newEvent.date, id: newEvent.id, scheduled: true });
+    } else {
+      return alert("Date provided is not valid type");
+    }
+  };
+
   // переключение на другую неделю
   useEffect(() => {
     let days = 7;
@@ -217,7 +293,9 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [selectedDay, getDates]);
 
   useEffect(() => {
-    saveEventsLocalStorage(selectedDay, cellsState);
+    if (Object.keys(cellsState).length > 0) {
+      saveEventsLocalStorage(selectedDay, cellsState);
+    }
   }, [cellsState, selectedDay]);
 
   return (
@@ -235,7 +313,8 @@ const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setActiveWeek,
 
         cellsState,
-        setCellsState,
+        createEvent,
+        deleteScheduled,
       }}>
       {children}
     </AppContext.Provider>

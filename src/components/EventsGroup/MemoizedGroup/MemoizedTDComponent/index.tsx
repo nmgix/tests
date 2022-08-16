@@ -13,7 +13,7 @@ export type MemoizedTDProps = Omit<GridButtonProps, "selected"> & {
 export const MemoizedTD: React.FC<MemoizedTDProps> = memo(
   (props) => {
     const selected = props.selectedCell
-      ? props.selectedCell.date === props.date && props.selectedCell.id === props.eventId
+      ? props.selectedCell.date.valueOf() === props.date.valueOf() && props.selectedCell.id === props.eventId
       : false;
 
     return (
@@ -28,22 +28,14 @@ export const MemoizedTD: React.FC<MemoizedTDProps> = memo(
   },
   (prev, next) => {
     if (!next.selectedCell) {
-      // чтобы произошёл перерендер
       return false;
     }
 
-    if (next.selectedCell.date === prev.date && next.selectedCell.id === prev.eventId) {
-      // если дата выбранной клетки совпадает и айди тоже, то перерендер
+    if (prev.date.valueOf() === next.selectedCell.date.valueOf()) {
       return false;
-      // если выбранная клетка сменилась
-    } else if (
-      prev.selectedCell !== null && // изначально нет выбранной клетки
-      prev.selectedCell.date === prev.date && // прошлая клетка была выделена
-      next.selectedCell!.date !== prev.date // текущая клетка не выделена, выделена другая
-    ) {
+    } else if (prev.selectedCell !== null && prev.selectedCell.date.valueOf() !== next.selectedCell.date.valueOf()) {
       return false;
     }
-    // иначе не перерендер
     return true;
   }
 );

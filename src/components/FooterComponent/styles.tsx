@@ -40,7 +40,7 @@ export const MemoizedFooter: React.FC<FooterProps> = memo(
       return false;
     }
 
-    if (prev.selectedCell === null && next.selectedCell.scheduled === true) {
+    if (next.selectedCell.scheduled === true) {
       return false;
     } else if (prev.selectedCell !== null && prev.selectedCell.scheduled !== next.selectedCell.scheduled) {
       return false;

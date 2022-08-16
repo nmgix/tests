@@ -8,7 +8,6 @@ export type GridButtonProps = {
   scheduled: boolean;
 };
 
-//
 export const GridButton = styled.button<GridButtonProps>`
   background-color: ${(props) => (props.selected ? "#b3b7ff" : props.scheduled ? "#ebecff" : "transparent")};
 
@@ -33,7 +32,6 @@ export const GridWrapper = styled.div`
   padding-left: 0.75rem;
 `;
 
-//
 const StyledTable = styled.table`
   padding: 2.5rem 0;
   display: flex;

@@ -41,18 +41,18 @@ export const MemoizedTR: React.FC<MemoizedTRProps> = memo(
     if (!next.selectedCell) {
       return false;
     }
-    let rowDate = formatHours(prev.date);
 
+    let rowDate = Number(formatHours(prev.date));
     let nextSelectedCellDate = next.selectedCell.date.getHours();
-
     if (
       prev.selectedCell !== null &&
-      Number(rowDate) === prev.selectedCell.date.getHours() &&
-      nextSelectedCellDate !== Number(rowDate)
+      rowDate === prev.selectedCell.date.getHours() &&
+      nextSelectedCellDate !== rowDate
     ) {
       return false;
     }
-    if (Number(rowDate) === nextSelectedCellDate) {
+
+    if (rowDate === nextSelectedCellDate) {
       // если начало даты выбрайнно ячейки (например 9 утра) сошлось с датой ряда (9 утра), то перерендер
       return false;
     }
