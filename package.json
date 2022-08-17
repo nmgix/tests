@@ -6,12 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "styles": "concurrently 'npx typed-scss-modules components --watch' 'npx typed-scss-modules styles --watch'"
   },
   "dependencies": {
     "next": "12.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "typed-scss-modules": "^6.5.0"
   },
   "devDependencies": {
     "@types/node": "18.7.6",
