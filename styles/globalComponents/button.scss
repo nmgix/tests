@@ -1,0 +1,11 @@
+button {
+  cursor: pointer;
+
+  border: none;
+  padding: 0.8em;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

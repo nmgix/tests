@@ -1,0 +1,14 @@
+.scrollableView {
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  height: inherit;
+  width: inherit;
+
+  display: flex;
+  flex-direction: column;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
