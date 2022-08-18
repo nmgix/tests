@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import settings from "../../settings";
+import settings from "../../../settings";
 
 enum Icons {
   "asteroid.svg",
@@ -21,7 +21,7 @@ type IconProps = {
   size: keyof typeof IconSizes;
 };
 
-export const Icon: React.FC<IconProps> = ({ icon, size }) => {
+const Icon: React.FC<IconProps> = ({ icon, size }) => {
   let [sizeData] = useState<{
     width: number;
     height: number;
@@ -43,3 +43,5 @@ export const Icon: React.FC<IconProps> = ({ icon, size }) => {
     />
   );
 };
+
+export default Icon;

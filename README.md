@@ -7,6 +7,8 @@
 ```json
     API_URL = http://www.neowsapp.com/rest/v1/neo/
     API_KEY = CURRENT_API_KEY
+
+    APOD_URL=https://api.nasa.gov/planetary/apod
 ```
 
 2. `npm run start` | `npm run dev` для приложения

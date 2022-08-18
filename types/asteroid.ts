@@ -25,3 +25,12 @@ export type Asteroid = {
     orbiting_body: string;
   }[];
 };
+
+export type ApodImage = {
+  copyright: string;
+  date: string;
+  explanation: string;
+  hdurl: string;
+  title: string;
+  url: string;
+};
