@@ -1,8 +1,17 @@
 import React from "react";
 import classes from "./styles.module.scss";
 
-const ScrollableView: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return <div className={classes.scrollableView}>{children}</div>;
+type ScrollableViewProps = {
+  children: React.ReactNode;
+  horizontalScroll?: boolean;
+};
+
+const ScrollableView: React.FC<ScrollableViewProps> = ({ children, horizontalScroll }) => {
+  return (
+    <div className={classes.scrollableView} style={{ overflowX: horizontalScroll ? "scroll" : "hidden" }}>
+      {children}
+    </div>
+  );
 };
 
 export default ScrollableView;

@@ -2,108 +2,110 @@
 
 .headerSecondary {
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+  flex: 0 1 auto;
+}
 
-  .iconWrapper {
-    display: flex;
-    margin-right: 25px;
-  }
-
-  .dateWrapper {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-
-    h2 {
-      margin: 0;
-    }
-
-    time {
-      margin-left: 10px;
-    }
-  }
+.upperHeader {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 0 1 auto;
 
   hr {
     width: 100%;
     margin: 15px 0;
     opacity: 0.5;
   }
+}
+.titleWrapper {
+  display: flex;
+}
 
-  .withIcon,
-  .withoutIcon {
-    width: 100%;
-    height: 100%;
+.iconWrapper {
+  display: flex;
+  margin-right: 25px;
+}
+
+.dateWrapper {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
   }
 
+  time {
+    margin-left: 10px;
+  }
+}
+
+.withIcon,
+.withoutIcon {
+  width: 100%;
+  height: 100%;
+}
+
+.mobileWithIcon {
+  display: none;
+}
+
+.laptopWithIcon {
+  display: flex;
+  flex-direction: row;
+}
+
+@include breakpointsMixins.midPhone {
   .mobileWithIcon {
-    display: none;
+    display: flex;
+    flex-direction: column;
   }
 
   .laptopWithIcon {
-    display: flex;
-    flex-direction: row;
+    display: none;
   }
+}
 
-  @include breakpointsMixins.midPhone {
-    .mobileWithIcon {
-      display: flex;
-      flex-direction: column;
+.controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  line-height: 40px;
 
-      .upperHeader {
-        display: flex;
-      }
-    }
-
-    .laptopWithIcon {
-      display: none;
-    }
-  }
-
-  .controls {
+  .metricsSwitch {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
-    line-height: 40px;
+    line-height: 30px;
+    align-items: center;
 
-    &Wrapper {
-      width: 100%;
-      height: 100%;
+    ul {
+      display: flex;
+      flex-wrap: wrap;
 
-      .metricsSwitch {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin: 0 2.5px;
+
         display: flex;
-        flex-wrap: wrap;
-        line-height: 30px;
         align-items: center;
 
-        ul {
-          display: flex;
-          flex-wrap: wrap;
-
-          list-style-type: none;
+        button {
           padding: 0;
-          margin: 0;
-
-          li {
-            margin: 0 2.5px;
-
-            display: flex;
-            align-items: center;
-
-            button {
-              padding: 0;
-            }
-          }
         }
       }
+    }
+  }
 
-      .hazardousSwitch {
-        display: flex;
-        align-items: center;
+  .hazardousSwitch {
+    display: flex;
+    align-items: center;
 
-        input {
-          margin-right: 5px;
-        }
-      }
+    input {
+      margin-right: 5px;
     }
   }
 }

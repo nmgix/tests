@@ -6,12 +6,18 @@ interface ButtonProps
   active?: boolean;
   asLink?: boolean;
   color?: string;
+  rounded?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, asLink, active, color, children }) => {
+const Button: React.FC<ButtonProps> = ({ onClick, asLink, active, color, children, rounded }) => {
+  const buttonStyles: React.CSSProperties = {
+    color: color ? color : "inherit",
+    borderRadius: rounded ? "50%" : "7px",
+  };
+
   return (
     <button
-      style={color ? { color } : {}}
+      style={buttonStyles}
       className={`${classes.button} ${asLink ? classes.buttonAsLink : classes.buttonDefault} ${
         active ? classes.active : ""
       }`}
