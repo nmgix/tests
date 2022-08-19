@@ -16,7 +16,15 @@ const HeaderMain: React.FC<HeaderMainProps> = ({ imgUrl }) => {
     <header className={classes.headerMain}>
       <div className={classes.adopWrapper}>
         {imgUrl !== undefined ? (
-          <Image loader={() => imgUrl} src={imgUrl} objectFit='cover' draggable={false} layout='fill' />
+          <Image
+            loader={() => imgUrl}
+            src={imgUrl}
+            objectFit='cover'
+            draggable={false}
+            layout='fill'
+            unoptimized
+            priority
+          />
         ) : (
           <></>
         )}

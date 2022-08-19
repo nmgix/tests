@@ -1,11 +1,20 @@
 import React, { createContext, useContext, useState } from "react";
 import Router from "next/router";
+import { Metrics, MetricsKey } from "../../../helpers/metrics";
+
+type Order = string;
 
 type ContextProps = {
-  order: number[];
-  addAsteroid: (id: number) => void;
-  removeAsteroid: (id: number) => void;
+  order: Order[];
+  addAsteroid: (id: string) => void;
+  removeAsteroid: (id: string) => void;
   confirmOrder: () => void;
+
+  selecetedMetric: MetricsKey;
+  changeMetric: (metric: MetricsKey) => void;
+
+  showHazardous: boolean;
+  changeShowHazardous: () => void;
 };
 
 const Context = createContext<ContextProps>({
@@ -13,37 +22,35 @@ const Context = createContext<ContextProps>({
   addAsteroid: () => console.log("Function didn't load"),
   removeAsteroid: () => console.log("Function didn't load"),
   confirmOrder: () => console.log("Function didn't load"),
+
+  selecetedMetric: "kiloMeters",
+  changeMetric: () => console.log("Function didn't load"),
+
+  showHazardous: false,
+  changeShowHazardous: () => console.log("Function didn't load"),
 });
 
 export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [asteroidContext, setAsteroidContext] = useState<ContextProps>({
-    order: [],
-    addAsteroid,
-    removeAsteroid,
-    confirmOrder,
-  });
-
-  function addAsteroid(id: number) {
-    setAsteroidContext((prev) => {
+  const [order, setOrder] = useState<Order[]>([]);
+  function addAsteroid(id: string) {
+    setOrder((prev) => {
       return {
         ...prev,
-        order: [...prev.order, id],
+        order: [...prev, id],
       };
     });
   }
-
-  function removeAsteroid(id: number) {
-    setAsteroidContext((prev) => {
+  function removeAsteroid(id: string) {
+    setOrder((prev) => {
       return {
         ...prev,
-        order: prev.order.filter((asteroidID) => asteroidID !== id),
+        order: prev.filter((asteroidID) => asteroidID !== id),
       };
     });
   }
-
   function confirmOrder() {
     Router.push("/");
-    setAsteroidContext((prev) => {
+    setOrder((prev) => {
       return {
         ...prev,
         order: [],
@@ -51,7 +58,33 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
   }
 
-  return <Context.Provider value={asteroidContext}>{children}</Context.Provider>;
+  const [selecetedMetric, setSelectedMetric] = useState<MetricsKey>("kiloMeters");
+  function changeMetric(metric: MetricsKey) {
+    setSelectedMetric(metric);
+  }
+
+  const [showHazardous, setShowHazardous] = useState<boolean>(false);
+  function changeShowHazardous() {
+    setShowHazardous((prev) => !prev);
+  }
+
+  return (
+    <Context.Provider
+      value={{
+        order,
+        addAsteroid,
+        confirmOrder,
+        removeAsteroid,
+
+        selecetedMetric,
+        changeMetric,
+
+        showHazardous,
+        changeShowHazardous,
+      }}>
+      {children}
+    </Context.Provider>
+  );
 };
 
 export function useAsteroidContext() {

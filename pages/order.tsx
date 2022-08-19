@@ -1,5 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import HeaderSecondary from "../components/Header/Secondary";
 import Layout from "../components/Layout";
 import { getApod } from "../helpers/apodRequests";
 import { ApodData } from "../types/apod";
@@ -12,6 +13,7 @@ const Order: NextPage<OrderPageProps> = ({ apod }) => {
       <Head>
         <title>Order - Armaggedon V2</title>
       </Head>
+      <HeaderSecondary />
       <span>Order page</span>
     </Layout>
   );

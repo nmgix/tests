@@ -21,3 +21,9 @@
     @content;
   }
 }
+
+@mixin smPhone {
+  @media (max-width: 480px) {
+    @content;
+  }
+}

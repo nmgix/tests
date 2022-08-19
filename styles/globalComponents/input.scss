@@ -3,21 +3,22 @@
 input {
   background-color: colors.$primary;
   border: 2px solid black;
+  border-radius: 5px;
   outline: none;
   color: black;
 
   &:hover {
-    border: 2px solid colors.$secondary;
+    border: 2px solid colors.$font;
     background-color: darken(colors.$primary, 10%);
-    color: colors.$secondary;
+    color: colors.$font;
     font-weight: 700;
   }
 
   &:focus {
-    border: 2px solid colors.$secondary;
+    border: 2px solid colors.$font;
     background-color: darken(colors.$primary, 10%);
-    outline: 0.05em solid colors.$secondary;
-    color: colors.$secondary;
+    outline: 0.05em solid colors.$font;
+    color: colors.$font;
     font-weight: 700;
   }
 }
@@ -54,16 +55,16 @@ input[type="checkbox"] {
   }
 
   &:hover {
-    border: 2px solid colors.$secondary;
+    border: 2px solid colors.$font;
 
     &::before {
       transition: all 100ms ease-in-out;
-      box-shadow: inset 1em 1em colors.$secondary;
+      box-shadow: inset 1em 1em colors.$font;
     }
   }
 
   &:focus {
-    outline: 0.05em solid colors.$secondary;
+    outline: 0.05em solid colors.$font;
     outline-offset: max(0px, 0px);
   }
 }
