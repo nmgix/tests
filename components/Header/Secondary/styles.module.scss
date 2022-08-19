@@ -44,7 +44,7 @@
     flex-direction: row;
   }
 
-  @include breakpointsMixins.smPhone {
+  @include breakpointsMixins.midPhone {
     .mobileWithIcon {
       display: flex;
       flex-direction: column;
@@ -62,6 +62,8 @@
   .controls {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    line-height: 40px;
 
     &Wrapper {
       width: 100%;
@@ -69,12 +71,9 @@
 
       .metricsSwitch {
         display: flex;
-        align-items: center;
         flex-wrap: wrap;
-
-        span {
-          margin-bottom: 5px;
-        }
+        line-height: 30px;
+        align-items: center;
 
         ul {
           display: flex;
@@ -90,9 +89,8 @@
             display: flex;
             align-items: center;
 
-            input {
-              margin: 0;
-              margin-right: 3px;
+            button {
+              padding: 0;
             }
           }
         }

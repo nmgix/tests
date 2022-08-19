@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Metrics, MetricsKey } from "../../../helpers/metrics";
+import Button from "../../Common/Button";
 import { useAsteroidContext } from "../../Common/Context";
 import classes from "./styles.module.scss";
 
@@ -43,17 +44,12 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({ withIcon, withDate, w
                             <Fragment key={index}>
                               {index !== 0 ? <li key={index}>|</li> : <></>}
                               <li key={index !== 0 ? index + 1 : 0}>
-                                <input
-                                  type={"radio"}
-                                  name='metrics'
-                                  id={`metricsChoice${index}`}
-                                  value={metric}
-                                  checked={selecetedMetric === metric}
-                                  onChange={() => changeMetric(metric as MetricsKey)}
-                                />
-                                <label htmlFor={`metricsChoice${index}`}>
+                                <Button
+                                  onClick={() => changeMetric(metric as MetricsKey)}
+                                  active={selecetedMetric === metric}
+                                  asLink>
                                   {Metrics[metric as keyof typeof Metrics]}
-                                </label>
+                                </Button>
                               </li>
                             </Fragment>
                           );
@@ -99,17 +95,12 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({ withIcon, withDate, w
                             <Fragment key={index}>
                               {index !== 0 ? <li key={index}>|</li> : <></>}
                               <li key={index !== 0 ? index + 1 : 0}>
-                                <input
-                                  type={"radio"}
-                                  name='metrics'
-                                  id={`metricsChoice${index}`}
-                                  value={metric}
-                                  checked={selecetedMetric === metric}
-                                  onChange={() => changeMetric(metric as MetricsKey)}
-                                />
-                                <label htmlFor={`metricsChoice${index}`}>
+                                <Button
+                                  onClick={() => changeMetric(metric as MetricsKey)}
+                                  active={selecetedMetric === metric}
+                                  asLink>
                                   {Metrics[metric as keyof typeof Metrics]}
-                                </label>
+                                </Button>
                               </li>
                             </Fragment>
                           );
@@ -158,15 +149,12 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({ withIcon, withDate, w
                           <Fragment key={index}>
                             {index !== 0 ? <li key={index}>|</li> : <></>}
                             <li key={index !== 0 ? index + 1 : 0}>
-                              <input
-                                type={"radio"}
-                                name='metrics'
-                                id={`metricsChoice${index}`}
-                                value={metric}
-                                checked={selecetedMetric === metric}
-                                onChange={() => changeMetric(metric as MetricsKey)}
-                              />
-                              <label htmlFor={`metricsChoice${index}`}>{Metrics[metric as keyof typeof Metrics]}</label>
+                              <Button
+                                onClick={() => changeMetric(metric as MetricsKey)}
+                                active={selecetedMetric === metric}
+                                asLink>
+                                {Metrics[metric as keyof typeof Metrics]}
+                              </Button>
                             </li>
                           </Fragment>
                         );
