@@ -1,10 +1,26 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import Layout from "../components/Layout";
+import { getApod } from "../helpers/apodRequests";
+import { ApodData } from "../types/apod";
 
-const Order: NextPage = (props: any) => {
-  //   console.log("Order Page", props);
-  return <div></div>;
+type OrderPageProps = ApodData & {};
+
+const Order: NextPage<OrderPageProps> = ({ apod }) => {
+  return (
+    <Layout apod={apod}>
+      <Head>
+        <title>Order - Armaggedon V2</title>
+      </Head>
+      <span>Order page</span>
+    </Layout>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps<OrderPageProps> = async ({ req, res }) => {
+  let apod = await getApod();
+
+  return { props: { apod } };
 };
 
 export default Order;

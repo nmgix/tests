@@ -1,17 +1,17 @@
 import React, { Fragment } from "react";
-import { ApodImage } from "../../types/asteroid";
+import { ApodData } from "../../types/apod";
 import HeaderMain from "../Header/Main";
+import classes from "./styles.module.scss";
 
-type LayoutProps = {
-  apod: ApodImage;
+type LayoutProps = ApodData & {
   children: React.ReactNode;
 };
 
-const Layout: React.FC<LayoutProps> = ({ children, apod }) => {
+const Layout: React.FC<LayoutProps> = ({ apod, children }) => {
   return (
     <Fragment>
-      <HeaderMain imgUrl={apod?.url} />
-      <main>{children}</main>
+      <HeaderMain imgUrl={apod.url} />
+      <main className={classes.layoutMain}>{children}</main>
     </Fragment>
   );
 };

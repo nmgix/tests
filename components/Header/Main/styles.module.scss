@@ -1,13 +1,20 @@
 @use "../../../styles/colors.scss";
+@use "../../../styles/breakpointsMixins.scss";
 
 .headerMain {
+  flex: 0 1 auto;
+
   position: relative;
   display: flex;
   justify-content: space-between;
   padding: 20px 30px;
 
-  color: colors.$font-alter;
+  @include breakpointsMixins.midPhone {
+    flex-direction: column;
+    align-items: center;
+  }
 
+  color: colors.$font-alter;
   border: 1px solid black;
 
   .adop {

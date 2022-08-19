@@ -15,3 +15,9 @@
     @content;
   }
 }
+
+@mixin midPhone {
+  @media (max-width: 524px) {
+    @content;
+  }
+}
