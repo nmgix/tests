@@ -14,6 +14,7 @@ enum IconSizes {
   "m",
   "xl",
   "xxl",
+  "xxxl",
 }
 
 type IconProps = {

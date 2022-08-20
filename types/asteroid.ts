@@ -1,8 +1,18 @@
+export type AsteroidWeek = {
+  link: {
+    next: string;
+    prev: string;
+    self: string;
+  };
+  element_count: number;
+  near_earth_objects: { [date: string]: Asteroid[] };
+};
+
 export type Asteroid = {
   links: {
     self: string;
   };
-  id: number;
+  id: string;
   name: string;
   designation: string;
   estimated_diameter: {

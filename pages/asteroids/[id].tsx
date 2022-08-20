@@ -14,6 +14,7 @@ import { useAsteroidContext } from "../../components/Common/Context";
 import { numberWithCommas } from "../../helpers/metrics";
 import ScrollableView from "../../components/Common/ScrollableView";
 import Button from "../../components/Common/Button";
+import AsteroidIcon from "../../components/CustomIcons/AsteroidIcon/AsteroidIcon";
 
 enum Planets {
   "Earth" = "Земля",
@@ -33,7 +34,12 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
     return new Date(closestDate);
   }, [asteroid]);
 
-  const { selecetedMetric } = useAsteroidContext();
+  const { order, selecetedMetric } = useAsteroidContext();
+
+  const inOrder = useRef(order.find((asteroidId) => asteroidId === asteroid.id) ? true : false);
+  const diameter = useRef(
+    Number((Math.floor(asteroid.estimated_diameter.kilometers.estimated_diameter_max * 50) / 50).toFixed(5))
+  );
 
   return (
     <Layout apod={apod}>
@@ -43,17 +49,14 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
       <HeaderSecondary
         alterName={`Астероид ${asteroid.name}`}
         withDate={closestDate()}
-        withIcon={<div style={{ height: "80px", aspectRatio: "1/1", border: "1px solid black" }}></div>}
+        withIcon={<AsteroidIcon hazardous={asteroid.is_potentially_hazardous_asteroid} />}
         withoutHazardous
       />
       <main className={classes.asteroidData}>
         <div className={classes.characteristicsWrapper}>
           <HeaderWrapper title='Характеристики астероида'>
             <ul className={classes.characteristics}>
-              <li>
-                Диаметр:{" "}
-                {(Math.round(asteroid.estimated_diameter.kilometers.estimated_diameter_max * 30) / 30).toFixed(3)} км
-              </li>
+              <li>Диаметр: {diameter.current < 1 ? `${diameter.current * 1000}м` : `${diameter.current}км`}</li>
               <li>
                 Расстояние до земли:{" "}
                 {numberWithCommas(
@@ -125,7 +128,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
         </div>
         <div></div>
         <div className={classes.buttonWrapper}>
-          <Button color='#FFF'>Уничтожить</Button>
+          <Button color='#FFF'>{inOrder.current ? "Удалить из списка" : "Уничтожить"}</Button>
         </div>
       </main>
     </Layout>

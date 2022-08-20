@@ -5,10 +5,12 @@
 1. Настроить `.env.local` с апи ключом, пример файла
 
 ```json
-    API_URL = http://www.neowsapp.com/rest/v1/neo
+    ASTEROID_URL = http://www.neowsapp.com/rest/v1/neo
     API_KEY = CURRENT_API_KEY
 
-    APOD_URL=https://api.nasa.gov/planetary/apod
+    ASTEROIDS_URL = https://api.nasa.gov/neo/rest/v1
+
+    APOD_URL = https://api.nasa.gov/planetary/apod
 ```
 
 2. `npm run start` | `npm run dev` для приложения
@@ -63,5 +65,6 @@
 
    > Нет смысла переусложнять, всего две svg иконки, хороший пример реализации есть в `22bytetestapp-cancelled`, вместо этого использую `<Image>` с svg
 
-4. [ ] (?) Docker
-5. [ ] Деплой на Vercel
+4. [ ] Сохранение заказа в localStorage
+5. [ ] (?) Docker
+6. [ ] Деплой на Vercel

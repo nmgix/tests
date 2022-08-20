@@ -1,0 +1,22 @@
+.asteroidIcon {
+  border-radius: 16px;
+  aspect-ratio: 1/1;
+  height: 100px;
+
+  overflow: hidden;
+  position: relative;
+
+  .asteroidIconWrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+
+  .dinosaurIconWrapper {
+    position: absolute;
+    top: 82%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+
+    width: 50px;
+  }
+}

@@ -1,4 +1,10 @@
 @mixin maxLaptop {
+  @media (max-width: 1400px) {
+    @content;
+  }
+}
+
+@mixin midLaptop {
   @media (max-width: 1200px) {
     @content;
   }
