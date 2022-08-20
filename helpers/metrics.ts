@@ -3,6 +3,11 @@ export enum Metrics {
   "lunar" = "в лунных орбитах",
 }
 
+export enum MetricsShort {
+  "kiloMeters" = "км",
+  "lunar" = "лунных орбит",
+}
+
 export type MetricsKey = keyof typeof Metrics;
 
 export function numberWithCommas(x: number) {

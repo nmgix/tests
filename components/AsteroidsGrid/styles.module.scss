@@ -4,25 +4,26 @@
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   padding: 0;
   margin: 0;
 
   li {
-    width: 23%;
+    width: calc(25% - 20px);
     margin: 10px;
 
     @include breakpointsMixins.midLaptop {
-      width: 30%;
+      width: calc(33% - 20px);
     }
 
     @include breakpointsMixins.maxTablet {
-      width: 45%;
+      width: calc(50% - 20px);
     }
 
     @include breakpointsMixins.midPhone {
-      width: 90%;
+      width: 100%;
+      margin: 10px 0;
     }
   }
 }

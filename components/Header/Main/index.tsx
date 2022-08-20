@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { memo } from "react";
 import Button from "../../Common/Button";
 import classes from "./styles.module.scss";
 
@@ -9,7 +9,7 @@ type HeaderMainProps = {
   imgUrl: string | undefined;
 };
 
-const HeaderMain: React.FC<HeaderMainProps> = ({ imgUrl }) => {
+const HeaderMain: React.FC<HeaderMainProps> = memo(({ imgUrl }) => {
   const router = useRouter();
 
   return (
@@ -49,6 +49,6 @@ const HeaderMain: React.FC<HeaderMainProps> = ({ imgUrl }) => {
       </ul>
     </header>
   );
-};
+});
 
 export default HeaderMain;

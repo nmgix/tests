@@ -5,13 +5,13 @@ import HeaderWrapper from "../../components/Header/HeaderWrapper";
 import HeaderSecondary from "../../components/Header/Secondary";
 import Layout from "../../components/Layout";
 import { getApod } from "../../helpers/apodRequests";
-import { getAsteroid } from "../../helpers/asteroidRequests";
+import { getAsteroid } from "../../helpers/asteroid";
 import { ApodData } from "../../types/apod";
 import { AsteroidData } from "../../types/asteroid";
 
 import classes from "../../styles/pages/asteroid/asteroid.module.scss";
 import { useAsteroidContext } from "../../components/Common/Context";
-import { numberWithCommas } from "../../helpers/metrics";
+import { MetricsShort, numberWithCommas } from "../../helpers/metrics";
 import ScrollableView from "../../components/Common/ScrollableView";
 import Button from "../../components/Common/Button";
 import AsteroidIcon from "../../components/CustomIcons/AsteroidIcon/AsteroidIcon";
@@ -115,7 +115,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
                                 )
                               )
                             )}{" "}
-                            {selecetedMetric === "kiloMeters" ? "км" : "лунных орбит"}
+                            {MetricsShort[selecetedMetric]}
                           </td>
                           <td>{Planets[approach.orbiting_body as keyof typeof Planets]}</td>
                         </tr>
