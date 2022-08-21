@@ -1,23 +1,48 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { memo, useCallback, useRef } from "react";
-import { MetricsShort, numberWithCommas } from "../../helpers/metrics";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import { Metrics, MetricsShort, numberWithCommas } from "../../helpers/metrics";
 import { Asteroid } from "../../types/asteroid";
 import Button from "../Common/Button";
 import { useAsteroidContext } from "../Common/Context";
 import AsteroidIcon from "../CustomIcons/AsteroidIcon/AsteroidIcon";
 import classes from "./styles.module.scss";
 
-type AsteroidCardProps = Asteroid;
+type AsteroidCardProps = Asteroid & {
+  addAsteroid: (id: string) => void;
+  removeAsteroid: (id: string) => void;
+  selecetedMetric: keyof typeof Metrics;
+};
 
 const AsteroidCard: React.FC<AsteroidCardProps> = memo(
-  ({ close_approach_data, designation, estimated_diameter, id, is_potentially_hazardous_asteroid, links, name }) => {
-    const { order, selecetedMetric } = useAsteroidContext();
+  ({
+    close_approach_data,
+    designation,
+    estimated_diameter,
+    id,
+    is_potentially_hazardous_asteroid,
+    links,
+    name,
+    addAsteroid,
+    removeAsteroid,
+    selecetedMetric,
+  }) => {
     const router = useRouter();
-    const inOrder = useRef(order.find((asteroidId) => asteroidId === id) ? true : false);
+    // const inOrder = useRef(order.find((asteroidId) => asteroidId === id) ? true : false);
     const diameter = useRef(
       Number((Math.floor(estimated_diameter.kilometers.estimated_diameter_max * 50) / 50).toFixed(5))
     );
+
+    const [inOrder, setInOrder] = useState<boolean>(false);
+
+    const changeAsteroidSelection = (insideOrder: boolean) => {
+      setInOrder(insideOrder);
+      if (insideOrder) {
+        addAsteroid(id);
+      } else {
+        removeAsteroid(id);
+      }
+    };
 
     return (
       <div className={classes.asteroidCard}>
@@ -53,12 +78,14 @@ const AsteroidCard: React.FC<AsteroidCardProps> = memo(
             <span>{!is_potentially_hazardous_asteroid ? "Не опасен" : "Опасен"}</span>
           </div>
         </div>
-        <Button color='#FFF' rounded>
-          {inOrder.current ? "Удалить из списка" : "Уничтожить"}
+        <Button color='#FFF' rounded onClick={() => changeAsteroidSelection(!inOrder)}>
+          {inOrder ? "Удалить из списка" : "Уничтожить"}
         </Button>
       </div>
     );
   },
-  (prev, next) => prev.id === next.id
+  (prev, next) => {
+    return prev.id === next.id && prev.selecetedMetric === next.selecetedMetric;
+  }
 );
 export default AsteroidCard;

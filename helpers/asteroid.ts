@@ -29,6 +29,20 @@ export async function getAsteroids(startDate: Date): Promise<AsteroidWeek | null
   return asteroids;
 }
 
+export async function getOrderAsteroids(order: string[]): Promise<Asteroid[] | null> {
+  let resultList: Asteroid[] = [];
+
+  let res = await fetch("/api/asteroids/order", { method: "POST", body: JSON.stringify({ order }) });
+
+  if (res.status === 400) {
+    return null;
+  }
+
+  resultList = await res.json();
+
+  return resultList;
+}
+
 export function handleWeek(week: AsteroidWeek): Asteroid[] | null {
   let asteroids: Asteroid[] = [];
 

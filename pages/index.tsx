@@ -4,7 +4,7 @@ import AsteroidGrid from "../components/AsteroidsGrid";
 import HeaderSecondary from "../components/Header/Secondary";
 import Layout from "../components/Layout";
 import { getApod } from "../helpers/apodRequests";
-import { getAsteroids } from "../helpers/asteroid";
+import { getAsteroids, handleWeek } from "../helpers/asteroid";
 import { ApodData } from "../types/apod";
 import { AsteroidWeek } from "../types/asteroid";
 
@@ -21,9 +21,14 @@ const Home: NextPage<HomePageProps> = ({ apod, asteroids, initialDate }) => {
       </Head>
       <HeaderSecondary />
       {asteroids ? (
-        <AsteroidGrid initialAsteroids={asteroids} initialDate={new Date(initialDate)} />
+        <AsteroidGrid
+          initialAsteroids={handleWeek(asteroids)}
+          initialDate={new Date(initialDate)}
+          errorText={"Не удалось загрузить астероиды :("}
+          infiniteLoad={true}
+        />
       ) : (
-        <h3>Не получилось получить астероиды :с</h3>
+        <h3>Не удалось получить астероиды :с</h3>
       )}
     </Layout>
   );

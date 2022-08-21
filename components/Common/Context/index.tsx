@@ -34,18 +34,16 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [order, setOrder] = useState<Order[]>([]);
   function addAsteroid(id: string) {
     setOrder((prev) => {
-      return {
-        ...prev,
-        order: [...prev, id],
-      };
+      let set = new Set(prev);
+      set.add(id);
+      return [...Array.from(set)];
     });
   }
   function removeAsteroid(id: string) {
     setOrder((prev) => {
-      return {
-        ...prev,
-        order: prev.filter((asteroidID) => asteroidID !== id),
-      };
+      let set = new Set(prev);
+      set.delete(id);
+      return [...Array.from(set)];
     });
   }
   function confirmOrder() {
