@@ -10,7 +10,7 @@ type LayoutProps = ApodData & {
 const Layout: React.FC<LayoutProps> = ({ apod, children }) => {
   return (
     <Fragment>
-      <HeaderMain imgUrl={apod.url} />
+      <HeaderMain img={apod} />
       <main className={classes.layoutMain}>{children}</main>
     </Fragment>
   );

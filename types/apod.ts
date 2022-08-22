@@ -3,10 +3,11 @@ export type ApodData = {
 };
 
 export type ApodImage = {
-  copyright: string;
   date: string;
   explanation: string;
-  hdurl: string;
   title: string;
   url: string;
+  copyright?: string;
+  hdurl?: string;
+  media_type?: "video";
 };
