@@ -1,49 +1,118 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import Router from "next/router";
-import { Metrics, MetricsKey } from "../../../helpers/metrics";
-
-type Order = string;
+import { MetricsKey } from "../../../helpers/metrics";
+import { Asteroid } from "../../../types/asteroid";
+import { getOrderAsteroids } from "../../../helpers/asteroid";
 
 type ContextProps = {
-  order: Order[];
-  addAsteroid: (id: string) => void;
+  asteroids: Asteroid[];
+  setAsteroids: React.Dispatch<React.SetStateAction<Asteroid[]>>;
+
+  order: Asteroid[];
+  setOrder: React.Dispatch<React.SetStateAction<Asteroid[]>>;
+  addAsteroid: (asteroid: Asteroid) => void;
   removeAsteroid: (id: string) => void;
   confirmOrder: () => void;
+
+  orderDuplicates: React.MutableRefObject<string[]>;
 
   selecetedMetric: MetricsKey;
   changeMetric: (metric: MetricsKey) => void;
 
   showHazardous: boolean;
   changeShowHazardous: () => void;
+
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Context = createContext<ContextProps>({
-  order: [],
-  addAsteroid: () => console.log("Function didn't load"),
-  removeAsteroid: () => console.log("Function didn't load"),
-  confirmOrder: () => console.log("Function didn't load"),
-
-  selecetedMetric: "kiloMeters",
-  changeMetric: () => console.log("Function didn't load"),
-
-  showHazardous: false,
-  changeShowHazardous: () => console.log("Function didn't load"),
-});
+const Context = createContext<ContextProps>({} as ContextProps);
 
 export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [order, setOrder] = useState<Order[]>([]);
-  function addAsteroid(id: string) {
+  const [order, setOrder] = useState<Asteroid[]>([]);
+  const [asteroids, setAsteroids] = useState<Asteroid[]>([]);
+  const orderDuplicates = useRef<string[]>([]);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // записывать в localStorage
+  useEffect(() => {
+    if (!loading) {
+      let formattedOrder = order.map((orderAs) => orderAs.id);
+      localStorage.setItem("asteroid-order", JSON.stringify(formattedOrder));
+    }
+  }, [order]);
+
+  // парсить заказ с localStorage (из айди -> в астероид)
+  useEffect(() => {
+    let localOrder = localStorage.getItem("asteroid-order");
+    if (!localOrder) {
+      return;
+    }
+
+    (async () => {
+      let parsedOrder: string[] = JSON.parse(localOrder);
+      let order = Array.from(new Set(parsedOrder));
+
+      let formatedAsteroids = await getOrderAsteroids(order);
+      if (!formatedAsteroids) {
+        return;
+      }
+
+      setOrder(formatedAsteroids);
+    })();
+  }, []);
+
+  //  ищет дубликаты и добавляет в реф (orderDuplicates), чтобы при ренедере заказа брались уже существующие астероиды со списка (если тот прорендерен был)
+  //  ренедерились вместе с астероидами с подгруженного списка из useEffect выше
+  useEffect(() => {
+    if (order && asteroids) {
+      asteroids.forEach((asteroid) => {
+        let sameAsteroid = order.find((orderAsteroid) => orderAsteroid.id === asteroid.id);
+        if (sameAsteroid) {
+          asteroid.ordered = true;
+          orderDuplicates.current.push(sameAsteroid.id);
+        }
+      });
+    }
+  }, [order, asteroids]);
+
+  function addAsteroid(asteroid: Asteroid) {
+    setAsteroids((prev) => {
+      let asteroidsCopy = structuredClone(prev);
+
+      asteroidsCopy.forEach((as) => {
+        if (as.id === asteroid.id) {
+          as.ordered = true;
+        }
+      });
+
+      return asteroidsCopy;
+    });
     setOrder((prev) => {
-      let set = new Set(prev);
-      set.add(id);
-      return [...Array.from(set)];
+      let asteroidsCopy = structuredClone(prev);
+      let formatedAsteroid = { ...asteroid };
+      formatedAsteroid.ordered = true;
+      asteroidsCopy.push(formatedAsteroid);
+      return asteroidsCopy;
     });
   }
   function removeAsteroid(id: string) {
+    setAsteroids((prev) => {
+      let asteroidsCopy = structuredClone(prev);
+
+      asteroidsCopy.forEach((as) => {
+        if (as.id === id) {
+          as.ordered = false;
+        }
+      });
+
+      return asteroidsCopy;
+    });
     setOrder((prev) => {
-      let set = new Set(prev);
-      set.delete(id);
-      return [...Array.from(set)];
+      let asteroidsCopy = structuredClone(prev);
+      asteroidsCopy = asteroidsCopy.filter((as) => as.id !== id);
+      return asteroidsCopy;
     });
   }
   function confirmOrder() {
@@ -69,16 +138,25 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
   return (
     <Context.Provider
       value={{
+        asteroids,
+        setAsteroids,
+
         order,
+        setOrder,
         addAsteroid,
         confirmOrder,
         removeAsteroid,
+
+        orderDuplicates,
 
         selecetedMetric,
         changeMetric,
 
         showHazardous,
         changeShowHazardous,
+
+        loading,
+        setLoading,
       }}>
       {children}
     </Context.Provider>

@@ -34,6 +34,7 @@ export type Asteroid = {
     };
     orbiting_body: string;
   }[];
+  ordered: boolean;
 };
 
 export type AsteroidData = {

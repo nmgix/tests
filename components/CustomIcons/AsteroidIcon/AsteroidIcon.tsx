@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Icon from "../../Common/Icon";
 import classes from "./styles.module.scss";
 
@@ -6,7 +6,7 @@ type AsteroidIconProps = {
   hazardous: boolean;
 };
 
-const AsteroidIcon: React.FC<AsteroidIconProps> = ({ hazardous }) => {
+const AsteroidIcon: React.FC<AsteroidIconProps> = memo(({ hazardous }) => {
   return (
     <div
       className={classes.asteroidIcon}
@@ -29,5 +29,5 @@ const AsteroidIcon: React.FC<AsteroidIconProps> = ({ hazardous }) => {
       </div>
     </div>
   );
-};
+});
 export default AsteroidIcon;

@@ -1,6 +1,11 @@
 import { Asteroid, AsteroidWeek } from "../types/asteroid";
 import { formateDate } from "./date";
 
+export function addOrder(asteroid: Asteroid, defaultState?: boolean) {
+  asteroid.ordered = defaultState ? defaultState : false;
+  return asteroid;
+}
+
 export async function getAsteroid(id: string): Promise<Asteroid | null> {
   let asteroid: Asteroid;
 
@@ -11,7 +16,7 @@ export async function getAsteroid(id: string): Promise<Asteroid | null> {
     return null;
   }
 
-  return asteroid;
+  return addOrder(asteroid);
 }
 
 export async function getAsteroids(startDate: Date): Promise<AsteroidWeek | null> {
@@ -30,17 +35,16 @@ export async function getAsteroids(startDate: Date): Promise<AsteroidWeek | null
 }
 
 export async function getOrderAsteroids(order: string[]): Promise<Asteroid[] | null> {
-  let resultList: Asteroid[] = [];
+  let asteroids: Asteroid[] = [];
 
   let res = await fetch("/api/asteroids/order", { method: "POST", body: JSON.stringify({ order }) });
-
   if (res.status === 400) {
     return null;
   }
+  asteroids = await res.json();
 
-  resultList = await res.json();
-
-  return resultList;
+  asteroids.forEach((as) => (as = addOrder(as, true)));
+  return asteroids;
 }
 
 export function handleWeek(week: AsteroidWeek): Asteroid[] | null {
@@ -57,5 +61,17 @@ export function handleWeek(week: AsteroidWeek): Asteroid[] | null {
     return null;
   }
 
+  asteroids.forEach((as) => (as = addOrder(as)));
+
   return asteroids;
+}
+
+export async function getMoreAsteroids(d: Date): Promise<Asteroid[] | null> {
+  let date = formateDate(d);
+
+  let res = await fetch(`/api/asteroids/${date}`);
+  let asteroidWeek: AsteroidWeek = await res.json();
+  let formatedWeek = handleWeek(asteroidWeek);
+
+  return formatedWeek;
 }

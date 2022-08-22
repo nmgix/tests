@@ -15,6 +15,7 @@ import { MetricsShort, numberWithCommas } from "../../helpers/metrics";
 import ScrollableView from "../../components/Common/ScrollableView";
 import Button from "../../components/Common/Button";
 import AsteroidIcon from "../../components/CustomIcons/AsteroidIcon/AsteroidIcon";
+import { closestDate } from "../../helpers/date";
 
 enum Planets {
   "Earth" = "Земля",
@@ -23,20 +24,10 @@ enum Planets {
 type AsteroidPageProps = ApodData & AsteroidData;
 
 const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
-  let closestDate = useCallback((): Date => {
-    let currentDate = new Date().valueOf();
-    let asteroidDates = asteroid.close_approach_data.map((data) => new Date(data.close_approach_date).valueOf());
+  const memoizedClosestDate = useCallback(() => closestDate(asteroid), [asteroid]);
 
-    var closestDate = asteroidDates.reduce(function (prev, curr) {
-      return Math.abs(curr - currentDate) < Math.abs(prev - currentDate) ? curr : prev;
-    });
+  const { selecetedMetric, setLoading } = useAsteroidContext();
 
-    return new Date(closestDate);
-  }, [asteroid]);
-
-  const { order, selecetedMetric } = useAsteroidContext();
-
-  const inOrder = useRef(order.find((asteroidId) => asteroidId === asteroid.id) ? true : false);
   const diameter = useRef(
     Number((Math.floor(asteroid.estimated_diameter.kilometers.estimated_diameter_max * 50) / 50).toFixed(5))
   );
@@ -48,7 +39,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
       </Head>
       <HeaderSecondary
         alterName={`Астероид ${asteroid.name}`}
-        withDate={closestDate()}
+        withDate={memoizedClosestDate()}
         withIcon={<AsteroidIcon hazardous={asteroid.is_potentially_hazardous_asteroid} />}
         withoutHazardous
       />
@@ -63,7 +54,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
                   Math.floor(
                     Number(
                       asteroid.close_approach_data.find(
-                        (as) => new Date(as.close_approach_date).valueOf() === closestDate().valueOf()
+                        (as) => new Date(as.close_approach_date).valueOf() === memoizedClosestDate().valueOf()
                       )!.miss_distance[selecetedMetric === "kiloMeters" ? "kilometers" : "lunar"]
                     )
                   )
@@ -128,7 +119,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
         </div>
         <div></div>
         <div className={classes.buttonWrapper}>
-          <Button color='#FFF'>{inOrder.current ? "Удалить из списка" : "Уничтожить"}</Button>
+          <Button color='#FFF'>{asteroid.ordered ? "Удалить из списка" : "Уничтожить"}</Button>
         </div>
       </main>
     </Layout>
@@ -137,8 +128,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
 
 export default Asteroid;
 
-export const getServerSideProps: GetServerSideProps<AsteroidPageProps, { id: string }> = async ({ query }) => {
-  //                                                                   не даёт эффекта
+export const getServerSideProps: GetServerSideProps<AsteroidPageProps> = async ({ query }) => {
   const { id } = query;
 
   let apod = await getApod();

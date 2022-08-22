@@ -1,50 +1,47 @@
 import React, { memo, useState } from "react";
-import { handleWeek } from "../../helpers/asteroid";
-import { addSubstractDays, formateDate } from "../../helpers/date";
-import { Asteroid, AsteroidWeek } from "../../types/asteroid";
+import { getMoreAsteroids } from "../../helpers/asteroid";
+import { addSubstractDays } from "../../helpers/date";
+import { Asteroid } from "../../types/asteroid";
 import AsteroidCard from "../AsteroidCard";
 import Button from "../Common/Button";
 import { useAsteroidContext } from "../Common/Context";
 import classes from "./styles.module.scss";
 
 type AsteroidGridProps = {
-  initialAsteroids: Asteroid[] | null;
+  asteroids: Asteroid[] | null;
   initialDate: Date;
   errorText: string;
+  getMoreAsteroids: (d: Date) => void;
 
   infiniteLoad: boolean;
 };
 
-const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ initialAsteroids, initialDate, errorText, infiniteLoad }) => {
-  const { selecetedMetric, addAsteroid, removeAsteroid, showHazardous } = useAsteroidContext();
-
+const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate, errorText, infiniteLoad }) => {
+  const { loading, selecetedMetric, addAsteroid, removeAsteroid, showHazardous, setAsteroids } = useAsteroidContext();
   const [currentDate, setCurrentDate] = useState<Date>(addSubstractDays(new Date(initialDate), -1));
-  const [asteroids, setAsteroids] = useState<Asteroid[] | null>(initialAsteroids);
 
-  async function getMoreAsteroids(d: Date) {
+  const handleAsteroids = async () => {
     if (!infiniteLoad) {
       return;
     }
-    let date = formateDate(d);
+    let newAsteroids = await getMoreAsteroids(currentDate);
 
-    let res = await fetch(`/api/asteroids/${date}`);
-    let asteroidWeek: AsteroidWeek = await res.json();
-    let formatedWeek = handleWeek(asteroidWeek);
-
-    if (formatedWeek) {
-      setAsteroids((prev) => {
-        if (!prev) {
-          return [...formatedWeek!];
-        } else {
-          return [...prev, ...formatedWeek!];
-        }
-      });
-    }
+    setAsteroids((prev) => {
+      if (!prev) {
+        return [...newAsteroids!];
+      } else {
+        return [...prev, ...newAsteroids!];
+      }
+    });
 
     setCurrentDate(addSubstractDays(new Date(initialDate), -7));
+  };
+
+  if (loading) {
+    return <h3>Загрузка астероидов...</h3>;
   }
 
-  return !asteroids ? (
+  return !asteroids || asteroids.length === 0 ? (
     <h3>{errorText}</h3>
   ) : (
     <ul className={classes.asteroidsGrid}>
@@ -65,7 +62,7 @@ const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ initialAsteroids, init
       ))}
       {infiniteLoad ? (
         <li>
-          <Button onClick={() => getMoreAsteroids(currentDate)}>Get more</Button>
+          <Button onClick={() => handleAsteroids()}>Get more</Button>
         </li>
       ) : (
         <></>
