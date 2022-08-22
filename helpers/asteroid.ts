@@ -19,21 +19,6 @@ export async function getAsteroid(id: string): Promise<Asteroid | null> {
   return addOrder(asteroid);
 }
 
-export async function getAsteroids(startDate: Date): Promise<AsteroidWeek | null> {
-  let asteroids: AsteroidWeek;
-
-  let date = formateDate(startDate);
-
-  try {
-    let res = await fetch(`${process.env.ASTEROIDS_URL}/feed?start_date=${date}&api_key=${process.env.API_KEY}`);
-    asteroids = await res.json();
-  } catch (error) {
-    return null;
-  }
-
-  return asteroids;
-}
-
 export async function getOrderAsteroids(order: string[]): Promise<Asteroid[] | null> {
   let asteroids: Asteroid[] = [];
 
@@ -66,12 +51,44 @@ export function handleWeek(week: AsteroidWeek): Asteroid[] | null {
   return asteroids;
 }
 
-export async function getMoreAsteroids(d: Date): Promise<Asteroid[] | null> {
-  let date = formateDate(d);
+/**
+ * Получение астероидов с бекенда
+ * @param startDate - дата с которой идёт отсчёт (отсчёт вперёд, т.е. с 7 июля => 7 июля-14 июля)
+ * @returns
+ */
+export async function getNasaAsteroids(
+  endDate: Date,
+  days: number
+): Promise<{ asteroidWeek: AsteroidWeek; date: Date } | null> {
+  let asteroids: AsteroidWeek;
 
-  let res = await fetch(`/api/asteroids/${date}`);
-  let asteroidWeek: AsteroidWeek = await res.json();
-  let formatedWeek = handleWeek(asteroidWeek);
+  let eDate = formateDate(endDate);
 
-  return formatedWeek;
+  let preSDate = new Date(endDate);
+  preSDate.setDate(preSDate.getDate() - days);
+  let sDate = formateDate(preSDate);
+
+  try {
+    let res = await fetch(
+      `${process.env.ASTEROIDS_URL}/feed?start_date=${sDate}&end_date=${eDate}&api_key=${process.env.API_KEY}`
+    );
+    asteroids = await res.json();
+  } catch (error) {
+    return null;
+  }
+
+  return { asteroidWeek: asteroids, date: new Date(sDate) };
+}
+
+/**
+ * Получение астероидов с фронтенда
+ * @param d - дата с которой идёт отсчёт (отсчёт вперёд, т.е. с 7 июля => 7 июля-14 июля)
+ * @returns
+ */
+export async function getAsteroids(d: Date): Promise<{ asteroids: Asteroid[]; date: Date } | null> {
+  let res = await fetch(`/api/asteroids/${formateDate(d)}`);
+  let asteroidWeek: { asteroids: AsteroidWeek; date: Date } = await res.json();
+  let formatedWeek = handleWeek(asteroidWeek.asteroids)!;
+
+  return { asteroids: formatedWeek, date: asteroidWeek.date };
 }

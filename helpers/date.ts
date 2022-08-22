@@ -6,7 +6,7 @@ export function isValidDate(d: Date) {
 }
 
 export function formateDate(d: Date) {
-  let date = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+  let date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
   return date;
 }
 

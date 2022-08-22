@@ -6,13 +6,12 @@ import { useAsteroidContext } from "../components/Common/Context";
 import HeaderSecondary from "../components/Header/Secondary";
 import Layout from "../components/Layout";
 import { getApod } from "../helpers/apodRequests";
-import { getAsteroids, getMoreAsteroids, handleWeek } from "../helpers/asteroid";
+import { getNasaAsteroids, handleWeek } from "../helpers/asteroid";
 import { ApodData } from "../types/apod";
-import { AsteroidWeek } from "../types/asteroid";
+import { Asteroid } from "../types/asteroid";
 
 type HomePageProps = ApodData & {
-  asteroids: AsteroidWeek | null;
-  // handleWeek(asteroids)
+  asteroids: Asteroid[] | null;
   initialDate: number;
 };
 
@@ -21,11 +20,7 @@ const Home: NextPage<HomePageProps> = ({ apod, asteroids, initialDate }) => {
 
   useEffect(() => {
     if (asteroids) {
-      let formatedAsteroids = handleWeek(asteroids);
-      if (!formatedAsteroids) {
-        return;
-      }
-      context.setAsteroids(formatedAsteroids);
+      context.setAsteroids(asteroids);
       context.setLoading(false);
     }
   }, [asteroids]);
@@ -42,7 +37,6 @@ const Home: NextPage<HomePageProps> = ({ apod, asteroids, initialDate }) => {
           initialDate={new Date(initialDate)}
           errorText={"Не удалось загрузить астероиды :("}
           infiniteLoad={true}
-          getMoreAsteroids={getMoreAsteroids}
         />
       ) : (
         <h3>Не удалось получить астероиды :с</h3>
@@ -53,14 +47,13 @@ const Home: NextPage<HomePageProps> = ({ apod, asteroids, initialDate }) => {
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async ({ req, res }) => {
   let apod = await getApod();
-
   let initialDate = new Date();
-  initialDate.setDate(initialDate.getDate() - 7);
-  let asteroids = await getAsteroids(initialDate);
+
+  let nasaAsteroids = await getNasaAsteroids(initialDate, Number(process.env.DAYS_PER_REQUEST));
+  let resultAsteroids = handleWeek(nasaAsteroids!.asteroidWeek);
 
   res.setHeader("Cache-Control", "public, s-maxage=600");
-
-  return { props: { apod, asteroids, initialDate: initialDate.valueOf() } };
+  return { props: { apod, asteroids: resultAsteroids, initialDate: nasaAsteroids!.date.valueOf() } };
 };
 
 export default Home;
