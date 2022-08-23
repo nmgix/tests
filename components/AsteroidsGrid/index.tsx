@@ -92,7 +92,6 @@ const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate
               display:
                 asteroid.is_potentially_hazardous_asteroid === false && showHazardous === true ? "none" : "list-item",
             }}>
-            <span>{asteroid.id}</span>
             <AsteroidCard
               {...asteroid}
               addAsteroid={addAsteroid}
