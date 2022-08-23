@@ -36,7 +36,7 @@ const Order: NextPage<OrderPageProps> = ({ apod }) => {
       <Head>
         <title>Order - Armaggedon V2</title>
       </Head>
-      <HeaderSecondary />
+      <HeaderSecondary title='Заказ' />
       <div className={classes.orderWrapper}>
         <AsteroidGrid
           asteroids={[...renderLocalOrder(), ...asteroids.filter((as) => as.ordered === true)]}

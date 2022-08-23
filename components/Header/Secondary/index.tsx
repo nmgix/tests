@@ -21,7 +21,7 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = memo(
     withIcon,
     withDate,
     withoutHazardous,
-    alterName,
+    title,
   }) => {
     return (
       <Fragment>
@@ -30,7 +30,7 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = memo(
             <div className={classes.withIcon}>
               <div className={classes.mobileWithIcon}>
                 <HeaderWrapper
-                  title={alterName ? alterName : "Ближайшие подлёты"}
+                  title={title}
                   withDate={withDate}
                   childrenInTitle={<div className={classes.iconWrapper}>{withIcon}</div>}>
                   <div className={classes.controls}>
@@ -74,7 +74,7 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = memo(
               </div>
               <div className={classes.laptopWithIcon}>
                 <div className={classes.iconWrapper}>{withIcon}</div>
-                <HeaderWrapper title={alterName ? alterName : "Ближайшие подлёты"} withDate={withDate}>
+                <HeaderWrapper title={title} withDate={withDate}>
                   <div className={classes.controls}>
                     <div className={classes.metricsSwitch}>
                       <span>Отображать расстояние:</span>
@@ -117,7 +117,7 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = memo(
             </div>
           ) : (
             <div className={classes.withoutIcon}>
-              <HeaderWrapper title={alterName ? alterName : "Ближайшие подлёты"} withDate={withDate}>
+              <HeaderWrapper title={title} withDate={withDate}>
                 <div className={classes.controls}>
                   <div className={classes.metricsSwitch}>
                     <span>Отображать расстояние:</span>
@@ -166,8 +166,8 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = memo(
 );
 
 type HeaderSecondaryWrapperProps = {
+  title: string;
   withIcon?: JSX.Element;
-  alterName?: string;
   withDate?: Date;
   withoutHazardous?: boolean;
 };

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { Fragment } from "react";
 import { ApodData } from "../../types/apod";
 import HeaderMain from "../Header/Main";
@@ -8,9 +9,11 @@ type LayoutProps = ApodData & {
 };
 
 const Layout: React.FC<LayoutProps> = ({ apod, children }) => {
+  const router = useRouter();
+
   return (
     <Fragment>
-      <HeaderMain img={apod} />
+      <HeaderMain data={apod} router={router} />
       <main className={classes.layoutMain}>{children}</main>
     </Fragment>
   );

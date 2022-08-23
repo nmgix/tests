@@ -8,6 +8,7 @@ import classes from "./styles.module.scss";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getAsteroids } from "../../helpers/asteroid";
+import getConfig from "next/config";
 
 type AsteroidGridProps = {
   asteroids: Asteroid[] | null;
@@ -18,12 +19,14 @@ type AsteroidGridProps = {
 };
 
 const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate, errorText, infiniteLoad }) => {
+  const { publicRuntimeConfig } = getConfig();
+  const { nodeENV } = publicRuntimeConfig;
+
   const { loading, selecetedMetric, addAsteroid, removeAsteroid, showHazardous, setAsteroids } = useAsteroidContext();
   const [currentDate, setCurrentDate] = useState<Date>(() => {
     return initialDate;
   });
   const [hasMore, setHasMore] = useState<boolean>(true);
-
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
 
   const handleAsteroids = async () => {
@@ -97,6 +100,7 @@ const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate
               addAsteroid={addAsteroid}
               removeAsteroid={removeAsteroid}
               selecetedMetric={selecetedMetric}
+              nodeENV={nodeENV}
             />
           </li>
         ))}
@@ -116,6 +120,7 @@ const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate
             addAsteroid={addAsteroid}
             removeAsteroid={removeAsteroid}
             selecetedMetric={selecetedMetric}
+            nodeENV={nodeENV}
           />
         </li>
       ))}

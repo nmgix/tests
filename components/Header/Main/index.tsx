@@ -1,28 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import React, { memo } from "react";
 import { ApodImage } from "../../../types/apod";
 import Button from "../../Common/Button";
 import classes from "./styles.module.scss";
 
 type HeaderMainProps = {
-  img: ApodImage | undefined;
+  data: ApodImage | undefined;
+  router: NextRouter;
 };
 
-const HeaderMain: React.FC<HeaderMainProps> = memo(({ img }) => {
-  const router = useRouter();
-
+const HeaderMain: React.FC<HeaderMainProps> = memo(({ data, router }) => {
   return (
     <header className={classes.headerMain}>
       <div className={classes.adopWrapper}>
-        {img !== undefined ? (
-          img.media_type && img.media_type === "video" ? (
+        {data !== undefined ? (
+          data.media_type && data.media_type === "video" ? (
             <iframe
-              src={`${img.url.replace(
+              src={`${data.url.replace(
                 "?rel=0",
                 ""
-              )}?autoplay=1&mute=1&enablejsapi=1&controls=0&loop=1&showinfo=0&playlist=${img.url
+              )}?autoplay=1&mute=1&enablejsapi=1&controls=0&loop=1&showinfo=0&playlist=${data.url
                 .match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i)![0]
                 .replace("youtube.com/embed/", "")}`}
               width='100%'
@@ -30,8 +29,8 @@ const HeaderMain: React.FC<HeaderMainProps> = memo(({ img }) => {
               frameBorder='0'></iframe>
           ) : (
             <Image
-              loader={() => img.url}
-              src={img!.url}
+              loader={() => data.url}
+              src={data!.url}
               objectFit='cover'
               draggable={false}
               layout='fill'

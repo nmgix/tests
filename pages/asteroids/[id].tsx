@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import HeaderWrapper from "../../components/Header/HeaderWrapper";
 import HeaderSecondary from "../../components/Header/Secondary";
 import Layout from "../../components/Layout";
@@ -24,10 +24,27 @@ enum Planets {
 type AsteroidPageProps = ApodData & AsteroidData;
 
 const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
+  const { order, removeAsteroid, addAsteroid, selecetedMetric } = useAsteroidContext();
+
+  const [inOrder, setInOrder] = useState<boolean>(false);
+
+  const handleAsteroid = () => {
+    if (inOrder) {
+      removeAsteroid(asteroid.id);
+    } else {
+      addAsteroid(asteroid);
+    }
+  };
+
+  const isInOrder = () => {
+    return order.find((as) => as.id === asteroid.id) !== undefined;
+  };
+
+  useEffect(() => {
+    setInOrder(isInOrder());
+  }, [order]);
+
   const memoizedClosestDate = useCallback(() => closestDate(asteroid), [asteroid]);
-
-  const { selecetedMetric, setLoading } = useAsteroidContext();
-
   const diameter = useRef(
     Number((Math.floor(asteroid.estimated_diameter.kilometers.estimated_diameter_max * 50) / 50).toFixed(5))
   );
@@ -38,7 +55,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
         <title>{asteroid.name} - Armaggedon V2</title>
       </Head>
       <HeaderSecondary
-        alterName={`Астероид ${asteroid.name}`}
+        title={`Астероид ${asteroid.name}`}
         withDate={memoizedClosestDate()}
         withIcon={<AsteroidIcon hazardous={asteroid.is_potentially_hazardous_asteroid} />}
         withoutHazardous
@@ -85,7 +102,11 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
                           new Date(app2.close_approach_date).valueOf() - new Date(app1.close_approach_date).valueOf()
                       )
                       .map((approach, i) => (
-                        <tr key={new Date(approach.close_approach_date).valueOf()}>
+                        <tr
+                          key={
+                            new Date(approach.close_approach_date).valueOf() +
+                            Number(approach.relative_velocity.kilometers_per_hour)
+                          }>
                           <td>
                             {new Date(approach.close_approach_date).toLocaleDateString("ru", {
                               day: "numeric",
@@ -117,9 +138,10 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
             </div>
           </HeaderWrapper>
         </div>
-        <div></div>
         <div className={classes.buttonWrapper}>
-          <Button color='#FFF'>{asteroid.ordered ? "Удалить из заказа" : "Уничтожить"}</Button>
+          <Button color='#FFF' onClick={() => handleAsteroid()}>
+            {inOrder ? "Удалить из заказа" : "Уничтожить"}
+          </Button>
         </div>
       </main>
     </Layout>

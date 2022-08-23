@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   publicRuntimeConfig: {
-    PROD: process.env.NODE_ENV,
+    nodeENV: process.env.NODE_ENV,
   },
 };
 

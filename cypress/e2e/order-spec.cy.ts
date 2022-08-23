@@ -6,6 +6,10 @@ describe("Проверка заказа", () => {
     cy.visit("/");
   });
 
+  beforeEach(() => {
+    cy.clearLocalStorage();
+  });
+
   it("Добавление элемента в заказ сохраняет его в localStorage", () => {
     cy.get('[class*="styles_asteroidsGrid"]')
       .children()
@@ -24,11 +28,20 @@ describe("Проверка заказа", () => {
                 expect(JSON.parse(value!)[0]).to.equal(id.toString());
               });
             });
+          cy.get("button").contains("Удалить из заказа").click();
         });
       });
   });
 
-  it("Удаление элемента из списка и отправка бригады", () => {
+  it("Удаление элемента из списка, отправка бригады и редирект после отправки", () => {
+    cy.get('[class*="styles_asteroidsGrid"]')
+      .children()
+      .eq(0)
+      .then((elem) => {
+        cy.wrap(elem).within(() => {
+          cy.get("button").contains("Уничтожить").click();
+        });
+      });
     cy.get('[class*="styles_asteroidsGrid"]')
       .children()
       .eq(1)
@@ -58,17 +71,17 @@ describe("Проверка заказа", () => {
           cy.get("button").contains("Удалить из заказа").click();
         })
       );
+
     cy.get('[class*="styles_asteroidsGrid"]').children().should("have.length", 2);
 
-    cy.get("button")
-      .contains("Отправить бригаду им. Брюса Уиллиса")
-      .click()
-      .then(() => {
-        cy.saveLocalStorage();
-        cy.wait(3000);
-        cy.getLocalStorage("asteroid-order").then((value) => {
-          expect(JSON.parse(value!)).to.eql([]);
-        });
-      });
+    cy.get("button").contains("Отправить бригаду им. Брюса Уиллиса").click();
+
+    cy.getLocalStorage("asteroid-order").then((value) => {
+      expect(JSON.parse(value!)).to.eql([]);
+    });
+
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/");
+    });
   });
 });

@@ -13,7 +13,7 @@ const HeaderWrapper: React.FC<HeaderWrapperProps> = ({ title, children, withDate
     <div className={classes.upperHeader}>
       <div className={classes.titleWrapper}>
         {childrenInTitle ? childrenInTitle : <></>}
-        <div className={classes.dateWrapper}>
+        <div className={classes.title}>
           <h2>{title}</h2>
           {withDate ? (
             <time>{withDate.toLocaleDateString("ru", { day: "2-digit", month: "long", year: "numeric" })}</time>

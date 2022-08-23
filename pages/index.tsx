@@ -30,7 +30,7 @@ const Home: NextPage<HomePageProps> = ({ apod, asteroids, initialDate }) => {
       <Head>
         <title>Home - Armaggedon V2</title>
       </Head>
-      <HeaderSecondary />
+      <HeaderSecondary title='Ближайшие подлёты' />
       {context.asteroids ? (
         <AsteroidGrid
           asteroids={context.asteroids}

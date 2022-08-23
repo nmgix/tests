@@ -8,12 +8,11 @@ import Button from "../Common/Button";
 import AsteroidIcon from "../CustomIcons/AsteroidIcon/AsteroidIcon";
 import classes from "./styles.module.scss";
 
-import getConfig from "next/config";
-
-type AsteroidCardProps = Asteroid & {
+export type AsteroidCardProps = Asteroid & {
   addAsteroid: (asteroid: Asteroid) => void;
   removeAsteroid: (id: string) => void;
   selecetedMetric: keyof typeof Metrics;
+  nodeENV: string;
 };
 
 const AsteroidCard: React.FC<AsteroidCardProps> = memo(
@@ -30,10 +29,9 @@ const AsteroidCard: React.FC<AsteroidCardProps> = memo(
       addAsteroid,
       removeAsteroid,
       selecetedMetric,
+      nodeENV,
     } = asteroid;
 
-    const { publicRuntimeConfig } = getConfig();
-    const { PROD } = publicRuntimeConfig;
     const router = useRouter();
 
     const diameter = useRef(
@@ -61,7 +59,7 @@ const AsteroidCard: React.FC<AsteroidCardProps> = memo(
 
     return (
       <>
-        {PROD === "production" ? <></> : <span>{asteroid.id}</span>}
+        {nodeENV === "production" ? <></> : <span>{asteroid.id}</span>}
         <div className={classes.asteroidCard}>
           <time>
             {new Date(closestDate(asteroid)).toLocaleDateString("ru", {
