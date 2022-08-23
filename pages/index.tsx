@@ -46,13 +46,14 @@ const Home: NextPage<HomePageProps> = ({ apod, asteroids, initialDate }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async ({ req, res }) => {
+  res.setHeader("Cache-Control", "public, s-maxage=43000, stale-while-revalidate=76000");
+
   let apod = await getApod();
   let initialDate = new Date();
 
   let nasaAsteroids = await getNasaAsteroids(initialDate, Number(process.env.DAYS_PER_REQUEST));
   let resultAsteroids = handleWeek(nasaAsteroids!.asteroidWeek);
 
-  res.setHeader("Cache-Control", "public, s-maxage=600");
   return { props: { apod, asteroids: resultAsteroids, initialDate: nasaAsteroids!.date.valueOf() } };
 };
 
