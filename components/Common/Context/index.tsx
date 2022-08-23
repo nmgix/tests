@@ -3,6 +3,7 @@ import Router, { useRouter } from "next/router";
 import { MetricsKey } from "../../../helpers/metrics";
 import { Asteroid } from "../../../types/asteroid";
 import { getOrderAsteroids } from "../../../helpers/asteroid";
+import structuredClone from "@ungap/structured-clone";
 
 type ContextProps = {
   asteroids: Asteroid[];

@@ -119,7 +119,7 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
         </div>
         <div></div>
         <div className={classes.buttonWrapper}>
-          <Button color='#FFF'>{asteroid.ordered ? "Удалить из списка" : "Уничтожить"}</Button>
+          <Button color='#FFF'>{asteroid.ordered ? "Удалить из заказа" : "Уничтожить"}</Button>
         </div>
       </main>
     </Layout>

@@ -96,7 +96,7 @@ const AsteroidCard: React.FC<AsteroidCardProps> = memo(
             </div>
           </div>
           <Button color='#FFF' rounded onClick={() => changeAsteroidSelection(!inOrder)}>
-            {inOrder ? "Удалить из списка" : "Уничтожить"}
+            {inOrder ? "Удалить из заказа" : "Уничтожить"}
           </Button>
         </div>
       </>
