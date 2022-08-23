@@ -7,12 +7,14 @@ interface ButtonProps
   asLink?: boolean;
   color?: string;
   rounded?: boolean;
+  dontStretch?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, asLink, active, color, children, rounded }) => {
+const Button: React.FC<ButtonProps> = ({ onClick, asLink, active, color, children, rounded, dontStretch }) => {
   const buttonStyles: React.CSSProperties = {
     color: color ? color : "inherit",
     borderRadius: rounded ? "50px" : "7px",
+    alignSelf: dontStretch ? "flex-start" : "unset",
   };
 
   return (

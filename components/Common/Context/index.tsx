@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { MetricsKey } from "../../../helpers/metrics";
 import { Asteroid } from "../../../types/asteroid";
 import { getOrderAsteroids } from "../../../helpers/asteroid";
@@ -29,10 +29,11 @@ type ContextProps = {
 const Context = createContext<ContextProps>({} as ContextProps);
 
 export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const router = useRouter();
+
   const [order, setOrder] = useState<Asteroid[]>([]);
   const [asteroids, setAsteroids] = useState<Asteroid[]>([]);
   const orderDuplicates = useRef<string[]>([]);
-
   const [loading, setLoading] = useState<boolean>(true);
 
   // записывать в localStorage
@@ -116,13 +117,17 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
   }
   function confirmOrder() {
-    Router.push("/");
-    setOrder((prev) => {
-      return {
-        ...prev,
-        order: [],
-      };
+    router.push("/");
+    setOrder([]);
+    setAsteroids((prev) => {
+      return prev.map((as) => {
+        if (as.ordered) {
+          as.ordered = false;
+        }
+        return as;
+      });
     });
+    orderDuplicates.current = [];
   }
 
   const [selecetedMetric, setSelectedMetric] = useState<MetricsKey>("kiloMeters");
