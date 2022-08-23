@@ -165,6 +165,8 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = memo(
   (prev, next) => prev.selecetedMetric === next.selecetedMetric && prev.showHazardous === next.showHazardous
 );
 
+HeaderSecondary.displayName = "HeaderSecondary";
+
 type HeaderSecondaryWrapperProps = {
   title: string;
   withIcon?: JSX.Element;
