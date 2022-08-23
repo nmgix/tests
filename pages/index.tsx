@@ -49,6 +49,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async ({ re
   res.setHeader("Cache-Control", "public, s-maxage=43000, stale-while-revalidate=76000");
 
   let apod = await getApod();
+
   let initialDate = new Date();
 
   let nasaAsteroids = await getNasaAsteroids(initialDate, Number(process.env.DAYS_PER_REQUEST));

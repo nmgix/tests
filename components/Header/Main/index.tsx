@@ -37,6 +37,9 @@ const HeaderMain: React.FC<HeaderMainProps> = memo(({ data, router }) => {
               unoptimized
               priority
               alt={data.explanation}
+              onErrorCapture={(el) => {
+                el.currentTarget.style.background = "#000";
+              }}
             />
           )
         ) : (
