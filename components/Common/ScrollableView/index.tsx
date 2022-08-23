@@ -14,4 +14,6 @@ const ScrollableView: React.FC<ScrollableViewProps> = ({ children, horizontalScr
   );
 };
 
+ScrollableView.displayName = "ScrollableView";
+
 export default ScrollableView;

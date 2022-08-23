@@ -36,13 +36,13 @@ const Asteroid: React.FC<AsteroidPageProps> = ({ apod, asteroid }) => {
     }
   };
 
-  const isInOrder = () => {
+  const isInOrder = useCallback(() => {
     return order.find((as) => as.id === asteroid.id) !== undefined;
-  };
+  }, [order]);
 
   useEffect(() => {
     setInOrder(isInOrder());
-  }, [order]);
+  }, [order, isInOrder]);
 
   const memoizedClosestDate = useCallback(() => closestDate(asteroid), [asteroid]);
   const diameter = useRef(

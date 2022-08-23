@@ -68,16 +68,22 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
   //  ищет дубликаты и добавляет в реф (orderDuplicates), чтобы при ренедере заказа брались уже существующие астероиды со списка (если тот прорендерен был)
   //  ренедерились вместе с астероидами с подгруженного списка из useEffect выше
   useEffect(() => {
-    if (order && asteroids) {
-      asteroids.forEach((asteroid) => {
-        let sameAsteroid = order.find((orderAsteroid) => orderAsteroid.id === asteroid.id);
-        if (sameAsteroid) {
-          asteroid.ordered = true;
-          orderDuplicates.current.push(sameAsteroid.id);
-        }
+    if (order) {
+      setAsteroids((prev) => {
+        let asteroidsCopy = structuredClone(prev);
+
+        asteroidsCopy.forEach((asteroid) => {
+          let sameAsteroid = order.find((orderAsteroid) => orderAsteroid.id === asteroid.id);
+          if (sameAsteroid) {
+            asteroid.ordered = true;
+            orderDuplicates.current.push(sameAsteroid.id);
+          }
+        });
+
+        return asteroidsCopy;
       });
     }
-  }, [order, asteroids]);
+  }, [order]);
 
   function addAsteroid(asteroid: Asteroid) {
     setAsteroids((prev) => {
@@ -168,6 +174,8 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
     </Context.Provider>
   );
 };
+
+ContextProvider.displayName = "ContextProvider";
 
 export function useAsteroidContext() {
   return useContext(Context);

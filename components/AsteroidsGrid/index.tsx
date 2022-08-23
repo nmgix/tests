@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { addSubstractDays } from "../../helpers/date";
 import { Asteroid } from "../../types/asteroid";
 import AsteroidCard from "../AsteroidCard";
@@ -29,7 +29,7 @@ const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
 
-  const handleAsteroids = async () => {
+  const handleAsteroids = useCallback(async () => {
     if (!infiniteLoad) {
       return;
     }
@@ -62,7 +62,7 @@ const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate
     setLoadingMore(false);
 
     window.scrollBy(0, -1);
-  };
+  }, [asteroids, showHazardous]);
 
   useEffect(() => {
     if (
@@ -134,5 +134,7 @@ const AsteroidGrid: React.FC<AsteroidGridProps> = memo(({ asteroids, initialDate
     </ul>
   );
 });
+
+AsteroidGrid.displayName = "AsteroidGrid";
 
 export default AsteroidGrid;

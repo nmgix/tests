@@ -45,4 +45,6 @@ const Icon: React.FC<IconProps> = ({ icon, size }) => {
   );
 };
 
+Icon.displayName = "Icon";
+
 export default Icon;

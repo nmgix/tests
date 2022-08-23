@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { closestDate } from "../../helpers/date";
 import { Metrics, MetricsShort, numberWithCommas } from "../../helpers/metrics";
 import { Asteroid } from "../../types/asteroid";
@@ -38,6 +38,10 @@ const AsteroidCard: React.FC<AsteroidCardProps> = memo(
       Number((Math.floor(estimated_diameter.kilometers.estimated_diameter_max * 50) / 50).toFixed(5))
     );
     const [inOrder, setInOrder] = useState<boolean>(ordered);
+
+    useEffect(() => {
+      setInOrder(ordered);
+    }, [ordered]);
 
     const changeAsteroidSelection = (insideOrder: boolean) => {
       setInOrder(insideOrder);
@@ -101,7 +105,10 @@ const AsteroidCard: React.FC<AsteroidCardProps> = memo(
     );
   },
   (prev, next) => {
-    return prev.id === next.id && prev.selecetedMetric === next.selecetedMetric;
+    return prev.id === next.id && prev.selecetedMetric === next.selecetedMetric && prev.ordered === next.ordered;
   }
 );
+
+AsteroidCard.displayName = "AsteroidCard";
+
 export default AsteroidCard;

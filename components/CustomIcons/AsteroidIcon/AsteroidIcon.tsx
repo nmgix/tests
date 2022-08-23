@@ -30,4 +30,7 @@ const AsteroidIcon: React.FC<AsteroidIconProps> = memo(({ hazardous }) => {
     </div>
   );
 });
+
+AsteroidIcon.displayName = "AsteroidIcon";
+
 export default AsteroidIcon;

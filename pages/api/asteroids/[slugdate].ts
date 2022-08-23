@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getNasaAsteroids } from "../../../helpers/asteroid";
 import { isValidDate } from "../../../helpers/date";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { slugdate } = req.query as { slugdate: string };
 
   try {
@@ -18,3 +18,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json("Error occured");
   }
 };
+
+export default handler;

@@ -36,6 +36,7 @@ const HeaderMain: React.FC<HeaderMainProps> = memo(({ data, router }) => {
               layout='fill'
               unoptimized
               priority
+              alt={data.explanation}
             />
           )
         ) : (
@@ -63,5 +64,7 @@ const HeaderMain: React.FC<HeaderMainProps> = memo(({ data, router }) => {
     </header>
   );
 });
+
+HeaderMain.displayName = "HeaderMain";
 
 export default HeaderMain;

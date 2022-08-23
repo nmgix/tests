@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getAsteroid } from "../../../helpers/asteroid";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!req.body) {
     return res.status(400).json("No order provided");
   }
@@ -24,3 +24,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json("Wrong order");
   }
 };
+
+export default handler;

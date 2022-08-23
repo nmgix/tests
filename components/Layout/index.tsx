@@ -19,4 +19,6 @@ const Layout: React.FC<LayoutProps> = ({ apod, children }) => {
   );
 };
 
+Layout.displayName = "Layout";
+
 export default Layout;

@@ -28,4 +28,6 @@ const HeaderWrapper: React.FC<HeaderWrapperProps> = ({ title, children, withDate
   );
 };
 
+HeaderWrapper.displayName = "HeaderWrapper";
+
 export default HeaderWrapper;

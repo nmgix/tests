@@ -177,4 +177,6 @@ const HeaderSecondaryWrapper: React.FC<HeaderSecondaryWrapperProps> = (wrapperPr
   return <HeaderSecondary {...contextArgs} {...wrapperProps} />;
 };
 
+HeaderSecondaryWrapper.displayName = "HeaderSecondaryWrapper";
+
 export default HeaderSecondaryWrapper;
