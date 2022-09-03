@@ -18,10 +18,10 @@ export const Input: React.FC<
     <StyledInputWrapper label={props.label} type={props.type}>
       {props.type === "switch" ? (
         <>
-          <SwitchUI>
-            <SwitchInputUI />
-            <SwitchSliderUI />
-          </SwitchUI>
+          <StyledSwitch>
+            <StyledSwitchInput />
+            <StyledSwitchSlider />
+          </StyledSwitch>
         </>
       ) : (
         <>
@@ -129,11 +129,11 @@ const StyledInput = styled.input<StyledInputProps>`
   }
 `;
 
-const SwitchInputUI = styled.input.attrs({ type: "checkbox" })`
+const StyledSwitchInput = styled.input.attrs({ type: "checkbox" })`
   opacity: 0;
 `;
 
-const SwitchSliderUI = styled.span`
+const StyledSwitchSlider = styled.span`
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -141,7 +141,7 @@ const SwitchSliderUI = styled.span`
   right: 0;
   bottom: 0;
   background-color: ${Colors.accent};
-  transition: 0.4s;
+  transition: 0.1s ease-in-out;
   border-radius: 1000px;
 
   &:before {
@@ -157,7 +157,7 @@ const SwitchSliderUI = styled.span`
     border: 2px solid ${Colors.accent};
   }
 `;
-const SwitchUI = styled.label`
+const StyledSwitch = styled.label`
   position: relative;
   display: inline-block;
   width: 100%;
@@ -165,7 +165,7 @@ const SwitchUI = styled.label`
   margin-bottom: 0;
   vertical-align: middle;
 
-  ${SwitchInputUI}:checked + ${SwitchSliderUI}:before {
+  ${StyledSwitchInput}:checked + ${StyledSwitchSlider}:before {
     transform: translateX(100%);
   }
 `;
