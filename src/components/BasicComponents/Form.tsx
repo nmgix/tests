@@ -25,4 +25,4 @@ export const Form = styled.form`
   }
 `;
 
-export const FormWrapper = styled(Form)``;
+export const FormWrapper = styled.div``;

@@ -32,7 +32,7 @@ export const ShareBlock = () => {
       <Description>Возможно этот сервис окажется кому-то полезен</Description>
       <SocialList>
         {Object.keys(Socials).map((key) => (
-          <SocialLink>
+          <SocialLink key={key}>
             <a href={SocicalLinks[key as keyof typeof SocicalLinks]}>
               <CustomImage imageSrc={Socials[key as keyof typeof Socials]} rounded />
             </a>

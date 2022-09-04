@@ -22,7 +22,7 @@ export const OtherLinks: React.FC = () => {
       </SqueezeText>
       <LinksWrapper>
         {Object.keys(Links).map((link) => (
-          <Link>
+          <Link key={link}>
             <a href={Links[link as keyof typeof Links]}>
               <Button asLink>{Translation[link as keyof typeof Translation]}</Button>
             </a>

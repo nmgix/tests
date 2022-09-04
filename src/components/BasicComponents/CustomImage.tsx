@@ -14,7 +14,7 @@ export const CustomImage: React.FC<ImageProps> = (props) => {
     <StyledImage
       src={`${process.env.PUBLIC_URL}/${props.imageSrc}`}
       draggable={false}
-      {...props}
+      rounded={props.rounded}
       onError={() => setLoaded(false)}
     />
   ) : (
@@ -22,7 +22,7 @@ export const CustomImage: React.FC<ImageProps> = (props) => {
   );
 };
 
-export const StyledImage = styled.img<ImageProps>`
+export const StyledImage = styled.img<Omit<ImageProps, "onErrorPlaceholder" | "imageSrc">>`
   border-radius: ${({ rounded }) => (rounded ? "50%" : 0)};
   flex: 1 1 auto;
 `;

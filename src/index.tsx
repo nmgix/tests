@@ -13,7 +13,7 @@ const App = styled.div`
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <App>
-    {/* <LoginPage /> */}
-    <RegistrationPage />
+    <LoginPage />
+    {/* <RegistrationPage /> */}
   </App>
 );
