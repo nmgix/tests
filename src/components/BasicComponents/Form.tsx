@@ -3,7 +3,7 @@ import { Button } from "./Button";
 
 export const FormTitle = styled.h3`
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
   margin: 0;
   text-align: center;
 `;
@@ -25,4 +25,6 @@ export const Form = styled.form`
   }
 `;
 
-export const FormWrapper = styled.div``;
+export const FormWrapper = styled.div`
+  align-self: center;
+`;

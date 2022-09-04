@@ -9,6 +9,7 @@ import { ShareBlock } from "../components/PageComponents/ShareBlock";
 import { OtherLinks, StyledOtherLinks } from "../components/PageComponents/OtherLinks";
 import { Device } from "../helpers/media";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
   return (
@@ -25,9 +26,11 @@ const LoginPage: React.FC = () => {
             <Button fullWidth rounded>
               Войти
             </Button>
-            <Button asLink type='submit'>
-              Регистрация
-            </Button>
+            <Link to={"/registration"}>
+              <Button asLink type='submit'>
+                Регистрация
+              </Button>
+            </Link>
           </Form>
         </FormWrapper>
         <SocialBlock>
@@ -43,6 +46,7 @@ const AuthFooterWrapper = styled.footer`
   display: flex;
   align-items: stretch;
   width: 100%;
+  flex: 1;
 
   ${FormWrapper} {
     margin: 0 32px;

@@ -15,7 +15,7 @@ export const CenterBlock = styled(HoverBlock)`
   margin: 30px 0;
 
   width: 560px;
-  height: auto;
+  height: 615px;
   padding: 20px 45px;
 
   display: flex;
@@ -24,12 +24,6 @@ export const CenterBlock = styled(HoverBlock)`
 
   border-radius: 10px;
 
-  /* & > *:not(:first-child) {
-    margin-top: 10px;
-  }
-  & > *:not(:last-child) {
-    margin-bottom: 10px;
-  } */
   & > * {
     margin: 10px;
   }

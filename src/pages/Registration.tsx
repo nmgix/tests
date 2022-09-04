@@ -6,9 +6,10 @@ import { Button } from "../components/BasicComponents/Button";
 import { Input } from "../components/BasicComponents/Input/Input";
 import styled from "styled-components";
 import { Description } from "../components/BasicComponents/Description";
-import { CustomImage, StyledImage } from "../components/BasicComponents/CustomImage";
+import { CustomImage } from "../components/BasicComponents/CustomImage";
 import { OtherLinks, StyledOtherLinks } from "../components/PageComponents/OtherLinks";
 import { Device } from "../helpers/media";
+import { Link } from "react-router-dom";
 
 const RegistrationPage: React.FC = () => {
   return (
@@ -24,7 +25,9 @@ const RegistrationPage: React.FC = () => {
             <Button fullWidth rounded type='submit'>
               Зарегистрироваться
             </Button>
-            <Button asLink>Войти в аккаунт</Button>
+            <Link to={"/login"}>
+              <Button asLink>Войти в аккаунт</Button>
+            </Link>
           </Form>
         </FormWrapper>
         <Line vertical />
@@ -63,10 +66,6 @@ const StyledRegistration = styled.div`
   align-items: stretch;
   width: 100%;
 
-  ${FormWrapper} {
-    align-self: center;
-  }
-
   ${Line} {
     margin: 0 30px 0 40px;
   }
@@ -75,12 +74,13 @@ const StyledRegistration = styled.div`
 const FunctionallityPreview = styled.div`
   display: flex;
   flex-direction: column;
-  /* ${StyledImage} {
-    height: 200px;
-  } */
 
   ${FormTitle} {
     margin-bottom: 10px;
+  }
+
+  ${Description} {
+    font-size: 14px;
   }
 
   & > *:not(${FormTitle}) {
