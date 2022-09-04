@@ -8,3 +8,9 @@ html body {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
 }
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}

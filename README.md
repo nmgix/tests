@@ -12,21 +12,37 @@ Have to make frontend part of service for shortening links.
 
 2. `npm run start` for launching locally
 
-# Have to do [`6`/`16`]:
+# Have to do [`18`/`32`]:
 
 1. [ ] Components
-   1. [ ] Input
-      1. [x] Text
-      2. [x] Checkbox
-      3. [x] Switch
-      4. [ ] Custom text state switch
-   2. [x] Button
-      1. [x] Link
-   3. [x] Squeezed text
-   4. [ ] Hover Block
-   5. [ ] Modal
-   6. [ ] Pagination
-   7. [ ] Loading
-   8. [ ] Icon
+   1. [ ] Basic Components
+      1. [ ] Input
+         1. [x] Text
+         2. [x] Checkbox
+         3. [x] Switch
+         4. [ ] Custom text state switch
+      2. [x] Button
+         1. [x] Link
+      3. [x] Squeezed text
+      4. [x] Hover Block
+      5. [ ] Modal
+      6. [ ] Pagination
+      7. [ ] Loading
+      8. [x] Custom Image
+      9. [x] Line
+      10. [x] Description
+      11. [x] Form
+      12. [x] Title
+      13. [x] Small Title
+   2. [ ] Page Components
+      1. [x] Auth Footer
+      2. [ ] Register Footer
+      3. [x] Greet Description
+      4. [ ] Functionallity Preview
+      5. [x] Share BLock
+      6. [x] Other Links
 2. [ ] Pages
-3. [ ] Icons
+   1. [x] Login Page
+   2. [ ] Registration Page
+   3. [ ] User Page
+3. [ ] Router
