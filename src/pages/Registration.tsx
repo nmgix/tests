@@ -69,6 +69,10 @@ const StyledRegistration = styled.div`
   ${Line} {
     margin: 0 30px 0 40px;
   }
+
+  @media ${Device("768px")} {
+    flex-direction: column-reverse;
+  }
 `;
 
 const FunctionallityPreview = styled.div`

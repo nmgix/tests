@@ -17,6 +17,7 @@ export const Button = styled.button<ButtonProps>`
           padding: 0,
           fontWeight: 500,
           color: Colors.accent,
+          backgroundColor: "transparent",
         };
       }
       default: {

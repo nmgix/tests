@@ -30,6 +30,7 @@ export const CenterBlock = styled(HoverBlock)`
 
   @media ${Device("768px")} {
     width: 70%;
+    height: auto;
 
     top: 0;
     transform: translate(-50%, 0);

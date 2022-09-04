@@ -6,6 +6,7 @@ import RegistrationPage from "./pages/Registration";
 
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { UserPage } from "./pages/User";
+import { RedirectPage } from "./pages/Redirect";
 
 const App = styled.div`
   width: 100vw;
@@ -21,6 +22,7 @@ root.render(
         <Route path='/' element={<UserPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/registration' element={<RegistrationPage />} />
+        <Route path='/:key' element={<RedirectPage />} />
       </Routes>
     </BrowserRouter>
   </App>

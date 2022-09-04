@@ -8,7 +8,7 @@ export const GreetDescription: React.FC = () => {
   return (
     <main>
       <StyledGreetDescriptionWrapper>
-        <CustomImage imageSrc='assets/greetPreview.svg' onErrorPlaceholder={<StyledErrorPlaceholder />} />
+        <CustomImage imageSrc='assets/images/greetPreview.svg' onErrorPlaceholder={<StyledErrorPlaceholder />} />
         <StyledGreetDescription>
           <SmallTitle>Зачем мне это?</SmallTitle>
           <Description>

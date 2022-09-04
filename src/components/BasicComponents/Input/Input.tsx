@@ -11,9 +11,7 @@ type InputProps = {
   placeholder?: string;
 } & StyledInputProps;
 
-export const Input: React.FC<
-  InputProps & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-> = (props) => {
+export const Input: React.FC<InputProps> = (props) => {
   return (
     <StyledInputWrapper label={props.label} type={props.type}>
       {props.type === "switch" ? (
@@ -55,6 +53,8 @@ const StyledInputWrapper = styled.div<InputProps>`
     font-size: 14px;
   }
 `;
+
+export const InputWrapper = styled.div``;
 
 const StyledInput = styled.input<StyledInputProps>`
   ${(props) => {
