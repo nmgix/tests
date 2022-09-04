@@ -48,12 +48,10 @@ export const ContentMain: React.FC<ContentMainProps> = ({ data, selectionActive 
               </ListLinkContent>
               <ListLinkContent>
                 <Link to={`/${linkData.shortLink}`}>
-                  <a href={linkData.shortLink}>
-                    <Button asLink>
-                      {window.location.href}
-                      {linkData.shortLink}
-                    </Button>
-                  </a>
+                  <Button asLink>
+                    {window.location.href}
+                    {linkData.shortLink}
+                  </Button>
                 </Link>
                 <Button asLink onClick={() => copyToClipboard(`${window.location.href}${linkData.shortLink}`)}>
                   <CustomImage imageSrc='assets/icons/copy.svg' />

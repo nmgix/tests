@@ -22,11 +22,11 @@ export const OtherLinks: React.FC = () => {
       </SqueezeText>
       <LinksWrapper>
         {Object.keys(Links).map((link) => (
-          <Link key={link}>
+          <StyledLink key={link}>
             <a href={Links[link as keyof typeof Links]}>
               <Button asLink>{Translation[link as keyof typeof Translation]}</Button>
             </a>
-          </Link>
+          </StyledLink>
         ))}
       </LinksWrapper>
     </StyledOtherLinks>
@@ -50,7 +50,7 @@ const LinksWrapper = styled.ul`
   justify-content: space-between;
 `;
 
-const Link = styled.li`
+const StyledLink = styled.li`
   margin-bottom: 6px;
 
   a {

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { ContentHeader } from "./Content/ContentHeader";
 import { ContentMain } from "./Content/ContentMain";
+import { Pagination } from "./Content/ContentPagination";
 
 export type LinkData = {
   fullLink: string;
@@ -31,6 +32,7 @@ export const Content: React.FC = () => {
     <StyledContent>
       <ContentHeader />
       <ContentMain data={data} selectionActive={selectionActive} />
+      <Pagination areBefore={false} areNext={true} />
     </StyledContent>
   );
 };

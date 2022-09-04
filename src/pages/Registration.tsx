@@ -34,11 +34,11 @@ const RegistrationPage: React.FC = () => {
         <FunctionallityPreview>
           <FormTitle>Что даёт регистрация?</FormTitle>
           <Description>После регистрации вы будете перенаправлены в личный профиль</Description>
-          <CustomImage imageSrc='assets/fp/page.svg' onErrorPlaceholder={<StyledErrorPlaceholder />} />
+          <CustomImage imageSrc='assets/fp/pageBackend.svg' onErrorPlaceholder={<StyledErrorPlaceholder />} />
           <Description>Вы сможете создавать сокращённые ссылки, а так же следить за их трафиком</Description>
           <CustomImage imageSrc='assets/fp/link.svg' onErrorPlaceholder={<StyledErrorPlaceholder />} />
           <Description>В навигации по таблицам вам поможет пагинация</Description>
-          <CustomImage imageSrc='assets/fp/pagination.svg' onErrorPlaceholder={<StyledErrorPlaceholder />} />
+          <CustomImage imageSrc='assets/fp/paginationBackend.svg' onErrorPlaceholder={<StyledErrorPlaceholder />} />
         </FunctionallityPreview>
       </StyledRegistration>
       <Footer>
