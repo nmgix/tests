@@ -8,7 +8,6 @@ export const Line = styled.div<LineProps>`
     return vertical
       ? {
           width: "2px",
-          height: "100%",
           borderLeft: "1px solid black",
         }
       : {

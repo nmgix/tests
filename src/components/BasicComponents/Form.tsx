@@ -3,8 +3,9 @@ import { Button } from "./Button";
 
 export const FormTitle = styled.h3`
   font-weight: 700;
-  font-size: 20px;
+  font-size: 18px;
   margin: 0;
+  text-align: center;
 `;
 
 export const Form = styled.form`
@@ -19,7 +20,7 @@ export const Form = styled.form`
   ${FormTitle} {
     margin-bottom: 5px;
   }
-  ${Button} {
+  ${Button}[type=submit] {
     margin-top: 5px;
   }
 `;

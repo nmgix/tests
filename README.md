@@ -12,7 +12,7 @@ Have to make frontend part of service for shortening links.
 
 2. `npm run start` for launching locally
 
-# Have to do [`18`/`32`]:
+# Have to do [`19`/`30`]:
 
 1. [ ] Components
    1. [ ] Basic Components
@@ -35,14 +35,12 @@ Have to make frontend part of service for shortening links.
       12. [x] Title
       13. [x] Small Title
    2. [ ] Page Components
-      1. [x] Auth Footer
-      2. [ ] Register Footer
-      3. [x] Greet Description
-      4. [ ] Functionallity Preview
-      5. [x] Share BLock
-      6. [x] Other Links
+      1. [x] Greet Description
+      2. [x] Functionallity Preview
+      3. [x] Share BLock
+      4. [x] Other Links
 2. [ ] Pages
    1. [x] Login Page
-   2. [ ] Registration Page
+   2. [x] Registration Page
    3. [ ] User Page
 3. [ ] Router

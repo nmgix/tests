@@ -21,9 +21,6 @@ export const OtherLinks: React.FC = () => {
         Прочие ссылки
       </SqueezeText>
       <LinksWrapper>
-        {/* <Button asLink>Документация API</Button>
-        <Button asLink>Разработчики</Button>
-        <Button asLink>Юр.информация</Button> */}
         {Object.keys(Links).map((link) => (
           <Link>
             <a href={Links[link as keyof typeof Links]}>

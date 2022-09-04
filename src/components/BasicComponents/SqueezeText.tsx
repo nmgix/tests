@@ -7,7 +7,7 @@ type SqueezeTextProps = {
 
 export const SqueezeText = styled.span<SqueezeTextProps>`
   display: inline-block;
-  font-size: ${({ squeezeMultiplier, fontSizePX }) => (fontSizePX ? fontSizePX : 32)}px;
+  font-size: ${({ fontSizePX }) => (fontSizePX ? fontSizePX : 32)}px;
   transform: ${({ squeezeMultiplier }) => `scaleY(${squeezeMultiplier})`};
   transform-origin: 0 0;
   margin-bottom: -50%;
