@@ -10,12 +10,15 @@ import { OtherLinks, StyledOtherLinks } from "../components/PageComponents/Other
 import { Device } from "../helpers/media";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthData, loginUser } from "../networkRequests";
+import { useAppContext } from "../components/BasicComponents/Context";
 
 const LoginPage: React.FC = () => {
   const [data, setData] = useState<AuthData>({ username: "", password: "" });
-  let navigate = useNavigate();
+
+  const context = useAppContext();
+  const navigate = useNavigate();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +27,7 @@ const LoginPage: React.FC = () => {
       // здесь вызов notification + error
     } else {
       // здесь ставится bearer в стейт контекста
-      return navigate("/");
+      context.changeAuthState(true);
     }
   };
 
@@ -33,6 +36,12 @@ const LoginPage: React.FC = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+
+  useEffect(() => {
+    if (context.authed) {
+      navigate("/");
+    }
+  }, [context.authed]);
 
   return (
     <CenterBlock>

@@ -9,7 +9,7 @@ export type RegisterData = AuthData & {
   passwordRepeat: string;
 };
 
-export const loginUser: (data: AuthData) => Promise<string | null> = async ({ username, password }) => {
+export const loginUser: (data: AuthData) => Promise<boolean | null> = async ({ username, password }) => {
   let res = await axios
     .post<any, AxiosResponse<{ access_token: string }>>(
       process.env.REACT_APP_SERVER_ADRESS! + process.env.REACT_APP_LOGIN_PATH!,
@@ -19,7 +19,8 @@ export const loginUser: (data: AuthData) => Promise<string | null> = async ({ us
       })
     )
     .then((res) => {
-      return res.data.access_token;
+      axios.defaults.headers.common = { Authorization: `bearer ${res.data.access_token}` };
+      return true;
     })
     .catch((err) => {
       return null;
@@ -27,7 +28,7 @@ export const loginUser: (data: AuthData) => Promise<string | null> = async ({ us
   return res;
 };
 
-export const registerUser: (data: AuthData) => Promise<string | null> = async ({ username, password }) => {
+export const registerUser: (data: AuthData) => Promise<boolean | null> = async ({ username, password }) => {
   let res = await axios
     .post(process.env.REACT_APP_SERVER_ADRESS! + process.env.REACT_APP_REGISTER_PATH!, null, {
       params: {

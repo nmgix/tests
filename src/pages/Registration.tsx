@@ -11,12 +11,15 @@ import { OtherLinks, StyledOtherLinks } from "../components/PageComponents/Other
 import { Device } from "../helpers/media";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RegisterData, registerUser } from "../networkRequests";
+import { useAppContext } from "../components/BasicComponents/Context";
 
 const RegistrationPage: React.FC = () => {
   const [data, setData] = useState<RegisterData>({ username: "", password: "", passwordRepeat: "" });
-  let navigate = useNavigate();
+
+  const context = useAppContext();
+  const navigate = useNavigate();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,8 +35,7 @@ const RegistrationPage: React.FC = () => {
     if (!response) {
       // здесь вызов notification + error
     } else {
-      // здесь ставится bearer в стейт контекста
-      return navigate("/");
+      context.changeAuthState(true);
     }
   };
 
@@ -42,6 +44,12 @@ const RegistrationPage: React.FC = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+
+  useEffect(() => {
+    if (context.authed) {
+      navigate("/");
+    }
+  }, [context.authed]);
 
   return (
     <CenterBlock>
