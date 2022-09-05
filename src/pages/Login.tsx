@@ -9,9 +9,31 @@ import { ShareBlock } from "../components/PageComponents/ShareBlock";
 import { OtherLinks, StyledOtherLinks } from "../components/PageComponents/OtherLinks";
 import { Device } from "../helpers/media";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { AuthData, loginUser } from "../networkRequests";
 
 const LoginPage: React.FC = () => {
+  const [data, setData] = useState<AuthData>({ username: "", password: "" });
+  let navigate = useNavigate();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let response = await loginUser(data);
+    if (!response) {
+      // здесь вызов notification + error
+    } else {
+      // здесь ставится bearer в стейт контекста
+      return navigate("/");
+    }
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
   return (
     <CenterBlock>
       <Title />
@@ -20,10 +42,10 @@ const LoginPage: React.FC = () => {
       <AuthFooterWrapper>
         <FormWrapper>
           <FormTitle>Авторизация</FormTitle>
-          <Form>
-            <Input label='Почта/логин' type='text' />
-            <Input label='Пароль' type='password' />
-            <Button fullWidth rounded>
+          <Form onSubmit={onSubmit}>
+            <Input label='Почта/логин' type='text' onChange={handleInput} name='username' value={data.username} />
+            <Input label='Пароль' type='password' onChange={handleInput} name='password' value={data.password} />
+            <Button fullWidth rounded type='submit'>
               Войти
             </Button>
             <Link to={"/registration"}>

@@ -4,12 +4,13 @@ import "./switch.css";
 
 type StyledInputProps = {
   type: "text" | "checkbox" | "switch" | "password";
+  label?: string;
   active?: boolean;
 };
 type InputProps = {
-  label?: string;
   placeholder?: string;
-} & StyledInputProps;
+} & StyledInputProps &
+  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 export const Input: React.FC<InputProps> = (props) => {
   return (
@@ -17,7 +18,7 @@ export const Input: React.FC<InputProps> = (props) => {
       {props.type === "switch" ? (
         <>
           <StyledSwitch>
-            <StyledSwitchInput />
+            <StyledSwitchInput onChange={props.onChange} name={props.name} value={props.value} />
             <StyledSwitchSlider />
           </StyledSwitch>
         </>
@@ -25,6 +26,9 @@ export const Input: React.FC<InputProps> = (props) => {
         <>
           {!props.label ? <></> : <label>{props.label}</label>}
           <StyledInput
+            value={props.value}
+            name={props.name}
+            onChange={props.onChange}
             type={props.type}
             active={props.active}
             disabled={props.type === ("checkbox" || "switch") && !props.active}
@@ -35,7 +39,7 @@ export const Input: React.FC<InputProps> = (props) => {
   );
 };
 
-const StyledInputWrapper = styled.div<InputProps>`
+const StyledInputWrapper = styled.div<StyledInputProps>`
   ${(props) => {
     const { label } = props;
     return label

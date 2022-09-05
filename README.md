@@ -8,6 +8,8 @@ Have to make frontend part of service for shortening links.
 
 ```json
     REACT_APP_SERVER_ADRESS = http://XX.XXX.XX.XXX
+    REACT_APP_LOGIN_PATH = /login
+   REACT_APP_REGISTER_PATH = /register
 ```
 
 2. `npm run start` for launching locally

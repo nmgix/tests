@@ -9,19 +9,56 @@ import { Description } from "../components/BasicComponents/Description";
 import { CustomImage } from "../components/BasicComponents/CustomImage";
 import { OtherLinks, StyledOtherLinks } from "../components/PageComponents/OtherLinks";
 import { Device } from "../helpers/media";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+import { RegisterData, registerUser } from "../networkRequests";
 
 const RegistrationPage: React.FC = () => {
+  const [data, setData] = useState<RegisterData>({ username: "", password: "", passwordRepeat: "" });
+  let navigate = useNavigate();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { username, password, passwordRepeat } = data;
+
+    if (password !== passwordRepeat) {
+      // тут должен быть notification + error
+      return;
+    }
+
+    let response = await registerUser({ username, password });
+    if (!response) {
+      // здесь вызов notification + error
+    } else {
+      // здесь ставится bearer в стейт контекста
+      return navigate("/");
+    }
+  };
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
   return (
     <CenterBlock>
       <Title />
       <StyledRegistration>
         <FormWrapper>
           <FormTitle>Регистрация</FormTitle>
-          <Form>
-            <Input label='Почта/логин' type='text' />
-            <Input label='Пароль' type='password' />
-            <Input label='Повтор пароля' type='password' />
+          <Form onSubmit={onSubmit}>
+            <Input label='Почта/логин' type='text' onChange={handleInput} name='username' value={data.username} />
+            <Input label='Пароль' type='password' onChange={handleInput} name='password' value={data.password} />
+            <Input
+              label='Повтор пароля'
+              type='password'
+              onChange={handleInput}
+              name='passwordRepeat'
+              value={data.passwordRepeat}
+            />
             <Button fullWidth rounded type='submit'>
               Зарегистрироваться
             </Button>
