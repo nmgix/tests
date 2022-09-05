@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Input, InputWrapper } from "../../../BasicComponents/Input";
+import { Input, InputWrapper, StyledInputWrapper } from "../../../BasicComponents/Input";
 import { LinkData } from "../Content";
 import { Colors } from "../../../../helpers/colors";
 import { CustomImage, StyledImage } from "../../../BasicComponents/CustomImage";
@@ -32,14 +32,14 @@ export const ContentMain: React.FC<ContentMainProps> = ({ data, selectionActive 
           <ListLinkWrapper key={linkData.shortLink}>
             {selectionActive ? (
               <InputWrapper>
-                <Input type='checkbox' />
+                <Input type='checkbox' active />
               </InputWrapper>
             ) : (
               <></>
             )}
             <ListLink>
               <ListLinkContent>
-                <a href={linkData.fullLink}>
+                <a href={linkData.fullLink} target='_blank' rel='noopener noreferrer'>
                   <Button asLink>{truncateWord(removeLinkProtocol(linkData.fullLink), 17)}</Button>
                 </a>
                 <Button asLink onClick={() => copyToClipboard(linkData.fullLink)}>
@@ -47,7 +47,7 @@ export const ContentMain: React.FC<ContentMainProps> = ({ data, selectionActive 
                 </Button>
               </ListLinkContent>
               <ListLinkContent>
-                <Link to={`/${linkData.shortLink}`}>
+                <Link to={`/${linkData.shortLink}`} target='_blank' rel='noopener noreferrer'>
                   <Button asLink>
                     {window.location.href}
                     {linkData.shortLink}
@@ -78,9 +78,17 @@ const StyledContentMain = styled.div`
 
 const ListLinkWrapper = styled.li`
   display: flex;
+  height: 35px;
 
   ${InputWrapper} {
     margin-right: 15px;
+    height: 100%;
+    aspect-ratio: 1/1;
+
+    ${StyledInputWrapper} {
+      width: 100%;
+      height: 100%;
+    }
   }
 `;
 

@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { Colors } from "../../../helpers/colors";
-import { Description } from "../../BasicComponents/Description";
-import { FormTitle } from "../../BasicComponents/Form";
-import { SqueezeText } from "../../BasicComponents/SqueezeText";
+import { Colors } from "../../helpers/colors";
+import { Description } from "../BasicComponents/Description";
+import { FormTitle } from "../BasicComponents/Form";
+import { SqueezeText } from "../BasicComponents/SqueezeText";
 export const Header: React.FC = () => {
   return (
     <StyledHeader>

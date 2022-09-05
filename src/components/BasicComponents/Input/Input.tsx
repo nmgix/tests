@@ -17,8 +17,13 @@ export const Input: React.FC<InputProps> = (props) => {
     <StyledInputWrapper label={props.label} type={props.type}>
       {props.type === "switch" ? (
         <>
-          <StyledSwitch>
-            <StyledSwitchInput onChange={props.onChange} name={props.name} value={props.value} />
+          <StyledSwitch disabled={props.disabled}>
+            <StyledSwitchInput
+              onChange={!props.disabled ? props.onChange : undefined}
+              name={props.name}
+              value={props.value}
+              disabled={props.disabled}
+            />
             <StyledSwitchSlider />
           </StyledSwitch>
         </>
@@ -39,7 +44,7 @@ export const Input: React.FC<InputProps> = (props) => {
   );
 };
 
-const StyledInputWrapper = styled.div<StyledInputProps>`
+export const StyledInputWrapper = styled.div<StyledInputProps>`
   ${(props) => {
     const { label } = props;
     return label
@@ -70,8 +75,8 @@ const StyledInput = styled.input<StyledInputProps>`
           backgroundColor: Colors.background,
           borderRadius: 0,
           border: "1px solid black",
-          width: "40px",
-          height: "40px",
+          width: "100%",
+          height: "100%",
           cursor: !active ? "auto" : "pointer",
         };
       }
@@ -161,13 +166,15 @@ const StyledSwitchSlider = styled.span`
     border: 2px solid ${Colors.accent};
   }
 `;
-const StyledSwitch = styled.label`
+const StyledSwitch = styled.label<{ disabled: boolean | undefined }>`
   position: relative;
   display: inline-block;
   width: 100%;
   aspect-ratio: 2/1;
   margin-bottom: 0;
   vertical-align: middle;
+
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 
   ${StyledSwitchInput}:checked + ${StyledSwitchSlider}:before {
     transform: translateX(100%);

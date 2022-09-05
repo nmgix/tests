@@ -11,7 +11,9 @@ export type LinkData = {
 };
 
 export const Content: React.FC = () => {
-  const [selectionActive] = useState<boolean>(false);
+  let selectionDisabled = true;
+  const [selectionActive, setSelectionActive] = useState<boolean>(false);
+  const changeSelection = () => setSelectionActive((prev) => !prev);
 
   const [data] = useState<LinkData[]>([
     { clicks: 316, fullLink: "https://docs.docker.com/engine/reference/commandline/attach/", shortLink: "GAZAQ" },
@@ -30,7 +32,11 @@ export const Content: React.FC = () => {
 
   return (
     <StyledContent>
-      <ContentHeader />
+      <ContentHeader
+        selectionActive={selectionActive}
+        changeSelection={changeSelection}
+        selectionDisabled={selectionDisabled}
+      />
       <ContentMain data={data} selectionActive={selectionActive} />
       <Pagination areBefore={false} areNext={true} />
     </StyledContent>

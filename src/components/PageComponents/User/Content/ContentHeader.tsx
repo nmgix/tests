@@ -5,7 +5,18 @@ import { CustomImage } from "../../../BasicComponents/CustomImage";
 import { Input, InputWrapper } from "../../../BasicComponents/Input";
 import { SqueezeText } from "../../../BasicComponents/SqueezeText";
 
-export const ContentHeader: React.FC = () => {
+type ContentHeaderProps = {
+  selectionDisabled: boolean;
+
+  selectionActive: boolean;
+  changeSelection: () => void;
+};
+
+export const ContentHeader: React.FC<ContentHeaderProps> = ({
+  selectionActive,
+  changeSelection,
+  selectionDisabled,
+}) => {
   return (
     <StyledContentHeader>
       <SqueezeText squeezeMultiplier={0.8} fontSizePX={22}>
@@ -19,17 +30,21 @@ export const ContentHeader: React.FC = () => {
                 Выделить
               </SqueezeText>
               <InputWrapper style={{ width: "40px" }}>
-                <Input type={"switch"} />
+                <Input
+                  type={"switch"}
+                  onChange={!selectionDisabled ? changeSelection : undefined}
+                  disabled={selectionDisabled}
+                />
               </InputWrapper>
             </ControlUnit>
             <ul style={{ display: "flex", justifyContent: "space-between" }}>
               <li>
-                <Button asLink disabled>
+                <Button asLink disabled={selectionDisabled || !selectionActive}>
                   Удалить
                 </Button>
               </li>
               <li>
-                <Button asLink disabled>
+                <Button asLink disabled={selectionDisabled || !selectionActive}>
                   Отключить
                 </Button>
               </li>
@@ -95,5 +110,7 @@ const ControlUnit = styled.div`
   ${SqueezeText} {
     margin-right: 10px;
     margin-bottom: 0;
+
+    font-size: 18px;
   }
 `;
