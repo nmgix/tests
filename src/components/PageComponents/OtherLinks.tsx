@@ -23,7 +23,7 @@ export const OtherLinks: React.FC = () => {
       <LinksWrapper>
         {Object.keys(Links).map((link) => (
           <StyledLink key={link}>
-            <a href={Links[link as keyof typeof Links]}>
+            <a href={Links[link as keyof typeof Links]} target='_blank' rel='noopener noreferrer'>
               <Button asLink>{Translation[link as keyof typeof Translation]}</Button>
             </a>
           </StyledLink>

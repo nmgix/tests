@@ -17,7 +17,7 @@ export const RedirectPage: React.FC = () => {
     } else {
       window.location.replace(url);
     }
-  }, [params.key]);
+  }, [navigate, params]);
 
   return (
     <StyledPage>

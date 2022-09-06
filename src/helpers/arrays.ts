@@ -1,4 +1,5 @@
 import { LinkData } from "../components/PageComponents/User/Content";
+import structuredClone from "@ungap/structured-clone";
 
 export const concatLinks = (links1: LinkData[] | null, links2: LinkData[] | null) => {
   let localLinks1: LinkData[] | null = structuredClone(links1);

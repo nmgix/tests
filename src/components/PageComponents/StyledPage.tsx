@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Device } from "../../helpers/media";
 import { StyledHeader } from "./Header";
 
 export const StyledPage = styled.div`
@@ -10,6 +11,12 @@ export const StyledPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media ${Device("768px")} {
+    height: auto;
+    width: 100%;
+    display: inline-flex;
+  }
 
   ${StyledHeader} {
     position: absolute;

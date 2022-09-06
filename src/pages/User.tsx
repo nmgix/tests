@@ -12,7 +12,7 @@ export const UserPage: React.FC = () => {
     if (!context.authed) {
       navigate("/login");
     }
-  }, [context.authed]);
+  }, [context.authed, navigate]);
 
   return !context.authed ? (
     <></>

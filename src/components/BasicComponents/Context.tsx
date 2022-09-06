@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Filters, retrieveLinks } from "../../networkRequests";
 import { LinkData } from "../PageComponents/User/Content";
 
-import structuredClone from "@ungap/structured-clone";
 import { concatLinks } from "../../helpers/arrays";
 
 enum ModalPresets {
@@ -118,6 +117,7 @@ export const ContextProvier: React.FC<{ children: React.ReactNode }> = ({ childr
     if (authed) {
       requestNextLinks(filterData, linkListStateData);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkListStateData.offset, authed]);
   //
 
@@ -130,6 +130,7 @@ export const ContextProvier: React.FC<{ children: React.ReactNode }> = ({ childr
         requestNextLinks(filterData, { limit: linkListStateData.limit + 1, offset: 0 });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterActive, filterData]);
   //
   useEffect(() => {

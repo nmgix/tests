@@ -5,6 +5,7 @@ import { CustomImage } from "../../../BasicComponents/CustomImage";
 import { Input, InputWrapper } from "../../../BasicComponents/Input";
 import { SqueezeText } from "../../../BasicComponents/SqueezeText";
 import { useAppContext } from "../../../BasicComponents/Context";
+import { Device } from "../../../../helpers/media";
 
 type ContentHeaderProps = {
   selectionDisabled: boolean;
@@ -90,6 +91,13 @@ const StyledContentHeader = styled.div`
 
   & > ${SqueezeText} {
     margin-bottom: 13px;
+
+    @media ${Device("768px")} {
+      margin-bottom: 15px;
+      margin-top: 100px;
+
+      text-align: center;
+    }
   }
 `;
 
@@ -97,13 +105,14 @@ const ControlsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
 
-const Controls = styled.div`
-  display: flex;
-  justify-content: space-between;
+  @media ${Device("768px")} {
+    flex-direction: column;
 
-  width: 65%;
+    & > *:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
 `;
 
 const ControlUnitWrapper = styled.div`
@@ -113,6 +122,17 @@ const ControlUnitWrapper = styled.div`
 
   &:not(:last-child) {
     margin-right: 15px;
+  }
+`;
+
+const Controls = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  width: 65%;
+
+  @media ${Device("768px")} {
+    justify-content: center;
   }
 `;
 

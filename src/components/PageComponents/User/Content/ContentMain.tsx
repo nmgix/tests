@@ -7,6 +7,7 @@ import { CustomImage, StyledImage } from "../../../BasicComponents/CustomImage";
 import { Button } from "../../../BasicComponents/Button";
 import { Loader } from "../../../BasicComponents/Loader";
 import { useAppContext } from "../../../BasicComponents/Context";
+import { Device } from "../../../../helpers/media";
 
 type ContentMainProps = {
   data: LinkData[] | null;
@@ -139,6 +140,10 @@ const ListLinkWrapper = styled.li`
   display: flex;
   height: 35px;
 
+  @media ${Device("768px")} {
+    height: auto;
+  }
+
   ${InputWrapper} {
     margin-right: 15px;
     height: 100%;
@@ -169,6 +174,15 @@ const ListLink = styled.div`
   padding: 8px 5px;
 
   background-color: ${Colors.shade};
+
+  @media ${Device("768px")} {
+    flex-direction: column;
+    padding: 10px 15px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
 `;
 
 const ListLinkContent = styled.div`

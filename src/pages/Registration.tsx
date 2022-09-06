@@ -3,7 +3,7 @@ import { Line } from "../components/BasicComponents/Line";
 import { Title } from "../components/BasicComponents/Title";
 import { Form, FormTitle, FormWrapper } from "../components/BasicComponents/Form";
 import { Button } from "../components/BasicComponents/Button";
-import { Input } from "../components/BasicComponents/Input/Input";
+import { Input } from "../components/BasicComponents/Input";
 import styled from "styled-components";
 import { Description } from "../components/BasicComponents/Description";
 import { CustomImage } from "../components/BasicComponents/CustomImage";
@@ -49,7 +49,7 @@ const RegistrationPage: React.FC = () => {
     if (context.authed) {
       navigate("/");
     }
-  }, [context.authed]);
+  }, [context.authed, navigate]);
 
   return (
     <CenterBlock>

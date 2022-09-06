@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Colors } from "../../../helpers/colors";
-import { Button } from "../Button";
-import "./switch.css";
+import { Colors } from "../../helpers/colors";
+import { Button } from "./Button";
 
 interface DefaultInput {
   type: string;

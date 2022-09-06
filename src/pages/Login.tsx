@@ -26,7 +26,6 @@ const LoginPage: React.FC = () => {
     if (!response) {
       // здесь вызов notification + error
     } else {
-      // здесь ставится bearer в стейт контекста
       context.changeAuthState(true);
     }
   };
@@ -41,7 +40,7 @@ const LoginPage: React.FC = () => {
     if (context.authed) {
       navigate("/");
     }
-  }, [context.authed]);
+  }, [context.authed, navigate]);
 
   return (
     <CenterBlock>

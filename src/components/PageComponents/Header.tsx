@@ -3,6 +3,7 @@ import { Colors } from "../../helpers/colors";
 import { Description } from "../BasicComponents/Description";
 import { FormTitle } from "../BasicComponents/Form";
 import { SqueezeText } from "../BasicComponents/SqueezeText";
+
 export const Header: React.FC = () => {
   return (
     <StyledHeader>
@@ -17,7 +18,7 @@ export const Header: React.FC = () => {
 };
 
 export const StyledHeader = styled.header`
-  width: 100%;
+  width: calc(100% - 100px);
   height: calc(100px - 50px);
   background-color: ${Colors.accent};
   padding: 25px 50px;
