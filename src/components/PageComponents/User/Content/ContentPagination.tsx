@@ -5,18 +5,21 @@ import { CustomImage } from "../../../BasicComponents/CustomImage";
 type PaginationProps = {
   areBefore: boolean;
   areNext: boolean;
+
+  onBefore: () => void;
+  onNext: () => void;
 };
 
-export const Pagination: React.FC<PaginationProps> = ({ areBefore, areNext }) => {
+export const Pagination: React.FC<PaginationProps> = ({ areBefore, areNext, onBefore, onNext }) => {
   return (
     <StyledPagination>
       <ButtonsWrapper>
-        <Button onClick={() => (areBefore ? console.log("previous") : null)} disabled={!areBefore}>
+        <Button onClick={() => (areBefore ? onBefore() : null)} disabled={!areBefore}>
           <TransparentBlock transparent={!areBefore}>
             <CustomImage imageSrc='assets/icons/arrow.svg' />
           </TransparentBlock>
         </Button>
-        <Button onClick={() => (areNext ? console.log("next") : null)} disabled={!areNext}>
+        <Button onClick={() => (areNext ? onNext() : null)} disabled={!areNext}>
           <TransparentBlock transparent={!areNext}>
             <CustomImage imageSrc='assets/icons/arrow.svg' />
           </TransparentBlock>

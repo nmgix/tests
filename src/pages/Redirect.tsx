@@ -26,7 +26,7 @@ export const RedirectPage: React.FC = () => {
         <SqueezeText squeezeMultiplier={0.9} fontSizePX={24}>
           Перенаправляем...
         </SqueezeText>
-        <Loader dotsAmount={5} />
+        <Loader />
       </div>
     </StyledPage>
   );

@@ -5,9 +5,11 @@ import { LinkData } from "../Content";
 import { Colors } from "../../../../helpers/colors";
 import { CustomImage, StyledImage } from "../../../BasicComponents/CustomImage";
 import { Button } from "../../../BasicComponents/Button";
+import { Loader } from "../../../BasicComponents/Loader";
+import { useAppContext } from "../../../BasicComponents/Context";
 
 type ContentMainProps = {
-  data: LinkData[];
+  data: LinkData[] | null;
   selectionActive: boolean;
 };
 
@@ -25,52 +27,109 @@ const copyToClipboard = (string: string) => {
 };
 
 export const ContentMain: React.FC<ContentMainProps> = ({ data, selectionActive }) => {
+  const context = useAppContext();
+
+  let backupComponent: JSX.Element | null = null;
+
+  if (data === null) {
+    backupComponent = (
+      <BackupWrapper>
+        <BackupContent widthPercent={10}>
+          <Loader dotsAmount={3} />
+        </BackupContent>
+      </BackupWrapper>
+    );
+  }
+
+  if (data && data?.length === 0) {
+    backupComponent = (
+      <BackupWrapper>
+        <BackupContent widthPercent={50}>
+          <span>Нет созданных ссылок для показа</span>
+          <Button onClick={() => context.setModalType("new-link")}>Создать ссылку</Button>
+        </BackupContent>
+      </BackupWrapper>
+    );
+  }
+
   return (
     <StyledContentMain>
       <List>
-        {data.map((linkData) => (
-          <ListLinkWrapper key={linkData.shortLink}>
-            {selectionActive ? (
-              <InputWrapper>
-                <Input type='checkbox' active />
-              </InputWrapper>
-            ) : (
-              <></>
-            )}
-            <ListLink>
-              <ListLinkContent>
-                <a href={linkData.fullLink} target='_blank' rel='noopener noreferrer'>
-                  <Button asLink>{truncateWord(removeLinkProtocol(linkData.fullLink), 17)}</Button>
-                </a>
-                <Button asLink onClick={() => copyToClipboard(linkData.fullLink)}>
-                  <CustomImage imageSrc='assets/icons/copy.svg' />
-                </Button>
-              </ListLinkContent>
-              <ListLinkContent>
-                <Link to={`/${linkData.shortLink}`} target='_blank' rel='noopener noreferrer'>
-                  <Button asLink>
-                    {window.location.href}
-                    {linkData.shortLink}
-                  </Button>
-                </Link>
-                <Button asLink onClick={() => copyToClipboard(`${window.location.href}${linkData.shortLink}`)}>
-                  <CustomImage imageSrc='assets/icons/copy.svg' />
-                </Button>
-              </ListLinkContent>
-              <ListLinkContent>
-                <div style={{ height: "80%" }}>
-                  <CustomImage imageSrc='assets/icons/eye.svg' />
-                </div>
-                <LinkClicks>{linkData.clicks}</LinkClicks>
-              </ListLinkContent>
-            </ListLink>
-          </ListLinkWrapper>
-        ))}
+        {backupComponent !== null
+          ? backupComponent
+          : Array(Number(process.env.REACT_APP_LINKS_PER_LIST!))
+              .fill(null)
+              .map((el, i) => {
+                let element = data!.at(i);
+
+                return (
+                  <ListLinkWrapper key={element ? element.short : i}>
+                    {selectionActive ? (
+                      <InputWrapper>
+                        <Input type='checkbox' active />
+                      </InputWrapper>
+                    ) : (
+                      <></>
+                    )}
+                    {!element ? (
+                      <></>
+                    ) : (
+                      <ListLink>
+                        <ListLinkContent style={{ width: "30%" }}>
+                          <a href={element.target} target='_blank' rel='noopener noreferrer'>
+                            <Button asLink>{truncateWord(removeLinkProtocol(element.target), 17)}</Button>
+                          </a>
+                          <Button asLink onClick={() => copyToClipboard(element!.target)}>
+                            <CustomImage imageSrc='assets/icons/copy.svg' />
+                          </Button>
+                        </ListLinkContent>
+                        <ListLinkContent style={{ width: "30%" }}>
+                          <Link to={`/${element.short}`} target='_blank' rel='noopener noreferrer'>
+                            <Button asLink>
+                              {window.location.href}
+                              {element.short}
+                            </Button>
+                          </Link>
+                          <Button asLink onClick={() => copyToClipboard(`${window.location.href}${element!.short}`)}>
+                            <CustomImage imageSrc='assets/icons/copy.svg' />
+                          </Button>
+                        </ListLinkContent>
+                        <ListLinkContent style={{ width: "7%" }}>
+                          <div style={{ height: "80%" }}>
+                            <CustomImage imageSrc='assets/icons/eye.svg' />
+                          </div>
+                          <LinkClicks>{element.counter}</LinkClicks>
+                        </ListLinkContent>
+                      </ListLink>
+                    )}
+                  </ListLinkWrapper>
+                );
+              })}
       </List>
-      <Pagination></Pagination>
     </StyledContentMain>
   );
 };
+
+const BackupWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const BackupContent = styled.div<{ widthPercent: number }>`
+  width: ${(props) => props.widthPercent}%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  & > *:not(:first-child) {
+    margin-top: 5px;
+  }
+  & > *:not(:last-child) {
+    margin-bottom: 5px;
+  }
+`;
 
 const StyledContentMain = styled.div`
   margin: 20px 0;
@@ -93,6 +152,10 @@ const ListLinkWrapper = styled.li`
 `;
 
 const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
   ${ListLinkWrapper}:not(:last-child) {
     margin-bottom: 12px;
   }
@@ -133,5 +196,3 @@ const ListLinkContent = styled.div`
 const LinkClicks = styled.span`
   font-weight: 700;
 `;
-
-const Pagination = styled.ul``;

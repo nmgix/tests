@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Colors } from "../../helpers/colors";
 import { useState } from "react";
 type LoaderProps = {
-  dotsAmount: number;
+  dotsAmount?: number;
 } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLUListElement>, HTMLUListElement>;
 
 function randomIntFromInterval(min: number, max: number) {
@@ -14,10 +14,10 @@ export const Loader: React.FC<LoaderProps> = ({ dotsAmount }) => {
 
   return (
     <LoaderWrapper>
-      {Array(dotsAmount)
+      {Array(dotsAmount ? dotsAmount : 5)
         .fill(null)
         .map((el, i) => {
-          return <LoaderDot delay={i} delayMiltipier={delayMiltipier} />;
+          return <LoaderDot delay={i} delayMiltipier={delayMiltipier} key={i} />;
         })}
     </LoaderWrapper>
   );

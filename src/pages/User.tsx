@@ -1,6 +1,5 @@
-import styled from "styled-components";
 import { Content } from "../components/PageComponents/User/Content";
-import { Header, StyledHeader } from "../components/PageComponents/Header";
+import { Header } from "../components/PageComponents/Header";
 import { useAppContext } from "../components/BasicComponents/Context";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";

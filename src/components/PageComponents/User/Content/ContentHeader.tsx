@@ -4,6 +4,7 @@ import { Button } from "../../../BasicComponents/Button";
 import { CustomImage } from "../../../BasicComponents/CustomImage";
 import { Input, InputWrapper } from "../../../BasicComponents/Input";
 import { SqueezeText } from "../../../BasicComponents/SqueezeText";
+import { useAppContext } from "../../../BasicComponents/Context";
 
 type ContentHeaderProps = {
   selectionDisabled: boolean;
@@ -17,6 +18,8 @@ export const ContentHeader: React.FC<ContentHeaderProps> = ({
   changeSelection,
   selectionDisabled,
 }) => {
+  const context = useAppContext();
+
   return (
     <StyledContentHeader>
       <SqueezeText squeezeMultiplier={0.8} fontSizePX={22}>
@@ -56,13 +59,23 @@ export const ContentHeader: React.FC<ContentHeaderProps> = ({
                 Фильтрация
               </SqueezeText>
               <InputWrapper style={{ width: "40px" }}>
-                <Input type={"switch"} />
+                <Input
+                  type={"switch"}
+                  onChange={() => (!context.loading ? context.setFilterActive() : null)}
+                  disabled={context.loading}
+                  checked={context.filterActive}
+                />
               </InputWrapper>
             </ControlUnit>
-            <Button asLink>Открыть фильтры</Button>
+            <Button
+              asLink
+              onClick={() => (!context.loading ? context.setModalType("filters") : null)}
+              disabled={context.loading}>
+              Открыть фильтры
+            </Button>
           </ControlUnitWrapper>
         </Controls>
-        <Button>
+        <Button onClick={() => (!context.loading ? context.setModalType("new-link") : null)} disabled={context.loading}>
           <span>Новая ссылка</span>
           <CustomImage imageSrc='assets/icons/arrow.svg' />
         </Button>

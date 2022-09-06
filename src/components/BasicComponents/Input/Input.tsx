@@ -1,21 +1,65 @@
 import styled from "styled-components";
 import { Colors } from "../../../helpers/colors";
+import { Button } from "../Button";
 import "./switch.css";
 
-type StyledInputProps = {
-  type: "text" | "checkbox" | "switch" | "password";
+interface DefaultInput {
+  type: string;
   label?: string;
   active?: boolean;
-};
-type InputProps = {
-  placeholder?: string;
-} & StyledInputProps &
-  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+}
 
-export const Input: React.FC<InputProps> = (props) => {
-  return (
-    <StyledInputWrapper label={props.label} type={props.type}>
-      {props.type === "switch" ? (
+interface TextInput
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    DefaultInput {
+  type: "text";
+  placeholder?: string;
+}
+interface CheckboxInput
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    DefaultInput {
+  type: "checkbox";
+  placeholder?: string;
+}
+interface SwitchInput
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    DefaultInput {
+  type: "switch";
+  placeholder?: string;
+}
+interface PasswordInput
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    DefaultInput {
+  type: "password";
+  placeholder?: string;
+}
+interface CustomTextInput
+  extends Omit<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, "type">,
+    DefaultInput {
+  type: "customText";
+  jsxText: () => JSX.Element;
+}
+
+type AllInputTypes = TextInput | CheckboxInput | SwitchInput | PasswordInput | CustomTextInput;
+
+export const Input: React.FC<AllInputTypes> = (props) => {
+  let renderInput = <></>;
+
+  switch (props.type) {
+    case "customText": {
+      let renderJsxChildren: JSX.Element | null = props.jsxText();
+
+      renderInput = (
+        <>
+          <Button asLink onClick={props.onClick}>
+            {renderJsxChildren}
+          </Button>
+        </>
+      );
+      break;
+    }
+    case "switch": {
+      renderInput = (
         <>
           <StyledSwitch disabled={props.disabled}>
             <StyledSwitchInput
@@ -27,24 +71,35 @@ export const Input: React.FC<InputProps> = (props) => {
             <StyledSwitchSlider />
           </StyledSwitch>
         </>
-      ) : (
+      );
+      break;
+    }
+    default: {
+      renderInput = (
         <>
           {!props.label ? <></> : <label>{props.label}</label>}
           <StyledInput
             value={props.value}
             name={props.name}
             onChange={props.onChange}
-            type={props.type}
+            type={props.type as (React.HTMLInputTypeAttribute | undefined) & "text"}
             active={props.active}
             disabled={props.type === ("checkbox" || "switch") && !props.active}
           />
         </>
-      )}
+      );
+      break;
+    }
+  }
+
+  return (
+    <StyledInputWrapper label={props.label} type={props.type}>
+      {renderInput}
     </StyledInputWrapper>
   );
 };
 
-export const StyledInputWrapper = styled.div<StyledInputProps>`
+export const StyledInputWrapper = styled.div<DefaultInput>`
   ${(props) => {
     const { label } = props;
     return label
@@ -65,7 +120,7 @@ export const StyledInputWrapper = styled.div<StyledInputProps>`
 
 export const InputWrapper = styled.div``;
 
-const StyledInput = styled.input<StyledInputProps>`
+const StyledInput = styled.input<AllInputTypes>`
   ${(props) => {
     const { type, active } = props;
     switch (type) {
