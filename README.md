@@ -2,23 +2,29 @@
 
 Have to make frontend part of service for shortening links.
 
+# Problems
+
+1. Better way was to choose Next.js to secure ip adress of server.
+2. Didn't have time to write tests (at least Cypress).
+
 ### How to launch
 
 1. Setup `.env` by example:
 
 ```json
-      REACT_APP_SERVER_ADRESS = http://XX.XXX.XX.XXX
-      REACT_APP_LOGIN_PATH = /login
-      REACT_APP_REGISTER_PATH = /register
-      REACT_APP_STATISTICS_PATH = /statistics
-      REACT_APP_SQUEEZE_PATH = /squeeze
+      REACT_APP_SERVER_ADRESS="http://XX.XXX.XX.XXX"
+      REACT_APP_LOGIN_PATH="/login"
+      REACT_APP_REGISTER_PATH="/register"
+      REACT_APP_STATISTICS_PATH="/statistics"
+      REACT_APP_SQUEEZE_PATH="/squeeze"
 
-      REACT_APP_LINKS_PER_LIST = 12
+      REACT_APP_LINKS_PER_LIST=12
 ```
 
-2. `npm run start` for launching locally
+2. `npm run start` for launching locally (port 3000) or build docker image with `docker-compose build && docker-compose up` (port 80)
+   > Empty root bug may occur, delete `package-json.lock` and try composing again
 
-# Have to do [`37`/`37`]:
+# Have to do [`38`/`38`]:
 
 1. [x] Components
    1. [x] Basic Components
@@ -57,3 +63,4 @@ Have to make frontend part of service for shortening links.
    4. [x] Redirect
 3. [x] Router
 4. [x] Functionality
+5. [x] Docker

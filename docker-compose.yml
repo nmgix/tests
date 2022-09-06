@@ -1,0 +1,9 @@
+version: "3"
+services:
+  react-shortlink:
+    container_name: react-shortlink
+    build: .
+    environment:
+      env_file: .env
+    ports:
+      - "80:80"
