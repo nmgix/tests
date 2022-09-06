@@ -19,11 +19,13 @@ const App = styled.div`
 `;
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const basename = document.querySelector("base")?.getAttribute("href") ?? "/";
+
 root.render(
   <ContextProvier>
     <App>
       <ModalWrapper />
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path='/' element={<UserPage />} />
           <Route path='/login' element={<LoginPage />} />
