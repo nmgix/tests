@@ -8,6 +8,7 @@ Have to make frontend part of service for shortening links.
 2. Didn't have time to write tests (at least Cypress).
 3. Didn't figure out how to properly setup `homepage` so for local build it has to be set to `'.'`.
 4. Lots of repeats in styling, such as `display: flex e.t.c.`, `:not(:***_child)`, meeting the deadline was a priority.
+5. Didn't add notifications to alert user if credentials are wrong, nor added redirect if credentials using for register already in use.
 
 ### How to launch
 
