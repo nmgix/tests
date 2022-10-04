@@ -8,9 +8,12 @@ import { Weapon } from "./Weapon";
 import { Enemy } from "../Entities/Enemy";
 import { Hero } from "../Entities/Hero";
 
-const gameSize = {
-  width: 40,
-  height: 20,
+const gameSettings = {
+  pathThreshold: 5,
+  gameSize: {
+    width: 40,
+    height: 20,
+  },
 };
 
 export class Game {
@@ -18,7 +21,7 @@ export class Game {
     this.generateMap();
     this.gameReady = true;
     console.log(this);
-    this.renderGame();
+    this.renderMap();
   }
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
@@ -34,10 +37,105 @@ export class Game {
         // будет рандомно из списка всех остальных нод брать 1-2 как ноды с связью чтобы потом строить тоннель по этой связи
         if (this.mapGraph.length > 0) {
           let currentMapGraph = this.mapGraph.filter((node) => node.uuid !== room!.uuid);
-          let randomNodesAmount = randomInteger(1, currentMapGraph.length);
-          const shuffledNodes = currentMapGraph.sort(() => 0.5 - Math.random()).slice(0, randomNodesAmount);
-          room.paths = shuffledNodes;
+          let resultPaths: MapNode[] = [];
+
+          let findRooms = (graph: MapNode[], tries = 0, added = 0) => {
+            if (added === 3 || graph.length <= 0) {
+              return;
+            }
+            if (tries > 3) {
+              // если после 3+ попыток не получилось, добавить любую ближайшую (потому что если их всего две, то расстояние может быть больше трёх клеток)
+              // найти ближайшее значение по X
+              let closestX = graph.reduce(function (prev, curr) {
+                return Math.abs(curr.position.x - gameSettings.pathThreshold) <
+                  Math.abs(prev.position.x - gameSettings.pathThreshold)
+                  ? curr
+                  : prev;
+              });
+              // найти ближайшее значение по Y
+              let closestY = graph.reduce(function (prev, curr) {
+                return Math.abs(curr.position.y - gameSettings.pathThreshold) <
+                  Math.abs(prev.position.y - gameSettings.pathThreshold)
+                  ? curr
+                  : prev;
+              });
+              if (!closestX && !closestY) {
+                return;
+              } else {
+                if (closestX.uuid === closestY.uuid) {
+                  resultPaths.push(closestX);
+                  return;
+                } else {
+                  resultPaths.push(...[closestX, closestY]);
+                  return;
+                }
+              }
+            } else {
+              // сначала найти первые три ближайшие комнаты в диапозоне 5 клеток рекурсивно?\
+
+              // наверное ещё ширину было бы желательно считать, но может быть просто пускать клетки из середины
+
+              // найти ближайшее значение по X
+              let closestX = graph.reduce(function (prev, curr) {
+                return Math.abs(curr.position.x - gameSettings.pathThreshold) <
+                  Math.abs(prev.position.x - gameSettings.pathThreshold)
+                  ? curr
+                  : prev;
+              });
+              // найти ближайшее значение по Y
+              let closestY = graph.reduce(function (prev, curr) {
+                return Math.abs(curr.position.y - gameSettings.pathThreshold) <
+                  Math.abs(prev.position.y - gameSettings.pathThreshold)
+                  ? curr
+                  : prev;
+              });
+              if (!closestX && !closestY) {
+                return findRooms(graph, ++tries, added);
+              } else {
+                if (closestX.uuid === closestY.uuid) {
+                  resultPaths.push(closestX);
+                  return findRooms(
+                    graph.filter((path) => path.uuid !== closestX.uuid),
+                    0,
+                    ++added
+                  );
+                } else {
+                  if (added === 2) {
+                    let directions = [closestX, closestY];
+                    let randomDirection = directions[Math.floor(Math.random() * directions.length)];
+                    resultPaths.push(randomDirection);
+                    return;
+                  } else {
+                    resultPaths.push(...[closestX, closestY]);
+                    added = added + 2;
+                    // (!== (closestX.uuid || closestY.uuid)) ?
+                    return findRooms(
+                      graph.filter((path) => path.uuid !== closestX.uuid && path.uuid !== closestY.uuid),
+                      0,
+                      added
+                    );
+                  }
+                }
+              }
+            }
+          };
+          findRooms(currentMapGraph);
+
+          // добавлеям все пути комнате
+          room.paths = resultPaths;
+          // добавляем всем путям нашу комнату
+          resultPaths.forEach((path) => {
+            path.paths.push(room!);
+          });
+
+          //   // let randomNodesAmount = randomInteger(1, currentMapGraph.length);
+          //   // const shuffledNodes = currentMapGraph.sort(() => 0.5 - Math.random()).slice(0, randomNodesAmount);
+          //   // room.paths = shuffledNodes;
+          //   let closest = currentMapGraph.map(room => {
+
+          //   })
         }
+
         this.mapGraph.push(room);
       }
     }
@@ -101,8 +199,8 @@ export class Game {
       height: randomInteger(3, 8),
     };
     let currentPosition: EntityPosition = {
-      x: randomInteger(1, gameSize.width - currentNodeSize.width - 1),
-      y: randomInteger(1, gameSize.height - currentNodeSize.height - 1),
+      x: randomInteger(1, gameSettings.gameSize.width - currentNodeSize.width - 1),
+      y: randomInteger(1, gameSettings.gameSize.height - currentNodeSize.height - 1),
     };
     if (this.mapGraph.length === 0) {
       return new MapNode(currentNodeSize, currentPosition);
@@ -135,14 +233,14 @@ export class Game {
   //     // здесь будет постройка пути и проверка не пересекается ли он, но тут пока сомнения
   //   };
 
-  renderGame = () => {
+  renderMap = () => {
     // эта функция будет вызываться на каждом ходу чтобы двигать все объекты (врагов, например)
 
     // рендер комнаты
     const gameFieldDiv = document.getElementsByClassName("field")[0];
 
-    for (let heightI = 0; heightI < gameSize.height; heightI++) {
-      for (let widthJ = 0; widthJ < gameSize.width; widthJ++) {
+    for (let heightI = 0; heightI < gameSettings.gameSize.height; heightI++) {
+      for (let widthJ = 0; widthJ < gameSettings.gameSize.width; widthJ++) {
         const tile = document.createElement("div");
         tile.classList.add(...["cell", "tileW"]);
         tile.style.top = `${heightI * 40}px`;
@@ -170,6 +268,72 @@ export class Game {
       }
     }
 
-    // рендер объектов
+    // рендер путей
+    const ranNodes: MapNode[] = [];
+    // если нода из списка paths текущей ноды есть в списке выше, пусть строить не надо
+    // for (let i = 0; i < this.mapGraph.length; i++) {
+    //   let currentNode = this.mapGraph[i];
+    //   let currentPaths = currentNode.paths.filter((el) => !ranNodes.includes(el));
+    //   for (let j = 0; j < currentPaths.length; j++) {
+    //     let nodePath = currentPaths[j];
+    //     // проверка находится ли по середине горизонтально
+    //     let middleSidedNode =
+    //       (nodePath.position.x > currentNode.position.x &&
+    //         nodePath.position.x < currentNode.position.x + currentNode.size.width / 2) ||
+    //       (nodePath.position.x + nodePath.size.width > currentNode.position.x + currentNode.size.width / 2 &&
+    //         nodePath.position.x + nodePath.size.width < currentNode.position.x + currentNode.size.width);
+    //     if (middleSidedNode) {
+    //       console.log("middlesided");
+    //       // middleSided
+    //     } else {
+    //       console.log("right");
+    //       // проверка справа или слева горизонтально
+    //       let rightSidedNode = currentNode.position.x + currentNode.size.width / 2 < nodePath.position.x;
+    //       console.log(rightSidedNode);
+    //       if (rightSidedNode) {
+    //         let firstNode: EntityPosition = {
+    //           x: currentNode.position.x + currentNode.size.width,
+    //           y: randomInteger(currentNode.position.y, currentNode.position.y + currentNode.size.height),
+    //         };
+    //         let secondNode: EntityPosition = {
+    //           x: nodePath.position.x,
+    //           y: randomInteger(nodePath.position.y, nodePath.position.y + nodePath.size.height),
+    //         };
+    //         // let middle = nodePath.position.x - (currentNode.position.x + currentNode.size.width);
+    //         let middle = Math.floor((currentNode.position.x + currentNode.size.width + nodePath.position.x) / 2);
+    //         console.log(firstNode, secondNode, middle);
+    //         for (let i = firstNode.x; i < middle - currentNode.position.x; i++) {
+    //           // тут слева направа рендер пути
+    //           const tile = document.createElement("div");
+    //           tile.classList.add(...["cell", "tile"]);
+    //           tile.style.top = `${firstNode.y * 40}px`;
+    //           tile.style.left = `${i * 40}px`;
+    //           tile.style.zIndex = "6";
+    //           gameFieldDiv.appendChild(tile);
+    //         }
+    //         for (let i = secondNode.x; i > nodePath.position.x - middle; i--) {
+    //           // тут справа налево рендер пути
+    //           const tile = document.createElement("div");
+    //           tile.classList.add(...["cell", "tile"]);
+    //           tile.style.top = `${secondNode.y * 40}px`;
+    //           tile.style.left = `${i * 40}px`;
+    //           tile.style.zIndex = "6";
+    //           gameFieldDiv.appendChild(tile);
+    //         }
+    //         // надо как-то проверять, есть ли ними полоса ячеек, если нет, то выбирать любую из сторон (левую или правую) для вертикального пути
+    //         // тут по середитне между ними
+    //       } else {
+    //         console.log("left");
+    //         // leftSided
+    //       }
+
+    //       // находится ли по середине вертикально
+
+    //       // сверху или снизу вертикально
+    //     }
+    //   }
+
+    //   // рендер объектов
+    // }
   };
 }
