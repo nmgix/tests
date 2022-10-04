@@ -93,7 +93,7 @@ export class Game {
     this.hero = hero;
   };
   generateRoom: (tries?: number) => MapNode | null = (tries = 0) => {
-    if ((tries > 500 && this.mapGraph.length > 3) || tries > 1000) {
+    if ((tries > 500 && this.mapGraph.length > 3) || tries > 3000) {
       return null;
     }
     let currentNodeSize: MapNodeSize = {
@@ -107,22 +107,28 @@ export class Game {
     if (this.mapGraph.length === 0) {
       return new MapNode(currentNodeSize, currentPosition);
     } else {
-      // let intersectingNode = this.mapGraph.find((node) =>
-      //   coordsIntersect(
-      //     {
-      //       width: currentNodeSize.width + 2,
-      //       height: currentNodeSize.height + 2,
-      //       x: currentPosition.x - 1 === -1 ? currentPosition.x : currentPosition.x - 1,
-      //       y: currentPosition.y - 1 === -1 ? currentPosition.y : currentPosition.y - 1,
-      //     },
-      //     { ...node.size, ...node.position }
-      //   )
-      // );
-      // if (intersectingNode) {
-      //   return this.generateRoom(++tries);
-      // } else {
-      return new MapNode(currentNodeSize, currentPosition);
-      // }
+      let intersectingNode = this.mapGraph.find((node) => {
+        let intersect = coordsIntersect(
+          {
+            width: currentNodeSize.width + 2,
+            height: currentNodeSize.height + 2,
+            x: currentPosition.x - 1 === -1 ? currentPosition.x : currentPosition.x - 1,
+            y: currentPosition.y - 1 === -1 ? currentPosition.y : currentPosition.y - 1,
+          },
+          { width: node.size.width, height: node.size.height, x: node.position.x, y: node.position.y }
+        );
+        console.log(intersect);
+        if (intersect.w > 0 && intersect.h > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      if (intersectingNode) {
+        return this.generateRoom(++tries);
+      } else {
+        return new MapNode(currentNodeSize, currentPosition);
+      }
     }
   };
   //   generatePaths = () => {
@@ -155,10 +161,11 @@ export class Game {
       ) {
         for (let widthJ = currentNode.position.x; widthJ < currentNode.position.x + currentNode.size.width; widthJ++) {
           const tile = document.createElement("div");
-          tile.classList.add(...["cell", "tile"]);
+          tile.classList.add(...["cell", "tile", `x-${widthJ}`, `y-${heightI}`]);
           tile.style.top = `${heightI * 40}px`;
           tile.style.left = `${widthJ * 40}px`;
           gameFieldDiv.appendChild(tile);
+          // console.log(currentNode.uuid, { width: widthJ, height: heightI });
         }
       }
     }
