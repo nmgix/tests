@@ -1,8 +1,6 @@
-import { Asset } from "../Basic/Asset";
 import { MovableEntity } from "../Basic/Entity";
 
-export class Enemy extends MovableEntity implements Asset {
-  public asset = require("../../resources/images/tile-E.png");
+export class Enemy extends MovableEntity {
   constructor() {
     super();
     this.size = {

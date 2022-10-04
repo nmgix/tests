@@ -1,10 +1,8 @@
 import { BuffsEnum, BuffType } from "../../types/gameTypes";
 import { Hero } from "../Entities/Hero";
-import { Asset } from "./Asset";
 import { Entity } from "./Entity";
 
-export class Buff extends Entity implements Asset {
-  public asset = require("../../resources/images/tile-HP.png");
+export class Buff extends Entity {
   public characteristics: BuffType;
 
   constructor(type: keyof typeof BuffsEnum) {

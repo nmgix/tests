@@ -21,16 +21,21 @@ h1 {
 }
 .field {
   position: relative;
-  width: 1024px;
-  height: 640px;
+  width: 1600px;
+  height: 800px;
 }
-.field .tile {
+
+.field .cell {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-size: 100%;
-  background-image: url(images/tile-.png);
   z-index: 5;
+}
+
+.field .tile {
+  background-image: url(images/tile-.png);
+  z-index: 6;
 }
 .field .tileW {
   background-image: url(images/tile-W.png);

@@ -1,10 +1,8 @@
-import { Asset } from "../Basic/Asset";
 import { Buff } from "../Basic/Buff";
 import { MovableEntity } from "../Basic/Entity";
 import { Weapon } from "../Basic/Weapon";
 
-export class Hero extends MovableEntity implements Asset {
-  public asset = require("../../resources/images/tile-P.png");
+export class Hero extends MovableEntity {
   // будет управление и  (?) инвентарь
   public buffs: Buff[];
   public weapon: Weapon | null;

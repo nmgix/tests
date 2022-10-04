@@ -1,9 +1,7 @@
 import { Entity } from "./Entity";
-import { Asset } from "./Asset";
 import { Hero } from "../Entities/Hero";
 
-export class Weapon extends Entity implements Asset {
-  public asset: string = require("../../resources/images/tile-SW.png");
+export class Weapon extends Entity {
   constructor() {
     super();
   }

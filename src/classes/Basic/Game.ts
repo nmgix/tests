@@ -8,11 +8,17 @@ import { Weapon } from "./Weapon";
 import { Enemy } from "../Entities/Enemy";
 import { Hero } from "../Entities/Hero";
 
+const gameSize = {
+  width: 40,
+  height: 20,
+};
+
 export class Game {
   constructor() {
     this.generateMap();
     this.gameReady = true;
     console.log(this);
+    this.renderGame();
   }
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
@@ -95,28 +101,28 @@ export class Game {
       height: randomInteger(3, 8),
     };
     let currentPosition: EntityPosition = {
-      x: randomInteger(1, 40 - currentNodeSize.width + 1),
-      y: randomInteger(1, 20 - currentNodeSize.height + 1),
+      x: randomInteger(1, gameSize.width - currentNodeSize.width - 1),
+      y: randomInteger(1, gameSize.height - currentNodeSize.height - 1),
     };
     if (this.mapGraph.length === 0) {
       return new MapNode(currentNodeSize, currentPosition);
     } else {
-      let intersectingNode = this.mapGraph.find((node) =>
-        coordsIntersect(
-          {
-            width: currentNodeSize.width + 2,
-            height: currentNodeSize.height + 2,
-            x: currentPosition.x - 1 === -1 ? currentPosition.x : currentPosition.x - 1,
-            y: currentPosition.y - 1 === -1 ? currentPosition.y : currentPosition.y - 1,
-          },
-          { ...node.size, ...node.position }
-        )
-      );
-      if (intersectingNode) {
-        return this.generateRoom(++tries);
-      } else {
-        return new MapNode(currentNodeSize, currentPosition);
-      }
+      // let intersectingNode = this.mapGraph.find((node) =>
+      //   coordsIntersect(
+      //     {
+      //       width: currentNodeSize.width + 2,
+      //       height: currentNodeSize.height + 2,
+      //       x: currentPosition.x - 1 === -1 ? currentPosition.x : currentPosition.x - 1,
+      //       y: currentPosition.y - 1 === -1 ? currentPosition.y : currentPosition.y - 1,
+      //     },
+      //     { ...node.size, ...node.position }
+      //   )
+      // );
+      // if (intersectingNode) {
+      //   return this.generateRoom(++tries);
+      // } else {
+      return new MapNode(currentNodeSize, currentPosition);
+      // }
     }
   };
   //   generatePaths = () => {
@@ -125,5 +131,38 @@ export class Game {
 
   renderGame = () => {
     // эта функция будет вызываться на каждом ходу чтобы двигать все объекты (врагов, например)
+
+    // рендер комнаты
+    const gameFieldDiv = document.getElementsByClassName("field")[0];
+
+    for (let heightI = 0; heightI < gameSize.height; heightI++) {
+      for (let widthJ = 0; widthJ < gameSize.width; widthJ++) {
+        const tile = document.createElement("div");
+        tile.classList.add(...["cell", "tileW"]);
+        tile.style.top = `${heightI * 40}px`;
+        tile.style.left = `${widthJ * 40}px`;
+        gameFieldDiv.appendChild(tile);
+      }
+    }
+
+    // рендер комнат
+    for (let i = 0; i < this.mapGraph.length; i++) {
+      let currentNode = this.mapGraph[i];
+      for (
+        let heightI = currentNode.position.y;
+        heightI < currentNode.position.y + currentNode.size.height;
+        heightI++
+      ) {
+        for (let widthJ = currentNode.position.x; widthJ < currentNode.position.x + currentNode.size.width; widthJ++) {
+          const tile = document.createElement("div");
+          tile.classList.add(...["cell", "tile"]);
+          tile.style.top = `${heightI * 40}px`;
+          tile.style.left = `${widthJ * 40}px`;
+          gameFieldDiv.appendChild(tile);
+        }
+      }
+    }
+
+    // рендер объектов
   };
 }
