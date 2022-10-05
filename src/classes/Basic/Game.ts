@@ -26,11 +26,13 @@ export class Game {
     this.generateMap();
     this.gameReady = true;
     console.log(this);
-    this.renderMap();
+    this.saveMap();
   }
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
-  // public mapArray: MapArrayTile[] = []
+  public mapArray: MapArrayTile[][] = [...Array(gameSettings.gameSize.height)].map((el) =>
+    Array(gameSettings.gameSize.width).fill({})
+  );
   public entities: Entity[] = [];
   public hero: Hero;
 
@@ -226,13 +228,14 @@ export class Game {
     }
   };
 
-  renderMap = () => {
+  saveMap = () => {
     // рендер стен
     const gameFieldDiv = document.getElementsByClassName("field")[0];
 
     for (let heightI = 0; heightI < gameSettings.gameSize.height; heightI++) {
       for (let widthJ = 0; widthJ < gameSettings.gameSize.width; widthJ++) {
-        createTile(gameFieldDiv, heightI, widthJ, false);
+        // createTile(gameFieldDiv, heightI, widthJ, false);
+        this.mapArray[heightI][widthJ] = { type: "wall" };
       }
     }
 
@@ -245,7 +248,8 @@ export class Game {
         heightI++
       ) {
         for (let widthJ = currentNode.position.x; widthJ < currentNode.position.x + currentNode.size.width; widthJ++) {
-          createTile(gameFieldDiv, heightI, widthJ, true, true);
+          // createTile(gameFieldDiv, heightI, widthJ, true, true);
+          this.mapArray[heightI][widthJ] = { type: "floor" };
         }
       }
     }
@@ -302,21 +306,24 @@ export class Game {
             i < (firstNode.x < middle ? middle : firstNode.x);
             i++
           ) {
-            createTile(gameFieldDiv, firstNode.y, i, true);
+            // createTile(gameFieldDiv, firstNode.y, i, true);
+            this.mapArray[firstNode.y][i] = { type: "floor" };
           }
           for (
             let i = secondNode.x > middle ? secondNode.x : middle;
             i > (secondNode.x > middle ? middle : secondNode.x);
             i--
           ) {
-            createTile(gameFieldDiv, secondNode.y, i, true, true);
+            // createTile(gameFieldDiv, secondNode.y, i, true, true);
+            this.mapArray[secondNode.y][i] = { type: "floor" };
           }
           for (
             let i = firstNode.y > secondNode.y ? firstNode.y : secondNode.y;
             i > (firstNode.y > secondNode.y ? secondNode.y : firstNode.y) - 1;
             i--
           ) {
-            createTile(gameFieldDiv, i, middle, true, true);
+            // createTile(gameFieldDiv, i, middle, true, true);
+            this.mapArray[i][middle] = { type: "floor" };
           }
         } else if (horizontal) {
           let firstNode: EntityPosition;
@@ -349,23 +356,27 @@ export class Game {
             i < (firstNode.y < middle ? middle : firstNode.y);
             i++
           ) {
-            createTile(gameFieldDiv, i, firstNode.x, true);
+            // createTile(gameFieldDiv, i, firstNode.x, true);
+            this.mapArray[i][firstNode.x] = { type: "floor" };
           }
           for (
             let i = secondNode.y > middle ? secondNode.y : middle;
             i > (secondNode.y > middle ? middle : secondNode.y);
             i--
           ) {
-            createTile(gameFieldDiv, i, secondNode.x, true, true);
+            // createTile(gameFieldDiv, i, secondNode.x, true, true);
+            this.mapArray[i][secondNode.x] = { type: "floor" };
           }
           for (
             let i = firstNode.x > secondNode.x ? firstNode.x : secondNode.x;
             i > (firstNode.x > secondNode.x ? secondNode.x : firstNode.x) - 1;
             i--
           ) {
-            createTile(gameFieldDiv, middle, i, true, true);
+            // createTile(gameFieldDiv, middle, i, true, true);
+            this.mapArray[middle][i] = { type: "floor" };
           }
         }
+        console.log(this.mapArray);
       }
     }
 
