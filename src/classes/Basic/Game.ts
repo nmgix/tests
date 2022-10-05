@@ -25,8 +25,7 @@ export class Game {
   constructor() {
     this.generateMap();
     this.gameReady = true;
-    console.log(this);
-    this.saveMap();
+    this.saveMap().then(() => this.renderMap());
   }
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
@@ -228,159 +227,167 @@ export class Game {
     }
   };
 
-  saveMap = () => {
-    // рендер стен
-    const gameFieldDiv = document.getElementsByClassName("field")[0];
-
-    for (let heightI = 0; heightI < gameSettings.gameSize.height; heightI++) {
-      for (let widthJ = 0; widthJ < gameSettings.gameSize.width; widthJ++) {
-        // createTile(gameFieldDiv, heightI, widthJ, false);
-        this.mapArray[heightI][widthJ] = { type: "wall" };
-      }
-    }
-
-    // рендер комнат
-    for (let i = 0; i < this.mapGraph.length; i++) {
-      let currentNode = this.mapGraph[i];
-      for (
-        let heightI = currentNode.position.y;
-        heightI < currentNode.position.y + currentNode.size.height;
-        heightI++
-      ) {
-        for (let widthJ = currentNode.position.x; widthJ < currentNode.position.x + currentNode.size.width; widthJ++) {
-          // createTile(gameFieldDiv, heightI, widthJ, true, true);
-          this.mapArray[heightI][widthJ] = { type: "floor" };
+  saveMap(): Promise<void> {
+    return new Promise((res, rej) => {
+      for (let heightI = 0; heightI < gameSettings.gameSize.height; heightI++) {
+        for (let widthJ = 0; widthJ < gameSettings.gameSize.width; widthJ++) {
+          this.mapArray[heightI][widthJ] = { type: "wall" };
         }
       }
-    }
 
-    // рендер путей v2
-    for (let i = 0; i < this.mapGraph.length; i++) {
-      let currentNode = this.mapGraph[i];
-      for (let j = 0; j < currentNode.paths.length; j++) {
-        let currentChildNode = currentNode.paths[j];
-
-        let x1 = currentNode.position.x;
-        let y1 = currentNode.position.y;
-        let w1 = currentNode.size.width;
-        let h1 = currentNode.size.height;
-
-        let x2 = currentChildNode.position.x;
-        let y2 = currentChildNode.position.y;
-        let w2 = currentChildNode.size.width;
-        let h2 = currentChildNode.size.height;
-
-        let verticalFirst = x1 + w1 < x2;
-        let verticalSecond = x2 + w2 < x1;
-        let vertical = verticalFirst || verticalSecond;
-
-        let horizontalFirst = y1 + h1 < y2;
-        let horizontalSecond = y2 + h2 < y1;
-        let horizontal = horizontalFirst || horizontalSecond;
-
-        if (vertical) {
-          let firstNode: EntityPosition;
-          let secondNode: EntityPosition;
-          if (verticalFirst) {
-            firstNode = {
-              x: x1 + w1 - 1,
-              y: randomInteger(y1, y1 + h1 - 1),
-            };
-            secondNode = {
-              x: x2,
-              y: randomInteger(y2, y2 + h2 - 1),
-            };
-          } else {
-            firstNode = {
-              x: x1,
-              y: randomInteger(y1, y1 + h1 - 1),
-            };
-            secondNode = {
-              x: x2 + w2 - 1,
-              y: randomInteger(y2, y2 + h2 - 1),
-            };
-          }
-          let middle = Math.floor((firstNode.x + secondNode.x) / 2);
+      for (let i = 0; i < this.mapGraph.length; i++) {
+        let currentNode = this.mapGraph[i];
+        for (
+          let heightI = currentNode.position.y;
+          heightI < currentNode.position.y + currentNode.size.height;
+          heightI++
+        ) {
           for (
-            let i = firstNode.x < middle ? firstNode.x : middle;
-            i < (firstNode.x < middle ? middle : firstNode.x);
-            i++
+            let widthJ = currentNode.position.x;
+            widthJ < currentNode.position.x + currentNode.size.width;
+            widthJ++
           ) {
-            // createTile(gameFieldDiv, firstNode.y, i, true);
-            this.mapArray[firstNode.y][i] = { type: "floor" };
-          }
-          for (
-            let i = secondNode.x > middle ? secondNode.x : middle;
-            i > (secondNode.x > middle ? middle : secondNode.x);
-            i--
-          ) {
-            // createTile(gameFieldDiv, secondNode.y, i, true, true);
-            this.mapArray[secondNode.y][i] = { type: "floor" };
-          }
-          for (
-            let i = firstNode.y > secondNode.y ? firstNode.y : secondNode.y;
-            i > (firstNode.y > secondNode.y ? secondNode.y : firstNode.y) - 1;
-            i--
-          ) {
-            // createTile(gameFieldDiv, i, middle, true, true);
-            this.mapArray[i][middle] = { type: "floor" };
-          }
-        } else if (horizontal) {
-          let firstNode: EntityPosition;
-          let secondNode: EntityPosition;
-
-          if (horizontalFirst) {
-            firstNode = {
-              x: randomInteger(x1, x1 + w1 - 1), // -1  потому что грубо говоря 17 - первая клетка комнаты, ширина 7 и получается что вместе ширина и коордианата больше комнаты на 1
-              y: y1 + h1 - 1,
-            };
-            secondNode = {
-              x: randomInteger(x2, x2 + w2 - 1),
-              y: y2,
-            };
-          } else {
-            firstNode = {
-              x: randomInteger(x1, x1 + w1 - 1),
-              y: y1,
-            };
-            secondNode = {
-              x: randomInteger(x2, x2 + w2 - 1),
-              y: y2 + h2 - 1,
-            };
-          }
-
-          let middle = Math.floor((firstNode.y + secondNode.y) / 2);
-
-          for (
-            let i = firstNode.y < middle ? firstNode.y : middle;
-            i < (firstNode.y < middle ? middle : firstNode.y);
-            i++
-          ) {
-            // createTile(gameFieldDiv, i, firstNode.x, true);
-            this.mapArray[i][firstNode.x] = { type: "floor" };
-          }
-          for (
-            let i = secondNode.y > middle ? secondNode.y : middle;
-            i > (secondNode.y > middle ? middle : secondNode.y);
-            i--
-          ) {
-            // createTile(gameFieldDiv, i, secondNode.x, true, true);
-            this.mapArray[i][secondNode.x] = { type: "floor" };
-          }
-          for (
-            let i = firstNode.x > secondNode.x ? firstNode.x : secondNode.x;
-            i > (firstNode.x > secondNode.x ? secondNode.x : firstNode.x) - 1;
-            i--
-          ) {
-            // createTile(gameFieldDiv, middle, i, true, true);
-            this.mapArray[middle][i] = { type: "floor" };
+            this.mapArray[heightI][widthJ] = { type: "floor" };
           }
         }
-        console.log(this.mapArray);
       }
-    }
 
-    //   // рендер объектов
-    // }
+      for (let i = 0; i < this.mapGraph.length; i++) {
+        let currentNode = this.mapGraph[i];
+        for (let j = 0; j < currentNode.paths.length; j++) {
+          let currentChildNode = currentNode.paths[j];
+
+          let x1 = currentNode.position.x;
+          let y1 = currentNode.position.y;
+          let w1 = currentNode.size.width;
+          let h1 = currentNode.size.height;
+
+          let x2 = currentChildNode.position.x;
+          let y2 = currentChildNode.position.y;
+          let w2 = currentChildNode.size.width;
+          let h2 = currentChildNode.size.height;
+
+          let verticalFirst = x1 + w1 < x2;
+          let verticalSecond = x2 + w2 < x1;
+          let vertical = verticalFirst || verticalSecond;
+
+          let horizontalFirst = y1 + h1 < y2;
+          let horizontalSecond = y2 + h2 < y1;
+          let horizontal = horizontalFirst || horizontalSecond;
+
+          if (vertical) {
+            let firstNode: EntityPosition;
+            let secondNode: EntityPosition;
+
+            if (verticalFirst) {
+              firstNode = {
+                x: x1 + w1 - 1,
+                y: randomInteger(y1, y1 + h1 - 1),
+              };
+              secondNode = {
+                x: x2,
+                y: randomInteger(y2, y2 + h2 - 1),
+              };
+            } else {
+              firstNode = {
+                x: x1,
+                y: randomInteger(y1, y1 + h1 - 1),
+              };
+              secondNode = {
+                x: x2 + w2 - 1,
+                y: randomInteger(y2, y2 + h2 - 1),
+              };
+            }
+            let middle = Math.floor((firstNode.x + secondNode.x) / 2);
+            for (
+              let i = firstNode.x < middle ? firstNode.x : middle;
+              i < (firstNode.x < middle ? middle : firstNode.x);
+              i++
+            ) {
+              // createTile(gameFieldDiv, firstNode.y, i, true);
+              this.mapArray[firstNode.y][i] = { type: "floor" };
+            }
+            for (
+              let i = secondNode.x > middle ? secondNode.x : middle;
+              i > (secondNode.x > middle ? middle : secondNode.x);
+              i--
+            ) {
+              // createTile(gameFieldDiv, secondNode.y, i, true, true);
+              this.mapArray[secondNode.y][i] = { type: "floor" };
+            }
+            for (
+              let i = firstNode.y > secondNode.y ? firstNode.y : secondNode.y;
+              i > (firstNode.y > secondNode.y ? secondNode.y : firstNode.y) - 1;
+              i--
+            ) {
+              // createTile(gameFieldDiv, i, middle, true, true);
+              this.mapArray[i][middle] = { type: "floor" };
+            }
+          } else if (horizontal) {
+            let firstNode: EntityPosition;
+            let secondNode: EntityPosition;
+
+            if (horizontalFirst) {
+              firstNode = {
+                x: randomInteger(x1, x1 + w1 - 1), // -1  потому что грубо говоря 17 - первая клетка комнаты, ширина 7 и получается что вместе ширина и коордианата больше комнаты на 1
+                y: y1 + h1 - 1,
+              };
+              secondNode = {
+                x: randomInteger(x2, x2 + w2 - 1),
+                y: y2,
+              };
+            } else {
+              firstNode = {
+                x: randomInteger(x1, x1 + w1 - 1),
+                y: y1,
+              };
+              secondNode = {
+                x: randomInteger(x2, x2 + w2 - 1),
+                y: y2 + h2 - 1,
+              };
+            }
+
+            let middle = Math.floor((firstNode.y + secondNode.y) / 2);
+
+            for (
+              let i = firstNode.y < middle ? firstNode.y : middle;
+              i < (firstNode.y < middle ? middle : firstNode.y);
+              i++
+            ) {
+              this.mapArray[i][firstNode.x] = { type: "floor" };
+            }
+            for (
+              let i = secondNode.y > middle ? secondNode.y : middle;
+              i > (secondNode.y > middle ? middle : secondNode.y);
+              i--
+            ) {
+              this.mapArray[i][secondNode.x] = { type: "floor" };
+            }
+            for (
+              let i = firstNode.x > secondNode.x ? firstNode.x : secondNode.x;
+              i > (firstNode.x > secondNode.x ? secondNode.x : firstNode.x) - 1;
+              i--
+            ) {
+              this.mapArray[middle][i] = { type: "floor" };
+            }
+          }
+          res();
+        }
+      }
+    });
+  }
+  renderMap = () => {
+    if (this.mapArray.length > 0) {
+      const gameFieldDiv = document.getElementsByClassName("field")[0];
+      for (let i = 0; i < this.mapArray.length; i++) {
+        for (let j = 0; j < this.mapArray[i].length; j++) {
+          createTile(gameFieldDiv, i, j, this.mapArray[i][j].type === "floor");
+        }
+      }
+    } else {
+      alert("Загрузка и рендер карты не удались");
+    }
   };
+
+  renderEntities = () => {};
 }
