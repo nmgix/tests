@@ -19,3 +19,12 @@ export interface BuffType {
   buff: string;
   name: string;
 }
+
+enum Tiles {
+  floor = "floor",
+  wall = "wall",
+}
+
+export type MapArrayTile = {
+  type: keyof typeof Tiles;
+};

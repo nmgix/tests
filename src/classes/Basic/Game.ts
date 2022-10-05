@@ -1,6 +1,6 @@
 import { coordsIntersect } from "../../helpers/coordinatesIntersect";
 import { randomInteger } from "../../helpers/randmonInteger";
-import { EntityPosition, MapNodeSize } from "../../types/gameTypes";
+import { EntityPosition, MapArrayTile, MapNodeSize } from "../../types/gameTypes";
 import { MapNode } from "./MapNode";
 import { Entity } from "./Entity";
 import { Buff } from "./Buff";
@@ -15,6 +15,10 @@ const gameSettings = {
     width: 40,
     height: 20,
   },
+  generateRooms: {
+    from: 3,
+    to: 3,
+  },
 };
 
 export class Game {
@@ -26,12 +30,13 @@ export class Game {
   }
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
+  // public mapArray: MapArrayTile[] = []
   public entities: Entity[] = [];
   public hero: Hero;
 
   generateMap = () => {
     // создание комнат
-    let roomsCount = randomInteger(3, 3);
+    let roomsCount = randomInteger(gameSettings.generateRooms.from, gameSettings.generateRooms.to);
     for (let i = 0; i < roomsCount; i++) {
       let room = this.generateRoom();
       if (room) {
@@ -207,7 +212,6 @@ export class Game {
           },
           { width: node.size.width, height: node.size.height, x: node.position.x, y: node.position.y }
         );
-        console.log(intersect);
         if (intersect.w > 0 && intersect.h > 0) {
           return true;
         } else {
@@ -221,13 +225,8 @@ export class Game {
       }
     }
   };
-  //   generatePaths = () => {
-  //     // здесь будет постройка пути и проверка не пересекается ли он, но тут пока сомнения
-  //   };
 
   renderMap = () => {
-    // эта функция будет вызываться ЕДИНОЖДЫ чтобы отрисовать карту (с канвасом она бы вызывалась каждый раз из-за перезаливки)
-
     // рендер стен
     const gameFieldDiv = document.getElementsByClassName("field")[0];
 
@@ -278,7 +277,6 @@ export class Game {
         if (vertical) {
           let firstNode: EntityPosition;
           let secondNode: EntityPosition;
-
           if (verticalFirst) {
             firstNode = {
               x: x1 + w1 - 1,
@@ -298,25 +296,7 @@ export class Game {
               y: randomInteger(y2, y2 + h2 - 1),
             };
           }
-
-          // console.log({
-          //   firstNode,
-          //   secondNode,
-          // });
-
           let middle = Math.floor((firstNode.x + secondNode.x) / 2);
-
-          // рендер пути слева направо
-          // console.log("→ слева направо", {
-          //   x: firstNode.x,
-          //   middle,
-          // });
-          // console.log("корды левого объекта", {
-          //   x: x1,
-          //   y: y1,
-          //   w: w1,
-          //   h: h1,
-          // });
           for (
             let i = firstNode.x < middle ? firstNode.x : middle;
             i < (firstNode.x < middle ? middle : firstNode.x);
@@ -324,17 +304,6 @@ export class Game {
           ) {
             createTile(gameFieldDiv, firstNode.y, i, true);
           }
-          // рендер пути справа навлево
-          // console.log("← справа налево", {
-          //   x: secondNode.x,
-          //   middle,
-          // });
-          // console.log("корды правого объекта", {
-          //   x: x2,
-          //   y: y2,
-          //   w: w2,
-          //   h: h2,
-          // });
           for (
             let i = secondNode.x > middle ? secondNode.x : middle;
             i > (secondNode.x > middle ? middle : secondNode.x);
@@ -342,7 +311,6 @@ export class Game {
           ) {
             createTile(gameFieldDiv, secondNode.y, i, true, true);
           }
-
           for (
             let i = firstNode.y > secondNode.y ? firstNode.y : secondNode.y;
             i > (firstNode.y > secondNode.y ? secondNode.y : firstNode.y) - 1;
@@ -351,11 +319,52 @@ export class Game {
             createTile(gameFieldDiv, i, middle, true, true);
           }
         } else if (horizontal) {
-          console.log("horizontal");
-        } else if (vertical && horizontal) {
-          console.log("vertical and horizontal");
-        } else {
-          return;
+          let firstNode: EntityPosition;
+          let secondNode: EntityPosition;
+
+          if (horizontalFirst) {
+            firstNode = {
+              x: randomInteger(x1, x1 + w1 - 1), // -1  потому что грубо говоря 17 - первая клетка комнаты, ширина 7 и получается что вместе ширина и коордианата больше комнаты на 1
+              y: y1 + h1 - 1,
+            };
+            secondNode = {
+              x: randomInteger(x2, x2 + w2 - 1),
+              y: y2,
+            };
+          } else {
+            firstNode = {
+              x: randomInteger(x1, x1 + w1 - 1),
+              y: y1,
+            };
+            secondNode = {
+              x: randomInteger(x2, x2 + w2 - 1),
+              y: y2 + h2 - 1,
+            };
+          }
+
+          let middle = Math.floor((firstNode.y + secondNode.y) / 2);
+
+          for (
+            let i = firstNode.y < middle ? firstNode.y : middle;
+            i < (firstNode.y < middle ? middle : firstNode.y);
+            i++
+          ) {
+            createTile(gameFieldDiv, i, firstNode.x, true);
+          }
+          for (
+            let i = secondNode.y > middle ? secondNode.y : middle;
+            i > (secondNode.y > middle ? middle : secondNode.y);
+            i--
+          ) {
+            createTile(gameFieldDiv, i, secondNode.x, true, true);
+          }
+          for (
+            let i = firstNode.x > secondNode.x ? firstNode.x : secondNode.x;
+            i > (firstNode.x > secondNode.x ? secondNode.x : firstNode.x) - 1;
+            i--
+          ) {
+            createTile(gameFieldDiv, middle, i, true, true);
+          }
         }
       }
     }
