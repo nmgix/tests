@@ -32,3 +32,5 @@ export type MapArrayTile = {
     y: number;
   };
 };
+
+export type Directions = "x+" | "x-" | "y+" | "y-";

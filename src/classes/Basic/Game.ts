@@ -1,5 +1,5 @@
 import { coordsIntersect } from "../../helpers/coordinatesIntersect";
-import { randomInteger } from "../../helpers/randmonInteger";
+import { randomInteger } from "../../helpers/randomInteger";
 import { EntityPosition, MapArrayTile, MapNodeSize } from "../../types/gameTypes";
 import { MapNode } from "./MapNode";
 import { Entity } from "./Entity";
@@ -41,7 +41,7 @@ export class Game {
   public mapArray: MapArrayTile[][] = [...Array(gameSettings.gameSize.height)].map((el) =>
     Array(gameSettings.gameSize.width).fill({})
   );
-  public entities: Entity[] = [];
+  public entities: (Entity | Buff | Enemy | Hero | Weapon)[] = [];
   public playerController: PlayerController;
   // public hero: Hero;
 
@@ -414,6 +414,9 @@ export class Game {
     }
     for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i];
+      if (entity.type === "enemy") {
+        entity.entityLogic!();
+      }
       createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
     }
   };

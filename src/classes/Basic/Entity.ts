@@ -1,4 +1,4 @@
-import { EntityPosition, MapNodeSize, MapArrayTile } from "../../types/gameTypes";
+import { EntityPosition, MapNodeSize, MapArrayTile, Directions } from "../../types/gameTypes";
 import { v4 as uuid } from "uuid";
 import { Game } from "./Game";
 import { Tiles } from "../../helpers/createTile";
@@ -24,9 +24,9 @@ export class Entity {
   destroyEntity: (gameInstance: Game) => void = (gameInstance) => {
     gameInstance.entities.filter((entity) => entity.uuid !== this.uuid);
   };
-}
 
-type Directions = "x+" | "x-" | "y+" | "y-";
+  entityLogic?: () => any | void;
+}
 
 export class MovableEntity extends Entity {
   public game: Game;
@@ -47,48 +47,40 @@ export class MovableEntity extends Entity {
     return nextTile.type === "floor" && !occupiedByEntity;
   };
 
-  move = (direction: Directions) => {
+  move = (direction: Directions | string) => {
     switch (direction) {
       case "x+": {
         let available = this.predict({ x: this.position.x + 1, y: this.position.y });
         if (!available) {
-          return;
+          return false;
         }
         this.position.x = this.position.x + 1;
-        break;
+        return true;
       }
       case "x-": {
         let available = this.predict({ x: this.position.x - 1, y: this.position.y });
         if (!available) {
-          return;
+          return false;
         }
         this.position.x = this.position.x - 1;
-        break;
+        return true;
       }
       case "y+": {
         let available = this.predict({ x: this.position.x, y: this.position.y + 1 });
         if (!available) {
-          return;
+          return false;
         }
         this.position.y = this.position.y + 1;
-        break;
+        return true;
       }
       case "y-": {
         let available = this.predict({ x: this.position.x, y: this.position.y - 1 });
         if (!available) {
-          return;
+          return false;
         }
         this.position.y = this.position.y - 1;
-        break;
+        return true;
       }
     }
-
-    this.game.entities = this.game.entities.map((entity) => {
-      if (entity.uuid === this.uuid) {
-        entity = this;
-      }
-      return entity;
-    });
-    this.game.renderEntities();
   };
 }

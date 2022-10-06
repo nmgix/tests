@@ -3,8 +3,11 @@ import { Game } from "../Basic/Game";
 
 export class PlayerController {
   private hero: Hero;
+  private game: Game;
 
   constructor(game: Game) {
+    this.game = game;
+
     document.addEventListener("keydown", (e) => this.handleControlMovement(e as KeyboardEvent));
 
     this.hero = game.entities.find((entity) => entity.type === "hero") as Hero;
@@ -15,21 +18,43 @@ export class PlayerController {
       return;
     }
 
+    const updateScene = () => {
+      this.game.entities = this.game.entities.map((entity) => {
+        if (entity.uuid === this.hero.uuid) {
+          entity = this.hero;
+        }
+        return entity;
+      });
+      this.game.renderEntities();
+    };
+
     switch (e.code) {
       case "KeyW": {
-        this.hero.move("y-");
+        let succeeded = this.hero.move("y-");
+        if (succeeded) {
+          updateScene();
+        }
         break;
       }
       case "KeyS": {
-        this.hero.move("y+");
+        let succeeded = this.hero.move("y+");
+        if (succeeded) {
+          updateScene();
+        }
         break;
       }
       case "KeyA": {
-        this.hero.move("x-");
+        let succeeded = this.hero.move("x-");
+        if (succeeded) {
+          updateScene();
+        }
         break;
       }
       case "KeyD": {
-        this.hero.move("x+");
+        let succeeded = this.hero.move("x+");
+        if (succeeded) {
+          updateScene();
+        }
         break;
       }
 
