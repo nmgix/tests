@@ -8,6 +8,7 @@ import { Weapon } from "./Weapon";
 import { Enemy } from "../Entities/Enemy";
 import { Hero } from "../Entities/Hero";
 import { createTile } from "../../helpers/createTile";
+import { PlayerController } from "../Controllers/PlayerController";
 
 const gameSettings = {
   pathThreshold: 5,
@@ -16,24 +17,24 @@ const gameSettings = {
     height: 20,
   },
   generateRooms: {
-    from: 3,
-    to: 3,
+    from: 5,
+    to: 10,
   },
 };
 
 export class Game {
   constructor() {
     this.generateMap();
-    this.gameReady = true;
     this.saveMap()
       .then(() => this.generateEntities())
       .then(() => this.renderMap())
       .then(() => this.renderEntities())
+      .then(() => (this.playerController = new PlayerController(this)))
+      .then(() => (this.gameReady = true))
       .catch((err) => {
         console.log(err);
         alert("Случилась ошибка, попробуйте перезапустить игру");
       });
-    console.log(this);
   }
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
@@ -41,6 +42,7 @@ export class Game {
     Array(gameSettings.gameSize.width).fill({})
   );
   public entities: Entity[] = [];
+  public playerController: PlayerController;
   // public hero: Hero;
 
   generateMap = () => {
@@ -192,7 +194,6 @@ export class Game {
       }
     }
   };
-
   generateEntities = () => {
     // создание баффов
     let buffsCount = randomInteger(10, 10);
@@ -219,7 +220,7 @@ export class Game {
     // создание врагов
     let enemiesCount = randomInteger(10, 10);
     for (let i = 0; i < enemiesCount; i++) {
-      let enemy = new Enemy();
+      let enemy = new Enemy(this);
       let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
       enemy.position = {
         x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
@@ -228,7 +229,7 @@ export class Game {
       enemy.createEntity(this);
     }
     // создание героя
-    let hero = new Hero();
+    let hero = new Hero(this);
 
     let availableTiles = this.mapArray
       .map((line) => {
@@ -405,7 +406,12 @@ export class Game {
   };
 
   renderEntities = () => {
-    const gameFieldDiv = document.getElementsByClassName("field")[0];
+    const gameFieldDiv = document.getElementsByClassName("field")[1];
+    var child = gameFieldDiv.lastElementChild;
+    while (child) {
+      gameFieldDiv.removeChild(child);
+      child = gameFieldDiv.lastElementChild;
+    }
     for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i];
       createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);

@@ -8,6 +8,7 @@ html {
 body {
   background-color: #000000;
   color: #ffffff;
+  position: relative;
 }
 h1 {
   font-family: "Playfair Display";
@@ -18,6 +19,7 @@ h1 {
 .field-box {
   border: 2px solid #d0d0d0;
   float: left;
+  position: absolute;
 }
 .field {
   position: relative;
