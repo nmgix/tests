@@ -4,6 +4,7 @@ import { Hero } from "../Entities/Hero";
 export class Weapon extends Entity {
   constructor() {
     super();
+    this.type = "sword";
   }
 
   pickWeapon: (owner: Hero) => void = (owner) => {

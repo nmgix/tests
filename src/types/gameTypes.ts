@@ -27,4 +27,8 @@ enum Tiles {
 
 export type MapArrayTile = {
   type: keyof typeof Tiles;
+  coordinates: {
+    x: number;
+    y: number;
+  };
 };

@@ -25,7 +25,15 @@ export class Game {
   constructor() {
     this.generateMap();
     this.gameReady = true;
-    this.saveMap().then(() => this.renderMap());
+    this.saveMap()
+      .then(() => this.generateEntities())
+      .then(() => this.renderMap())
+      .then(() => this.renderEntities())
+      .catch((err) => {
+        console.log(err);
+        alert("Случилась ошибка, попробуйте перезапустить игру");
+      });
+    console.log(this);
   }
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
@@ -33,7 +41,7 @@ export class Game {
     Array(gameSettings.gameSize.width).fill({})
   );
   public entities: Entity[] = [];
-  public hero: Hero;
+  // public hero: Hero;
 
   generateMap = () => {
     // создание комнат
@@ -145,48 +153,6 @@ export class Game {
         this.mapGraph.push(room);
       }
     }
-
-    // создание баффов
-    let buffsCount = randomInteger(10, 10);
-    for (let i = 0; i < buffsCount; i++) {
-      let heal = new Buff("heal");
-      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
-      heal.position = {
-        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
-        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
-      };
-      heal.createEntity(this);
-    }
-    // создание оружия
-    let weaponCount = randomInteger(2, 2);
-    for (let i = 0; i < weaponCount; i++) {
-      let weapon = new Weapon();
-      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
-      weapon.position = {
-        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
-        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
-      };
-      weapon.createEntity(this);
-    }
-    // создание врагов
-    let enemiesCount = randomInteger(10, 10);
-    for (let i = 0; i < enemiesCount; i++) {
-      let enemy = new Enemy();
-      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
-      enemy.position = {
-        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
-        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
-      };
-      enemy.createEntity(this);
-    }
-    // создание героя
-    let hero = new Hero();
-    let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
-    hero.position = {
-      x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
-      y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
-    };
-    this.hero = hero;
   };
   generateRoom: (tries?: number) => MapNode | null = (tries = 0) => {
     if ((tries > 500 && this.mapGraph.length > 3) || tries > 3000) {
@@ -227,11 +193,64 @@ export class Game {
     }
   };
 
+  generateEntities = () => {
+    // создание баффов
+    let buffsCount = randomInteger(10, 10);
+    for (let i = 0; i < buffsCount; i++) {
+      let heal = new Buff("heal");
+      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
+      heal.position = {
+        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
+        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
+      };
+      heal.createEntity(this);
+    }
+    // создание оружия
+    let weaponCount = randomInteger(2, 2);
+    for (let i = 0; i < weaponCount; i++) {
+      let weapon = new Weapon();
+      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
+      weapon.position = {
+        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
+        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
+      };
+      weapon.createEntity(this);
+    }
+    // создание врагов
+    let enemiesCount = randomInteger(10, 10);
+    for (let i = 0; i < enemiesCount; i++) {
+      let enemy = new Enemy();
+      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
+      enemy.position = {
+        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
+        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
+      };
+      enemy.createEntity(this);
+    }
+    // создание героя
+    let hero = new Hero();
+
+    let availableTiles = this.mapArray
+      .map((line) => {
+        let result = line.filter((tile) => tile.type === "floor");
+        return result;
+      })
+      .filter((arr) => arr.length > 0);
+    let randomTile: MapArrayTile = availableTiles[Math.floor(Math.random() * availableTiles.length)].at(0)!;
+
+    hero.position = {
+      x: randomTile.coordinates.x,
+      y: randomTile.coordinates.y,
+    };
+
+    this.entities.push(hero);
+  };
+
   saveMap(): Promise<void> {
     return new Promise((res, rej) => {
       for (let heightI = 0; heightI < gameSettings.gameSize.height; heightI++) {
         for (let widthJ = 0; widthJ < gameSettings.gameSize.width; widthJ++) {
-          this.mapArray[heightI][widthJ] = { type: "wall" };
+          this.mapArray[heightI][widthJ] = { type: "wall", coordinates: { x: widthJ, y: heightI } };
         }
       }
 
@@ -247,7 +266,7 @@ export class Game {
             widthJ < currentNode.position.x + currentNode.size.width;
             widthJ++
           ) {
-            this.mapArray[heightI][widthJ] = { type: "floor" };
+            this.mapArray[heightI][widthJ] = { type: "floor", coordinates: { x: widthJ, y: heightI } };
           }
         }
       }
@@ -305,7 +324,7 @@ export class Game {
               i++
             ) {
               // createTile(gameFieldDiv, firstNode.y, i, true);
-              this.mapArray[firstNode.y][i] = { type: "floor" };
+              this.mapArray[firstNode.y][i] = { type: "floor", coordinates: { x: i, y: firstNode.y } };
             }
             for (
               let i = secondNode.x > middle ? secondNode.x : middle;
@@ -313,7 +332,7 @@ export class Game {
               i--
             ) {
               // createTile(gameFieldDiv, secondNode.y, i, true, true);
-              this.mapArray[secondNode.y][i] = { type: "floor" };
+              this.mapArray[secondNode.y][i] = { type: "floor", coordinates: { x: i, y: secondNode.y } };
             }
             for (
               let i = firstNode.y > secondNode.y ? firstNode.y : secondNode.y;
@@ -321,7 +340,7 @@ export class Game {
               i--
             ) {
               // createTile(gameFieldDiv, i, middle, true, true);
-              this.mapArray[i][middle] = { type: "floor" };
+              this.mapArray[i][middle] = { type: "floor", coordinates: { x: middle, y: i } };
             }
           } else if (horizontal) {
             let firstNode: EntityPosition;
@@ -354,40 +373,42 @@ export class Game {
               i < (firstNode.y < middle ? middle : firstNode.y);
               i++
             ) {
-              this.mapArray[i][firstNode.x] = { type: "floor" };
+              this.mapArray[i][firstNode.x] = { type: "floor", coordinates: { x: firstNode.x, y: i } };
             }
             for (
               let i = secondNode.y > middle ? secondNode.y : middle;
               i > (secondNode.y > middle ? middle : secondNode.y);
               i--
             ) {
-              this.mapArray[i][secondNode.x] = { type: "floor" };
+              this.mapArray[i][secondNode.x] = { type: "floor", coordinates: { x: secondNode.x, y: i } };
             }
             for (
               let i = firstNode.x > secondNode.x ? firstNode.x : secondNode.x;
               i > (firstNode.x > secondNode.x ? secondNode.x : firstNode.x) - 1;
               i--
             ) {
-              this.mapArray[middle][i] = { type: "floor" };
+              this.mapArray[middle][i] = { type: "floor", coordinates: { x: i, y: middle } };
             }
           }
-          res();
         }
       }
+      res();
     });
   }
   renderMap = () => {
-    if (this.mapArray.length > 0) {
-      const gameFieldDiv = document.getElementsByClassName("field")[0];
-      for (let i = 0; i < this.mapArray.length; i++) {
-        for (let j = 0; j < this.mapArray[i].length; j++) {
-          createTile(gameFieldDiv, i, j, this.mapArray[i][j].type === "floor");
-        }
+    const gameFieldDiv = document.getElementsByClassName("field")[0];
+    for (let i = 0; i < this.mapArray.length; i++) {
+      for (let j = 0; j < this.mapArray[i].length; j++) {
+        createTile(gameFieldDiv, i, j, this.mapArray[i][j].type === "floor" ? "floor" : "wall", true);
       }
-    } else {
-      alert("Загрузка и рендер карты не удались");
     }
   };
 
-  renderEntities = () => {};
+  renderEntities = () => {
+    const gameFieldDiv = document.getElementsByClassName("field")[0];
+    for (let i = 0; i < this.entities.length; i++) {
+      const entity = this.entities[i];
+      createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+    }
+  };
 }

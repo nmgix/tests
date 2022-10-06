@@ -13,5 +13,6 @@ export class Hero extends MovableEntity {
       width: 1,
       height: 1,
     };
+    this.type = "hero";
   }
 }

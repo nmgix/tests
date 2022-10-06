@@ -1,10 +1,21 @@
-export const createTile = (parent: Element, top: number, left: number, floor: boolean, withCoords?: boolean) => {
+export enum Tiles {
+  floor = "tile",
+  wall = "tileW",
+  enemy = "tileE",
+  hero = "tileP",
+  heal = "tileHP",
+  sword = "tileSW",
+}
+
+export const createTile = (
+  parent: Element,
+  top: number,
+  left: number,
+  type: keyof typeof Tiles,
+  withCoords?: boolean
+) => {
   const tile = document.createElement("div");
-  if (floor) {
-    tile.classList.add(...["cell", "tile"]);
-  } else {
-    tile.classList.add(...["cell", "tileW"]);
-  }
+  tile.classList.add(...["cell", Tiles[type]]);
   if (withCoords) {
     tile.classList.add(...[`x-${left}`, `y-${top}`]);
   }

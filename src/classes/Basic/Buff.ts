@@ -11,6 +11,7 @@ export class Buff extends Entity {
       buff: type,
       name: BuffsEnum[type],
     };
+    this.type = "heal";
   }
 
   pickBuff: (owner: Hero) => void = (owner) => {
@@ -21,5 +22,3 @@ export class Buff extends Entity {
     owner.buffs.filter((buff) => buff.uuid !== this.uuid);
   };
 }
-
-// export interface Buff extends Entity, Asset {}

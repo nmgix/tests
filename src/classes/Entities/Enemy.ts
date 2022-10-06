@@ -7,5 +7,6 @@ export class Enemy extends MovableEntity {
       width: 1,
       height: 1,
     };
+    this.type = "enemy";
   }
 }

@@ -1,12 +1,14 @@
 import { EntityPosition, MapNodeSize } from "../../types/gameTypes";
 import { v4 as uuid } from "uuid";
 import { Game } from "./Game";
+import { Tiles } from "../../helpers/createTile";
 
 export class Entity {
   public uuid: string;
 
   public size: MapNodeSize;
   public position: EntityPosition;
+  public type: keyof typeof Tiles;
 
   constructor() {
     this.uuid = uuid();
