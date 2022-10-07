@@ -1,12 +1,13 @@
 import { BuffsEnum, BuffType } from "../../types/gameTypes";
 import { Hero } from "../Entities/Hero";
 import { Entity } from "./Entity";
+import { Game } from "./Game";
 
 export class Buff extends Entity {
   public characteristics: BuffType;
 
-  constructor(type: keyof typeof BuffsEnum) {
-    super();
+  constructor(type: keyof typeof BuffsEnum, game: Game) {
+    super(game);
     this.characteristics = {
       buff: type,
       name: BuffsEnum[type],

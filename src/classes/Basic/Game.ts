@@ -169,7 +169,7 @@ export class Game {
       y: randomInteger(1, gameSettings.gameSize.height - currentNodeSize.height - 1),
     };
     if (this.mapGraph.length === 0) {
-      return new MapNode(currentNodeSize, currentPosition);
+      return new MapNode(currentNodeSize, currentPosition, this);
     } else {
       let intersectingNode = this.mapGraph.find((node) => {
         let intersect = coordsIntersect(
@@ -190,7 +190,7 @@ export class Game {
       if (intersectingNode) {
         return this.generateRoom(++tries);
       } else {
-        return new MapNode(currentNodeSize, currentPosition);
+        return new MapNode(currentNodeSize, currentPosition, this);
       }
     }
   };
@@ -198,53 +198,20 @@ export class Game {
     // создание баффов
     let buffsCount = randomInteger(10, 10);
     for (let i = 0; i < buffsCount; i++) {
-      let heal = new Buff("heal");
-      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
-      heal.position = {
-        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
-        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
-      };
-      heal.createEntity(this);
+      new Buff("heal", this);
     }
     // создание оружия
     let weaponCount = randomInteger(2, 2);
     for (let i = 0; i < weaponCount; i++) {
-      let weapon = new Weapon();
-      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
-      weapon.position = {
-        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
-        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
-      };
-      weapon.createEntity(this);
+      new Weapon(this);
     }
     // создание врагов
     let enemiesCount = randomInteger(10, 10);
     for (let i = 0; i < enemiesCount; i++) {
-      let enemy = new Enemy(this);
-      let room = this.mapGraph[Math.floor(Math.random() * this.mapGraph.length)];
-      enemy.position = {
-        x: randomInteger(room.position.x, room.position.x + room.size.width - 1),
-        y: randomInteger(room.position.y, room.position.y + room.size.height - 1),
-      };
-      enemy.createEntity(this);
+      new Enemy(this);
     }
     // создание героя
-    let hero = new Hero(this);
-
-    let availableTiles = this.mapArray
-      .map((line) => {
-        let result = line.filter((tile) => tile.type === "floor");
-        return result;
-      })
-      .filter((arr) => arr.length > 0);
-    let randomTile: MapArrayTile = availableTiles[Math.floor(Math.random() * availableTiles.length)].at(0)!;
-
-    hero.position = {
-      x: randomTile.coordinates.x,
-      y: randomTile.coordinates.y,
-    };
-
-    this.entities.push(hero);
+    new Hero(this);
   };
 
   saveMap(): Promise<void> {
@@ -415,7 +382,7 @@ export class Game {
     for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i];
       if (entity.type === "enemy") {
-        entity.entityLogic!();
+        entity.invokeLogic();
       }
       createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
     }

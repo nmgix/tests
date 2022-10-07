@@ -1,9 +1,9 @@
-import { MovableEntity } from "../Basic/Entity";
 import { Game } from "../Basic/Game";
+import { CharacterController } from "../Controllers/CharacterController";
 import { EnemyController } from "../Controllers/EnemyController";
 
-export class Enemy extends MovableEntity {
-  public enemyController: EnemyController;
+export class Enemy extends CharacterController {
+  public enemyController: EnemyController = new EnemyController(this);
 
   constructor(game: Game) {
     super(game);
@@ -12,7 +12,6 @@ export class Enemy extends MovableEntity {
       height: 1,
     };
     this.type = "enemy";
-    this.enemyController = new EnemyController(this);
-    this.entityLogic = this.enemyController.randomMove;
+    this.entityLogic.push(this.enemyController.randomMove);
   }
 }

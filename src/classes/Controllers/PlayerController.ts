@@ -2,15 +2,14 @@ import { Hero } from "../Entities/Hero";
 import { Game } from "../Basic/Game";
 
 export class PlayerController {
+  public game: Game;
   private hero: Hero;
-  private game: Game;
 
   constructor(game: Game) {
     this.game = game;
+    this.hero = game.entities.find((entity) => entity.type === "hero") as Hero;
 
     document.addEventListener("keydown", (e) => this.handleControlMovement(e as KeyboardEvent));
-
-    this.hero = game.entities.find((entity) => entity.type === "hero") as Hero;
   }
 
   handleControlMovement = (e: KeyboardEvent) => {

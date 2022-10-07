@@ -1,9 +1,9 @@
 import { Buff } from "../Basic/Buff";
-import { MovableEntity } from "../Basic/Entity";
 import { Game } from "../Basic/Game";
 import { Weapon } from "../Basic/Weapon";
+import { CharacterController } from "../Controllers/CharacterController";
 
-export class Hero extends MovableEntity {
+export class Hero extends CharacterController {
   // будет управление и  (?) инвентарь
   public buffs: Buff[];
   public weapon: Weapon | null;

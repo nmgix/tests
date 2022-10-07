@@ -1,9 +1,10 @@
 import { Entity } from "./Entity";
 import { Hero } from "../Entities/Hero";
+import { Game } from "./Game";
 
 export class Weapon extends Entity {
-  constructor() {
-    super();
+  constructor(game: Game) {
+    super(game);
     this.type = "sword";
   }
 
