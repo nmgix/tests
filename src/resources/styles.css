@@ -82,10 +82,11 @@ h1 {
   left: 0px;
   top: 0px;
   height: 3px;
+  width: 100%;
 }
 .health-wrapper .health-frontbar {
   background-color: #00ff00;
-  z-index: 11;
+  z-index: 10;
   position: absolute;
   left: 0px;
   top: 0px;

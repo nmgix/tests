@@ -29,7 +29,6 @@ export class Game {
       .then(() => this.generateEntities())
       .then(() => this.renderMap())
       .then(() => this.renderEntities())
-      .then(() => (this.playerController = new PlayerController(this)))
       .then(() => (this.gameReady = true))
       .catch((err) => {
         console.log(err);
@@ -42,7 +41,6 @@ export class Game {
     Array(gameSettings.gameSize.width).fill({})
   );
   public entities: (Entity | Buff | Enemy | Hero | Weapon)[] = [];
-  public playerController: PlayerController;
   // public hero: Hero;
 
   generateMap = () => {
