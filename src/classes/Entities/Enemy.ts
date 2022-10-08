@@ -15,9 +15,12 @@ export class Enemy extends CharacterController {
     this.entityLogic.push(this.enemyController.randomMove);
 
     this.entityLogic.push((tile: HTMLDivElement) => {
-      this.healthController.damage(10);
       const healthController = this.healthController;
       const healthBlock = tile.querySelector(".health-wrapper")! as HTMLDivElement;
+
+      // if (!healthBlock) {
+      //   return;
+      // }
 
       if (healthController.health.current === healthController.health.max) {
         healthBlock.style.opacity = "0";
@@ -25,5 +28,7 @@ export class Enemy extends CharacterController {
         healthBlock.style.opacity = "1";
       }
     });
+
+    this.entityLogic.push(() => this.attack("hero"));
   }
 }

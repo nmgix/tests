@@ -14,8 +14,16 @@ export class HealthController {
     };
 
     character.entityLogic.push(
+      () => {
+        if (this.health.current <= 0) {
+          character.destroyEntity();
+        }
+      },
       (tile: HTMLDivElement) => {
         const healtWrapper = document.createElement("div");
+        if (this.health.current <= 0) {
+          return;
+        }
         healtWrapper.classList.add("health-wrapper");
 
         const healthBackbar = document.createElement("div");
@@ -30,12 +38,6 @@ export class HealthController {
 
         tile.appendChild(healtWrapper);
         // создание position absolute двух дивов, с красными хп как z index 9 и с зелёными как z index 10
-      },
-      () => {
-        console.log(this.health.current);
-        if (this.health.current <= 0) {
-          character.destroyEntity();
-        }
       }
     );
   }

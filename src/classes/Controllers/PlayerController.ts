@@ -1,5 +1,6 @@
 import { Hero } from "../Entities/Hero";
 import { Game } from "../Basic/Game";
+import { Enemy } from "../Entities/Enemy";
 
 export class PlayerController {
   public game: Game;
@@ -17,44 +18,49 @@ export class PlayerController {
       return;
     }
 
-    const updateScene = () => {
-      this.game.entities = this.game.entities.map((entity) => {
-        if (entity.uuid === this.hero.uuid) {
-          entity = this.hero;
-        }
-        return entity;
-      });
-      this.game.renderEntities();
-    };
+    // const updateScene = () => {
+    //   // this.game.entities = this.game.entities.map((entity) => {
+    //   //   if (entity.uuid === this.hero.uuid) {
+    //   //     entity = this.hero;
+    //   //   }
+    //   //   return entity;
+    //   // });
+    //   this.game.renderEntities();
+    // };
 
     switch (e.code) {
       case "KeyW": {
         let succeeded = this.hero.move("y-");
         if (succeeded) {
-          updateScene();
+          this.game.renderEntities();
         }
         break;
       }
       case "KeyS": {
         let succeeded = this.hero.move("y+");
         if (succeeded) {
-          updateScene();
+          this.game.renderEntities();
         }
         break;
       }
       case "KeyA": {
         let succeeded = this.hero.move("x-");
         if (succeeded) {
-          updateScene();
+          this.game.renderEntities();
         }
         break;
       }
       case "KeyD": {
         let succeeded = this.hero.move("x+");
         if (succeeded) {
-          updateScene();
+          this.game.renderEntities();
         }
         break;
+      }
+
+      case "Space": {
+        this.hero.attack("enemy");
+        this.game.renderEntities();
       }
 
       default: {

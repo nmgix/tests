@@ -3,6 +3,8 @@ import { Hero } from "../Entities/Hero";
 import { Game } from "./Game";
 
 export class Weapon extends Entity {
+  public damage: number = 20;
+
   constructor(game: Game) {
     super(game);
     this.type = "sword";

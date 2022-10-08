@@ -5,10 +5,8 @@ import { CharacterController } from "../Controllers/CharacterController";
 import { PlayerController } from "../Controllers/PlayerController";
 
 export class Hero extends CharacterController {
-  // будет управление и  (?) инвентарь
   public playerController: PlayerController;
   public buffs: Buff[];
-  public weapon: Weapon | null;
 
   constructor(game: Game) {
     super(game);

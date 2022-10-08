@@ -2,9 +2,16 @@ import { Game } from "../Basic/Game";
 import { HealthController } from "./HealthController";
 import { Entity } from "../Basic/Entity";
 import { Directions, EntityPosition, MapArrayTile } from "../../types/gameTypes";
+import { Weapon } from "../Basic/Weapon";
+import { Enemy } from "../Entities/Enemy";
+import { Buff } from "../Basic/Buff";
+import { Hero } from "../Entities/Hero";
 
 export class CharacterController extends Entity {
   public healthController: HealthController = new HealthController(this);
+
+  public weapon: Weapon | null;
+  public damage: number = 10;
 
   constructor(game: Game) {
     super(game);
@@ -58,7 +65,19 @@ export class CharacterController extends Entity {
     }
   };
 
-  giveDamage = () => {};
-
-  recieveDamage = () => {};
+  attack = (target?: (Weapon | Entity | Buff | Enemy | Hero)["type"]) => {
+    this.game.entities.map((entity) => {
+      if (target ? entity.type === target : entity.type === "enemy" || entity.type === "hero") {
+        if (
+          (entity.position.x + 1 === this.position.x && entity.position.y === this.position.y) ||
+          (entity.position.x - 1 === this.position.x && entity.position.y === this.position.y) ||
+          (entity.position.y + 1 === this.position.y && entity.position.x === this.position.x) ||
+          (entity.position.y - 1 === this.position.y && entity.position.x === this.position.x)
+        ) {
+          let currentEntity = entity as CharacterController;
+          currentEntity.healthController.damage(this.weapon ? this.weapon.damage : this.damage);
+        }
+      }
+    });
+  };
 }

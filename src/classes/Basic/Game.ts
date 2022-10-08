@@ -9,6 +9,7 @@ import { Enemy } from "../Entities/Enemy";
 import { Hero } from "../Entities/Hero";
 import { createTile } from "../../helpers/createTile";
 import { PlayerController } from "../Controllers/PlayerController";
+import { CharacterController } from "../Controllers/CharacterController";
 
 const gameSettings = {
   pathThreshold: 5,
@@ -379,10 +380,16 @@ export class Game {
     }
     for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i];
-      let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
       if (entity.type === "enemy" || entity.type === "hero") {
-        entity.invokeLogic(tile);
+        let currentEntity = entity as CharacterController;
+        if (currentEntity.healthController.health.current > 0) {
+          let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+          currentEntity.invokeLogic(tile);
+        }
+      } else {
+        createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
       }
     }
+    console.log(" ");
   };
 }
