@@ -23,4 +23,5 @@ export const createTile = (
   tile.style.left = `${left * 40}px`;
   tile.style.zIndex = "6";
   parent.appendChild(tile);
+  return tile;
 };

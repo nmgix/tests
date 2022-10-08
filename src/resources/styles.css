@@ -58,22 +58,6 @@ h1 {
   background-image: url(images/tile-SW.png);
   z-index: 9;
 }
-.field .tile .health {
-  background-color: #ff0000;
-  z-index: 11;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  height: 3px;
-}
-.field .tileP .health {
-  background-color: #00ff00;
-  z-index: 11;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  height: 3px;
-}
 .inventory-box {
   border: 2px solid #d0d0d0;
   float: left;
@@ -86,4 +70,24 @@ h1 {
 .cl {
   clear: both;
   display: block;
+}
+
+.health-wrapper {
+  position: relative;
+}
+.health-wrapper .health-backbar {
+  background-color: #ff0000;
+  z-index: 9;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 3px;
+}
+.health-wrapper .health-frontbar {
+  background-color: #00ff00;
+  z-index: 11;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 3px;
 }

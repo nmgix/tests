@@ -16,7 +16,7 @@ export class Entity {
 
   public game: Game;
 
-  public entityLogic: (() => any | void)[] = [];
+  public entityLogic: ((args?: any) => any | void)[] = [];
 
   constructor(game: Game, randomlyCreate: boolean = true) {
     this.uuid = uuid();
@@ -69,9 +69,9 @@ export class Entity {
     this.game.entities.filter((entity) => entity.uuid !== this.uuid);
   };
 
-  invokeLogic = () => {
+  invokeLogic = (args?: any) => {
     for (let i = 0; i < this.entityLogic.length; i++) {
-      this.entityLogic[i]();
+      this.entityLogic[i](args);
     }
   };
 }

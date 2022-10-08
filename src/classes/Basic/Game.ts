@@ -381,10 +381,10 @@ export class Game {
     }
     for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i];
-      if (entity.type === "enemy") {
-        entity.invokeLogic();
+      let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+      if (entity.type === "enemy" || entity.type === "hero") {
+        entity.invokeLogic(tile);
       }
-      createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
     }
   };
 }
