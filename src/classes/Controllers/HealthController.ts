@@ -13,33 +13,32 @@ export class HealthController {
       current: 100,
     };
 
-    character.entityLogic.push(
-      () => {
-        if (this.health.current <= 0) {
-          character.destroyEntity();
-        }
-      },
-      (tile: HTMLDivElement) => {
-        const healtWrapper = document.createElement("div");
-        if (this.health.current <= 0) {
-          return;
-        }
-        healtWrapper.classList.add("health-wrapper");
-
-        const healthBackbar = document.createElement("div");
-        healthBackbar.classList.add("health-backbar");
-
-        const healthFrontbar = document.createElement("div");
-        healthFrontbar.classList.add("health-frontbar");
-        healthFrontbar.style.width = `${(this.health.current * this.health.max) / 100}%`;
-
-        healtWrapper.appendChild(healthBackbar);
-        healtWrapper.appendChild(healthFrontbar);
-
-        tile.appendChild(healtWrapper);
-        // создание position absolute двух дивов, с красными хп как z index 9 и с зелёными как z index 10
+    character.onUpdateEntityLogic.push((tile: HTMLDivElement) => {
+      const healtWrapper = document.createElement("div");
+      if (this.health.current <= 0) {
+        return;
       }
-    );
+      healtWrapper.classList.add("health-wrapper");
+
+      const healthBackbar = document.createElement("div");
+      healthBackbar.classList.add("health-backbar");
+
+      const healthFrontbar = document.createElement("div");
+      healthFrontbar.classList.add("health-frontbar");
+      healthFrontbar.style.width = `${(this.health.current * this.health.max) / 100}%`;
+
+      healtWrapper.appendChild(healthBackbar);
+      healtWrapper.appendChild(healthFrontbar);
+
+      tile.appendChild(healtWrapper);
+      // создание position absolute двух дивов, с красными хп как z index 9 и с зелёными как z index 10
+    });
+
+    character.onDestroyEntityLogic.push(() => {
+      if (this.health.current <= 0) {
+        character.destroyEntity();
+      }
+    });
   }
 
   damage = (health: number) => {

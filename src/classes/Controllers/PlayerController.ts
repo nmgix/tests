@@ -10,23 +10,25 @@ export class PlayerController {
     this.game = game;
     this.hero = game.entities.find((entity) => entity.type === "hero") as Hero;
 
-    document.addEventListener("keydown", (e) => this.handleControlMovement(e as KeyboardEvent));
+    document.addEventListener("keydown", this.handleControlMovement);
+
+    this.hero.onDestroyEntityLogic.push(() => {
+      if (this.hero.healthController.health.current <= 0) {
+        document.removeEventListener("keydown", this.handleControlMovement);
+      }
+    });
+
+    this.hero.onDestroyEntityLogic.push(() => {
+      if (confirm("Игра окончена, вас убили")) {
+        this.game.initGame();
+      }
+    });
   }
 
   handleControlMovement = (e: KeyboardEvent) => {
     if (e.repeat) {
       return;
     }
-
-    // const updateScene = () => {
-    //   // this.game.entities = this.game.entities.map((entity) => {
-    //   //   if (entity.uuid === this.hero.uuid) {
-    //   //     entity = this.hero;
-    //   //   }
-    //   //   return entity;
-    //   // });
-    //   this.game.renderEntities();
-    // };
 
     switch (e.code) {
       case "KeyW": {

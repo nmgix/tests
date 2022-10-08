@@ -16,7 +16,9 @@ export class Entity {
 
   public game: Game;
 
-  public entityLogic: ((args?: any) => any | void)[] = [];
+  public onCreateEntityLogic: ((args?: any) => any | void)[] = [];
+  public onUpdateEntityLogic: ((args?: any) => any | void)[] = [];
+  public onDestroyEntityLogic: ((args?: any) => any | void)[] = [];
 
   constructor(game: Game, randomlyCreate: boolean = true) {
     this.uuid = uuid();
@@ -66,12 +68,13 @@ export class Entity {
     this.game.entities.push(this);
   };
   destroyEntity: () => void = () => {
+    console.log("destroying hero");
     this.game.entities = this.game.entities.filter((entity) => entity.uuid !== this.uuid);
   };
 
-  invokeLogic = (args?: any) => {
-    for (let i = 0; i < this.entityLogic.length; i++) {
-      this.entityLogic[i](args);
+  invokeLogic = (cycle: "onCreateEntityLogic" | "onUpdateEntityLogic" | "onDestroyEntityLogic", args?: any) => {
+    for (let i = 0; i < this[cycle].length; i++) {
+      this[cycle][i](args);
     }
   };
 }

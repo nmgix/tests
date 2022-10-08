@@ -12,15 +12,11 @@ export class Enemy extends CharacterController {
       height: 1,
     };
     this.type = "enemy";
-    this.entityLogic.push(this.enemyController.randomMove);
+    this.onUpdateEntityLogic.push(this.enemyController.randomMove);
 
-    this.entityLogic.push((tile: HTMLDivElement) => {
+    this.onUpdateEntityLogic.push((tile: HTMLDivElement) => {
       const healthController = this.healthController;
       const healthBlock = tile.querySelector(".health-wrapper")! as HTMLDivElement;
-
-      // if (!healthBlock) {
-      //   return;
-      // }
 
       if (healthController.health.current === healthController.health.max) {
         healthBlock.style.opacity = "0";
@@ -29,6 +25,12 @@ export class Enemy extends CharacterController {
       }
     });
 
-    this.entityLogic.push(() => this.attack("hero"));
+    this.onUpdateEntityLogic.push(() => {
+      if (Math.random() <= 0.3) {
+        return;
+      } else {
+        this.attack("hero");
+      }
+    });
   }
 }
