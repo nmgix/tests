@@ -1,11 +1,13 @@
 import { Game } from "../Basic/Game";
 import { HealthController } from "./HealthController";
 import { Entity } from "../Basic/Entity";
-import { Directions, EntityPosition, MapArrayTile } from "../../types/gameTypes";
 import { Weapon } from "../Basic/Weapon";
 import { Enemy } from "../Entities/Enemy";
 import { Buff } from "../Basic/Buff";
 import { Hero } from "../Entities/Hero";
+import { EntityPosition } from "../../types/entity";
+import { MapArrayTile } from "../../types/map";
+import { Directions } from "../../types/miscellaneous";
 
 export class CharacterController extends Entity {
   public healthController: HealthController = new HealthController(this);

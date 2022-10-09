@@ -1,15 +1,15 @@
 import { coordsIntersect } from "../../helpers/coordinatesIntersect";
 import { randomInteger } from "../../helpers/randomInteger";
-import { EntityPosition, MapArrayTile, MapNodeSize } from "../../types/gameTypes";
 import { MapNode } from "./MapNode";
-import { Entity } from "./Entity";
 import { Buff } from "./Buff";
 import { Weapon } from "./Weapon";
 import { Enemy } from "../Entities/Enemy";
 import { Hero } from "../Entities/Hero";
 import { createTile } from "../../helpers/createTile";
-import { PlayerController } from "../Controllers/PlayerController";
 import { CharacterController } from "../Controllers/CharacterController";
+import { MovableCollideExceptions } from "../../types/checkExceptions";
+import { EntityUnion, EntityPosition } from "../../types/entity";
+import { MapArrayTile, MapNodeSize } from "../../types/map";
 
 const gameSettings = {
   pathThreshold: 5,
@@ -30,8 +30,25 @@ export class Game {
   public gameReady: boolean = false;
   public mapGraph: MapNode[] = [];
   public mapArray: MapArrayTile[][];
-  public entities: (Entity | Buff | Enemy | Hero | Weapon)[] = [];
-  // public hero: Hero;
+  public entities: EntityUnion[] = [];
+
+  initGame = () => {
+    this.gameReady = false;
+    this.entities = [];
+    this.mapArray = [...Array(gameSettings.gameSize.height)].map((el) => Array(gameSettings.gameSize.width).fill({}));
+    this.mapGraph = [];
+
+    this.generateMap();
+    this.saveMap()
+      .then(() => this.generateEntities())
+      .then(() => this.renderMap())
+      .then(() => this.renderEntities())
+      .then(() => (this.gameReady = true))
+      .catch((err) => {
+        console.log(err);
+        alert("Случилась ошибка, попробуйте перезапустить игру");
+      });
+  };
 
   generateMap = () => {
     // создание комнат
@@ -186,7 +203,10 @@ export class Game {
     // создание баффов
     let buffsCount = randomInteger(10, 10);
     for (let i = 0; i < buffsCount; i++) {
-      new Buff("heal", this);
+      new Buff(
+        // "heal",
+        this
+      );
     }
     // // создание оружия
     let weaponCount = randomInteger(2, 2);
@@ -201,7 +221,6 @@ export class Game {
     // создание героя
     new Hero(this);
   };
-
   saveMap(): Promise<void> {
     return new Promise((res, rej) => {
       for (let heightI = 0; heightI < gameSettings.gameSize.height; heightI++) {
@@ -351,6 +370,7 @@ export class Game {
       res();
     });
   }
+
   renderMap = () => {
     const gameFieldDiv = document.getElementsByClassName("field")[0];
     for (let i = 0; i < this.mapArray.length; i++) {
@@ -359,7 +379,6 @@ export class Game {
       }
     }
   };
-
   renderEntities = () => {
     const gameFieldDiv = document.getElementsByClassName("field")[1];
     var child = gameFieldDiv.lastElementChild;
@@ -368,36 +387,20 @@ export class Game {
       child = gameFieldDiv.lastElementChild;
     }
     this.entities.forEach((entity) => {
-      if (entity.type === "enemy" || entity.type === "hero") {
+      if (entity.type in MovableCollideExceptions) {
         let currentEntity = entity as CharacterController;
         if (currentEntity.healthController.health.current > 0) {
           let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+          entity.tileDiv = tile;
           currentEntity.invokeLogic("onUpdateEntityLogic", tile);
         } else {
           currentEntity.invokeLogic("onDestroyEntityLogic");
         }
       } else {
-        createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+        let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+        entity.tileDiv = tile;
         entity.invokeLogic("onUpdateEntityLogic");
       }
     });
-  };
-
-  initGame = () => {
-    this.gameReady = false;
-    this.entities = [];
-    this.mapArray = [...Array(gameSettings.gameSize.height)].map((el) => Array(gameSettings.gameSize.width).fill({}));
-    this.mapGraph = [];
-
-    this.generateMap();
-    this.saveMap()
-      .then(() => this.generateEntities())
-      .then(() => this.renderMap())
-      .then(() => this.renderEntities())
-      .then(() => (this.gameReady = true))
-      .catch((err) => {
-        console.log(err);
-        alert("Случилась ошибка, попробуйте перезапустить игру");
-      });
   };
 }

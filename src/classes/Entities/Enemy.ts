@@ -14,9 +14,9 @@ export class Enemy extends CharacterController {
     this.type = "enemy";
     this.onUpdateEntityLogic.push(this.enemyController.randomMove);
 
-    this.onUpdateEntityLogic.push((tile: HTMLDivElement) => {
+    this.onUpdateEntityLogic.push(() => {
       const healthController = this.healthController;
-      const healthBlock = tile.querySelector(".health-wrapper")! as HTMLDivElement;
+      const healthBlock = this.tileDiv.querySelector(".health-wrapper")! as HTMLDivElement;
 
       if (healthController.health.current === healthController.health.max) {
         healthBlock.style.opacity = "0";

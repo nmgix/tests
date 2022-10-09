@@ -1,7 +1,6 @@
-import { BuffsStats } from "../../types/gameTypes";
+import { BuffsStats } from "../../types/buff";
 import { Buff } from "../Basic/Buff";
 import { Game } from "../Basic/Game";
-import { Weapon } from "../Basic/Weapon";
 import { CharacterController } from "../Controllers/CharacterController";
 import { PlayerController } from "../Controllers/PlayerController";
 
@@ -18,13 +17,14 @@ export class Hero extends CharacterController {
     this.type = "hero";
     this.playerController = new PlayerController(game);
 
-    this.onUpdateEntityLogic.push(() => {
+    this.onUpdateEntityLogic.push((once?: boolean) => {
       if (this.buffs.length > 0) {
         this.buffs = this.buffs.filter((buff) => {
           if (buff.type === "heal") {
-            this.healthController.heal(BuffsStats[buff.type]);
-            // сюда надо тайл передавать, в котором сейчас объект иначе ЛИШНИЙ перерендер для чисто одного места сделать не получится
-            // this.invokeLogic("onUpdateEntityLogic");
+            if (typeof once !== "boolean" || (typeof once === "boolean" && !once)) {
+              this.healthController.heal(BuffsStats[buff.type]);
+              this.invokeLogic("onUpdateEntityLogic", true);
+            }
             return false;
           } else {
             return true;

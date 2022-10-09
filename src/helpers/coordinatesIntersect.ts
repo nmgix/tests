@@ -1,4 +1,5 @@
-import { EntityPosition, MapNodeSize } from "../types/gameTypes";
+import { EntityPosition } from "../types/entity";
+import { MapNodeSize } from "../types/map";
 
 export function coordsIntersect(r1: EntityPosition & MapNodeSize, r2: EntityPosition & MapNodeSize) {
   var x = Math.max(r1.x, r2.x);

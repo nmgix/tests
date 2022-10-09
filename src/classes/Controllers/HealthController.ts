@@ -13,7 +13,7 @@ export class HealthController {
       current: 100,
     };
 
-    character.onUpdateEntityLogic.push((tile: HTMLDivElement) => {
+    character.onUpdateEntityLogic.push(() => {
       const healtWrapper = document.createElement("div");
       if (this.health.current <= 0) {
         return;
@@ -30,8 +30,7 @@ export class HealthController {
       healtWrapper.appendChild(healthBackbar);
       healtWrapper.appendChild(healthFrontbar);
 
-      tile.appendChild(healtWrapper);
-      // создание position absolute двух дивов, с красными хп как z index 9 и с зелёными как z index 10
+      character.tileDiv.appendChild(healtWrapper);
     });
 
     character.onDestroyEntityLogic.push(() => {

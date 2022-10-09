@@ -1,4 +1,5 @@
-import { EntityPosition, MapNodeSize } from "../../types/gameTypes";
+import { EntityPosition } from "../../types/entity";
+import { MapNodeSize } from "../../types/map";
 import { Entity } from "./Entity";
 import { Game } from "./Game";
 

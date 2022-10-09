@@ -1,6 +1,5 @@
 import { Hero } from "../Entities/Hero";
 import { Game } from "../Basic/Game";
-import { Enemy } from "../Entities/Enemy";
 
 export class PlayerController {
   public game: Game;

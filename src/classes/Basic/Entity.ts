@@ -1,24 +1,22 @@
-import { EntityPosition, MapNodeSize, MapArrayTile, Directions } from "../../types/gameTypes";
 import { v4 as uuid } from "uuid";
+import { ToolsCollideExceptions } from "../../types/checkExceptions";
+import { EntityPosition, EnitityTiles } from "../../types/entity";
+import { MapNodeSize, MapArrayTile } from "../../types/map";
 import { Game } from "./Game";
-import { Tiles } from "../../helpers/createTile";
-
-enum CollideExceptions {
-  buff = "buff",
-  weapon = "weapon",
-}
 
 export class Entity {
   public uuid: string;
   public size: MapNodeSize;
   public position: EntityPosition;
-  public type: keyof typeof Tiles;
+  public type: keyof typeof EnitityTiles;
 
   public game: Game;
 
   public onCreateEntityLogic: ((args?: any) => any | void)[] = [];
   public onUpdateEntityLogic: ((args?: any) => any | void)[] = [];
   public onDestroyEntityLogic: ((args?: any) => any | void)[] = [];
+
+  public tileDiv: HTMLDivElement;
 
   constructor(game: Game, randomlyCreate: boolean = true) {
     this.uuid = uuid();
@@ -40,11 +38,11 @@ export class Entity {
       let randomTileArray: MapArrayTile[] = availableMapTiles[Math.floor(Math.random() * availableMapTiles.length)];
       let randomTile: MapArrayTile = randomTileArray[Math.floor(Math.random() * randomTileArray.length)];
 
-      if (this.type in CollideExceptions) {
+      if (this.type in ToolsCollideExceptions) {
         return randomTile;
       } else {
         let occupiedEntityTiles = this.game.entities.filter((entity) => {
-          if (entity.type in CollideExceptions) {
+          if (entity.type in ToolsCollideExceptions) {
             return false;
           } else {
             return entity.position.x === randomTile.coordinates.x && entity.position.y === randomTile.coordinates.y;
