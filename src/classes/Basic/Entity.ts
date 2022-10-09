@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { ToolsCollideExceptions } from "../../types/checkExceptions";
+import { ToolsCollideExceptions } from "../../types/tool";
 import { EntityPosition, EnitityTiles } from "../../types/entity";
 import { MapNodeSize, MapArrayTile } from "../../types/map";
 import { Game } from "./Game";
@@ -12,7 +12,6 @@ export class Entity {
 
   public game: Game;
 
-  public onCreateEntityLogic: ((args?: any) => any | void)[] = [];
   public onUpdateEntityLogic: ((args?: any) => any | void)[] = [];
   public onDestroyEntityLogic: ((args?: any) => any | void)[] = [];
 
@@ -69,7 +68,7 @@ export class Entity {
     this.game.entities = this.game.entities.filter((entity) => entity.uuid !== this.uuid);
   };
 
-  invokeLogic = (cycle: "onCreateEntityLogic" | "onUpdateEntityLogic" | "onDestroyEntityLogic", args?: any) => {
+  invokeLogic = (cycle: "onUpdateEntityLogic" | "onDestroyEntityLogic", args?: any) => {
     for (let i = 0; i < this[cycle].length; i++) {
       this[cycle][i](args);
     }

@@ -7,7 +7,7 @@ import { Enemy } from "../Entities/Enemy";
 import { Hero } from "../Entities/Hero";
 import { createTile } from "../../helpers/createTile";
 import { CharacterController } from "../Controllers/CharacterController";
-import { MovableCollideExceptions } from "../../types/checkExceptions";
+import { MovableCollideExceptions } from "../../types/entity";
 import { EntityUnion, EntityPosition } from "../../types/entity";
 import { MapArrayTile, MapNodeSize } from "../../types/map";
 
@@ -390,14 +390,20 @@ export class Game {
       if (entity.type in MovableCollideExceptions) {
         let currentEntity = entity as CharacterController;
         if (currentEntity.healthController.health.current > 0) {
-          let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+          let tile = createTile(
+            gameFieldDiv,
+            entity.position.y,
+            entity.position.x,
+            entity.type,
+            true
+          ) as HTMLDivElement;
           entity.tileDiv = tile;
           currentEntity.invokeLogic("onUpdateEntityLogic", tile);
         } else {
           currentEntity.invokeLogic("onDestroyEntityLogic");
         }
       } else {
-        let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+        let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true) as HTMLDivElement;
         entity.tileDiv = tile;
         entity.invokeLogic("onUpdateEntityLogic");
       }

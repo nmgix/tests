@@ -19,3 +19,8 @@ export enum EnitityTiles {
   heal = "tileHP",
   sword = "tileSW",
 }
+
+export enum MovableCollideExceptions {
+  hero,
+  enemy,
+}

@@ -12,3 +12,8 @@ export enum BuffsStats {
   "heal" = 20,
   // "boost" = 5,
 }
+
+export enum ToolsCollideExceptions {
+  heal,
+  sword,
+}

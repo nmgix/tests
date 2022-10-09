@@ -5,9 +5,10 @@ export const createTile = (
   top: number,
   left: number,
   type: keyof typeof EnitityTiles,
-  withCoords?: boolean
+  withCoords?: boolean,
+  asAlterDOMElement?: string
 ) => {
-  const tile = document.createElement("div");
+  const tile = document.createElement(asAlterDOMElement ? asAlterDOMElement : "div");
   tile.classList.add(...["cell", EnitityTiles[type]]);
   if (withCoords) {
     tile.classList.add(...[`x-${left}`, `y-${top}`]);
