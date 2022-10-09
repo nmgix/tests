@@ -15,6 +15,11 @@ export enum BuffsEnum {
   "boost" = "Ускорение",
 }
 
+export enum BuffsStats {
+  "heal" = 20,
+  "boost" = 5,
+}
+
 export interface BuffType {
   buff: string;
   name: string;

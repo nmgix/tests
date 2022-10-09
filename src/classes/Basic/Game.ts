@@ -188,7 +188,7 @@ export class Game {
     for (let i = 0; i < buffsCount; i++) {
       new Buff("heal", this);
     }
-    // создание оружия
+    // // создание оружия
     let weaponCount = randomInteger(2, 2);
     for (let i = 0; i < weaponCount; i++) {
       new Weapon(this);
@@ -367,27 +367,20 @@ export class Game {
       gameFieldDiv.removeChild(child);
       child = gameFieldDiv.lastElementChild;
     }
-    for (let i = 0; i < this.entities.length; i++) {
-      const entity = this.entities[i];
+    this.entities.forEach((entity) => {
       if (entity.type === "enemy" || entity.type === "hero") {
         let currentEntity = entity as CharacterController;
         if (currentEntity.healthController.health.current > 0) {
           let tile = createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
           currentEntity.invokeLogic("onUpdateEntityLogic", tile);
         } else {
-          // if (entity.type === "hero") {
-          //   if ((entity as Hero).healthController.health.current <= -10) {
-          //     currentEntity.invokeLogic("onDestroyEntityLogic");
-          //   }
-          // } else {
-          //   currentEntity.invokeLogic("onDestroyEntityLogic");
-          // }
           currentEntity.invokeLogic("onDestroyEntityLogic");
         }
       } else {
         createTile(gameFieldDiv, entity.position.y, entity.position.x, entity.type, true);
+        entity.invokeLogic("onUpdateEntityLogic");
       }
-    }
+    });
   };
 
   initGame = () => {

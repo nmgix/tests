@@ -68,7 +68,6 @@ export class Entity {
     this.game.entities.push(this);
   };
   destroyEntity: () => void = () => {
-    console.log("destroying hero");
     this.game.entities = this.game.entities.filter((entity) => entity.uuid !== this.uuid);
   };
 

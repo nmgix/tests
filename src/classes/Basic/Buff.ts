@@ -13,6 +13,18 @@ export class Buff extends Entity {
       name: BuffsEnum[type],
     };
     this.type = "heal";
+
+    this.onUpdateEntityLogic.push(() => {
+      const intersectingCharacter = this.game.entities.find(
+        (entity) =>
+          entity.type === "hero" && entity.position.x === this.position.x && entity.position.y === this.position.y
+      ) as Hero;
+
+      if (intersectingCharacter && intersectingCharacter.type === "hero") {
+        (intersectingCharacter as Hero).buffs.push(this);
+        this.destroyEntity();
+      }
+    });
   }
 
   pickBuff: (owner: Hero) => void = (owner) => {
