@@ -50,6 +50,16 @@ export class Hero extends CharacterController {
         intersectingTool.destroyEntity();
       }
     });
+
+    this.onUpdateEntityLogic.push(() => {
+      let enemies = this.game.entities.filter((entity) => entity.type === "enemy");
+
+      if (enemies.length === 0) {
+        if (confirm("Игра окончена, вы всех победили")) {
+          this.game.initGame();
+        }
+      }
+    });
   }
 
   useTool: (inventorySlot: number) => void = (inventorySlot) => {
@@ -58,7 +68,9 @@ export class Hero extends CharacterController {
 
     switch (currentTool.type) {
       case "heal": {
-        this.healthController.heal(BuffsStats[currentTool.type]);
+        if (this.healthController.health.current < this.healthController.health.max) {
+          this.healthController.heal(BuffsStats[currentTool.type]);
+        }
         break;
       }
       case "sword": {

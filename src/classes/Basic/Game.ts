@@ -21,6 +21,18 @@ const gameSettings = {
     from: 5,
     to: 10,
   },
+  generateEnemies: {
+    from: 10,
+    to: 10,
+  },
+  generateWeapons: {
+    from: 2,
+    to: 2,
+  },
+  generateBuffs: {
+    from: 10,
+    to: 10,
+  },
 };
 
 export class Game {
@@ -201,7 +213,7 @@ export class Game {
   };
   generateEntities = () => {
     // создание баффов
-    let buffsCount = randomInteger(10, 10);
+    let buffsCount = randomInteger(gameSettings.generateBuffs.from, gameSettings.generateBuffs.to);
     for (let i = 0; i < buffsCount; i++) {
       new Buff(
         // "heal",
@@ -209,12 +221,12 @@ export class Game {
       );
     }
     // // создание оружия
-    let weaponCount = randomInteger(2, 2);
+    let weaponCount = randomInteger(gameSettings.generateWeapons.from, gameSettings.generateWeapons.to);
     for (let i = 0; i < weaponCount; i++) {
       new Weapon(this);
     }
     // создание врагов
-    let enemiesCount = randomInteger(10, 10);
+    let enemiesCount = randomInteger(gameSettings.generateEnemies.from, gameSettings.generateEnemies.to);
     for (let i = 0; i < enemiesCount; i++) {
       new Enemy(this);
     }
@@ -386,6 +398,7 @@ export class Game {
       gameFieldDiv.removeChild(child);
       child = gameFieldDiv.lastElementChild;
     }
+
     this.entities.forEach((entity) => {
       if (entity.type in MovableCollideExceptions) {
         let currentEntity = entity as CharacterController;

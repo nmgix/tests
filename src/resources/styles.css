@@ -71,7 +71,7 @@ h1 {
 }
 .inventory {
   position: relative;
-  width: 800px;
+  min-width: 480px;
   height: 40px;
 
   padding: 0;
