@@ -63,12 +63,10 @@ export class Game {
   };
 
   generateMap = () => {
-    // создание комнат
     let roomsCount = randomInteger(gameSettings.generateRooms.from, gameSettings.generateRooms.to);
     for (let i = 0; i < roomsCount; i++) {
       let room = this.generateRoom();
       if (room) {
-        // будет рандомно из списка всех остальных нод брать 1-2 как ноды с связью чтобы потом строить тоннель по этой связи
         if (this.mapGraph.length > 0) {
           let currentMapGraph = this.mapGraph.filter((node) => node.uuid !== room!.uuid);
           let resultPaths: MapNode[] = [];
@@ -83,7 +81,6 @@ export class Game {
                 ? curr
                 : prev;
             });
-            // найти ближайшее значение по Y
             let closestY = graph.reduce(function (prev, curr) {
               return Math.abs(curr.position.y - gameSettings.pathThreshold) <
                 Math.abs(prev.position.y - gameSettings.pathThreshold)
@@ -212,25 +209,18 @@ export class Game {
     }
   };
   generateEntities = () => {
-    // создание баффов
     let buffsCount = randomInteger(gameSettings.generateBuffs.from, gameSettings.generateBuffs.to);
     for (let i = 0; i < buffsCount; i++) {
-      new Buff(
-        // "heal",
-        this
-      );
+      new Buff(this);
     }
-    // // создание оружия
     let weaponCount = randomInteger(gameSettings.generateWeapons.from, gameSettings.generateWeapons.to);
     for (let i = 0; i < weaponCount; i++) {
       new Weapon(this);
     }
-    // создание врагов
     let enemiesCount = randomInteger(gameSettings.generateEnemies.from, gameSettings.generateEnemies.to);
     for (let i = 0; i < enemiesCount; i++) {
       new Enemy(this);
     }
-    // создание героя
     new Hero(this);
   };
   saveMap(): Promise<void> {
@@ -310,7 +300,6 @@ export class Game {
               i < (firstNode.x < middle ? middle : firstNode.x);
               i++
             ) {
-              // createTile(gameFieldDiv, firstNode.y, i, true);
               this.mapArray[firstNode.y][i] = { type: "floor", coordinates: { x: i, y: firstNode.y } };
             }
             for (
@@ -318,7 +307,6 @@ export class Game {
               i > (secondNode.x > middle ? middle : secondNode.x);
               i--
             ) {
-              // createTile(gameFieldDiv, secondNode.y, i, true, true);
               this.mapArray[secondNode.y][i] = { type: "floor", coordinates: { x: i, y: secondNode.y } };
             }
             for (
@@ -326,7 +314,6 @@ export class Game {
               i > (firstNode.y > secondNode.y ? secondNode.y : firstNode.y) - 1;
               i--
             ) {
-              // createTile(gameFieldDiv, i, middle, true, true);
               this.mapArray[i][middle] = { type: "floor", coordinates: { x: middle, y: i } };
             }
           } else if (horizontal) {
@@ -335,7 +322,7 @@ export class Game {
 
             if (horizontalFirst) {
               firstNode = {
-                x: randomInteger(x1, x1 + w1 - 1), // -1  потому что грубо говоря 17 - первая клетка комнаты, ширина 7 и получается что вместе ширина и коордианата больше комнаты на 1
+                x: randomInteger(x1, x1 + w1 - 1),
                 y: y1 + h1 - 1,
               };
               secondNode = {

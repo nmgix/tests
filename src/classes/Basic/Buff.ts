@@ -14,7 +14,6 @@ export class Buff extends ToolsController {
     switch (this.type) {
       case "heal": {
         owner.healthController.heal(BuffsStats[this.type]);
-        // this.invokeLogic("onUpdateEntityLogic", true);
       }
     }
   };
