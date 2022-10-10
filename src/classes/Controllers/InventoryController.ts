@@ -19,8 +19,6 @@ export class InventoryController {
       inventory.classList.add("inventory");
 
       this.inventory.forEach((item, index) => {
-        // console.log(item);
-        // console.log(index);
         createTile(inventory, 0, index, item.type, true, "li");
       });
 

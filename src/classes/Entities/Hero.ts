@@ -59,9 +59,11 @@ export class Hero extends CharacterController {
     switch (currentTool.type) {
       case "heal": {
         this.healthController.heal(BuffsStats[currentTool.type]);
+        break;
       }
       case "sword": {
         this.weapon = currentTool as Weapon;
+        break;
       }
     }
     this.invokeLogic("onUpdateEntityLogic");
