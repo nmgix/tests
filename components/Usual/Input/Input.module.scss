@@ -22,6 +22,7 @@
     &[type="date"] {
       position: relative;
       padding-left: 35px;
+      line-height: 15px;
     }
 
     &[type="date"]::-webkit-calendar-picker-indicator {
@@ -49,11 +50,20 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    position: relative;
 
     color: colors.$font;
     font-size: 11px;
 
     min-width: 140px;
+
+    &Content {
+      position: absolute;
+      top: -50%;
+      left: 0;
+      transform: translate(0, 50%);
+      color: inherit;
+    }
 
     &:focus-within {
       color: colors.$primary;

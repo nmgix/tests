@@ -1,24 +1,27 @@
 import { useState } from "react";
-import Button from "../../components/Usual/Button/Button";
-import Input from "../../components/Usual/Input/Input";
-
-// import dynamic from "next/dynamic";
-// const Input = dynamic(() => import('../../components/Usual/Input/Input'), {
-//   ssr: false
-// })
+import { SearchPanel } from "../../components/SearchPanel";
+import { DestinationSelection } from "../../types/BookData";
 
 const AviaSearch: React.FC<{}> = () => {
-  const [inputMock, setInputMock] = useState<string>(() =>
-    new Date().toLocaleDateString("ru-RU").split(".").reverse().join("-")
-  );
-  const changeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputMock(event.target.value);
-  };
+  const [destination, setDestination] = useState<DestinationSelection>({
+    cityFrom: "",
+    cityTo: "",
+    timeFrom: new Date().toLocaleDateString("ru-RU").split(".").reverse().join("-"),
+    timeTo: "",
+  });
+
+  const onSearch = () => {};
 
   return (
     <div>
-      <Button onClick={() => {}}>Найти</Button>
-      <Input label='Ввод текста' onChange={changeDate} value={inputMock} placeholder={"Введите текст"} type={"date"} />
+      <SearchPanel
+        destination={destination}
+        setDestination={setDestination}
+        onSearch={onSearch}
+        overrideStyles={{ marginTop: "68px" }}
+        // composes не работает в scss modules
+      />
+      ;
     </div>
   );
 };

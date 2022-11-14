@@ -10,7 +10,7 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-const Button: React.FC<ButtonProps> = ({ children, overrideStyles, onClick, disabled }) => {
+export const Button: React.FC<ButtonProps> = ({ children, overrideStyles, onClick, disabled }) => {
   return (
     <button
       className={classNames(styles.button)}
@@ -22,5 +22,3 @@ const Button: React.FC<ButtonProps> = ({ children, overrideStyles, onClick, disa
     </button>
   );
 };
-
-export default Button;
