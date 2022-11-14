@@ -14,7 +14,7 @@ const AviaSearch: React.FC<{}> = () => {
   const onSearch = () => {
     if (
       isNaN(Date.parse(destination.timeFrom)) ||
-      isNaN(Date.parse(destination.timeTo)) ||
+      (destination.timeTo.length > 0 && isNaN(Date.parse(destination.timeTo))) ||
       typeof destination.cityFrom !== "string" ||
       typeof destination.cityTo !== "string"
     ) {
@@ -35,7 +35,6 @@ const AviaSearch: React.FC<{}> = () => {
         setDestination={setDestination}
         onSearch={onSearch}
         overrideStyles={{ marginTop: "68px" }}
-        // composes не работает в scss modules
       />
       ;
     </div>

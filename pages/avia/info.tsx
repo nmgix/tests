@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { server } from "../../config/projectSetup";
 
 const AviaInfo: React.FC<{ books: BookData[] }> = ({ books }) => {
-  // console.log(books);
+  console.log(books);
   return <div></div>;
 };
 
@@ -18,11 +18,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     body: JSON.stringify(query),
   }).then((res) => res.json())) as { availableBooks: BookData[] };
 
-  console.log(data.availableBooks);
-
   return {
     props: {
-      books: [],
+      books: data.availableBooks,
     },
   };
 };

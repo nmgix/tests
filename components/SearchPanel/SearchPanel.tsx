@@ -12,7 +12,7 @@ export const SearchPanel: React.FC<{
   overrideStyles?: CSSProperties;
 }> = ({ destination, setDestination, onSearch, overrideStyles }) => {
   const updateDestination = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDestination({ ...destination, [e.target.name]: e.target.value.slice(0, 20) });
+    setDestination({ ...destination, [e.target.name]: e.target.value.slice(0, 15) });
   };
 
   return (
@@ -67,7 +67,11 @@ export const SearchPanel: React.FC<{
         </div>
       </div>
       <div className={classNames(styles.controlBlock)}>
-        <Button onClick={onSearch}>Найти билеты</Button>
+        <Button
+          disabled={destination.cityFrom.length > 0 && destination.cityTo.length > 0 ? false : true}
+          onClick={onSearch}>
+          Найти билеты
+        </Button>
       </div>
     </div>
   );
