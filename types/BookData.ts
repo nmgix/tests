@@ -1,7 +1,7 @@
 import { FlightData } from "./FlightData";
 
 export type BookData = {
-  route: FlightData[];
+  routes: FlightData[];
 };
 
 export type DestinationSelection = {

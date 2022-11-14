@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { CSSProperties, useEffect, useId, useState } from "react";
-import { addMonths } from "../../../helpers/addDate";
+import addMonths from "../../../helpers/addDate";
 
 import styles from "./Input.module.scss";
 

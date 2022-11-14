@@ -2,7 +2,7 @@ import { BookData } from "./types/BookData";
 
 export const mockData: BookData[] = [
   {
-    route: [
+    routes: [
       {
         carrier: "S7",
         route: {
@@ -52,7 +52,7 @@ export const mockData: BookData[] = [
     ],
   },
   {
-    route: [
+    routes: [
       {
         carrier: "S7",
         route: {
