@@ -4,7 +4,8 @@ type Destination = {
   airportCode: string;
 };
 
-type Route = {
+export type Route = {
+  uuid: string;
   from: Destination;
   to: Destination;
 };

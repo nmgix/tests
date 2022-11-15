@@ -1,6 +1,7 @@
 import { FlightData } from "./FlightData";
 
 export type BookData = {
+  uuid: string;
   routes: FlightData[];
 };
 

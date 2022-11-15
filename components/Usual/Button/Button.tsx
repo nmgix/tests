@@ -8,12 +8,13 @@ type ButtonProps = {
   onClick: (x?: any) => any;
   overrideStyles?: CSSProperties;
   disabled?: boolean;
+  classnames?: string[];
 };
 
-export const Button: React.FC<ButtonProps> = ({ children, overrideStyles, onClick, disabled }) => {
+export const Button: React.FC<ButtonProps> = ({ children, overrideStyles, onClick, disabled, classnames }) => {
   return (
     <button
-      className={classNames(styles.button)}
+      className={classNames(classnames ? [...classnames, styles.button] : styles.button)}
       onClick={onClick}
       type={"button"}
       disabled={disabled}

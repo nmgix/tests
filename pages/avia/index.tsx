@@ -2,6 +2,8 @@ import { useState } from "react";
 import { SearchPanel } from "../../components/SearchPanel";
 import { DestinationSelection } from "../../types/BookData";
 import Router from "next/router";
+import classNames from "classnames";
+import styles from "../../styles/pages/aviaSearch.module.scss";
 
 const AviaSearch: React.FC<{}> = () => {
   const [destination, setDestination] = useState<DestinationSelection>({
@@ -29,14 +31,8 @@ const AviaSearch: React.FC<{}> = () => {
   };
 
   return (
-    <div>
-      <SearchPanel
-        destination={destination}
-        setDestination={setDestination}
-        onSearch={onSearch}
-        overrideStyles={{ marginTop: "68px" }}
-      />
-      ;
+    <div className={classNames(styles.aviaSearch)}>
+      <SearchPanel destination={destination} setDestination={setDestination} onSearch={onSearch} />;
     </div>
   );
 };

@@ -3,6 +3,7 @@ import randomTime from "../../../helpers/randomTime";
 import { mockData } from "../../../mockdata";
 import { AirportCodes } from "../../../types/airportCodes";
 import { BookData, DestinationSelection } from "../../../types/BookData";
+import { v4 as uuidv4 } from "uuid";
 
 interface ExtendedNextApiRequest extends NextApiRequest {
   body: DestinationSelection;
@@ -22,13 +23,13 @@ export default function handler(req: ExtendedNextApiRequest, res: NextApiRespons
     return res.status(400);
   } else {
     let foundBooks: BookData[] = [];
-    mockData.forEach((book) => {
+    mockData.forEach((book, i) => {
       const { route } = book.routes[0];
       if (
         cityFrom === route.from.city &&
         cityTo === route.to.city &&
         timeFrom === route.from.time.toLocaleDateString("ru-RU").split(".").reverse().join("-") &&
-        timeFrom === route.to.time.toLocaleDateString("ru-RU").split(".").reverse().join("-")
+        timeTo === route.to.time.toLocaleDateString("ru-RU").split(".").reverse().join("-")
       ) {
         foundBooks.push(book);
       }
@@ -37,9 +38,11 @@ export default function handler(req: ExtendedNextApiRequest, res: NextApiRespons
     let mockBook: BookData =
       timeTo.length > 0
         ? {
+            uuid: uuidv4(),
             routes: [
               {
                 route: {
+                  uuid: uuidv4(),
                   from: {
                     city: cityFrom,
                     time: new Date(timeFrom + " " + randomTime(0, 12)),
@@ -51,15 +54,16 @@ export default function handler(req: ExtendedNextApiRequest, res: NextApiRespons
                     airportCode: cityFrom in AirportCodes ? AirportCodes[cityTo as keyof typeof AirportCodes] : "UNK",
                   },
                 },
-                carrier: "S7",
+                carrier: "S7 Airlines",
                 priceInformation: {
                   currency: "RUB",
-                  price: 4150,
+                  price: 4650,
                 },
                 refundable: false,
               },
               {
                 route: {
+                  uuid: uuidv4(),
                   from: {
                     city: cityTo,
                     time: new Date(timeTo + " " + randomTime(12, 24)),
@@ -71,19 +75,21 @@ export default function handler(req: ExtendedNextApiRequest, res: NextApiRespons
                     airportCode: cityFrom in AirportCodes ? AirportCodes[cityFrom as keyof typeof AirportCodes] : "UNK",
                   },
                 },
-                carrier: "S7",
+                carrier: "S7 Airlines",
                 priceInformation: {
                   currency: "RUB",
-                  price: 4150,
+                  price: 4650,
                 },
                 refundable: false,
               },
             ],
           }
         : {
+            uuid: uuidv4(),
             routes: [
               {
                 route: {
+                  uuid: uuidv4(),
                   from: {
                     city: cityFrom,
                     time: new Date(timeFrom + " " + randomTime(0, 12)),
@@ -95,7 +101,7 @@ export default function handler(req: ExtendedNextApiRequest, res: NextApiRespons
                     airportCode: cityFrom in AirportCodes ? AirportCodes[cityTo as keyof typeof AirportCodes] : "UNK",
                   },
                 },
-                carrier: "S7",
+                carrier: "S7 Airlines",
                 priceInformation: {
                   currency: "RUB",
                   price: 4150,

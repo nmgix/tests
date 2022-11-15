@@ -1,0 +1,9 @@
+.aviaInfo {
+  margin: 71px 0;
+
+  .booksWrapper {
+    & > li:not(:last-child) {
+      margin-bottom: 114px;
+    }
+  }
+}
