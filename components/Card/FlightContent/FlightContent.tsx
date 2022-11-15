@@ -88,7 +88,6 @@ const FlightContent: React.FC<FlightData> = (flightData) => {
         </div>
         {otherTime && (
           <div className={classNames(styles.otherTimeBlock)}>
-            {/* bottom block */}
             <ul>
               {[route, ...otherTime].map((ot) => (
                 <li>

@@ -50,7 +50,7 @@ export default function handler(req: ExtendedNextApiRequest, res: NextApiRespons
                   },
                   to: {
                     city: cityTo,
-                    time: new Date(timeFrom + " " + randomTime(12, 24)),
+                    time: new Date(timeFrom + " " + randomTime(12, 23)),
                     airportCode: cityFrom in AirportCodes ? AirportCodes[cityTo as keyof typeof AirportCodes] : "UNK",
                   },
                 },
