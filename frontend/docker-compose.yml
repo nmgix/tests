@@ -1,0 +1,13 @@
+version: "3"
+services:
+  frontend:
+    env_file: .env
+    build:
+      context: ./
+    ports:
+      - "3000:3000"
+    networks:
+      - appnetwork
+networks:
+  appnetwork:
+    name: localnetwork

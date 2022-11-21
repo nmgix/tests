@@ -1,0 +1,39 @@
+version: "3"
+services:
+  frontend:
+    # env_file: .env
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    networks:
+      - appnetwork
+  backend:
+    restart: on-failure
+    # env_file: .env
+    environment:
+      - PORT=5000
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    networks:
+      - appnetwork
+  mongodb:
+    image: mongo:5.0
+    # env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - PORT=7000
+    ports:
+      - "7000:7000"
+    networks:
+      - appnetwork
+networks:
+  appnetwork:
+    name: localnetwork

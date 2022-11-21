@@ -1,0 +1,23 @@
+version: "3"
+services:
+  backend:
+    restart: on-failure
+    env_file: .env
+    build:
+      context: ./
+    ports:
+      - "5000:5000"
+    networks:
+      - appnetwork
+  # mongodb:
+  #   image: mongo:5.0
+  #   env_file: .env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+  #     - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+  #   networks:
+  #     - appnetwork
+networks:
+  appnetwork:
+    name: localnetwork
+    # driver: bridge
