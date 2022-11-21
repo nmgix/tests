@@ -1,3 +1,3 @@
 # Как запустить проект
 
-1. docker compose up -d
+`docker compose up -d`

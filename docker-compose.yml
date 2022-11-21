@@ -1,39 +1,34 @@
 version: "3"
 services:
   frontend:
-    # env_file: .env
+    container_name: frontend
     build:
       context: ./frontend
     ports:
       - "3000:3000"
     environment:
       - PORT=3000
-    networks:
-      - appnetwork
   backend:
+    container_name: backend
     restart: on-failure
-    # env_file: .env
     environment:
       - PORT=5000
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_URL=mongodb://mongo:27017
     build:
       context: ./backend
+    depends_on:
+      - mongo
     ports:
       - "5000:5000"
-    networks:
-      - appnetwork
-  mongodb:
-    image: mongo:5.0
-    # env_file: .env
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-      - PORT=7000
+  mongo:
+    container_name: mongo
+    image: mongo:latest
     ports:
-      - "7000:7000"
-    networks:
-      - appnetwork
-networks:
-  appnetwork:
-    name: localnetwork
+      - "27017:27017"
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    depends_on:
+      - mongo
+    ports:
+      - "8083:8081"

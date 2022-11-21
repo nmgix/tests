@@ -5,6 +5,7 @@ import helmet from "helmet";
 
 import { AuthRouter } from "./routes/auth";
 import { TodoRouter } from "./routes/todo";
+import { connectDatabase } from "./helpers/connectDatabase";
 
 const app = express();
 
@@ -12,6 +13,9 @@ const app = express();
 app.use(cookies());
 app.use(helmet());
 dotenv.config();
+(async () => {
+  await connectDatabase();
+})();
 
 // routes
 app.use("/auth", AuthRouter);
