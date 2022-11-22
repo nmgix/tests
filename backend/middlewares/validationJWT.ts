@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User, { IUser } from "../models/User";
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
-import { httpStatusCodes } from "../types/statusCodes";
+import { httpStatusCodes } from "../helpers/statusCodes";
 
 type JWTPayload = {
   id: string;

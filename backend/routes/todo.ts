@@ -1,8 +1,12 @@
 import express from "express";
-import { getTodos } from "../controllers/todoController";
+import { getAllTodos, createNewTodo } from "../controllers/todoController";
+import { todoValidation } from "../helpers/vaildation";
+import { validationErrorGuard } from "../middlewares/validationErrorGuard";
 import { auth } from "../middlewares/validationJWT";
 
 const TodoRouter = express.Router();
-TodoRouter.get("/", auth, getTodos);
+TodoRouter.get("/", auth, getAllTodos);
+TodoRouter.post("/", auth, todoValidation, validationErrorGuard, createNewTodo);
+// todoValidation, validationErrorGuard
 
 export { TodoRouter };

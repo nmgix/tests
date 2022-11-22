@@ -32,7 +32,7 @@ const createUser = async (email: string, password: string): Promise<IUser | stri
  */
 const authenticateUser = async (email: string, password: string): Promise<IUser | string> => {
   try {
-    const existingUser = await User.findOne({ where: { email }, attributes: { exclude: ["password"] } });
+    const existingUser = await User.findOne({ email, attributes: { exclude: ["password"] } });
     if (!existingUser) {
       return "Пользователя не существует";
     }

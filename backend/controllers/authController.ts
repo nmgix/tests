@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { generateJWT } from "../helpers/generateJWT";
 import { authenticateUser, createUser } from "../services/user";
 import { AuthRequest } from "../types/authTypes";
-import { httpStatusCodes } from "../types/statusCodes";
+import { httpStatusCodes } from "../helpers/statusCodes";
 
 /**
  * Контроллер создания пользователя.
@@ -36,7 +36,7 @@ const loginUser = async (req: AuthRequest, res: Response, next: NextFunction) =>
     } else {
       const jwt = generateJWT(user.id);
       res.cookie(process.env.JWT_COOKIE_NAME!, jwt, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRATION) });
-      return res.status(httpStatusCodes.OK).json(`Authed with email '${user.email}'`);
+      return res.status(httpStatusCodes.OK).json(`Авторизован с почтой '${user.email}'`);
     }
   } catch (error) {
     next(error);

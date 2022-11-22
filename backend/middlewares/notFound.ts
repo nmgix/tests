@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { httpStatusCodes } from "../types/statusCodes";
+import { httpStatusCodes } from "../helpers/statusCodes";
 
 const notFound = (req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatusCodes.NOT_FOUND);

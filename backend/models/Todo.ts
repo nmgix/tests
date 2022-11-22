@@ -1,12 +1,11 @@
-import { Schema, model, Document } from "mongoose";
-import { IAttachment } from "./Attachment";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface ITodo extends Document {
   title: string;
   description: string;
   completed: boolean;
   activeUntil: Date; //string
-  attachments: IAttachment[];
+  attachments: Types.DocumentArray<string>;
 }
 
 const todoSchema = new Schema({
@@ -14,7 +13,9 @@ const todoSchema = new Schema({
   description: { type: String },
   completed: { type: Boolean, required: true },
   activeUntil: { type: Date, required: true },
-  attachments: [{ type: Schema.Types.ObjectId, ref: "Attachment" }],
+  attachments: {
+    type: [String],
+  },
 });
 
 export default model<ITodo>("Todo", todoSchema);
