@@ -25,4 +25,22 @@ const createUser = async (email: string, password: string): Promise<IUser | stri
   }
 };
 
-export { createUser };
+const authenticateUser = async (email: string, password: string): Promise<IUser | string> => {
+  try {
+    const existingUser = await User.findOne({ where: { email }, attributes: { exclude: ["password"] } });
+    if (!existingUser) {
+      return "Пользователя не существует";
+    }
+
+    const matched = await bcrypt.compare(password, existingUser.password);
+    if (!matched) {
+      return "Данные неверные";
+    } else {
+      return existingUser;
+    }
+  } catch (error) {
+    throw new Error("Ошибка при авторизации пользователя: " + error);
+  }
+};
+
+export { createUser, authenticateUser };

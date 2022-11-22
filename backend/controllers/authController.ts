@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser } from "../services/user";
+import { generateJWT } from "../helpers/generateJWT";
+import { authenticateUser, createUser } from "../services/user";
 import { AuthRequest } from "../types/authTypes";
 import { httpStatusCodes } from "../types/statusCodes";
 
@@ -16,8 +17,6 @@ const registerUser = async (req: AuthRequest, res: Response, next: NextFunction)
     } else {
       return res.status(200).json(`Пользователь с почтой '${user.email}' создан`);
     }
-
-    // return res.status(200).json("ok");
   } catch (error) {
     next(error);
   }
@@ -28,10 +27,17 @@ const registerUser = async (req: AuthRequest, res: Response, next: NextFunction)
  * @param {Request} req после валидации приходит email и password
  * @returns {string} либо JWT-токен, либо ошибку
  */
-const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+const loginUser = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    console.log("wow");
-    return res.status(200).json("ok");
+    const user = await authenticateUser(req.body.email, req.body.password);
+    if (typeof user === "string") {
+      res.clearCookie(process.env.JWT_COOKIE_NAME!);
+      return res.status(httpStatusCodes.BAD_REQUEST).json("Пользователь не авторизован по причине: " + user);
+    } else {
+      const jwt = generateJWT(user.id);
+      res.cookie(process.env.JWT_COOKIE_NAME!, jwt, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRATION) });
+      return res.status(200).json(`Authed with email '${user.email}'`);
+    }
   } catch (error) {
     next(error);
   }
