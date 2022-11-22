@@ -25,6 +25,11 @@ const createUser = async (email: string, password: string): Promise<IUser | stri
   }
 };
 
+/**
+ * Авторизация пользователя.
+ * @param {string} password Незашифрованный пароль
+ * @returns {Promise<IUser | string>} Промис либо в созданым пользователем, либо с ошибкой
+ */
 const authenticateUser = async (email: string, password: string): Promise<IUser | string> => {
   try {
     const existingUser = await User.findOne({ where: { email }, attributes: { exclude: ["password"] } });

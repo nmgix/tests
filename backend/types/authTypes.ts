@@ -3,4 +3,6 @@ import { IUser } from "../models/User";
 
 type AuthRequest = Request<{}, {}, IUser>;
 
-export { AuthRequest };
+type UserRequest = Request<{}, {}, { id: string }>;
+
+export { AuthRequest, UserRequest };

@@ -36,7 +36,7 @@ const loginUser = async (req: AuthRequest, res: Response, next: NextFunction) =>
     } else {
       const jwt = generateJWT(user.id);
       res.cookie(process.env.JWT_COOKIE_NAME!, jwt, { httpOnly: true, maxAge: Number(process.env.JWT_EXPIRATION) });
-      return res.status(200).json(`Authed with email '${user.email}'`);
+      return res.status(httpStatusCodes.OK).json(`Authed with email '${user.email}'`);
     }
   } catch (error) {
     next(error);

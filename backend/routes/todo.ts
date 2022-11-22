@@ -1,3 +1,8 @@
 import express from "express";
+import { getTodos } from "../controllers/todoController";
+import { auth } from "../middlewares/validationJWT";
 
-export const TodoRouter = express.Router();
+const TodoRouter = express.Router();
+TodoRouter.get("/", auth, getTodos);
+
+export { TodoRouter };
