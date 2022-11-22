@@ -32,4 +32,4 @@ app.use(errorHandler);
 
 // access settings
 const port = process.env.PORT ?? 8080;
-app.listen(port, () => console.log(`Backend active on port ${port}`));
+app.listen(port, () => console.log(`Бэкэнд активен на порту ${port}`));
