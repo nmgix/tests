@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { Schema } from "mongoose";
 import { ITodo } from "../models/Todo";
 
-type TodoRequest = Request<{}, {}, ITodo>;
-type TodoGetQuery = Request<{}, {}, { userId: Schema.Types.ObjectId }, { from?: number; to?: number }>;
+type TodoCreateRequest = Request<{}, {}, ITodo>;
+type TodoGetQuery = Request<{}, {}, {}, { from?: number; to?: number }>;
+type TodoDeleteQuery = Request<{ todoId: string }>;
 
-export { TodoRequest, TodoGetQuery };
+export { TodoCreateRequest, TodoGetQuery, TodoDeleteQuery };

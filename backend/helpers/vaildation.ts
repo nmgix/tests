@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 const authValidation = [
   body("email", "Email некорректен (минимально 3 символа, максимально 30)")
@@ -13,7 +13,7 @@ const authValidation = [
     .isLength({ min: 3, max: 30 }),
 ];
 
-const todoValidation = [
+const todoCreateValidation = [
   body("title", "Отсутствует заголовок задания (минимально 5 символов, максимально 100)")
     .not()
     .isEmpty()
@@ -29,4 +29,6 @@ const todoValidation = [
   body("activeUntil", "Ошибка в дате").notEmpty(),
 ];
 
-export { authValidation, todoValidation };
+const todoDeleteValidaton = [param("todoId", "Id задания не указан").isString().isLength({ min: 24, max: 24 })];
+
+export { authValidation, todoCreateValidation, todoDeleteValidaton };

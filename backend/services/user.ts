@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import User, { IUser } from "../models/User";
 
 /**
- * Создание нового пользователя.
+ * Создание нового пользователя
  * @param {string} password Незашифрованный пароль
  * @returns {Promise<IUser | string>} Промис либо в созданым пользователем, либо с ошибкой
  */
@@ -26,7 +26,7 @@ const createUser = async (email: string, password: string): Promise<IUser | stri
 };
 
 /**
- * Авторизация пользователя.
+ * Авторизация пользователя
  * @param {string} password Незашифрованный пароль
  * @returns {Promise<IUser | string>} Промис либо в созданым пользователем, либо с ошибкой
  */
