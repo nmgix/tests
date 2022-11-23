@@ -7,7 +7,25 @@ const getTodos = async (
   from?: number,
   to?: number
 ): Promise<Types.DocumentArray<ITodo> | string> => {
-  const user = await User.findById(user_id).populate("todos").populate("todos.attachments").exec();
+  const options: {
+    skip?: number;
+    limit?: number;
+  } = {};
+  if (from) {
+    options.skip = Number(from);
+  }
+  if (from && to) {
+    options.limit = Number(to);
+  }
+
+  const user =
+    options.skip !== undefined && options.limit !== undefined
+      ? await User.findById(user_id, {})
+          .populate("todos")
+          .slice("todos", options.skip <= 0 ? options.limit : [options.skip, options.limit])
+          .populate("todos.attachments")
+          .exec()
+      : await User.findById(user_id, {}).populate("todos").populate("todos.attachments").exec();
   if (!user) {
     return "Пользователь не найден";
   }

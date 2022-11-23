@@ -39,7 +39,7 @@ const authenticateUser = async (email: string, password: string): Promise<IUser 
 
     const matched = await bcrypt.compare(password, existingUser.password);
     if (!matched) {
-      return "Данные неверные";
+      return "Данные неверны";
     } else {
       return existingUser;
     }
