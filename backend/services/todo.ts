@@ -87,12 +87,12 @@ const updateTodo = async (
     if (!user) {
       return "Пользователь не найден";
     }
+    const currentTodo = user.todos.id(todo._id);
+    if (!currentTodo) {
+      return "Задание не найдено";
+    }
 
     if (files) {
-      const currentTodo = user.todos.id(todo._id);
-      if (!currentTodo) {
-        return "Задание не найдено";
-      }
       if (currentTodo.attachments.length > 0) {
         currentTodo.attachments.forEach(async (attachment) => {
           await fs.unlink(`upload/${attachment}`, (err) => {});
@@ -100,28 +100,23 @@ const updateTodo = async (
       }
     }
 
-    await user.updateOne(
-      {
-        $set: {
-          ...(todo.title ? { "todos.$[t1].title": todo.title } : {}),
-          ...(todo.description ? { "todos.$[t1].completed": todo.completed } : {}),
-          ...(todo.completed ? { "todos.$[t1].completed": todo.completed } : {}),
-          ...(todo.activeUntil && !isNaN(new Date(todo.activeUntil).valueOf())
-            ? { "todos.$[t1].activeUntil": todo.activeUntil }
-            : {}),
-          ...(files?.attachments && files.attachments.length > 0
-            ? { "todos.$[t1].attachments": files.attachments.map((file) => file.filename) }
-            : {}),
-        },
-      },
-      {
-        arrayFilters: [
-          {
-            "t1._id": todo._id,
-          },
-        ],
-      }
-    );
+    if (todo.title) {
+      currentTodo.title = todo.title;
+    }
+    if (todo.description) {
+      currentTodo.description = todo.description;
+    }
+    if (todo.completed !== undefined) {
+      currentTodo.completed = todo.completed;
+    }
+    if (todo.activeUntil && !isNaN(new Date(todo.activeUntil).valueOf())) {
+      currentTodo.activeUntil = todo.activeUntil;
+    }
+    if (files?.attachments && files.attachments.length > 0) {
+      currentTodo.attachments = files.attachments.map((file) => file.filename) as Types.DocumentArray<string>;
+    }
+
+    await user.save();
     return true;
   } catch (error) {
     throw new Error("Ошибка при обновлении задания: " + error);
