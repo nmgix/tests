@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { createTodo, deleteTodo, getTodos } from "../services/todo";
+import { createTodo, deleteTodo, getTodos, updateTodo } from "../services/todo";
 import { UserRequest } from "../types/authTypes";
 import { httpStatusCodes } from "../helpers/statusCodes";
-import { TodoGetQuery, TodoCreateRequest, TodoDeleteQuery } from "../types/todoTypes";
+import { TodoGetQuery, TodoCreateRequest, TodoDeleteQuery, TodoUpdateRequest } from "../types/todoTypes";
 
 /**
  * Контроллер для получения всех заданий пользователя.
@@ -43,6 +43,23 @@ const createNewTodo = async (req: TodoCreateRequest & UserRequest, res: Response
   }
 };
 
+const updateExistingTodo = async (req: TodoUpdateRequest & UserRequest, res: Response, next: NextFunction) => {
+  try {
+    const updatedTodo = await updateTodo(
+      req.body,
+      req.body.userId,
+      req.files as { attachments: Express.Multer.File[] } | undefined
+    );
+    if (typeof updatedTodo === "string") {
+      return res.status(httpStatusCodes.BAD_REQUEST).json("Задание не обновлено по причине: " + updatedTodo);
+    }
+
+    return res.status(httpStatusCodes.OK).json("Задание успешно обновлено");
+  } catch (error) {
+    next(error);
+  }
+};
+
 const deleteExistingTodo = async (req: TodoDeleteQuery & UserRequest, res: Response, next: NextFunction) => {
   try {
     const todoDelete = await deleteTodo(req.params.todoId, req.body.userId);
@@ -55,4 +72,4 @@ const deleteExistingTodo = async (req: TodoDeleteQuery & UserRequest, res: Respo
   }
 };
 
-export { getAllTodos, createNewTodo, deleteExistingTodo };
+export { getAllTodos, createNewTodo, updateExistingTodo, deleteExistingTodo };

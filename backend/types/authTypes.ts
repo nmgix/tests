@@ -4,6 +4,6 @@ import { IUser } from "../models/User";
 
 type AuthRequest = Request<{}, {}, IUser>;
 
-type UserRequest = Request<{}, {}, { userId: string }>;
+type UserRequest = Request<{}, {}, { userId: Schema.Types.ObjectId }>;
 
 export { AuthRequest, UserRequest };
