@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Box from "../../components/Box/Box";
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
@@ -13,10 +13,11 @@ interface LoginData {
 }
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const [authData, setAuthData] = useState<LoginData>({
-    email: state && state.email ? state.email : "",
-    password: "",
+    email: state && state.email ? state.email : "1wow123@wow.com",
+    password: "some-password",
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,10 +29,7 @@ const Login: React.FC = () => {
       .then(async (res) => {
         console.log(res.data);
 
-        await axios
-          .get("http://localhost:5000/todo/", { withCredentials: true })
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err));
+        navigate("/list");
       })
       .catch((err: AxiosError<{ email: string; password: string }, {}>) => {
         console.log(err.response!);
@@ -50,7 +48,13 @@ const Login: React.FC = () => {
         <form onSubmit={onSubmit}>
           {/* хотел сделать маску для ввода, но доступные решения не подходят и идея начинает занимать слишком много времени */}
           <TextInput id='email' value={authData.email} onChange={onFieldChange} placeholder={"email"} />
-          <TextInput id='password' value={authData.password} onChange={onFieldChange} placeholder={"password"} />
+          <TextInput
+            id='password'
+            value={authData.password}
+            onChange={onFieldChange}
+            placeholder={"password"}
+            type={"password"}
+          />
           <Button type='submit'>войти</Button>
         </form>
         <Link to={"/auth/registration"}>нет аккаунта?</Link>

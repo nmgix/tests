@@ -4,7 +4,7 @@ export interface ITodo extends Document {
   title: string;
   description: string;
   completed: boolean;
-  activeUntil: Date; //string
+  activeUntil: Date;
   attachments: Types.DocumentArray<string>;
 }
 

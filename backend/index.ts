@@ -28,7 +28,7 @@ app.use(
   ])
 );
 dotenv.config();
-app.use("/static", auth, express.static(__dirname + "/upload"));
+app.use("/static", auth, express.static("upload"));
 (async () => {
   await connectDatabase();
 })();

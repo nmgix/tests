@@ -2,13 +2,14 @@ import { Request } from "express";
 import multer, { FileFilterCallback } from "multer";
 import { UserRequest } from "../types/authTypes";
 import path from "path";
+import { v4 } from "uuid";
 
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
 const fileStorage = multer.diskStorage({
   destination: "upload",
   filename: (req: UserRequest, file: Express.Multer.File, callback: FileNameCallback): void => {
-    callback(null, new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname.replace(/ /g, ""));
+    callback(null, v4() + "_" + file.originalname.replace(/ /g, ""));
   },
 });
 

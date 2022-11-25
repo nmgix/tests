@@ -137,7 +137,18 @@ const deleteTodo = async (todoId: string, user_id: Schema.Types.ObjectId) => {
     if (todoId === undefined || todoId.length <= 0) {
       return "Id задания не указан";
     }
-    await user.todos.pull({ _id: todoId });
+    const todo = user.todos.id(todoId);
+    if (!todo) {
+      return "Задание не найдено";
+    } else {
+      if (todo.attachments.length > 0) {
+        todo.attachments.forEach(async (attachment) => {
+          await fs.unlink(`upload/${attachment}`, (err) => {});
+        });
+      }
+
+      await user.todos.pull({ _id: todoId });
+    }
     await user.save();
     return user;
   } catch (error) {

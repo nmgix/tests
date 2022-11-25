@@ -56,13 +56,20 @@ const Registration: React.FC = () => {
         <form onSubmit={onSubmit}>
           {/* хотел сделать маску для ввода, но доступные решения не подходят и идея начинает занимать слишком много времени */}
           <TextInput id='email' value={authData.email} onChange={onFieldChange} placeholder={"email"} />
-          <TextInput id='password' value={authData.password} onChange={onFieldChange} placeholder={"password"} />
+          <TextInput
+            id='password'
+            value={authData.password}
+            onChange={onFieldChange}
+            placeholder={"password"}
+            type={"password"}
+          />
           <div className='fieldsWrapper'>
             <TextInput
               id='passwordRepeat'
               value={authData.passwordRepeat}
               onChange={onFieldChange}
               placeholder={"password repeat"}
+              type={"password"}
             />
             <Button type='submit'>регистрация</Button>
           </div>
