@@ -14,10 +14,7 @@ const validationJWT = async (token: string) => {
     if (!decoded) {
       return false;
     } else {
-      const existingUser = await User.findOne({
-        where: { _id: (decoded as { id: string }).id },
-        attributes: { exclude: ["password"] },
-      });
+      const existingUser = await User.findById((decoded as JWTPayload).id).select("-password");
       if (!existingUser) {
         return false;
       } else {

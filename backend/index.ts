@@ -11,12 +11,13 @@ import { notFound } from "./middlewares/notFound";
 import { errorHandler } from "./middlewares/errorHandler";
 import multer from "multer";
 import { fileStorage, fileFilter } from "./helpers/setupStorage";
+import { auth } from "./middlewares/validationJWT";
 
 const app = express();
 
 // app settings
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(cookies());
 app.use(helmet());
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use(
   ])
 );
 dotenv.config();
+app.use("/static", auth, express.static(__dirname + "/upload"));
 (async () => {
   await connectDatabase();
 })();

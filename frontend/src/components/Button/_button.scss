@@ -1,0 +1,21 @@
+@use "../../colors.scss";
+
+.button {
+  border-radius: 0;
+  border: none;
+  background-color: colors.$color-accent;
+  color: colors.$color-background-highlight;
+  height: 40px;
+  display: inline;
+  cursor: pointer;
+  font-weight: 700;
+
+  &:hover {
+    background-color: colors.$color-third-opacity;
+  }
+
+  &:active {
+    background-color: colors.$color-third-opacity;
+    color: colors.$color-accent;
+  }
+}

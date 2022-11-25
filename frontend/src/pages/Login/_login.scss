@@ -1,0 +1,38 @@
+.loginPage {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .box {
+    width: 520px;
+    padding: 30px 60px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    form {
+      margin-top: 16px;
+
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      & > * {
+        margin-bottom: 16px;
+      }
+    }
+
+    button[type="submit"] {
+      width: 100px;
+    }
+
+    a {
+      font-size: 14px;
+    }
+  }
+}

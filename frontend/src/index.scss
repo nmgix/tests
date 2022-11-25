@@ -1,0 +1,42 @@
+@use "./colors.scss";
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html,
+* {
+  font-family: Inter, sans-serif;
+  transition: all 100ms ease-in-out;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+a {
+  color: colors.$color-accent;
+
+  &:hover {
+    color: colors.$color-third-opacity;
+  }
+
+  &:visited {
+    color: colors.$color-accent;
+  }
+}

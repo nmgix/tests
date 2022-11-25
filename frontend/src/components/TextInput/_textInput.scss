@@ -1,0 +1,11 @@
+@use "../../colors.scss";
+
+.textInput {
+  border: none;
+  border-radius: 0;
+  background-color: colors.$color-background-highlight;
+  width: 100%;
+  height: 40px;
+  color: colors.$color-accent;
+  padding: 0 10px;
+}

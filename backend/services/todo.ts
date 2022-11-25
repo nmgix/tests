@@ -28,15 +28,14 @@ const getTodos = async (
 
   const user =
     options.skip !== undefined && options.limit !== undefined
-      ? await User.findById(user_id, {})
-          .populate("todos")
+      ? await User.findById(user_id)
           .slice("todos", options.skip <= 0 ? options.limit : [options.skip, options.limit])
-          .populate("todos.attachments")
           .exec()
-      : await User.findById(user_id, {}).populate("todos").populate("todos.attachments").exec();
+      : await User.findById(user_id).exec();
   if (!user) {
     return "Пользователь не найден";
   }
+
   return user.todos;
 };
 
