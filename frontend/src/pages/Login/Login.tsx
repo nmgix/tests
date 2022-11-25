@@ -15,7 +15,7 @@ interface LoginData {
 const Login: React.FC = () => {
   const { state } = useLocation();
   const [authData, setAuthData] = useState<LoginData>({
-    email: state.email ? state.email : "",
+    email: state && state.email ? state.email : "",
     password: "",
   });
 

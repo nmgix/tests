@@ -50,7 +50,7 @@ const Registration: React.FC = () => {
   };
 
   return (
-    <div className='loginPage'>
+    <div className='registrationPage'>
       <Box>
         <Header />
         <form onSubmit={onSubmit}>
