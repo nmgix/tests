@@ -6,7 +6,8 @@ const TodoCreate: React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (formData: FormData) => {
-    const res = await axios
+    // const res =
+    await axios
       .post("http://localhost:5000/todo/", formData, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
@@ -15,7 +16,7 @@ const TodoCreate: React.FC = () => {
     navigate("/todo/list");
   };
 
-  return <TodoEdit header='Создание нового задания' onSubmit={onSubmit} />;
+  return <TodoEdit header='Создание нового задания' onSubmit={onSubmit} submitText={"Создать"} />;
 };
 
 export default TodoCreate;

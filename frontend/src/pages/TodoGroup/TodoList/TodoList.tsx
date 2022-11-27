@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Button from "../../../components/Button/Button";
@@ -23,7 +23,7 @@ const TodoList: React.FC = () => {
   const navigate = useNavigate();
   const [todos, setTodos] = useState<ITodo[]>();
 
-  const fetchTodos = async () => {
+  const fetchTodos = useCallback(async () => {
     await axios
       .get("http://localhost:5000/todo/", {
         params: {
@@ -37,11 +37,11 @@ const TodoList: React.FC = () => {
         console.log(err);
         return navigate("/auth/login");
       });
-  };
+  }, [navigate]);
 
   useLayoutEffect(() => {
     fetchTodos();
-  }, [navigate]);
+  }, [navigate, fetchTodos]);
 
   const fetchFile = async (attachmentName: string) => {
     await axios

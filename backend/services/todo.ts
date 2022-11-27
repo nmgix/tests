@@ -108,8 +108,18 @@ const updateTodo = async (
     if (todo.attachments) {
       currentTodo.attachments.map(async (currentAttachment) => {
         if (todo.attachments!.indexOf(currentAttachment) < 0) {
+          currentTodo.attachments = currentTodo.attachments.filter(
+            (attachment) => attachment !== currentAttachment
+          ) as Types.DocumentArray<string>;
           await fs.unlink(`upload/${currentAttachment}`, (err) => {});
         }
+      });
+    } else {
+      currentTodo.attachments.map(async (currentAttachment) => {
+        currentTodo.attachments = currentTodo.attachments.filter(
+          (attachment) => attachment !== currentAttachment
+        ) as Types.DocumentArray<string>;
+        await fs.unlink(`upload/${currentAttachment}`, (err) => {});
       });
     }
 
@@ -126,7 +136,10 @@ const updateTodo = async (
       currentTodo.activeUntil = todo.activeUntil;
     }
     if (files?.attachments && files.attachments.length > 0) {
-      currentTodo.attachments = files.attachments.map((file) => file.filename) as Types.DocumentArray<string>;
+      currentTodo.attachments = [
+        ...currentTodo.attachments,
+        ...files.attachments.map((file) => file.filename),
+      ] as Types.DocumentArray<string>;
     }
 
     await user.save();

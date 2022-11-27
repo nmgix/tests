@@ -100,7 +100,7 @@ const Todo: React.FC = () => {
               {todo.attachments && todo.attachments.length > 0 ? (
                 <ul className='todoAttachments'>
                   {todo.attachments.map((attachment) => (
-                    <li onClick={() => fetchFile(attachment)}>
+                    <li onClick={() => fetchFile(attachment)} key={attachment}>
                       <Box>
                         <span>{`${attachment}`.slice(37)}</span>
                         <div>

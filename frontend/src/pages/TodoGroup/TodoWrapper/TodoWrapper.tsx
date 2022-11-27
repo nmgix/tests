@@ -15,10 +15,14 @@ const TodoWrapper: React.FC = () => {
     };
 
     fetchAuth();
+
+    if (location.pathname === "/todo/" || location.pathname === "/todo") {
+      navigate("/todo/list");
+    }
   }, [location.pathname, navigate]);
 
   const logout = async () => {
-    await axios.get("http://localhost:5000/auth/logout", { withCredentials: true }).catch(err => {});
+    await axios.get("http://localhost:5000/auth/logout", { withCredentials: true }).catch((err) => {});
     navigate("/auth/login");
   };
 

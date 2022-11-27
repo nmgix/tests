@@ -9,13 +9,12 @@ import TextInput from "../../../components/TextInput/TextInput";
 
 type TodoEditProps = {
   header: string;
+  submitText: string;
   onSubmit: (formData: FormData) => any;
   existingTodo?: ITodo;
 };
 
-type TodoEditBody = ITodo & { onDelete: string[] };
-
-const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) => {
+const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo, submitText }) => {
   function padTo2Digits(num: number) {
     return num.toString().padStart(2, "0");
   }
@@ -34,7 +33,7 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) =
         ({
           ...prevTodo,
           [e.target.name]: e.target.type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value,
-        } as { [K in keyof TodoEditBody]: TodoEditBody[K] })
+        } as { [K in keyof ITodo]: ITodo[K] })
     );
   };
   const uploadFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +63,6 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) =
       setTodo((prevTodo) => ({
         ...prevTodo,
         attachments: prevTodo.attachments.filter((attachName) => attachName !== name),
-        onDelete: [...prevTodo.onDelete, name],
       }));
     } else {
       setFilesList((prevData) => {
@@ -83,10 +81,14 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) =
   const onSubmitHandler = () => {
     const resultFormData = new FormData();
 
-    Object.keys(todo).map((key) => {
-      const currentValue = todo[key as keyof TodoEditBody];
-      if (!Array.isArray(currentValue) && key !== "_id") {
-        resultFormData.append(key, todo[key as keyof TodoEditBody] as string);
+    Object.keys(todo).forEach((key) => {
+      if (key === "attachments") {
+        const existingFiles = todo["attachments"];
+        existingFiles.forEach((file) => {
+          resultFormData.append(`attachments`, file);
+        });
+      } else {
+        resultFormData.append(key, todo[key as keyof ITodo] as string);
       }
     });
 
@@ -99,12 +101,11 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) =
 
   const navigate = useNavigate();
   const [filesList, setFilesList] = useState<FileList>(new DataTransfer().files);
-  const [todo, setTodo] = useState<TodoEditBody>(
-    existingTodo
+  const [todo, setTodo] = useState<ITodo>(
+    existingTodo !== undefined
       ? {
           ...existingTodo,
           activeUntil: formatDate(existingTodo.activeUntil),
-          onDelete: [],
         }
       : {
           _id: "",
@@ -113,7 +114,6 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) =
           completed: false,
           description: "",
           title: "",
-          onDelete: [],
         }
   );
 
@@ -173,7 +173,7 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) =
           </div>
         </form>
       </Box>
-      <Button onClick={onSubmitHandler}>Создать</Button>
+      <Button onClick={onSubmitHandler}>{submitText}</Button>
     </div>
   );
 };

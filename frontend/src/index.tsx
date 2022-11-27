@@ -9,6 +9,7 @@ import TodoWrapper from "./pages/TodoGroup/TodoWrapper/TodoWrapper";
 import TodoCreate from "./pages/TodoGroup/TodoCreate/TodoCreate";
 import Todo from "./pages/TodoGroup/Todo/Todo";
 import "./index.scss";
+import TodoEditExisting from "./pages/TodoGroup/TodoEditExistingPage/TodoEditExistingPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
@@ -17,6 +18,7 @@ root.render(
       <Routes>
         <Route path='/todo' element={<TodoWrapper />}>
           <Route path='list' element={<TodoList />} index />
+          <Route path='edit/:todoId' element={<TodoEditExisting />} />
           <Route path='create' element={<TodoCreate />} />
           <Route path=':todoId' element={<Todo />} />
         </Route>
