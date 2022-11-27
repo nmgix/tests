@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { createTodo, deleteTodo, getTodos, updateTodo } from "../services/todo";
+import { createTodo, deleteTodo, getTodo, getTodos, updateTodo } from "../services/todo";
 import { UserRequest } from "../types/authTypes";
 import { httpStatusCodes } from "../helpers/statusCodes";
-import { TodoGetQuery, TodoCreateRequest, TodoDeleteQuery, TodoUpdateRequest } from "../types/todoTypes";
+import { TodoGetQuery, TodoCreateRequest, TodoQuery, TodoUpdateRequest } from "../types/todoTypes";
 
 /**
  * Контроллер для получения всех заданий пользователя.
@@ -17,6 +17,18 @@ const getAllTodos = async (req: TodoGetQuery & UserRequest, res: Response, next:
     }
 
     return res.status(httpStatusCodes.OK).json(todos);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getExactTodo = async (req: TodoQuery & UserRequest, res: Response, next: NextFunction) => {
+  try {
+    const todo = await getTodo(req.body.userId, req.params.todoId);
+    if (typeof todo === "string") {
+      return res.status(httpStatusCodes.BAD_REQUEST).json("Получение задания не удалось по причине: " + todo);
+    }
+    return res.status(httpStatusCodes.OK).json(todo);
   } catch (error) {
     next(error);
   }
@@ -60,7 +72,7 @@ const updateExistingTodo = async (req: TodoUpdateRequest & UserRequest, res: Res
   }
 };
 
-const deleteExistingTodo = async (req: TodoDeleteQuery & UserRequest, res: Response, next: NextFunction) => {
+const deleteExistingTodo = async (req: TodoQuery & UserRequest, res: Response, next: NextFunction) => {
   try {
     const todoDelete = await deleteTodo(req.params.todoId, req.body.userId);
     if (typeof todoDelete === "string") {
@@ -72,4 +84,4 @@ const deleteExistingTodo = async (req: TodoDeleteQuery & UserRequest, res: Respo
   }
 };
 
-export { getAllTodos, createNewTodo, updateExistingTodo, deleteExistingTodo };
+export { getAllTodos, getExactTodo, createNewTodo, updateExistingTodo, deleteExistingTodo };

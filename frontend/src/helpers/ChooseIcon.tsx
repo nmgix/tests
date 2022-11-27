@@ -1,7 +1,5 @@
-// type FilesExtensions = "png" | "jpg" | "jpeg" | "gif" | "txt" | "md";
-
-const ChooseIcon: React.FC<{ extension: string }> = ({ extension }) => {
-  return <img src={`icons/${extension}.svg`} alt={`иконка файла расширения ${extension}`} draggable={false} />;
+const ChooseIcon: React.FC<{ name: string }> = ({ name }) => {
+  return <img src={`/icons/${name}.svg`} alt={`иконка файла расширения ${name}`} draggable={false} />;
 };
 
 export default ChooseIcon;

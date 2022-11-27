@@ -29,6 +29,24 @@ const todoCreateValidation = [
   body("activeUntil", "Ошибка в дате").notEmpty(),
 ];
 
+const todoUpdateValidation = [
+  body("title", "Отсутствует заголовок задания (минимально 5 символов, максимально 100)")
+    .optional()
+    .not()
+    .isEmpty()
+    .trim()
+    .isLength({ min: 5, max: 100 }),
+  body("description", "(Опционально) Ошибка в описании (минимально 5 символов)")
+    .optional()
+    .optional()
+    .not()
+    .isEmpty()
+    .trim()
+    .isLength({ min: 5 }),
+  body("completed", "Ошибка в статусе выполнения Todo").optional().notEmpty(),
+  body("activeUntil", "Ошибка в дате").optional().notEmpty(),
+];
+
 const todoDeleteValidaton = [param("todoId", "Id задания не указан").isString().isLength({ min: 24, max: 24 })];
 
-export { authValidation, todoCreateValidation, todoDeleteValidaton };
+export { authValidation, todoUpdateValidation, todoCreateValidation, todoDeleteValidaton };

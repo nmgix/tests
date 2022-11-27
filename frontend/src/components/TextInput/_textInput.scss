@@ -8,4 +8,10 @@
   height: 40px;
   color: colors.$color-accent;
   padding: 0 10px;
+
+  font-size: 16px;
+
+  &::-webkit-input-placeholder {
+    font-weight: 700;
+  }
 }

@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { generateJWT } from "../helpers/generateJWT";
 import { authenticateUser, createUser } from "../services/user";
-import { AuthRequest } from "../types/authTypes";
+import { AuthRequest, UserRequest } from "../types/authTypes";
 import { httpStatusCodes } from "../helpers/statusCodes";
+import User from "../models/User";
 
 /**
  * Контроллер создания пользователя.
@@ -43,4 +44,22 @@ const loginUser = async (req: AuthRequest, res: Response, next: NextFunction) =>
   }
 };
 
-export { registerUser, loginUser };
+/**
+ * Контроллер деавторизации пользователя.
+ * @param {Request} req приходит userId c auth промежуточного слоя
+ * @returns {string} статус и сообщение о выполнении/ошибки выполнения
+ */
+const logoutUser = async (req: UserRequest, res: Response, next: NextFunction) => {
+  try {
+    const user = await User.findById(req.body.userId);
+    res.clearCookie(process.env.JWT_COOKIE_NAME!);
+    if (!user) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json("Пользователь не найден");
+    }
+    return res.status(httpStatusCodes.OK).json(`Выполнен выход из аккаунта`);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { registerUser, loginUser, logoutUser };

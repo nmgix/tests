@@ -34,10 +34,6 @@ const Registration: React.FC = () => {
       .then(async (res) => {
         console.log(res.data);
         navigate("/auth/login", { state: { email: authData.email } });
-        // await axios
-        //   .get("http://localhost:5000/todo/", { withCredentials: true })
-        //   .then((res) => console.log(res))
-        //   .catch((err) => console.log(err));
       })
       .catch((err: AxiosError<{ email: string; password: string }, {}>) => {
         console.log(err.response!);

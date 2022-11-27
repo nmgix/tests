@@ -9,6 +9,8 @@ type FileNameCallback = (error: Error | null, filename: string) => void;
 const fileStorage = multer.diskStorage({
   destination: "upload",
   filename: (req: UserRequest, file: Express.Multer.File, callback: FileNameCallback): void => {
+    // из-за этой строчки не хочет нормально принимать файлы с кириллицей в названии в Postman, иначе с фронтенда названия бьются
+    file.originalname = Buffer.from(file.originalname, "latin1").toString("utf8");
     callback(null, v4() + "_" + file.originalname.replace(/ /g, ""));
   },
 });

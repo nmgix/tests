@@ -1,0 +1,122 @@
+@use "../../../colors.scss";
+
+.todoEdit {
+  &Page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & > h3 {
+      margin-bottom: 10px;
+    }
+
+    & > .button:last-child {
+      width: 100%;
+      margin-top: 15px;
+    }
+  }
+
+  &Inputs {
+    & > *:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    & > div {
+      justify-content: space-between;
+
+      &,
+      & > div {
+        display: flex;
+        align-items: flex-start;
+      }
+
+      & > div {
+        flex-direction: column;
+
+        font-weight: 700;
+
+        input[type="checkbox"] {
+          width: 35px;
+          height: 35px;
+        }
+      }
+
+      input[type="date"],
+      input[type="datetime-local"] {
+        border: none;
+        background-color: colors.$color-background-highlight;
+        padding: 10px;
+        cursor: pointer;
+      }
+    }
+
+    textarea {
+      width: 100%;
+      height: 40vh;
+      resize: none;
+
+      border: none;
+      background-color: colors.$color-background-highlight;
+      color: colors.$color-accent;
+      padding: 10px;
+
+      &::placeholder {
+        color: rgba(colors.$color-accent, 0.5);
+        font-weight: 700;
+      }
+    }
+
+    .attachments {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .typesAlert {
+        margin: 5px 0;
+        font-size: 12px;
+      }
+
+      .todoAttachments {
+        margin-top: 10px;
+        width: 100%;
+
+        .box {
+          width: 250px;
+
+          cursor: default;
+          .button {
+            background-color: transparent;
+
+            img {
+              width: 20px;
+              height: 20px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      &Header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        span {
+          margin-right: 20px;
+        }
+
+        label {
+          cursor: pointer;
+          padding: 5px;
+          background-color: colors.$color-background-highlight;
+          color: rgba(colors.$color-accent, 0.5);
+        }
+        input[type="file"] {
+          opacity: 0;
+          position: absolute;
+          z-index: -1;
+        }
+      }
+    }
+  }
+}

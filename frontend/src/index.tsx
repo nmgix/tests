@@ -2,24 +2,29 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Registration from "./pages/Registration/Registration";
-import Todo from "./pages/Todo/Todo";
-import TodoList from "./pages/TodoList/TodoList";
-import "./index.scss";
+import TodoList from "./pages/TodoGroup/TodoList/TodoList";
 import Auth from "./pages/Auth/Auth";
 import Notifications from "./components/Notifications/Notifications";
+import TodoWrapper from "./pages/TodoGroup/TodoWrapper/TodoWrapper";
+import TodoCreate from "./pages/TodoGroup/TodoCreate/TodoCreate";
+import Todo from "./pages/TodoGroup/Todo/Todo";
+import "./index.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <BrowserRouter>
     <>
       <Routes>
-        <Route path='/list' element={<TodoList />} />
-        <Route path='/list/:todoId' element={<Todo />} />
+        <Route path='/todo' element={<TodoWrapper />}>
+          <Route path='list' element={<TodoList />} index />
+          <Route path='create' element={<TodoCreate />} />
+          <Route path=':todoId' element={<Todo />} />
+        </Route>
         <Route path='/auth' element={<Auth />}>
           <Route path='login' element={<Login />} />
           <Route path='registration' element={<Registration />} />
         </Route>
-        <Route path='*' element={<Navigate to='/list' replace />} />
+        <Route path='*' element={<Navigate to='/todo/list' replace />} />
       </Routes>
       <Notifications />
     </>

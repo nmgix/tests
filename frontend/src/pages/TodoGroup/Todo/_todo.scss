@@ -1,0 +1,158 @@
+@use "../../../colors.scss";
+
+.todo {
+  width: 520px;
+  position: relative;
+
+  &Page {
+    display: flex;
+    justify-content: center;
+    margin: 70px auto;
+  }
+
+  & > .button:first-child {
+    background-color: transparent;
+    color: colors.$color-accent;
+    position: absolute;
+    left: -30%;
+    transform: translateX(30%);
+    height: auto;
+
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 5px;
+      font-size: 16px;
+    }
+  }
+
+  &Header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex: 0 1 auto;
+
+    h4 {
+      font-size: 18px;
+      text-align: start;
+    }
+
+    &Control {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      & > div {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 7px;
+
+        input {
+          width: calc(35px - 2px);
+          height: calc(35px - 2px);
+          margin: 0;
+          margin-right: 5px;
+        }
+        ul {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          cursor: pointer;
+          margin: 1px 0;
+
+          &:hover {
+            li {
+              background-color: rgba(colors.$color-accent, 0.5);
+            }
+          }
+
+          &:active {
+            li {
+              background-color: colors.$color-accent;
+            }
+          }
+
+          li {
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+            background-color: colors.$color-third-opacity;
+          }
+        }
+      }
+
+      & > span {
+        font-weight: 700;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &Description {
+    font-size: 14px;
+    font-weight: 400;
+    flex: 0 1 auto;
+  }
+
+  &Attachments {
+    flex: 1 1 auto;
+
+    display: grid;
+    column-gap: 20px;
+    row-gap: 20px;
+
+    grid-template-columns: 1fr 1fr;
+
+    & > li,
+    & > div {
+      width: 100%;
+      .box {
+        background-color: colors.$color-third-opacity;
+        border: none;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        cursor: pointer;
+
+        &:hover {
+          background-color: colors.$color-background-highlight;
+        }
+
+        &:active {
+          color: colors.$color-background-highlight;
+          background-color: colors.$color-accent;
+        }
+
+        span {
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        & > div {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 20px;
+            margin-right: 3px;
+          }
+        }
+      }
+    }
+  }
+
+  & > .box {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+  }
+}

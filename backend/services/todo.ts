@@ -2,6 +2,7 @@ import { Schema, Types } from "mongoose";
 import Todo, { ITodo } from "../models/Todo";
 import User, { IUser } from "../models/User";
 import fs from "fs";
+import { TodoUpdateBody } from "../types/todoTypes";
 
 /**
  * Получение всех заданий или по пагинации
@@ -39,6 +40,18 @@ const getTodos = async (
   return user.todos;
 };
 
+const getTodo = async (user_id: Schema.Types.ObjectId, todo_id: string) => {
+  const user = await User.findById(user_id);
+  if (!user) {
+    return "Пользователь не найден";
+  }
+  const todo = user.todos.id(todo_id);
+  if (!todo) {
+    return "Задание не найдено";
+  }
+  return todo;
+};
+
 /**
  * Создание нового задания
  * @param {ITodo} todoData данные задания для сохранения
@@ -52,6 +65,8 @@ const createTodo = async (
   files: { attachments: Express.Multer.File[] } | undefined
 ): Promise<ITodo | string> => {
   try {
+    console.log(files);
+
     const user = await User.findById(user_id);
     if (!user) {
       return "Пользователь не найден";
@@ -71,13 +86,13 @@ const createTodo = async (
 
 /**
  * Обновление существующего задания
- * @param {Partial<ITodo> & { _id: Schema.Types.ObjectId }} todo данные задания для обновления
+ * @param {Partial<ITodo>} todo данные задания для обновления
  * @param {string} user_id id текущего пользователя, приходит с req.body
  * @param {Object} files данные о файлах, которые будут загружены вместе с заданием
  * @returns {ITodo} обновленное задание
  */
 const updateTodo = async (
-  todo: Partial<ITodo> & { userId: Schema.Types.ObjectId },
+  todo: TodoUpdateBody,
   user_id: Schema.Types.ObjectId,
   files: { attachments: Express.Multer.File[] } | undefined
 ) => {
@@ -91,12 +106,13 @@ const updateTodo = async (
       return "Задание не найдено";
     }
 
-    if (files) {
-      if (currentTodo.attachments.length > 0) {
-        currentTodo.attachments.forEach(async (attachment) => {
-          await fs.unlink(`upload/${attachment}`, (err) => {});
-        });
-      }
+    // удаление файлов которых по названию (название на клиенте остаётся тем-же что и на бекенде)
+    if (todo.attachments) {
+      currentTodo.attachments.map(async (currentAttachment) => {
+        if (todo.attachments!.indexOf(currentAttachment) < 0) {
+          await fs.unlink(`upload/${currentAttachment}`, (err) => {});
+        }
+      });
     }
 
     if (todo.title) {
@@ -156,4 +172,4 @@ const deleteTodo = async (todoId: string, user_id: Schema.Types.ObjectId) => {
   }
 };
 
-export { getTodos, createTodo, updateTodo, deleteTodo };
+export { getTodos, getTodo, createTodo, updateTodo, deleteTodo };

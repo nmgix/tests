@@ -1,0 +1,72 @@
+@use "../../../colors.scss";
+
+.todoList {
+  &Page {
+    display: flex;
+    flex-direction: column;
+    margin: 70px auto;
+
+    & > .button {
+      margin-bottom: 20px;
+    }
+  }
+
+  &Wrapper {
+    display: grid;
+    column-gap: 20px;
+    row-gap: 20px;
+
+    grid-template-columns: 250px 250px;
+    grid-auto-rows: 250px;
+
+    .todo {
+      width: inherit;
+      margin: 0;
+
+      &Header {
+        a {
+          text-decoration: none;
+        }
+
+        h4 {
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      &Description {
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &Attachments {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      & > .box {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  &NonExisting {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+  }
+}

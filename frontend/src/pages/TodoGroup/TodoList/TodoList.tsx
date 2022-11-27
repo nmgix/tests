@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import Button from "../../components/Button/Button";
-import Box from "../../components/Box/Box";
+import Button from "../../../components/Button/Button";
+import Box from "../../../components/Box/Box";
 import dayjs from "dayjs";
-import ChooseIcon from "../../helpers/ChooseIcon";
+import ChooseIcon from "../../../helpers/ChooseIcon";
+import { Link } from "react-router-dom";
+import "../Todo/_todo.scss";
 import "./_todoList.scss";
 
-interface ITodo {
+export interface ITodo {
   _id: string;
   title: string;
   description: string;
@@ -20,7 +22,7 @@ const TodoList: React.FC = () => {
   const navigate = useNavigate();
   const [todos, setTodos] = useState<ITodo[]>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchTodos = async () => {
       await axios
         .get("http://localhost:5000/todo/", {
@@ -61,14 +63,22 @@ const TodoList: React.FC = () => {
 
   return (
     <div className='todoListPage'>
-      <ul className='todoListWrapper'>
-        {todos && todos.length > 0 ? (
-          todos.map((currentTodo) => (
-            <div className='todoList' key={currentTodo._id}>
+      {todos && todos.length > 0 && <Button onClick={() => navigate("/todo/create")}>Создать новое задание</Button>}
+      {!todos ? (
+        <div className='spinLoader'>
+          <img src='/gifs/spinner.gif' alt='анимация загрузки' />
+          <span>загрузка...</span>
+        </div>
+      ) : todos.length > 0 ? (
+        <ul className='todoListWrapper'>
+          {todos.map((currentTodo) => (
+            <div className='todo' key={currentTodo._id}>
               <Box>
-                <div className='todoListHeader'>
-                  <h4>{currentTodo.title}</h4>
-                  <div className='todoListHeaderControl'>
+                <div className='todoHeader'>
+                  <Link to={`/todo/${currentTodo._id}`}>
+                    <h4>{currentTodo.title}</h4>
+                  </Link>
+                  <div className='todoHeaderControl'>
                     <div>
                       <input
                         type={"checkbox"}
@@ -86,14 +96,14 @@ const TodoList: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                {currentTodo.description ? <p className='todoListDescription'>{currentTodo.description}</p> : <></>}
+                {currentTodo.description ? <p className='todoDescription'>{currentTodo.description}</p> : <></>}
                 {currentTodo.attachments && currentTodo.attachments.length > 0 ? (
-                  <div className='todoListAttachments'>
+                  <div className='todoAttachments'>
                     <div onClick={() => fetchFile(currentTodo.attachments[0])}>
                       <Box>
                         <span>{`${currentTodo.attachments[0]}`.slice(37)}</span>
                         <div>
-                          <ChooseIcon extension={`${currentTodo.attachments[0]}`.split(".").pop()!} />
+                          <ChooseIcon name={`${currentTodo.attachments[0]}`.split(".").pop()!} />
                           {currentTodo.attachments.length > 1 ? (
                             <span>+{currentTodo.attachments.length - 1}</span>
                           ) : (
@@ -108,14 +118,14 @@ const TodoList: React.FC = () => {
                 )}
               </Box>
             </div>
-          ))
-        ) : (
-          <div>
-            <span>Задания отсутствуют</span>
-            <Button>Создать новое</Button>
-          </div>
-        )}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <div className='todoListNonExisting'>
+          <span>Задания отсутствуют</span>
+          <Button onClick={() => navigate("/todo/create")}>Создать новое</Button>
+        </div>
+      )}
     </div>
   );
 };

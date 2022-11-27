@@ -29,7 +29,7 @@ const Login: React.FC = () => {
       .then(async (res) => {
         console.log(res.data);
 
-        navigate("/list");
+        navigate("/todo/list");
       })
       .catch((err: AxiosError<{ email: string; password: string }, {}>) => {
         console.log(err.response!);
