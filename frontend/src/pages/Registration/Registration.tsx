@@ -32,7 +32,6 @@ const Registration: React.FC = () => {
     await axios
       .post("http://localhost:5000/auth/register", authData, { withCredentials: true })
       .then(async (res) => {
-        console.log(res.data);
         navigate("/auth/login", { state: { email: authData.email } });
       })
       .catch((err: AxiosError<{ email: string; password: string }, {}>) => {

@@ -7,6 +7,7 @@ import { ITodo } from "../TodoList/TodoList";
 import Box from "../../../components/Box/Box";
 import Button from "../../../components/Button/Button";
 import ChooseIcon from "../../../helpers/ChooseIcon";
+import Popup from "../../../components/Popup/Popup";
 
 const Todo: React.FC = () => {
   const navigate = useNavigate();
@@ -44,6 +45,11 @@ const Todo: React.FC = () => {
       .catch((err) => navigate("/auth/login"));
   };
 
+  const deleteFile = async (todoId: string) => {
+    await axios.delete(`http://localhost:5000/todo/${todoId}`, { withCredentials: true }).catch((err) => {});
+    navigate("/todo/list");
+  };
+
   return (
     <div className='todoPage'>
       {!todo ? (
@@ -69,11 +75,21 @@ const Todo: React.FC = () => {
                       checked={todo.completed}
                       onChange={() => console.log("updaing current todo at backend")}
                     />
-                    <ul onClick={() => console.log("invoking popup")}>
-                      <li />
-                      <li />
-                      <li />
-                    </ul>
+                    <Popup
+                      controlButton={
+                        <ul>
+                          <li />
+                          <li />
+                          <li />
+                        </ul>
+                      }
+                      buttons={[
+                        <button onClick={() => navigate(`/todo/edit/${todo._id}`)}>редактировать</button>,
+                        <button onClick={() => deleteFile(todo._id)} className='popupDanger'>
+                          удалить
+                        </button>,
+                      ]}
+                    />
                   </div>
                   <span style={{ color: dayjs(new Date()).isAfter(dayjs(todo.activeUntil)) ? "red" : "#000" }}>
                     до {dayjs(todo.activeUntil).format("DD.MM.YY")}

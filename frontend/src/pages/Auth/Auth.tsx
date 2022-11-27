@@ -10,7 +10,6 @@ const Auth: React.FC = () => {
       return await axios
         .get("http://localhost:5000/auth/validate", { withCredentials: true })
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             navigate("/todo/list");
           }

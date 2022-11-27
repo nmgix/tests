@@ -65,8 +65,6 @@ const createTodo = async (
   files: { attachments: Express.Multer.File[] } | undefined
 ): Promise<ITodo | string> => {
   try {
-    console.log(files);
-
     const user = await User.findById(user_id);
     if (!user) {
       return "Пользователь не найден";
@@ -74,7 +72,7 @@ const createTodo = async (
 
     const newTodo = new Todo({
       ...todoData,
-      attachments: files ? files.attachments.map((file) => file.filename) : [],
+      attachments: files?.attachments ? files.attachments.map((file) => file.filename) : [],
     });
     await user.todos.push(newTodo);
     await user.save();

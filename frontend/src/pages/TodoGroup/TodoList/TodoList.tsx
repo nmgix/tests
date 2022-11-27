@@ -8,6 +8,7 @@ import ChooseIcon from "../../../helpers/ChooseIcon";
 import { Link } from "react-router-dom";
 import "../Todo/_todo.scss";
 import "./_todoList.scss";
+import Popup from "../../../components/Popup/Popup";
 
 export interface ITodo {
   _id: string;
@@ -22,23 +23,23 @@ const TodoList: React.FC = () => {
   const navigate = useNavigate();
   const [todos, setTodos] = useState<ITodo[]>();
 
-  useLayoutEffect(() => {
-    const fetchTodos = async () => {
-      await axios
-        .get("http://localhost:5000/todo/", {
-          params: {
-            from: 0,
-            to: 10,
-          },
-          withCredentials: true,
-        })
-        .then((res) => setTodos(res.data))
-        .catch((err) => {
-          console.log(err);
-          return navigate("/auth/login");
-        });
-    };
+  const fetchTodos = async () => {
+    await axios
+      .get("http://localhost:5000/todo/", {
+        params: {
+          from: 0,
+          to: 10,
+        },
+        withCredentials: true,
+      })
+      .then((res) => setTodos(res.data))
+      .catch((err) => {
+        console.log(err);
+        return navigate("/auth/login");
+      });
+  };
 
+  useLayoutEffect(() => {
     fetchTodos();
   }, [navigate]);
 
@@ -59,6 +60,11 @@ const TodoList: React.FC = () => {
         link.parentNode!.removeChild(link);
       })
       .catch((err) => navigate("/auth/login"));
+  };
+
+  const deleteFile = async (todo: ITodo) => {
+    await axios.delete(`http://localhost:5000/todo/${todo._id}`, { withCredentials: true }).catch((err) => {});
+    fetchTodos();
   };
 
   return (
@@ -85,11 +91,21 @@ const TodoList: React.FC = () => {
                         checked={currentTodo.completed}
                         onChange={() => console.log("updaing current todo at backend")}
                       />
-                      <ul onClick={() => console.log("invoking popup")}>
-                        <li />
-                        <li />
-                        <li />
-                      </ul>
+                      <Popup
+                        controlButton={
+                          <ul>
+                            <li />
+                            <li />
+                            <li />
+                          </ul>
+                        }
+                        buttons={[
+                          <button onClick={() => navigate(`/todo/edit/${currentTodo._id}`)}>редактировать</button>,
+                          <button onClick={() => deleteFile(currentTodo)} className='popupDanger'>
+                            удалить
+                          </button>,
+                        ]}
+                      />
                     </div>
                     <span style={{ color: dayjs(new Date()).isAfter(dayjs(currentTodo.activeUntil)) ? "red" : "#000" }}>
                       до {dayjs(currentTodo.activeUntil).format("DD.MM.YY")}

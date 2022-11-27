@@ -56,11 +56,6 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo }) =
       }
       return dt.files;
     });
-
-    // console.log(fileInputRef.current!.value);
-    // не работаает
-    // fileInputRef.current!.value = "";
-    // console.log(fileInputRef.current!.value);
   };
   const deleteFile = (name: string) => {
     // я бы мог добавить проверку по подполю которое создастся при загрузке файла,

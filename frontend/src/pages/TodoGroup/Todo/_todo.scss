@@ -62,6 +62,10 @@
           cursor: pointer;
           margin: 1px 0;
 
+          li:not(:last-child) {
+            margin-bottom: 3px;
+          }
+
           &:hover {
             li {
               background-color: rgba(colors.$color-accent, 0.5);
