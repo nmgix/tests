@@ -14,15 +14,15 @@ const Todo: React.FC = () => {
   const params = useParams<{ todoId: string }>();
   const [todo, setTodo] = useState<ITodo>();
 
+  const fetchTodo = async () => {
+    await axios
+      .get<{}, { data: ITodo }>(`http://localhost:5000/todo/${params.todoId}`, { withCredentials: true })
+      .then((res) => setTodo(res.data))
+      .catch((err) => {
+        return navigate("/todo/list");
+      });
+  };
   useLayoutEffect(() => {
-    const fetchTodo = async () => {
-      await axios
-        .get<{}, { data: ITodo }>(`http://localhost:5000/todo/${params.todoId}`, { withCredentials: true })
-        .then((res) => setTodo(res.data))
-        .catch((err) => {
-          return navigate("/todo/list");
-        });
-    };
     fetchTodo();
   }, [navigate, params.todoId]);
 
@@ -50,6 +50,14 @@ const Todo: React.FC = () => {
     navigate("/todo/list");
   };
 
+  const changeCompletionStatus = async (e: React.ChangeEvent<HTMLInputElement>, todoId: string) => {
+    const formData = new FormData();
+    formData.append("_id", todoId);
+    formData.append("completed", String(e.target.checked));
+    await axios.post("http://localhost:5000", formData, { withCredentials: true });
+    fetchTodo();
+  };
+
   return (
     <div className='todoPage'>
       {!todo ? (
@@ -73,7 +81,7 @@ const Todo: React.FC = () => {
                     <input
                       type={"checkbox"}
                       checked={todo.completed}
-                      onChange={() => console.log("updaing current todo at backend")}
+                      onChange={(e) => changeCompletionStatus(e, todo._id)}
                     />
                     <Popup
                       controlButton={

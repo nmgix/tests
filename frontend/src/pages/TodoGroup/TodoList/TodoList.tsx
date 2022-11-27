@@ -67,6 +67,14 @@ const TodoList: React.FC = () => {
     fetchTodos();
   };
 
+  const changeCompletionStatus = async (e: React.ChangeEvent<HTMLInputElement>, todoId: string) => {
+    const formData = new FormData();
+    formData.append("_id", todoId);
+    formData.append("completed", String(e.target.checked));
+    await axios.post("http://localhost:5000", formData, { withCredentials: true });
+    fetchTodos();
+  };
+
   return (
     <div className='todoListPage'>
       {todos && todos.length > 0 && <Button onClick={() => navigate("/todo/create")}>Создать новое задание</Button>}
@@ -89,7 +97,7 @@ const TodoList: React.FC = () => {
                       <input
                         type={"checkbox"}
                         checked={currentTodo.completed}
-                        onChange={() => console.log("updaing current todo at backend")}
+                        onChange={(e) => changeCompletionStatus(e, currentTodo._id)}
                       />
                       <Popup
                         controlButton={
