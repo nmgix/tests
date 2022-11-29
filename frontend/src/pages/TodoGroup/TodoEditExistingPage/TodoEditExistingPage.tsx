@@ -1,35 +1,49 @@
 import TodoEdit from "../TodoEdit/TodoEdit";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router";
-import { ITodo } from "../TodoList/TodoList";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLayoutEffect, useState } from "react";
+import { ITodo } from "../../../types/ITodo";
+import { getTodo, updateTodo } from "../../../helpers/functions/todos";
+// import { useAction } from "../../../store/helpers/useAppHooks";
+// import { initAddNewPopup } from "../../../store/reducers/popupReducer";
+import { AxiosResponse } from "axios";
 
 const TodoEditExisting: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams<{ todoId: string }>();
   const [todo, setTodo] = useState<ITodo>();
-
+  // const { initUpdateTodo } = useAction();
   useLayoutEffect(() => {
     const fetchTodo = async () => {
-      await axios
-        .get<{}, { data: ITodo }>(`http://localhost:5000/todo/${params.todoId}`, { withCredentials: true })
-        .then((res) => setTodo(res.data))
-        .catch((err) => {
-          return navigate("/todo/list");
-        });
+      const todo = await getTodo(params.todoId!);
+      if (!todo) {
+        console.log("Задание не найдено");
+        return navigate("/todo/list");
+        // initAddNewPopup({ message: "Задание не найдено" });
+      } else {
+        setTodo(todo);
+      }
     };
-    fetchTodo();
+    try {
+      fetchTodo();
+    } catch (error) {
+      // initAddNewPopup({ message: "Произошла ошибка при получении задания" });
+      return navigate("/todo/list");
+    }
   }, [navigate, params.todoId]);
 
   const onSubmit = async (formData: FormData) => {
-    // const res =
-    await axios
-      .patch("http://localhost:5000/todo/", formData, {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
+    // initUpdateTodo(formData);
+    await updateTodo(formData)
+      .then((res: AxiosResponse) => {
+        if (res.status === 200) {
+          return navigate(`todo/${params.todoId}`);
+        } else {
+          return navigate("/auth/login");
+        }
       })
-      .catch((err) => {});
-    navigate(`/todo/${todo!._id}`);
+      .catch((err) => {
+        return navigate("/auth/login");
+      });
   };
 
   return !todo ? (

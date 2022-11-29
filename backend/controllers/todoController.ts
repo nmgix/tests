@@ -49,7 +49,7 @@ const createNewTodo = async (req: TodoCreateRequest & UserRequest, res: Response
       return res.status(httpStatusCodes.BAD_REQUEST).json("Задание не создано по причине: " + todoCreation);
     }
 
-    return res.status(httpStatusCodes.OK).json("Задание успешно создано");
+    return res.status(httpStatusCodes.OK).json(todoCreation);
   } catch (error) {
     next(error);
   }
@@ -66,7 +66,7 @@ const updateExistingTodo = async (req: TodoUpdateRequest & UserRequest, res: Res
       return res.status(httpStatusCodes.BAD_REQUEST).json("Задание не обновлено по причине: " + updatedTodo);
     }
 
-    return res.status(httpStatusCodes.OK).json("Задание успешно обновлено");
+    return res.status(httpStatusCodes.OK).json(updatedTodo);
   } catch (error) {
     next(error);
   }

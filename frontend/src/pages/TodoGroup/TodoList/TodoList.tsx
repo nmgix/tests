@@ -1,78 +1,63 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Button from "../../../components/Button/Button";
 import Box from "../../../components/Box/Box";
 import dayjs from "dayjs";
 import ChooseIcon from "../../../helpers/ChooseIcon";
+import Popup from "../../../components/Popup/Popup";
 import { Link } from "react-router-dom";
+import { ITodo } from "../../../types/ITodo";
+import { fetchFile, getTodos } from "../../../helpers/functions/todos";
 import "../Todo/_todo.scss";
 import "./_todoList.scss";
-import Popup from "../../../components/Popup/Popup";
-
-export interface ITodo {
-  _id: string;
-  title: string;
-  description: string;
-  completed: boolean;
-  activeUntil: string;
-  attachments: string[];
-}
+// import { useAction, useAppSelector } from "../../../store/helpers/useAppHooks";
 
 const TodoList: React.FC = () => {
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const navigate = useNavigate();
-  const [todos, setTodos] = useState<ITodo[]>();
+  // const { todos } = useAppSelector((state) => state.todoControl);
+  // const { initAddToTodoList, fetchExistingFile } = useAction();
+  const fetchTodos = useCallback(async (from: number, to: number) => {
+    const newTodos = await getTodos(from, to);
 
-  const fetchTodos = useCallback(async () => {
-    await axios
-      .get("http://localhost:5000/todo/", {
-        params: {
-          from: 0,
-          to: 10,
-        },
-        withCredentials: true,
-      })
-      .then((res) => setTodos(res.data))
-      .catch((err) => {
-        console.log(err);
-        return navigate("/auth/login");
-      });
-  }, [navigate]);
+    setTodos((prevTodos) => {
+      // let existingTodosIds = new Set(prevTodos.map((t) => t._id));
+      // let mergedTodos = [...prevTodos, ...newTodos.filter((t) => !existingTodosIds.has(t._id))];
+      if (prevTodos.length === 0 && newTodos.length > prevTodos.length) {
+        return newTodos;
+      } else {
+        if (newTodos.length < prevTodos.length) {
+          return newTodos;
+        } else {
+          const mergedTodos = prevTodos.map((obj) => newTodos.find((o) => o._id === obj._id) || obj);
+          return mergedTodos;
+        }
+      }
+    });
+  }, []);
 
-  useLayoutEffect(() => {
-    fetchTodos();
-  }, [navigate, fetchTodos]);
-
-  const fetchFile = async (attachmentName: string) => {
-    await axios
-      .get(`http://localhost:5000/static/${attachmentName}`, {
-        withCredentials: true,
-        responseType: "blob",
-      })
-      .then((res) => {
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `${attachmentName}`.slice(37));
-        document.body.appendChild(link);
-        link.click();
-
-        link.parentNode!.removeChild(link);
-      })
-      .catch((err) => navigate("/auth/login"));
+  // copy-paste from Todo.tsx
+  const fetchFileLocal = async (attachment: string) => {
+    await fetchFile(attachment).catch((err) => navigate("/auth/login"));
   };
 
+  useEffect(() => {
+    // initAddToTodoList({ from: 0, to: 10 });
+    fetchTodos(0, 10);
+  }, [fetchTodos]);
+
   const deleteFile = async (todo: ITodo) => {
-    await axios.delete(`http://localhost:5000/todo/${todo._id}`, { withCredentials: true }).catch((err) => {});
-    fetchTodos();
+    await axios.delete(`${process.env.SERVER_ADDRESS}/todo/${todo._id}`, { withCredentials: true }).catch((err) => {});
+    fetchTodos(0, 10);
   };
 
   const changeCompletionStatus = async (e: React.ChangeEvent<HTMLInputElement>, todoId: string) => {
     const formData = new FormData();
     formData.append("_id", todoId);
     formData.append("completed", String(e.target.checked));
-    await axios.post("http://localhost:5000", formData, { withCredentials: true });
-    fetchTodos();
+    await axios.patch(`${process.env.SERVER_ADDRESS}/todo`, formData, { withCredentials: true });
+    fetchTodos(0, 10);
   };
 
   return (
@@ -123,7 +108,7 @@ const TodoList: React.FC = () => {
                 {currentTodo.description ? <p className='todoDescription'>{currentTodo.description}</p> : <></>}
                 {currentTodo.attachments && currentTodo.attachments.length > 0 ? (
                   <div className='todoAttachments'>
-                    <div onClick={() => fetchFile(currentTodo.attachments[0])}>
+                    <div onClick={() => fetchFileLocal(currentTodo.attachments[0])}>
                       <Box>
                         <span>{`${currentTodo.attachments[0]}`.slice(37)}</span>
                         <div>

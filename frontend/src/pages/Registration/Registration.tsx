@@ -4,14 +4,10 @@ import Box from "../../components/Box/Box";
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import TextInput from "../../components/TextInput/TextInput";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import { RegistrationData } from "../../types/auth";
+import { registerUser } from "../../helpers/functions/auth";
 import "./_registration.scss";
-
-interface RegistrationData {
-  email: string;
-  password: string;
-  passwordRepeat: string;
-}
 
 const Registration: React.FC = () => {
   const navigate = useNavigate();
@@ -23,14 +19,10 @@ const Registration: React.FC = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log(authData);
     if (authData.password !== authData.passwordRepeat) {
       return console.log("Пароли не сходятся");
-      // будущий алерт
     }
-    // тест код
-    await axios
-      .post("http://localhost:5000/auth/register", authData, { withCredentials: true })
+    await registerUser(authData)
       .then(async (res) => {
         navigate("/auth/login", { state: { email: authData.email } });
       })

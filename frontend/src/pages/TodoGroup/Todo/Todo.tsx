@@ -1,52 +1,46 @@
-import { useLayoutEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import dayjs from "dayjs";
 import "./_todo.scss";
-import { ITodo } from "../TodoList/TodoList";
 import Box from "../../../components/Box/Box";
 import Button from "../../../components/Button/Button";
 import ChooseIcon from "../../../helpers/ChooseIcon";
 import Popup from "../../../components/Popup/Popup";
+import { ITodo } from "../../../types/ITodo";
+import { fetchFile, getTodo } from "../../../helpers/functions/todos";
+// import { useAction, useAppSelector } from "../../../store/helpers/useAppHooks";
 
 const Todo: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams<{ todoId: string }>();
-  const [todo, setTodo] = useState<ITodo>();
+  // const { currentTodo } = useAppSelector((state) => state.todoControl);
+  // const { initFetchTodo } = useAction();
+  const [currentTodo, setCurrentTodo] = useState<ITodo>();
 
-  const fetchTodo = async () => {
-    await axios
-      .get<{}, { data: ITodo }>(`http://localhost:5000/todo/${params.todoId}`, { withCredentials: true })
-      .then((res) => setTodo(res.data))
-      .catch((err) => {
-        return navigate("/todo/list");
-      });
-  };
-  useLayoutEffect(() => {
-    fetchTodo();
+  const fetchTodo = useCallback(async () => {
+    const todo = await getTodo(params.todoId!);
+    if (!todo) {
+      navigate("/todo/list");
+    } else {
+      setCurrentTodo(todo);
+    }
   }, [navigate, params.todoId]);
 
-  const fetchFile = async (attachmentName: string) => {
-    await axios
-      .get(`http://localhost:5000/static/${attachmentName}`, {
-        withCredentials: true,
-        responseType: "blob",
-      })
-      .then((res) => {
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `${attachmentName}`.slice(37));
-        document.body.appendChild(link);
-        link.click();
+  useEffect(() => {
+    if (!params.todoId || params.todoId.length === 0) {
+      navigate("/todo/list");
+    } else {
+      fetchTodo();
+    }
+  }, [navigate, params.todoId, fetchTodo]);
 
-        link.parentNode!.removeChild(link);
-      })
-      .catch((err) => navigate("/auth/login"));
+  const fetchFileLocal = async (attachment: string) => {
+    await fetchFile(attachment).catch((err) => navigate("/auth/login"));
   };
 
   const deleteFile = async (todoId: string) => {
-    await axios.delete(`http://localhost:5000/todo/${todoId}`, { withCredentials: true }).catch((err) => {});
+    await axios.delete(`${process.env.SERVER_ADDRESS}/todo/${todoId}`, { withCredentials: true }).catch((err) => {});
     navigate("/todo/list");
   };
 
@@ -54,13 +48,13 @@ const Todo: React.FC = () => {
     const formData = new FormData();
     formData.append("_id", todoId);
     formData.append("completed", String(e.target.checked));
-    await axios.post("http://localhost:5000", formData, { withCredentials: true });
+    await axios.patch(`${process.env.SERVER_ADDRESS}/todo`, formData, { withCredentials: true });
     fetchTodo();
   };
 
   return (
     <div className='todoPage'>
-      {!todo ? (
+      {!currentTodo ? (
         <div className='spinLoader'>
           <img src='/gifs/spinner.gif' alt='анимация загрузки' />
           <span>загрузка...</span>
@@ -74,14 +68,14 @@ const Todo: React.FC = () => {
           <Box>
             <div>
               <div className='todoHeader'>
-                <h4>{todo.title}</h4>
+                <h4>{currentTodo.title}</h4>
 
                 <div className='todoHeaderControl'>
                   <div>
                     <input
                       type={"checkbox"}
-                      checked={todo.completed}
-                      onChange={(e) => changeCompletionStatus(e, todo._id)}
+                      checked={currentTodo.completed}
+                      onChange={(e) => changeCompletionStatus(e, currentTodo._id)}
                     />
                     <Popup
                       controlButton={
@@ -92,23 +86,23 @@ const Todo: React.FC = () => {
                         </ul>
                       }
                       buttons={[
-                        <button onClick={() => navigate(`/todo/edit/${todo._id}`)}>редактировать</button>,
-                        <button onClick={() => deleteFile(todo._id)} className='popupDanger'>
+                        <button onClick={() => navigate(`/todo/edit/${currentTodo._id}`)}>редактировать</button>,
+                        <button onClick={() => deleteFile(currentTodo._id)} className='popupDanger'>
                           удалить
                         </button>,
                       ]}
                     />
                   </div>
-                  <span style={{ color: dayjs(new Date()).isAfter(dayjs(todo.activeUntil)) ? "red" : "#000" }}>
-                    до {dayjs(todo.activeUntil).format("DD.MM.YY")}
+                  <span style={{ color: dayjs(new Date()).isAfter(dayjs(currentTodo.activeUntil)) ? "red" : "#000" }}>
+                    до {dayjs(currentTodo.activeUntil).format("DD.MM.YY")}
                   </span>
                 </div>
               </div>
-              {todo.description ? <p className='todoDescription'>{todo.description}</p> : <></>}
-              {todo.attachments && todo.attachments.length > 0 ? (
+              {currentTodo.description ? <p className='todoDescription'>{currentTodo.description}</p> : <></>}
+              {currentTodo.attachments && currentTodo.attachments.length > 0 ? (
                 <ul className='todoAttachments'>
-                  {todo.attachments.map((attachment) => (
-                    <li onClick={() => fetchFile(attachment)} key={attachment}>
+                  {currentTodo.attachments.map((attachment) => (
+                    <li onClick={() => fetchFileLocal(attachment)} key={attachment}>
                       <Box>
                         <span>{`${attachment}`.slice(37)}</span>
                         <div>

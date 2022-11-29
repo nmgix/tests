@@ -4,31 +4,23 @@ import Box from "../../components/Box/Box";
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import TextInput from "../../components/TextInput/TextInput";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import "./_login.scss";
-
-interface LoginData {
-  email: string;
-  password: string;
-}
+import { LoginData } from "../../types/auth";
+import { loginUser } from "../../helpers/functions/auth";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [authData, setAuthData] = useState<LoginData>({
-    email: state && state.email ? state.email : "1wow123@wow.com",
-    password: "some-password",
+    email: state && state.email ? state.email : "",
+    password: "",
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log(authData);
-    // тест код
-    await axios
-      .post("http://localhost:5000/auth/login", authData, { withCredentials: true })
+    await loginUser(authData)
       .then(async (res) => {
-        console.log(res.data);
-
         navigate("/todo/list");
       })
       .catch((err: AxiosError<{ email: string; password: string }, {}>) => {

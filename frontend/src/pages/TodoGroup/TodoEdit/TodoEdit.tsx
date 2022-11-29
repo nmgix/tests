@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "../../../components/Box/Box";
 import Button from "../../../components/Button/Button";
 import ChooseIcon from "../../../helpers/ChooseIcon";
-import { ITodo } from "../TodoList/TodoList";
-import "./_todoEdit.scss";
 import TextInput from "../../../components/TextInput/TextInput";
+import { ITodo } from "../../../types/ITodo";
+import { formatDate } from "../../../helpers/formatDate";
+import "./_todoEdit.scss";
 
 type TodoEditProps = {
   header: string;
@@ -15,17 +16,7 @@ type TodoEditProps = {
 };
 
 const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo, submitText }) => {
-  function padTo2Digits(num: number) {
-    return num.toString().padStart(2, "0");
-  }
-  function formatDate(date: Date | string) {
-    date = new Date(date);
-    return (
-      [date.getFullYear(), padTo2Digits(date.getMonth() + 1), padTo2Digits(date.getDate())].join("-") +
-      " " +
-      [padTo2Digits(date.getHours()), padTo2Digits(date.getMinutes())].join(":")
-    );
-  }
+  const navigate = useNavigate();
 
   const updateTodo = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTodo(
@@ -99,8 +90,17 @@ const TodoEdit: React.FC<TodoEditProps> = ({ header, onSubmit, existingTodo, sub
     return onSubmit(resultFormData);
   };
 
-  const navigate = useNavigate();
   const [filesList, setFilesList] = useState<FileList>(new DataTransfer().files);
+  useEffect(() => {
+    const files: {
+      name: string;
+      url?: string;
+    }[] = [];
+
+    for (let i = 0; i < filesList.length; i++) {
+      files.push({ name: filesList[i].name, url: window.URL.createObjectURL(filesList[i]) });
+    }
+  }, [filesList]);
   const [todo, setTodo] = useState<ITodo>(
     existingTodo !== undefined
       ? {

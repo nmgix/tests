@@ -114,13 +114,6 @@ const updateTodo = async (
           await fs.unlink(`upload/${currentAttachment}`, (err) => {});
         }
       });
-    } else {
-      currentTodo.attachments.map(async (currentAttachment) => {
-        currentTodo.attachments = currentTodo.attachments.filter(
-          (attachment) => attachment !== currentAttachment
-        ) as Types.DocumentArray<string>;
-        await fs.unlink(`upload/${currentAttachment}`, (err) => {});
-      });
     }
 
     if (todo.title) {

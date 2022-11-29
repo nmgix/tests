@@ -1,14 +1,20 @@
 import { useLayoutEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+// import { useAppSelector } from "../../store/helpers/useAppHooks";
 import axios from "axios";
 
 const Auth: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  // const { authed } = useAppSelector((state) => state.settingsControl);
   useLayoutEffect(() => {
+    // if (!authed && location.pathname.indexOf("auth") === -1) {
+    //   navigate("/auth/login");
+    // }
+
     const fetchAuth = async () => {
       return await axios
-        .get("http://localhost:5000/auth/validate", { withCredentials: true })
+        .get(`${process.env.SERVER_ADDRESS}/auth/validate`, { withCredentials: true })
         .then((res) => {
           if (res.status === 200) {
             navigate("/todo/list");
@@ -22,7 +28,11 @@ const Auth: React.FC = () => {
     };
 
     fetchAuth();
-  }, [location.pathname, navigate]);
+  }, [
+    location.pathname,
+    navigate,
+    // authed
+  ]);
   return <Outlet />;
 };
 
