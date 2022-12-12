@@ -1,0 +1,13 @@
+@use "sass:map";
+@use "../../styles/colors.module.scss";
+
+.header {
+  margin: 10px 0;
+
+  .title {
+    text-align: center;
+    color: map.get(colors.$colors, "header");
+    font-weight: 100;
+    font-size: 100px;
+  }
+}
