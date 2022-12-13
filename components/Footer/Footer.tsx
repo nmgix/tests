@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
       <p>Double-click to edit a todo</p>
       <p>
         Copied by{" "}
-        <a href='https://github.com/nmgix' target={"_blank"}>
+        <a href='https://github.com/nmgix' target={"_blank"} rel='noreferrer'>
           nmgix
         </a>
       </p>

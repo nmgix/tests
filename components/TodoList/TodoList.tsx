@@ -41,13 +41,13 @@ const TodoList: React.FC = () => {
           ? []
           : prevTodos.map((todo) => {
               const newTodo = Object.assign({}, todo, {
-                completed: todos && completedTodos === todos.length ? false : true,
+                completed: prevTodos && completedTodos === prevTodos.length ? false : true,
               });
               return newTodo;
             })
       );
     }
-  }, [activeSelection]);
+  }, [activeSelection]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // контроль ввода нового задания
   const [newTodoTitle, setNewTodoTitle] = useState<string>("");

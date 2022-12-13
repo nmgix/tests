@@ -88,4 +88,6 @@ const TodoElement: React.FC<TodoElementProps> = memo(
   }
 );
 
+TodoElement.displayName = "TodoElement";
+
 export default TodoElement;
