@@ -1,9 +1,8 @@
-import Head from "next/head";
-import Image from "next/image";
 import React from "react";
+import TodoList from "../components/TodoList/TodoList";
 
 const Todos: React.FC = () => {
-  return <div></div>;
+  return <TodoList />;
 };
 
 export default Todos;

@@ -4,10 +4,13 @@ html,
 body {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 body {
   font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-font));
 
   @each $key, $value in colors.$colors {
     --color-#{$key}: #{red($value), green($value), blue($value)};
