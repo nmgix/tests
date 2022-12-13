@@ -11,7 +11,6 @@ const TodoList: React.FC = () => {
   // состояние, получение при певром рендере из localStorage
   useEffect(() => {
     const JSONTodos = localStorage.getItem("react-nmgix-todos");
-    console.log(JSONTodos);
     if (!JSONTodos || JSONTodos == "undefined") {
       return setTodos([]);
     }
@@ -28,13 +27,34 @@ const TodoList: React.FC = () => {
     }
   }, [todos]);
 
+  // шеврон выделения всех заданий
+  const completedTodos = !todos
+    ? 0
+    : todos.reduce(function (accum, todo) {
+        return !todo.completed ? accum : accum + 1;
+      }, 0);
+  const [activeSelection, setActiveSelection] = useState<boolean | undefined>(undefined);
+  useEffect(() => {
+    // чтобы у существующих заданий не менялось состояние выполнения при первом рендере
+    if (activeSelection !== undefined) {
+      setTodos((prevTodos) =>
+        !prevTodos
+          ? []
+          : prevTodos.map((todo) => {
+              todo.completed = activeSelection;
+              return todo;
+            })
+      );
+    }
+  }, [activeSelection]);
+
   // контроль ввода нового задания
   const [newTodoTitle, setNewTodoTitle] = useState<string>("");
   const onNewTodoUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTodoTitle(() => e.target.value);
   };
   const handleNewTodoKeyDown = (e: React.KeyboardEvent) => {
-    if (e.code !== Keykodes.enterKey) {
+    if (e.code !== Keykodes.enterKey || newTodoTitle.length === 0) {
       return;
     }
     e.preventDefault();
@@ -71,7 +91,13 @@ const TodoList: React.FC = () => {
       <header>
         {todos.length > 0 && (
           <>
-            <input id='checkAll' className={styles.checkAll} type={"checkbox"} />
+            <input
+              id='checkAll'
+              className={styles.checkAll}
+              type={"checkbox"}
+              checked={completedTodos === todos.length}
+              onClick={() => setActiveSelection((prevState) => !prevState)}
+            />
             <label htmlFor='checkAll' className={styles.checkAllLabel} />
           </>
         )}
@@ -91,26 +117,35 @@ const TodoList: React.FC = () => {
             <TodoElement todo={todo} onDelete={onDelete} onUpdate={onUpdate} key={todo.uuid} />
           ))}
       </ul>
-      <footer>
-        <span>{todos.length} items left</span>
-        <div className={styles.filters}>
-          <button
-            className={selectedFilter === undefined ? styles.selected : ""}
-            onClick={() => setSelectedFilter(undefined)}>
-            All
-          </button>
-          <button
-            className={selectedFilter && selectedFilter.value === false ? styles.selected : ""}
-            onClick={() => setSelectedFilter({ field: "completed", value: false })}>
-            Active
-          </button>
-          <button
-            className={selectedFilter && selectedFilter.value === true ? styles.selected : ""}
-            onClick={() => setSelectedFilter({ field: "completed", value: true })}>
-            Completed
-          </button>
-        </div>
-      </footer>
+      {todos.length > 0 && (
+        <footer>
+          <span>{todos.length} items left</span>
+          <div className={styles.filters}>
+            <button
+              className={selectedFilter === undefined ? styles.selected : ""}
+              onClick={() => setSelectedFilter(undefined)}>
+              All
+            </button>
+            <button
+              className={selectedFilter && selectedFilter.value === false ? styles.selected : ""}
+              onClick={() => setSelectedFilter({ field: "completed", value: false })}>
+              Active
+            </button>
+            <button
+              className={selectedFilter && selectedFilter.value === true ? styles.selected : ""}
+              onClick={() => setSelectedFilter({ field: "completed", value: true })}>
+              Completed
+            </button>
+          </div>
+          {completedTodos > 0 && (
+            <button
+              className={styles.clearCompleted}
+              onClick={() => setTodos((todos) => (!todos ? [] : todos.filter((todo) => todo.completed !== true)))}>
+              Clear completed
+            </button>
+          )}
+        </footer>
+      )}
     </div>
   ) : (
     <></>

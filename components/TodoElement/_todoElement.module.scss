@@ -1,0 +1,64 @@
+.todoElement {
+  position: relative;
+
+  .changeCompletion {
+    position: absolute;
+    display: none;
+
+    &:checked + .changeCompletionLabel {
+      background-image: url("/icons/circle-checked.svg");
+    }
+
+    &Label {
+      position: absolute;
+
+      width: 40px;
+      height: 40px;
+
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      background-image: url("/icons/circle.svg");
+    }
+  }
+
+  .todoTitle {
+    transition: color 0.4s;
+  }
+
+  .changeCompletion:checked ~ .todoTitle {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  &:hover {
+    .destroy {
+      display: block;
+    }
+  }
+  .destroy {
+    border: none;
+    background: none;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    margin: auto 0;
+    font-size: 30px;
+    color: #cc9a9a;
+    margin-bottom: 11px;
+    transition: color 0.2s ease-out;
+
+    &:hover {
+      text-decoration: none;
+      color: rgb(var(--color-buttons-active));
+    }
+
+    &::after {
+      content: "×";
+    }
+  }
+}

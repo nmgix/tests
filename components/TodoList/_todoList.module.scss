@@ -85,6 +85,8 @@
     padding: 10px 15px;
     position: relative;
     color: rgb(var(--color-list-footer));
+    display: flex;
+    justify-content: space-between;
 
     &::before {
       content: "";
@@ -109,15 +111,14 @@
       justify-content: center;
 
       button {
-        color: inherit;
-        background: none;
-        color: inherit;
         margin: 3px;
         padding: 3px 7px;
         border: 1.5px solid transparent;
         border-radius: 3px;
+        cursor: pointer;
 
         &:hover {
+          text-decoration: none;
           border-color: rgba(var(--color-buttons), 0.3);
         }
 
@@ -125,6 +126,10 @@
           border-color: rgba(var(--color-buttons), 0.5);
         }
       }
+    }
+
+    .clearCompleted {
+      position: relative;
     }
   }
 
