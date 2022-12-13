@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
     <footer className={styles.footer}>
       <p>Double-click to edit a todo</p>
       <p>
-        Created by{" "}
+        Copied by{" "}
         <a href='https://github.com/nmgix' target={"_blank"}>
           nmgix
         </a>
