@@ -1,6 +1,5 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Keykodes } from "../../types/Keycodes";
+import { Keycodes } from "../../types/Keycodes";
 import { Todo } from "../../types/Todo";
 import styles, { newTodo } from "./_todoList.module.scss";
 import { v4 as uuid } from "uuid";
@@ -41,8 +40,10 @@ const TodoList: React.FC = () => {
         !prevTodos
           ? []
           : prevTodos.map((todo) => {
-              todo.completed = activeSelection;
-              return todo;
+              const newTodo = Object.assign({}, todo, {
+                completed: todos && completedTodos === todos.length ? false : true,
+              });
+              return newTodo;
             })
       );
     }
@@ -54,7 +55,7 @@ const TodoList: React.FC = () => {
     setNewTodoTitle(() => e.target.value);
   };
   const handleNewTodoKeyDown = (e: React.KeyboardEvent) => {
-    if (e.code !== Keykodes.enterKey || newTodoTitle.length === 0) {
+    if (e.code !== Keycodes.enterKey || newTodoTitle.length === 0) {
       return;
     }
     e.preventDefault();
@@ -86,21 +87,95 @@ const TodoList: React.FC = () => {
     { field: keyof Pick<Todo, "completed">; value: Todo["completed"] } | undefined
   >(undefined);
 
+  // состояние редактирования
+  const [editing, setEditing] = useState<string | undefined>(undefined);
+  const onEdit = (uuid: string) => {
+    setEditing(uuid);
+  };
+  const onCancel = () => {
+    setEditing(undefined);
+  };
+
+  // функции компонентов
+
+  const clearCompleted = () => setTodos((todos) => (!todos ? [] : todos.filter((todo) => todo.completed !== true)));
+  const changeAllSelection = () => setActiveSelection((prevState) => !prevState);
+
+  // компоненты
+  const todoListComponent = !todos ? (
+    <></>
+  ) : (
+    todos
+      .filter((todo) => (selectedFilter === undefined ? todo : todo[selectedFilter.field] === selectedFilter.value))
+      .map((todo) => (
+        <TodoElement
+          todo={todo}
+          onDelete={onDelete}
+          onUpdate={onUpdate}
+          key={todo.uuid}
+          editing={editing === todo.uuid}
+          onCancel={onCancel}
+          onEdit={onEdit}
+        />
+      ))
+  );
+
+  const completedTodosComponent =
+    completedTodos > 0 ? (
+      <button className={styles.clearCompleted} onClick={clearCompleted}>
+        Clear completed
+      </button>
+    ) : (
+      <></>
+    );
+
+  const activeFooter =
+    todos && todos.length > 0 ? (
+      <footer>
+        <span>{todos.length - completedTodos} items left</span>
+        <div className={styles.filters}>
+          <button
+            className={selectedFilter === undefined ? styles.selected : ""}
+            onClick={() => setSelectedFilter(undefined)}>
+            All
+          </button>
+          <button
+            className={selectedFilter && selectedFilter.value === false ? styles.selected : ""}
+            onClick={() => setSelectedFilter({ field: "completed", value: false })}>
+            Active
+          </button>
+          <button
+            className={selectedFilter && selectedFilter.value === true ? styles.selected : ""}
+            onClick={() => setSelectedFilter({ field: "completed", value: true })}>
+            Completed
+          </button>
+        </div>
+        {completedTodosComponent}
+      </footer>
+    ) : (
+      <></>
+    );
+
+  const checkAllComponent =
+    todos && todos.length > 0 ? (
+      <>
+        <input
+          id='checkAll'
+          className={styles.checkAll}
+          type={"checkbox"}
+          checked={completedTodos === todos.length}
+          onChange={changeAllSelection}
+        />
+        <label htmlFor='checkAll' className={styles.checkAllLabel} />
+      </>
+    ) : (
+      <></>
+    );
+
   return todos !== undefined ? (
     <div className={styles.todoList}>
       <header>
-        {todos.length > 0 && (
-          <>
-            <input
-              id='checkAll'
-              className={styles.checkAll}
-              type={"checkbox"}
-              checked={completedTodos === todos.length}
-              onClick={() => setActiveSelection((prevState) => !prevState)}
-            />
-            <label htmlFor='checkAll' className={styles.checkAllLabel} />
-          </>
-        )}
+        {checkAllComponent}
         <input
           className={styles.newTodo}
           placeholder='What needs to be done?'
@@ -110,42 +185,8 @@ const TodoList: React.FC = () => {
           autoFocus={true}
         />
       </header>
-      <ul className={styles.list}>
-        {todos
-          .filter((todo) => (selectedFilter === undefined ? todo : todo[selectedFilter.field] === selectedFilter.value))
-          .map((todo) => (
-            <TodoElement todo={todo} onDelete={onDelete} onUpdate={onUpdate} key={todo.uuid} />
-          ))}
-      </ul>
-      {todos.length > 0 && (
-        <footer>
-          <span>{todos.length} items left</span>
-          <div className={styles.filters}>
-            <button
-              className={selectedFilter === undefined ? styles.selected : ""}
-              onClick={() => setSelectedFilter(undefined)}>
-              All
-            </button>
-            <button
-              className={selectedFilter && selectedFilter.value === false ? styles.selected : ""}
-              onClick={() => setSelectedFilter({ field: "completed", value: false })}>
-              Active
-            </button>
-            <button
-              className={selectedFilter && selectedFilter.value === true ? styles.selected : ""}
-              onClick={() => setSelectedFilter({ field: "completed", value: true })}>
-              Completed
-            </button>
-          </div>
-          {completedTodos > 0 && (
-            <button
-              className={styles.clearCompleted}
-              onClick={() => setTodos((todos) => (!todos ? [] : todos.filter((todo) => todo.completed !== true)))}>
-              Clear completed
-            </button>
-          )}
-        </footer>
-      )}
+      <ul className={styles.list}>{todoListComponent}</ul>
+      {activeFooter}
     </div>
   ) : (
     <></>

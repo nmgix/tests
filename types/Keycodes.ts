@@ -1,4 +1,4 @@
-export enum Keykodes {
+export enum Keycodes {
   enterKey = "Enter",
   escapeKey = "Escape",
 }

@@ -6,8 +6,7 @@
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
   position: relative;
 
-  .newTodo,
-  .edit {
+  .newTodo {
     position: relative;
     margin: 0;
     width: 100%;
@@ -67,26 +66,17 @@
 
   .list {
     border-top: 1px solid rgb(var(--color-border));
-
-    li {
-      position: relative;
-      font-size: 24px;
-      border-bottom: 1px solid rgb(var(--color-border));
-
-      word-break: break-all;
-      padding: 15px 15px 15px 60px;
-      display: block;
-      line-height: 1.2;
-      transition: color 0.4s;
-    }
   }
 
   footer {
+    box-sizing: content-box;
+    height: 20px;
     padding: 10px 15px;
     position: relative;
     color: rgb(var(--color-list-footer));
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 
     &::before {
       content: "";
@@ -125,6 +115,15 @@
         &.selected {
           border-color: rgba(var(--color-buttons), 0.5);
         }
+      }
+    }
+    @media (max-width: 430px) {
+      height: 50px;
+
+      .filters {
+        transform: none;
+        top: unset;
+        bottom: 7px;
       }
     }
 

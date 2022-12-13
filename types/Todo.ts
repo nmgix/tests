@@ -10,4 +10,8 @@ export type TodoElementProps = {
   todo: Todo;
   onDelete: (uuid: string) => any;
   onUpdate: (todo: Todo) => any;
+
+  onEdit: (uuid: string) => any;
+  editing: boolean;
+  onCancel: () => any;
 };
