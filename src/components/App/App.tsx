@@ -1,13 +1,34 @@
-const App: React.FC = () => {
+import Container from "components/Container";
+import Canvas from "components/Widgets/Calculator/Canvas";
+import React from "react";
+import { Provider } from "react-redux";
+import store from "redux/store";
+import { CanvasComponentsKeyArray } from "types/Canvas";
+
+const sidebarComponents: CanvasComponentsKeyArray = [
+  "display",
+  "operationButtons",
+  "digitalBlock",
+  "equalizationButton",
+];
+
+export const App: React.FC = () => {
   return (
-    <div className='bg-gray-200 flex w-[695px]'>
-      <input
-        className='bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal m-10'
-        type='email'
-        placeholder='jane@example.com'
-      />
-    </div>
+    <Provider store={store}>
+      <div className='bg-neutral-200 h-screen w-screen flex justify-center items-center'>
+        <Container externalClassnames='bg-white w-[695px]'>
+          <Container>
+            {/* <Display canvasId='0' />
+            <OperationButtons canvasId='0' />
+            <DigitalBlock canvasId='0' />
+            <EqualizationButton canvasId='0' /> */}
+            <Canvas noRuntime existingComponents={sidebarComponents} />
+          </Container>
+          <Container>
+            <Canvas />
+          </Container>
+        </Container>
+      </div>
+    </Provider>
   );
 };
-
-export default App;
