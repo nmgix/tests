@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAction, useAppSelector } from "redux/helpers";
-import { Canvas, CanvasComponent, CanvasComponentsSelector, CanvasState } from "types/Canvas";
+import { Canvas, CanvasState } from "types/Canvas/Canvas";
+import { CanvasComponent, CanvasComponents, CanvasComponentsObject } from "types/Canvas/Canvas.components";
 
 export const useCanvas = (state: CanvasState, canvasId: string) => {
   const [canvas, setCanvas] = useState<Canvas | undefined>(undefined);
@@ -17,7 +18,7 @@ export const useCanvasWidget = (
   canvasId: string,
   componentId: string,
   componentRef: React.RefObject<HTMLDivElement>,
-  widgetType: CanvasComponentsSelector.CanvasComponents["type"],
+  widgetType: CanvasComponents["type"],
   indestructible: boolean
 ) => {
   const { addComponent, removeComponent } = useAction();
@@ -34,21 +35,16 @@ export const useCanvasWidget = (
       // если элемент существует на канвасе, проверка необходима для добавления в стор элементов,
       // установленных в канвасе принудительно (Runtime и Calculator (они не добавляются сторонними методами т.к. их рендер зависит от состояния компонента Canvas))
       if (canvasComponent) {
-        // @ts-ignore
         setComponentState(canvasComponent);
       } else {
         // создать необходимый, подходящий класс
-        const neededClass = CanvasComponentsSelector.getSuitableClass(widgetType);
+        const neededClass = CanvasComponentsObject[widgetType as keyof typeof CanvasComponentsObject].class;
         if (!neededClass) return;
 
-        // @ts-ignore
-        const classInstance: CanvasComponentsSelector.CanvasComponents = new neededClass(undefined, componentId);
-        // const neededInstance = { ...classInstance } as Partial<CanvasComponentsSelector.CanvasComponents>;
-        // delete neededInstance.component;
+        const classInstance = new neededClass(undefined, componentId);
         addComponent({
           canvasId: canvas.id,
-          // component: { ...neededInstance } as CanvasComponentsSelector.CanvasComponents,
-          component: { ...classInstance } as CanvasComponentsSelector.CanvasComponents,
+          component: { ...classInstance },
         });
       }
     }

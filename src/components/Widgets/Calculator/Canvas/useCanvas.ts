@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas, CanvasExistingComponent } from "types/Canvas";
+import { Canvas } from "types/Canvas/Canvas";
 import { useAction, useAppSelector } from "redux/helpers";
+import { CanvasExistingComponent } from "types/Canvas/Canvas.components";
 
 export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
   const { addNewCanvas, removeCanvas } = useAction();

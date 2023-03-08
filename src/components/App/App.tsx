@@ -3,7 +3,7 @@ import Canvas from "components/Widgets/Calculator/Canvas";
 import React from "react";
 import { Provider } from "react-redux";
 import store from "redux/store";
-import { CanvasExistingComponent } from "types/Canvas";
+import { CanvasExistingComponent } from "types/Canvas/Canvas.components";
 
 const sidebarComponents: CanvasExistingComponent[] = [
   {

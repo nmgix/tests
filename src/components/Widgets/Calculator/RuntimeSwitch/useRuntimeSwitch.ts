@@ -1,5 +1,6 @@
 import { useAction } from "redux/helpers";
-import { Canvas, CanvasComponentsSelector } from "types/Canvas";
+import { Canvas } from "types/Canvas/Canvas";
+import { RuntimeSwitchComponent } from "types/Canvas/Canvas.components";
 
 export const useRuntimeSwitch = (canvas: Canvas | undefined, canvasId: string, componentId: string) => {
   const { changeComponentData } = useAction();
@@ -8,7 +9,7 @@ export const useRuntimeSwitch = (canvas: Canvas | undefined, canvasId: string, c
     if (canvas) {
       const newComponentData = canvas.components.find(
         (component) => component.id === componentId
-      ) as CanvasComponentsSelector.RuntimeSwitchComponent;
+      ) as RuntimeSwitchComponent;
 
       if (newComponentData) {
         newComponentData.runtime = !newComponentData.runtime;

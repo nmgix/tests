@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { CanvasComponentProps } from "types/Canvas";
+import { CanvasComponentProps } from "types/Canvas/Canvas.components";
 import { useCanvasWidget } from "../useCanvasWidget";
 import { useCalculator } from "./useCalculator";
 

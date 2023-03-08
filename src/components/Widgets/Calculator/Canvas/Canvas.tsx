@@ -1,5 +1,5 @@
 import React from "react";
-import { CanvasComponentsSelector, CanvasExistingComponent } from "types/Canvas";
+import { CanvasComponentsObject, CanvasExistingComponent } from "types/Canvas/Canvas.components";
 import CalculatorBlock from "../CalculatorBlock";
 import RuntimeSwitch from "../RuntimeSwitch";
 import { useCanvas } from "./useCanvas";
@@ -16,10 +16,9 @@ export const Canvas: React.FC<CanvasProps> = ({ noRuntime, existingComponents })
       <CalculatorBlock componentId={"0"} canvasId={canvasState.id} indestructible={true} />
       {!noRuntime && <RuntimeSwitch canvasId={canvasState.id} componentId={"1"} indestructible={true} />}
       {canvasState.components.map((component) => {
-        const neededClass = CanvasComponentsSelector.getSuitableClass(component.type);
-        console.log(neededClass);
+        const neededComponent = CanvasComponentsObject[component.type as keyof typeof CanvasComponentsObject];
 
-        return React.createElement((neededClass as CanvasComponentsSelector.CanvasComponents).component, {
+        return React.createElement(neededComponent.component, {
           canvasId: canvasState.id,
           componentId: component.id,
           indestructible: component.indestructible,
