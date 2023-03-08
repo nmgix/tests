@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useAction, useAppSelector } from "redux/helpers";
-import { CanvasComponent, CanvasComponents, CanvasState } from "types/Canvas";
+import { Canvas, CanvasComponent, CanvasState } from "types/Canvas";
 
 const useCanvas = (state: CanvasState, canvasId: string) => {
-  const [canvas, setCanvas] = useState(state.canvases.find((canvas) => canvas.id === canvasId));
+  const [canvas, setCanvas] = useState<Canvas | undefined>(undefined);
+  useEffect(() => {
+    if (state.canvases) {
+      setCanvas(state.canvases.find((canvas) => canvas.id == canvasId));
+    }
+  }, [state.canvases]);
 
   return canvas;
 };
@@ -12,9 +17,9 @@ export const useCanvasWidget = (
   canvasId: string,
   componentId: string,
   componentRef: React.RefObject<HTMLDivElement>,
-  widgetType: keyof typeof CanvasComponents
+  indestructible: boolean
 ) => {
-  const { addComponent, removeComponent } = useAction();
+  const { removeComponent } = useAction();
   const state = useAppSelector((state) => state.canvas);
   const canvas = useCanvas(state, canvasId);
 
@@ -32,6 +37,7 @@ export const useCanvasWidget = (
   // удаление по двойному нажатию
   const timer = useRef<NodeJS.Timeout | null>(null);
   const onClickHandler = (event: MouseEvent) => {
+    if (indestructible) return;
     if (timer.current) clearTimeout(timer.current);
     if (event.detail === 2) {
       removeComponent({ canvasId, componentId });
@@ -45,15 +51,9 @@ export const useCanvasWidget = (
     };
   });
 
-  // функция ограничивающая логику компонента при режиме конструктора
-  const handleAction = (func: () => any | Function) => {
-    if ((canvas && !canvas.runtime) || widgetType === "runtimeSwitch") {
-      func();
-    }
-  };
-
   return {
     componentState,
-    handleAction,
+    state,
+    canvas,
   };
 };

@@ -21,8 +21,12 @@ export class Canvas {
   runtime: boolean = false;
   components: CanvasComponent[];
 
-  constructor(existingComponents?: CanvasComponentsKeyArray) {
-    this.components = existingComponents ? existingComponents.map((component) => new CanvasComponent(component)) : [];
+  constructor(existingComponents?: CanvasExistingComponent[]) {
+    this.components = existingComponents
+      ? existingComponents.map((existingComponent) => ({
+          ...new CanvasComponent(existingComponent.component, existingComponent.indestructible),
+        }))
+      : [];
   }
 }
 
@@ -30,12 +34,18 @@ export type CanvasState = {
   canvases: Canvas[];
 };
 
-export type CanvasComponentsKeyArray = (keyof typeof CanvasComponents)[];
+export type CanvasExistingComponent = {
+  component: keyof typeof CanvasComponents;
+  indestructible?: boolean;
+};
 
-export type CanvasComponentProps = { canvasId: string; componentId: string };
+export type CanvasComponentProps = { canvasId: string; componentId: string; indestructible: boolean };
 
 export class CanvasComponent {
   id: string = uuid();
+  indestructible: boolean;
 
-  constructor(public type: keyof typeof CanvasComponents) {}
+  constructor(public type: keyof typeof CanvasComponents, indestructible?: boolean) {
+    this.indestructible = indestructible !== undefined;
+  }
 }

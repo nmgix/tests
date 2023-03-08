@@ -34,6 +34,12 @@ const CanvasReducer = createSlice({
       );
       return { ...state, canvases: updatedCanvas };
     },
+    switchRuntime: (state, action: PayloadAction<{ canvasId: string }>) => {
+      const updatedCanvas = state.canvases.map((canvas) =>
+        canvas.id === action.payload.canvasId ? { ...canvas, runtime: !canvas.runtime } : canvas
+      );
+      return { ...state, canvases: updatedCanvas };
+    },
   },
 });
 
