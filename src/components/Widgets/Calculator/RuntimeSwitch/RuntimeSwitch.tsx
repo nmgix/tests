@@ -3,10 +3,11 @@ import { CanvasComponentProps } from "types/Canvas";
 import { useCanvasWidget } from "../useCanvasWidget";
 import { useRuntimeSwitch } from "./useRuntimeSwitch";
 
+// логику переключения runtime тоже желательно вынести из canvas
 export const RuntimeSwitch: React.FC<CanvasComponentProps> = ({ canvasId, componentId }) => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { canvas } = useCanvasWidget(canvasId, componentId, componentRef, true);
-  const { switchFunc } = useRuntimeSwitch(canvas);
+  const { canvas } = useCanvasWidget(canvasId, componentId, componentRef, "runtimeSwitch", true);
+  const { switchFunc } = useRuntimeSwitch(canvas, canvasId, componentId);
 
   return (
     <div ref={componentRef}>

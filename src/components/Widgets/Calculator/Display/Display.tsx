@@ -4,7 +4,7 @@ import { useCanvasWidget } from "../useCanvasWidget";
 
 export const Display: React.FC<CanvasComponentProps> = ({ canvasId, componentId, indestructible }) => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
+  const { componentState } = useCanvasWidget(canvasId, componentId, componentRef, "display", indestructible);
 
   return <div ref={componentRef}>display</div>;
 };

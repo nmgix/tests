@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Canvas, CanvasComponent, CanvasState } from "types/Canvas";
+import { Canvas, CanvasComponentsSelector, CanvasState } from "types/Canvas";
 
 const initialState: CanvasState = {
   canvases: [],
@@ -15,7 +15,10 @@ const CanvasReducer = createSlice({
     removeCanvas: (state, action: PayloadAction<{ id: string }>) => {
       return { ...state, canvases: state.canvases.filter((canvas) => canvas.id !== action.payload.id) };
     },
-    addComponent: (state, action: PayloadAction<{ canvasId: string; component: CanvasComponent }>) => {
+    addComponent: (
+      state,
+      action: PayloadAction<{ canvasId: string; component: CanvasComponentsSelector.CanvasComponents }>
+    ) => {
       const updatedCanvas = state.canvases.map((canvas) =>
         canvas.id === action.payload.canvasId
           ? { ...canvas, components: [...canvas.components, action.payload.component] }
@@ -34,9 +37,29 @@ const CanvasReducer = createSlice({
       );
       return { ...state, canvases: updatedCanvas };
     },
-    switchRuntime: (state, action: PayloadAction<{ canvasId: string }>) => {
+    // switchRuntime: (state, action: PayloadAction<{ canvasId: string }>) => {
+    //   const updatedCanvas = state.canvases.map((canvas) =>
+    //     canvas.id === action.payload.canvasId ? { ...canvas, runtime: !canvas.runtime } : canvas
+    //   );
+    //   return { ...state, canvases: updatedCanvas };
+    // },
+    changeComponentData: (
+      state,
+      action: PayloadAction<{
+        canvasId: string;
+        componentId: string;
+        newComponentData: CanvasComponentsSelector.CanvasComponents;
+      }>
+    ) => {
       const updatedCanvas = state.canvases.map((canvas) =>
-        canvas.id === action.payload.canvasId ? { ...canvas, runtime: !canvas.runtime } : canvas
+        canvas.id === action.payload.canvasId
+          ? {
+              ...canvas,
+              components: canvas.components.map((component) =>
+                component.id === action.payload.componentId ? action.payload.newComponentData : component
+              ),
+            }
+          : canvas
       );
       return { ...state, canvases: updatedCanvas };
     },

@@ -4,7 +4,7 @@ import { useCanvasWidget } from "../useCanvasWidget";
 
 export const OperationButtons: React.FC<CanvasComponentProps> = ({ canvasId, componentId, indestructible }) => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
+  const { componentState } = useCanvasWidget(canvasId, componentId, componentRef, "operationButtons", indestructible);
 
   return <div ref={componentRef}>operation buttons</div>;
 };
