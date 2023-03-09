@@ -1,3 +1,5 @@
+const spacedItems = require("tailwindcss-spaced-items");
+
 module.exports = {
   content: ["./src/components/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -19,5 +21,11 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    spacedItems({
+      values: {
+        16: "16px",
+      },
+    }),
+  ],
 };

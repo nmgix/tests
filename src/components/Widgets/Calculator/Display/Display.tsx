@@ -9,8 +9,10 @@ export const Display: React.FC<CanvasComponentProps> = ({ canvasId, componentId,
   const drawData = useDisplay(canvas);
 
   return (
-    <div ref={componentRef}>
-      <span>{drawData}</span>
+    <div ref={componentRef} className='rounded-md bg-white p-1 w-full shadow-md flex'>
+      <span className='text-gray-900 bg-gray-100 rounded-md py-2 px-2 font-extrabold text-3xl flex-1 text-end'>
+        {drawData}
+      </span>
     </div>
   );
 };
