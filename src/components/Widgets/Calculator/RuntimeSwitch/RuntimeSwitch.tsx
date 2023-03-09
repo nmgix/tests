@@ -17,7 +17,7 @@ export const RuntimeSwitch: React.FC<CanvasComponentProps> = ({ canvasId, compon
         onClick={() => switchFunc(true)}
         className={classNames(
           "flex rounded-md items-center py-2 px-3",
-          (componentState as RuntimeSwitchComponent)?.runtime && "bg-white border-solid border-outline-100"
+          (componentState as RuntimeSwitchComponent)?.runtime && "bg-white border-solid border-outline-200"
         )}>
         <Icon
           name='eye'
@@ -30,7 +30,7 @@ export const RuntimeSwitch: React.FC<CanvasComponentProps> = ({ canvasId, compon
         onClick={() => switchFunc(false)}
         className={classNames(
           "flex rounded-md items-center py-2 px-3",
-          !(componentState as RuntimeSwitchComponent)?.runtime && "bg-white border-solid border-outline-100"
+          !(componentState as RuntimeSwitchComponent)?.runtime && "bg-white border-solid border-outline-200"
         )}>
         <Icon
           name='selector'
