@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas } from "types/Canvas";
 import { useAction, useAppSelector } from "redux/helpers";
 import { CanvasExistingComponent } from "types/Canvas/Canvas.components";
+import { useRuntime } from "../useRuntime";
 
 export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
   const { addNewCanvas, removeCanvas } = useAction();
@@ -9,6 +10,7 @@ export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
   const { current } = useRef(new Canvas(existingComponents));
 
   const [canvasState, setCanvasState] = useState<Canvas>(current);
+  const runtime = useRuntime(canvasState);
 
   useEffect(() => {
     const currentCanvas = state.canvases.find((c) => c.id === current.id);
@@ -26,5 +28,6 @@ export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
 
   return {
     canvasState,
+    runtime,
   };
 };

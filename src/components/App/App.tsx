@@ -37,26 +37,26 @@ const canvasComponents: CanvasExistingComponent[] = [
     component: "runtimeSwitch",
     indestructible: true,
   },
-  {
-    component: "display",
-  },
-  {
-    component: "operationButtons",
-  },
-  {
-    component: "digitalBlock",
-  },
-  {
-    component: "equalizationButton",
-  },
+  // {
+  //   component: "display",
+  // },
+  // {
+  //   component: "operationButtons",
+  // },
+  // {
+  //   component: "digitalBlock",
+  // },
+  // {
+  //   component: "equalizationButton",
+  // },
 ];
 
 export const App: React.FC = () => {
   return (
     <Provider store={store}>
       <div className='bg-neutral-200 h-screen w-screen flex justify-center items-center'>
-        <Container externalClassnames='bg-white w-[695px] flex justify-between'>
-          <Container>
+        <Container externalClassnames='w-[695px] h-[640px] flex justify-between py-10 px-20'>
+          <Container externalClassnames='pt-68'>
             <Canvas noRuntime existingComponents={sidebarComponents} />
           </Container>
           <Container>

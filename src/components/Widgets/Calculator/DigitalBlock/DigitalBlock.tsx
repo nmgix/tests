@@ -5,8 +5,8 @@ import { useStorageModifier } from "../useStorageModifier";
 
 export const DigitalBlock: React.FC<CanvasComponentProps> = ({ canvasId, componentId, indestructible }) => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { canvas, componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
-  const { updateData } = useStorageModifier(canvas, componentState);
+  const { canvas, runtime, componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
+  const { updateData } = useStorageModifier(canvas, runtime, componentState);
 
   return (
     <div ref={componentRef}>

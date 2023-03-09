@@ -3,6 +3,7 @@ import { Canvas } from "types/Canvas";
 import { StorageComponent, CanvasComponents } from "types/Canvas/Canvas.components";
 import { useRuntime } from "../useRuntime";
 import { evaluate } from "mathjs";
+import { StorageValues } from "types/Storage";
 
 export const useEqualizationButton = (canvas: Canvas | undefined, componentState: CanvasComponents | null) => {
   const { changeComponentData } = useAction();
@@ -15,11 +16,11 @@ export const useEqualizationButton = (canvas: Canvas | undefined, componentState
     const newComponentData = { ...storage };
     try {
       const evaluated = (newComponentData.storedValue = evaluate(newComponentData.storedValue)).toString();
-      newComponentData.storedValue = evaluated;
-      changeComponentData({ canvasId: canvas.id, componentId: storage.id, newComponentData });
+      newComponentData.storedValue = isFinite(evaluated) ? evaluated : StorageValues.infinity;
     } catch (error) {
-      return;
+      newComponentData.storedValue = StorageValues.infinity;
     }
+    changeComponentData({ canvasId: canvas.id, componentId: storage.id, newComponentData });
   };
 
   return {

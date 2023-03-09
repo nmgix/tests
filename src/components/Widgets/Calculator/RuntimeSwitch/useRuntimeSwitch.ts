@@ -5,12 +5,12 @@ import { RuntimeSwitchComponent } from "types/Canvas/Canvas.components";
 export const useRuntimeSwitch = (canvas: Canvas | undefined, componentState: RuntimeSwitchComponent | null) => {
   const { changeComponentData } = useAction();
 
-  const switchFunc = () => {
+  const switchFunc = (runtimeActive?: boolean) => {
     if (!canvas || !componentState) return;
 
     if (componentState) {
       const newComponentData = { ...componentState };
-      newComponentData.runtime = !newComponentData.runtime;
+      newComponentData.runtime = runtimeActive ?? !newComponentData.runtime;
       changeComponentData({ canvasId: canvas.id, componentId: componentState?.id, newComponentData });
     }
   };

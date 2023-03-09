@@ -5,6 +5,7 @@ import OperationButtons from "components/Widgets/Calculator/OperationButtons";
 import RuntimeSwitch from "components/Widgets/Calculator/RuntimeSwitch";
 import { v4 as uuid } from "uuid";
 import StorageBlock from "components/Widgets/Calculator/StorageBlock";
+import { StorageValues } from "types/Storage";
 
 /**
  * Основной класс - родитель всех элементов канвы
@@ -24,7 +25,7 @@ export class StorageComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
     super("storage", indestructible, existingId);
   }
-  storedValue: string = "";
+  storedValue: string = StorageValues.empty;
 }
 export class DisplayComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
