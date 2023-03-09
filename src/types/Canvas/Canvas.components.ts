@@ -1,10 +1,10 @@
-import CalculatorBlock from "components/Widgets/Calculator/CalculatorBlock";
 import DigitalBlock from "components/Widgets/Calculator/DigitalBlock";
 import Display from "components/Widgets/Calculator/Display";
 import EqualizationButton from "components/Widgets/Calculator/EqualizationButton";
 import OperationButtons from "components/Widgets/Calculator/OperationButtons";
 import RuntimeSwitch from "components/Widgets/Calculator/RuntimeSwitch";
 import { v4 as uuid } from "uuid";
+import StorageBlock from "components/Widgets/Calculator/StorageBlock";
 
 /**
  * Основной класс - родитель всех элементов канвы
@@ -12,8 +12,6 @@ import { v4 as uuid } from "uuid";
 export class CanvasComponent {
   id: string;
   indestructible: boolean;
-  dependantOn: CanvasComponents["type"][] = [];
-  dependantBy: CanvasComponents["type"][] = [];
 
   constructor(public type: string, indestructible?: boolean, existingId?: string) {
     this.id = existingId ?? uuid();
@@ -22,65 +20,42 @@ export class CanvasComponent {
 }
 
 // начало перечисления классов компонентов канвы
-export class CalculatorComponent extends CanvasComponent {
+export class StorageComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
-    super("calculator", indestructible, existingId);
-    existingId && (this.id = existingId);
+    super("storage", indestructible, existingId);
   }
-  dependantOn: CanvasComponents["type"][] = [
-    "operationButtons",
-    "digitalBlock",
-    "equalizationButton",
-    "equalizationButton",
-  ];
-  dependantBy: CanvasComponents["type"][] = [];
   storedValue: string = "";
 }
 export class DisplayComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
     super("display", indestructible, existingId);
-    existingId && (this.id = existingId);
   }
-  dependantOn: CanvasComponents["type"][] = ["calculator"];
-  dependantBy: CanvasComponents["type"][] = [];
 }
 export class DigitalBlockComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
     super("digitalBlock", indestructible, existingId);
-    existingId && (this.id = existingId);
   }
-  dependantOn: CanvasComponents["type"][] = ["calculator"];
-  dependantBy: CanvasComponents["type"][] = [];
 }
 export class EqualizationButtonComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
     super("equalizationButton", indestructible, existingId);
-    existingId && (this.id = existingId);
   }
-  dependantOn: CanvasComponents["type"][] = ["calculator"];
-  dependantBy: CanvasComponents["type"][] = [];
 }
 export class OperationButtonsComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
     super("operationButtons", indestructible, existingId);
-    existingId && (this.id = existingId);
   }
-  dependantOn: CanvasComponents["type"][] = ["calculator"];
-  dependantBy: CanvasComponents["type"][] = [];
 }
 export class RuntimeSwitchComponent extends CanvasComponent {
   constructor(indestructible?: boolean, existingId?: string) {
     super("runtimeSwitch", indestructible, existingId);
-    existingId && (this.id = existingId);
   }
-  dependantOn: CanvasComponents["type"][] = ["calculator"];
-  dependantBy: CanvasComponents["type"][] = [];
   runtime: boolean = false;
 }
 // конец перечисления классов компонентов канвы
 
 export type CanvasComponents =
-  | CalculatorComponent
+  | StorageComponent
   | DisplayComponent
   | DigitalBlockComponent
   | EqualizationButtonComponent
@@ -108,14 +83,14 @@ export const CanvasComponentsObject = {
     class: DisplayComponent,
     component: Display,
   },
-  calculator: {
-    class: CalculatorComponent,
-    component: CalculatorBlock,
+  storage: {
+    class: StorageComponent,
+    component: StorageBlock,
   },
 };
 
 export type CanvasExistingComponent = {
-  component: CanvasComponents["type"];
+  component: keyof typeof CanvasComponentsObject;
   indestructible?: boolean;
 };
 export type CanvasComponentsArrayType = CanvasComponents[];

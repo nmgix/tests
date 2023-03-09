@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas } from "types/Canvas/Canvas";
+import { Canvas } from "types/Canvas";
 import { useAction, useAppSelector } from "redux/helpers";
 import { CanvasExistingComponent } from "types/Canvas/Canvas.components";
 

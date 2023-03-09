@@ -22,6 +22,33 @@ const sidebarComponents: CanvasExistingComponent[] = [
     component: "equalizationButton",
     indestructible: true,
   },
+  {
+    component: "storage",
+    indestructible: true,
+  },
+];
+
+const canvasComponents: CanvasExistingComponent[] = [
+  {
+    component: "storage",
+    indestructible: true,
+  },
+  {
+    component: "runtimeSwitch",
+    indestructible: true,
+  },
+  {
+    component: "display",
+  },
+  {
+    component: "operationButtons",
+  },
+  {
+    component: "digitalBlock",
+  },
+  {
+    component: "equalizationButton",
+  },
 ];
 
 export const App: React.FC = () => {
@@ -33,7 +60,7 @@ export const App: React.FC = () => {
             <Canvas noRuntime existingComponents={sidebarComponents} />
           </Container>
           <Container>
-            <Canvas />
+            <Canvas existingComponents={canvasComponents} />
           </Container>
         </Container>
       </div>

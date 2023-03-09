@@ -18,5 +18,5 @@
     "noImplicitThis": false,
     "baseUrl": "./src"
   },
-  "include": ["src"]
+  "include": ["src", "modules.d.ts"]
 }

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAction, useAppSelector } from "redux/helpers";
-import { Canvas, CanvasState } from "types/Canvas/Canvas";
-import { CanvasComponent, CanvasComponents, CanvasComponentsObject } from "types/Canvas/Canvas.components";
+import { Canvas, CanvasState } from "types/Canvas";
+import { CanvasComponent } from "types/Canvas/Canvas.components";
 
 export const useCanvas = (state: CanvasState, canvasId: string) => {
   const [canvas, setCanvas] = useState<Canvas | undefined>(undefined);
@@ -9,7 +9,7 @@ export const useCanvas = (state: CanvasState, canvasId: string) => {
     if (state.canvases) {
       setCanvas(state.canvases.find((canvas) => canvas.id === canvasId));
     }
-  }, [state.canvases]);
+  }, [state.canvases, canvasId]);
 
   return canvas;
 };
@@ -18,54 +18,38 @@ export const useCanvasWidget = (
   canvasId: string,
   componentId: string,
   componentRef: React.RefObject<HTMLDivElement>,
-  widgetType: CanvasComponents["type"],
   indestructible: boolean
 ) => {
-  const { addComponent, removeComponent } = useAction();
+  const { removeComponent } = useAction();
   const state = useAppSelector((state) => state.canvas);
   const canvas = useCanvas(state, canvasId);
 
   // состояние компонента
-  const [componentState, setComponentState] = useState<CanvasComponent>();
-
-  // дорогостоящее обновление состояние компонента
+  const [componentState, setComponentState] = useState<CanvasComponent | null>(null);
   useEffect(() => {
-    if (canvas) {
-      const canvasComponent = canvas.components.find((cc) => cc.id === componentId);
-      // если элемент существует на канвасе, проверка необходима для добавления в стор элементов,
-      // установленных в канвасе принудительно (Runtime и Calculator (они не добавляются сторонними методами т.к. их рендер зависит от состояния компонента Canvas))
-      if (canvasComponent) {
-        setComponentState(canvasComponent);
-      } else {
-        // создать необходимый, подходящий класс
-        const neededClass = CanvasComponentsObject[widgetType as keyof typeof CanvasComponentsObject].class;
-        if (!neededClass) return;
-
-        const classInstance = new neededClass(undefined, componentId);
-        addComponent({
-          canvasId: canvas.id,
-          component: { ...classInstance },
-        });
-      }
-    }
-  }, [canvas?.components]);
+    if (!canvas) return;
+    const currentComponent = canvas.components.find((c) => c.id === componentId);
+    if (!currentComponent) return;
+    setComponentState(currentComponent);
+  }, [canvas, componentId]);
 
   // удаление по двойному нажатию
-  const timer = useRef<NodeJS.Timeout | null>(null);
-  const onClickHandler = (event: MouseEvent) => {
-    if (indestructible) return;
-    if (timer.current) clearTimeout(timer.current);
-    if (event.detail === 2) {
-      removeComponent({ canvasId, componentId });
-    }
-  };
+  const onClickHandler = useCallback(
+    (event: MouseEvent) => {
+      if (indestructible) return;
+      if (event.detail === 2) {
+        removeComponent({ canvasId, componentId });
+      }
+    },
+    [canvasId, componentId, indestructible, removeComponent]
+  );
   useEffect(() => {
-    componentRef.current?.addEventListener("click", onClickHandler);
-
+    let node = componentRef.current;
+    if (node) componentRef.current?.addEventListener("click", onClickHandler);
     return () => {
-      componentRef.current?.removeEventListener("click", onClickHandler);
+      node?.removeEventListener("click", onClickHandler);
     };
-  }, []);
+  }, [componentRef, onClickHandler]);
 
   return {
     componentState,

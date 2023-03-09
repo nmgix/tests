@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Canvas, CanvasState } from "types/Canvas/Canvas";
+import { Canvas, CanvasState } from "types/Canvas";
 import { CanvasComponents } from "types/Canvas/Canvas.components";
 
 const initialState: CanvasState = {
