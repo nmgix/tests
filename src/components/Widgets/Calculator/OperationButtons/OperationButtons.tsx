@@ -1,9 +1,15 @@
+import classNames from "classnames";
 import { useRef } from "react";
 import { CanvasComponentProps } from "types/Canvas/Canvas.components";
 import { useCanvasWidget } from "../useCanvasWidget";
 import { useStorageModifier } from "../useStorageModifier";
 
-export const OperationButtons: React.FC<CanvasComponentProps> = ({ canvasId, componentId, indestructible }) => {
+export const OperationButtons: React.FC<CanvasComponentProps> = ({
+  canvasId,
+  componentId,
+  indestructible,
+  componentsShadow,
+}) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const { canvas, runtime, componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
   const { updateData } = useStorageModifier(canvas, runtime, componentState);
@@ -31,10 +37,12 @@ export const OperationButtons: React.FC<CanvasComponentProps> = ({ canvasId, com
   ];
 
   return (
-    <div ref={componentRef} className='p-1 bg-white rounded-md shadow-md'>
+    <div ref={componentRef} className={classNames("p-1 bg-white rounded-md", componentsShadow && "shadow-md")}>
       <ul className='w-full flex spaced-x-8 justify-between'>
         {operations.map((o) => (
-          <li className='text-sm text-black font-medium rounded-md border border-solid border-outline-100 flex justify-center align-middle'>
+          <li
+            key={o.operation}
+            className='text-sm text-black font-medium rounded-md border border-outline-100 border-solid flex justify-center align-middle hover:shadow-button'>
             <button className='w-[50px] h-[46px]' onClick={() => updateData(o.operation)}>
               {o.symbol}
             </button>

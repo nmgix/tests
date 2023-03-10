@@ -95,4 +95,9 @@ export type CanvasExistingComponent = {
   indestructible?: boolean;
 };
 export type CanvasComponentsArrayType = CanvasComponents[];
-export type CanvasComponentProps = { canvasId: string; componentId: string; indestructible: boolean };
+export type CanvasComponentProps = {
+  canvasId: string;
+  componentId: string;
+  indestructible: boolean;
+  componentsShadow: boolean;
+};

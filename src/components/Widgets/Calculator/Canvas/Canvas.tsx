@@ -7,27 +7,29 @@ import { useCanvas } from "./useCanvas";
 type CanvasProps = {
   noRuntime?: true;
   existingComponents?: CanvasExistingComponent[];
+  componentsShadow?: true;
 };
 
 const requiredElements: (keyof typeof CanvasComponentsObject)[] = ["runtimeSwitch", "storage"];
-const createComponent = (component: CanvasComponents, canvasState: CanvasState) => {
+const createComponent = (component: CanvasComponents, canvasState: CanvasState, componentsShadow: boolean) => {
   const neededComponent = CanvasComponentsObject[component.type as keyof typeof CanvasComponentsObject];
 
   return React.createElement(neededComponent.component, {
     canvasId: canvasState.id,
     componentId: component.id,
     indestructible: component.indestructible,
+    componentsShadow: componentsShadow,
     key: component.id,
   });
 };
 
-export const Canvas: React.FC<CanvasProps> = ({ noRuntime, existingComponents }) => {
+export const Canvas: React.FC<CanvasProps> = ({ noRuntime, existingComponents, componentsShadow }) => {
   const { canvasState, runtime } = useCanvas(existingComponents);
   return (
-    <div className='h-full flex flex-col min-w-[240px]'>
+    <div className='h-full flex flex-col w-[240px]'>
       {canvasState.components
         .filter((c) => requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
-        .map((component) => createComponent(component, canvasState))}
+        .map((component) => createComponent(component, canvasState, componentsShadow ?? false))}
       <div className='h-full spaced-y-16'>
         {canvasState.components.filter((c) => !["runtimeSwitch", "storage"].includes(c.type)).length === 0 &&
         !runtime ? (
@@ -43,7 +45,7 @@ export const Canvas: React.FC<CanvasProps> = ({ noRuntime, existingComponents })
         ) : (
           canvasState.components
             .filter((c) => !requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
-            .map((component) => createComponent(component, canvasState))
+            .map((component) => createComponent(component, canvasState, componentsShadow ?? false))
         )}
       </div>
     </div>

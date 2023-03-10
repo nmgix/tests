@@ -12,6 +12,7 @@ export const useStorage = (canvas: Canvas | undefined, componentState: StorageCo
   useEffect(() => {
     if (!canvas || !componentState) return;
     if (runtime) return;
+    if (componentState.storedValue === StorageValues.empty) return;
 
     const newComponentData = { ...componentState };
     newComponentData.storedValue = StorageValues.empty;

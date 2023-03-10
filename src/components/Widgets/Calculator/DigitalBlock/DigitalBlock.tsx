@@ -1,49 +1,122 @@
+import classNames from "classnames";
 import { useRef } from "react";
 import { CanvasComponentProps } from "types/Canvas/Canvas.components";
 import { useCanvasWidget } from "../useCanvasWidget";
 import { useStorageModifier } from "../useStorageModifier";
 
-export const DigitalBlock: React.FC<CanvasComponentProps> = ({ canvasId, componentId, indestructible }) => {
+export const DigitalBlock: React.FC<CanvasComponentProps> = ({
+  canvasId,
+  componentId,
+  indestructible,
+  componentsShadow,
+}) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const { canvas, runtime, componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
   const { updateData } = useStorageModifier(canvas, runtime, componentState);
 
+  const operations: {
+    operation: string;
+    size: {
+      width: number;
+      height: number;
+    };
+  }[] = [
+    {
+      operation: "7",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "8",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "9",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "4",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "5",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "6",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "1",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "2",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "3",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+    {
+      operation: "0",
+      size: {
+        width: 2,
+        height: 1,
+      },
+    },
+    {
+      operation: ",",
+      size: {
+        width: 1,
+        height: 1,
+      },
+    },
+  ];
+
   return (
-    <div ref={componentRef}>
-      <ul>
-        <li>
-          <button onClick={() => updateData("7")}>7</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("8")}>8</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("9")}>9</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("4")}>4</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("5")}>5</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("6")}>6</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("1")}>1</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("2")}>2</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("3")}>3</button>
-        </li>
-        <li>
-          <button onClick={() => updateData("0")}>0</button>
-        </li>
-        <li>
-          <button onClick={() => updateData(",")}>,</button>
-        </li>
+    <div ref={componentRef} className={classNames("bg-white rounded-md", componentsShadow && "shadow-md")}>
+      <ul className='grid grid-cols-3 gap-2 p-1'>
+        {operations.map((o) => (
+          <li
+            key={o.operation}
+            className={classNames(
+              // такой косяк обсуждается в переходе на Tailwind V3
+              o.size.width === 2 ? "col-span-2" : "col-span-1",
+              `row-span-${o.size.height}`,
+              "text-center border border-outline-100 rounded-md hover:shadow-button"
+            )}>
+            <button className='h-[48px] w-full' onClick={() => updateData(o.operation)}>
+              {o.operation}
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );

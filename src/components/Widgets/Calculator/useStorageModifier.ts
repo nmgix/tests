@@ -12,6 +12,7 @@ export const useStorageModifier = (
 
   const updateData = (input: string) => {
     if (!canvas || !componentState || !runtime) return;
+    if (typeof input !== "string") return false;
     const storage = canvas.components.find((c) => c.type === "storage") as StorageComponent;
     if (!storage) return;
     const newComponentData = { ...storage };
@@ -19,7 +20,9 @@ export const useStorageModifier = (
       newComponentData.storedValue = StorageValues.empty;
     }
     if (newComponentData.storedValue === StorageValues.empty) {
-      newComponentData.storedValue = input;
+      if (input === "-" || (!isNaN(Number(input)) && !isNaN(parseFloat(input)))) {
+        newComponentData.storedValue = input;
+      }
     } else {
       newComponentData.storedValue += input;
     }

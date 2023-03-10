@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         iris: {
           100: "#5D5FEF",
+          200: "#3D3FBF",
         },
         white: "#ffffff",
         outline: {
@@ -16,6 +17,9 @@ module.exports = {
         },
         "font-alter": "#4D5562",
         // sky/50
+      },
+      boxShadow: {
+        button: "inset 0 0 0 2px #5D5FEF",
       },
     },
   },

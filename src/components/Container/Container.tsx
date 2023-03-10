@@ -8,5 +8,5 @@ type ContainerProps = {
 export const Container: React.FC<ContainerProps> = (props) => {
   const { children, externalClassnames } = props;
 
-  return <div className={classNames("bg-white", externalClassnames)}>{children}</div>;
+  return <div className={classNames(externalClassnames)}>{children}</div>;
 };
