@@ -27,6 +27,7 @@ module.exports = {
   plugins: [
     spacedItems({
       values: {
+        0: "0px",
         8: "8px",
         12: "12px",
       },

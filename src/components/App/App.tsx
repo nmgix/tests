@@ -68,8 +68,8 @@ export const App: React.FC = () => {
   return (
     <Provider store={store}>
       <DndProvider options={HTML5toTouch}>
-        <div className='bg-neutral-200 h-screen w-screen flex justify-center items-center'>
-          <Container externalClassnames='bg-white w-[695px] h-[640px] flex justify-between py-10 px-20 pb-[86px]'>
+        <div className='bg-neutral-200 min-h-screen h-full w-screen flex justify-center items-center'>
+          <Container externalClassnames='bg-white md:w-[695px] mx-4 my-4 flex justify-between items-center flex-col md:flex-row py-10 px-20 pb-[86px] spaced-y-12 md:spaced-y-0'>
             <Container externalClassnames='pt-[68px]'>
               <Canvas componentsShadow existingComponents={sidebarComponents} />
             </Container>
