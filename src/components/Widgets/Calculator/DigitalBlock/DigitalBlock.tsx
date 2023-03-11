@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { DragCanvasWidgetProps } from "types/Canvas/Canvas.components";
+import { DragCanvasWidgetProps, Operations } from "types/Canvas/Canvas.components";
 import { useStorageModifier } from "../useStorageModifier";
 
 export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
@@ -9,17 +9,10 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
   runtime,
   componentsShadow,
 }) => {
-  const { updateData } = useStorageModifier(canvas, runtime, componentState);
-
-  const operations: {
-    operation: string;
-    size: {
-      width: number;
-      height: number;
-    };
-  }[] = [
+  const operations: Operations = [
     {
       operation: "7",
+      symbol: "7",
       size: {
         width: 1,
         height: 1,
@@ -27,6 +20,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "8",
+      symbol: "8",
       size: {
         width: 1,
         height: 1,
@@ -34,6 +28,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "9",
+      symbol: "9",
       size: {
         width: 1,
         height: 1,
@@ -41,6 +36,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "4",
+      symbol: "4",
       size: {
         width: 1,
         height: 1,
@@ -48,6 +44,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "5",
+      symbol: "5",
       size: {
         width: 1,
         height: 1,
@@ -55,6 +52,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "6",
+      symbol: "6",
       size: {
         width: 1,
         height: 1,
@@ -62,6 +60,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "1",
+      symbol: "1",
       size: {
         width: 1,
         height: 1,
@@ -69,6 +68,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "2",
+      symbol: "2",
       size: {
         width: 1,
         height: 1,
@@ -76,6 +76,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "3",
+      symbol: "3",
       size: {
         width: 1,
         height: 1,
@@ -83,19 +84,22 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
     },
     {
       operation: "0",
+      symbol: "0",
       size: {
         width: 2,
         height: 1,
       },
     },
     {
-      operation: ",",
+      operation: ".",
+      symbol: ",",
       size: {
         width: 1,
         height: 1,
       },
     },
   ];
+  const { updateData } = useStorageModifier(canvas, runtime, componentState, operations);
 
   return (
     <div ref={componentRef} className={classNames("bg-white rounded-md", componentsShadow && "shadow-md")}>
@@ -110,7 +114,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
               "text-center rounded-md shadow-button hover:shadow-buttonHover"
             )}>
             <button className='h-[48px] w-full' onClick={() => updateData(o.operation)}>
-              {o.operation}
+              {o.symbol}
             </button>
           </li>
         ))}

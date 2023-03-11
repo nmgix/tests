@@ -1,23 +1,15 @@
 import classNames from "classnames";
-import { DragCanvasWidgetProps } from "types/Canvas/Canvas.components";
+import { DragCanvasWidgetProps, Operations } from "types/Canvas/Canvas.components";
 import { useStorageModifier } from "../useStorageModifier";
 
 export const OperationButtons: React.FC<DragCanvasWidgetProps> = ({
   componentsShadow,
   canvas,
   componentState,
-  dnd: { drag, isDragging },
   runtime,
   componentRef,
 }) => {
-  const { updateData } = useStorageModifier(canvas, runtime, componentState);
-
-  const opacity = isDragging ? 0.4 : 1;
-
-  const operations: {
-    operation: string;
-    symbol: string;
-  }[] = [
+  const operations: Operations = [
     {
       operation: "/",
       symbol: "/",
@@ -36,12 +28,11 @@ export const OperationButtons: React.FC<DragCanvasWidgetProps> = ({
     },
   ];
 
+  const { updateData } = useStorageModifier(canvas, runtime, componentState, operations);
+
   return (
-    <div
-      ref={componentRef}
-      className={classNames("p-1 bg-white rounded-md", componentsShadow && "shadow-md")}
-      style={{ opacity }}>
-      <ul ref={drag} className='w-full flex spaced-x-8 justify-between'>
+    <div ref={componentRef} className={classNames("p-1 bg-white rounded-md", componentsShadow && "shadow-md")}>
+      <ul className='w-full flex spaced-x-8 justify-between'>
         {operations.map((o) => (
           <li
             key={o.operation}

@@ -1,12 +1,15 @@
 import { useAction } from "redux/helpers";
 import { Canvas } from "types/Canvas";
-import { StorageComponent, CanvasComponent } from "types/Canvas/Canvas.components";
+import { StorageComponent, CanvasComponent, Operations } from "types/Canvas/Canvas.components";
+import { Regexp } from "types/Operation";
 import { StorageValues } from "types/Storage";
+import { useKey } from "./useKey";
 
 export const useStorageModifier = (
   canvas: Canvas | undefined,
   runtime: boolean,
-  componentState: CanvasComponent | null
+  componentState: CanvasComponent | null,
+  operations: Operations
 ) => {
   const { changeComponentData } = useAction();
 
@@ -31,26 +34,27 @@ export const useStorageModifier = (
       }
       // если значение не нулевое
     } else {
-      // eslint-disable-next-line no-useless-escape
-      const regexp = /(\d[^\+\-\*\/]*)+/g;
-      const storedValue = newComponentData.storedValue.split(regexp);
-
-      // если значение число
-      if (regexp.test(input)) {
-        newComponentData.storedValue += input;
-      } else {
-        // если прошлый знак перед последним или последний равен не числу, то закончить
-        if (
-          (storedValue[storedValue.length - 2] !== undefined && isNaN(Number(storedValue[storedValue.length - 2]))) ||
-          isNaN(Number(storedValue[storedValue.length - 1]))
-        )
-          return;
+      const storedValue = newComponentData.storedValue.split(Regexp);
+      // если предпоследнее значение число или последнее значение не пустое и ввод равен числу
+      if (
+        (storedValue[storedValue.length - 2] !== undefined &&
+          storedValue[storedValue.length - 2].length > 0 &&
+          !isNaN(Number(storedValue[storedValue.length - 2]))) ||
+        (storedValue[storedValue.length - 2] === undefined && !isNaN(Number(input)))
+      ) {
         newComponentData.storedValue += input;
       }
     }
 
     changeComponentData({ canvasId: canvas.id, componentId: storage.id, newComponentData });
   };
+
+  useKey(
+    operations.map((o) => o.operation),
+    updateData,
+    canvas,
+    runtime
+  );
 
   return {
     updateData,

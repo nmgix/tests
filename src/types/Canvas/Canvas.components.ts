@@ -87,3 +87,9 @@ export type DragCanvasWidgetProps = CanvasComponentProps &
   ReturnType<typeof useCanvasWidget> & {
     componentRef: React.RefObject<HTMLDivElement>;
   };
+
+export type Operations = {
+  operation: string;
+  symbol: string;
+  [x: string]: any;
+}[];

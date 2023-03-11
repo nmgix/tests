@@ -4,6 +4,7 @@ import { StorageComponent, CanvasComponent } from "types/Canvas/Canvas.component
 import { useRuntime } from "../useRuntime";
 import { evaluate } from "mathjs";
 import { StorageValues } from "types/Storage";
+import { useKey } from "../useKey";
 
 export const useEqualizationButton = (canvas: Canvas | undefined, componentState: CanvasComponent | null) => {
   const { changeComponentData } = useAction();
@@ -22,6 +23,8 @@ export const useEqualizationButton = (canvas: Canvas | undefined, componentState
     }
     changeComponentData({ canvasId: canvas.id, componentId: storage.id, newComponentData });
   };
+
+  useKey(["Enter"], calculateData, canvas, runtime);
 
   return {
     calculateData,
