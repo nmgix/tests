@@ -27,9 +27,16 @@ const Dropzone: React.FC = () => {
 };
 
 export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsShadow }) => {
-  const { canvasState, runtime } = useCanvas(existingComponents);
+  const {
+    canvasState,
+    runtime,
+    dnd: { canDrop, drop, isOver },
+  } = useCanvas(existingComponents);
+
+  // console.log("options", { canDrop, isOver });
+
   return (
-    <div className='h-full flex flex-col w-[240px]'>
+    <div ref={drop} className='flex flex-col w-[240px] h-full'>
       {canvasState.components
         .filter((c) => requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
         .map((component, index) => (

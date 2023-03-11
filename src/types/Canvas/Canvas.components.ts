@@ -36,7 +36,7 @@ export class RuntimeSwitchComponent extends CanvasComponent {
 }
 export class DisplayComponent extends CanvasComponent {
   constructor(type: string, draggable: boolean, indestructible?: boolean, existingId?: string) {
-    super("display", false, indestructible, existingId);
+    super("display", draggable, indestructible, existingId);
   }
   runtime: boolean = false;
 }

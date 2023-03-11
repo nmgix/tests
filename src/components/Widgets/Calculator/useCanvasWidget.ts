@@ -56,15 +56,9 @@ export const useCanvasWidget = (
     };
   }, [componentRef, onClickHandler]);
 
-  // useEffect(() => {
-  // если в другом канвасе есть такой тип, то стать полупрозрачным
-  // либо при dnd будет этот элемент удаляться из текущего канваса и создаваться в другом (мб как existingComponent),
-  // в таком случае на старом месте пока элемент тащится, текущий остается на месте, а при сбросе на другое полотно на старом месте будет создаваться копия но уже полупрозрачная
-  // }, [state.canvases]);
-
   const [{ isDragging }, drag] = useDrag({
     item: { uuid: componentState?.id, type: "canvasWidget" },
-    type: componentState?.type ?? "",
+    type: "canvasWidget",
     collect: (monitor) => {
       return {
         isDragging: monitor.isDragging(),
@@ -72,6 +66,9 @@ export const useCanvasWidget = (
     },
     canDrag: () => {
       return componentState?.draggable ?? draggable;
+    },
+    end: (draggedItem, monitor) => {
+      console.log(draggedItem, monitor);
     },
   });
 

@@ -46,22 +46,22 @@ const canvasComponents: CanvasExistingComponent[] = [
     indestructible: true,
     draggable: false,
   },
-  {
-    component: "display",
-    draggable: false,
-  },
-  {
-    component: "operationButtons",
-    draggable: false,
-  },
-  {
-    component: "digitalBlock",
-    draggable: false,
-  },
-  {
-    component: "equalizationButton",
-    draggable: false,
-  },
+  // {
+  //   component: "display",
+  //   draggable: false,
+  // },
+  // {
+  //   component: "operationButtons",
+  //   draggable: false,
+  // },
+  // {
+  //   component: "digitalBlock",
+  //   draggable: false,
+  // },
+  // {
+  //   component: "equalizationButton",
+  //   draggable: false,
+  // },
 ];
 
 export const App: React.FC = () => {
@@ -69,7 +69,7 @@ export const App: React.FC = () => {
     <Provider store={store}>
       <DndProvider options={HTML5toTouch}>
         <div className='bg-neutral-200 min-h-screen h-full w-screen flex justify-center items-center'>
-          <Container externalClassnames='bg-white md:w-[695px] mx-4 my-4 flex justify-between items-center flex-col md:flex-row py-10 px-20 pb-[86px] spaced-y-12 md:spaced-y-0'>
+          <Container externalClassnames='bg-white md:w-[695px] mx-4 my-4 flex justify-between items-stretch flex-col md:flex-row py-10 px-20 pb-[86px] spaced-y-12 md:spaced-y-0'>
             <Container externalClassnames='pt-[68px]'>
               <Canvas componentsShadow existingComponents={sidebarComponents} />
             </Container>
