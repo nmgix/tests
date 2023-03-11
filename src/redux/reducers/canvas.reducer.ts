@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Canvas, CanvasState } from "types/Canvas";
-import { CanvasComponents } from "types/Canvas/Canvas.components";
+import { CanvasComponent } from "types/Canvas/Canvas.components";
 
 const initialState: CanvasState = {
   canvases: [],
@@ -16,7 +16,7 @@ const CanvasReducer = createSlice({
     removeCanvas: (state, action: PayloadAction<{ id: string }>) => {
       return { ...state, canvases: state.canvases.filter((canvas) => canvas.id !== action.payload.id) };
     },
-    addComponent: (state, action: PayloadAction<{ canvasId: string; component: CanvasComponents }>) => {
+    addComponent: (state, action: PayloadAction<{ canvasId: string; component: CanvasComponent }>) => {
       const updatedCanvas = state.canvases.map((canvas) =>
         canvas.id === action.payload.canvasId
           ? { ...canvas, components: [...canvas.components, action.payload.component] }
@@ -40,7 +40,7 @@ const CanvasReducer = createSlice({
       action: PayloadAction<{
         canvasId: string;
         componentId: string;
-        newComponentData: CanvasComponents;
+        newComponentData: CanvasComponent;
       }>
     ) => {
       const updatedCanvas = state.canvases.map((canvas) =>

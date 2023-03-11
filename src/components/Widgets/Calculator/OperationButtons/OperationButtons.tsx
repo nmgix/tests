@@ -1,18 +1,18 @@
 import classNames from "classnames";
-import { useRef } from "react";
-import { CanvasComponentProps } from "types/Canvas/Canvas.components";
-import { useCanvasWidget } from "../useCanvasWidget";
+import { DragCanvasWidgetProps } from "types/Canvas/Canvas.components";
 import { useStorageModifier } from "../useStorageModifier";
 
-export const OperationButtons: React.FC<CanvasComponentProps> = ({
-  canvasId,
-  componentId,
-  indestructible,
+export const OperationButtons: React.FC<DragCanvasWidgetProps> = ({
   componentsShadow,
+  canvas,
+  componentState,
+  dnd: { drag, isDragging },
+  runtime,
+  componentRef,
 }) => {
-  const componentRef = useRef<HTMLDivElement>(null);
-  const { canvas, runtime, componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
   const { updateData } = useStorageModifier(canvas, runtime, componentState);
+
+  const opacity = isDragging ? 0.4 : 1;
 
   const operations: {
     operation: string;
@@ -37,8 +37,11 @@ export const OperationButtons: React.FC<CanvasComponentProps> = ({
   ];
 
   return (
-    <div ref={componentRef} className={classNames("p-1 bg-white rounded-md", componentsShadow && "shadow-md")}>
-      <ul className='w-full flex spaced-x-8 justify-between'>
+    <div
+      ref={componentRef}
+      className={classNames("p-1 bg-white rounded-md", componentsShadow && "shadow-md")}
+      style={{ opacity }}>
+      <ul ref={drag} className='w-full flex spaced-x-8 justify-between'>
         {operations.map((o) => (
           <li
             key={o.operation}

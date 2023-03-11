@@ -1,18 +1,9 @@
 import classNames from "classnames";
-import { useRef } from "react";
-import { CanvasComponentProps } from "types/Canvas/Canvas.components";
-import { useCanvasWidget } from "../useCanvasWidget";
+import { DragCanvasWidgetProps } from "types/Canvas/Canvas.components";
 import { useDisplay } from "./useDisplay";
 import { Textfit } from "react-textfit";
 
-export const Display: React.FC<CanvasComponentProps> = ({
-  canvasId,
-  componentId,
-  indestructible,
-  componentsShadow,
-}) => {
-  const componentRef = useRef<HTMLDivElement>(null);
-  const { canvas } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
+export const Display: React.FC<DragCanvasWidgetProps> = ({ componentsShadow, canvas, componentRef }) => {
   const drawData = useDisplay(canvas);
 
   return (

@@ -1,11 +1,11 @@
 import { useAction } from "redux/helpers";
 import { Canvas } from "types/Canvas";
-import { StorageComponent, CanvasComponents } from "types/Canvas/Canvas.components";
+import { StorageComponent, CanvasComponent } from "types/Canvas/Canvas.components";
 import { useRuntime } from "../useRuntime";
 import { evaluate } from "mathjs";
 import { StorageValues } from "types/Storage";
 
-export const useEqualizationButton = (canvas: Canvas | undefined, componentState: CanvasComponents | null) => {
+export const useEqualizationButton = (canvas: Canvas | undefined, componentState: CanvasComponent | null) => {
   const { changeComponentData } = useAction();
   const runtime = useRuntime(canvas);
 

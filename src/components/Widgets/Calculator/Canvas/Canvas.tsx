@@ -1,7 +1,7 @@
-import { Icon } from "components/Icon";
+import Icon from "components/Widgets/Calculator/Icon";
 import React from "react";
-import { Canvas as CanvasState } from "types/Canvas";
-import { CanvasComponents, CanvasComponentsObject, CanvasExistingComponent } from "types/Canvas/Canvas.components";
+import { CanvasComponentsObject, CanvasExistingComponent } from "types/Canvas/Canvas.components";
+import { DragCanvasWidget } from "../DragCanvasWidget/DragCanvasWidget";
 import { useCanvas } from "./useCanvas";
 
 type CanvasProps = {
@@ -11,25 +11,22 @@ type CanvasProps = {
 };
 
 const requiredElements: (keyof typeof CanvasComponentsObject)[] = ["runtimeSwitch", "storage"];
-const createComponent = (component: CanvasComponents, canvasState: CanvasState, componentsShadow: boolean) => {
-  const neededComponent = CanvasComponentsObject[component.type as keyof typeof CanvasComponentsObject];
 
-  return React.createElement(neededComponent.component, {
-    canvasId: canvasState.id,
-    componentId: component.id,
-    indestructible: component.indestructible,
-    componentsShadow: componentsShadow,
-    key: component.id,
-  });
-};
-
-export const Canvas: React.FC<CanvasProps> = ({ noRuntime, existingComponents, componentsShadow }) => {
+export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsShadow }) => {
   const { canvasState, runtime } = useCanvas(existingComponents);
   return (
     <div className='h-full flex flex-col w-[240px]'>
       {canvasState.components
         .filter((c) => requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
-        .map((component) => createComponent(component, canvasState, componentsShadow ?? false))}
+        .map((component, index) => (
+          <DragCanvasWidget
+            child={component}
+            canvasId={canvasState.id}
+            componentsShadow={componentsShadow ?? false}
+            {...component}
+            index={index}
+          />
+        ))}
       <div className='h-full spaced-y-16'>
         {canvasState.components.filter((c) => !["runtimeSwitch", "storage"].includes(c.type)).length === 0 &&
         !runtime ? (
@@ -45,7 +42,15 @@ export const Canvas: React.FC<CanvasProps> = ({ noRuntime, existingComponents, c
         ) : (
           canvasState.components
             .filter((c) => !requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
-            .map((component) => createComponent(component, canvasState, componentsShadow ?? false))
+            .map((component, index) => (
+              <DragCanvasWidget
+                child={component}
+                canvasId={canvasState.id}
+                componentsShadow={componentsShadow ?? false}
+                {...component}
+                index={index}
+              />
+            ))
         )}
       </div>
     </div>

@@ -6,6 +6,7 @@ import RuntimeSwitch from "components/Widgets/Calculator/RuntimeSwitch";
 import { v4 as uuid } from "uuid";
 import StorageBlock from "components/Widgets/Calculator/StorageBlock";
 import { StorageValues } from "types/Storage";
+import { useCanvasWidget } from "components/Widgets/Calculator/useCanvasWidget";
 
 /**
  * Основной класс - родитель всех элементов канвы
@@ -14,7 +15,7 @@ export class CanvasComponent {
   id: string;
   indestructible: boolean;
 
-  constructor(public type: string, indestructible?: boolean, existingId?: string) {
+  constructor(public type: string, public draggable: boolean, indestructible?: boolean, existingId?: string) {
     this.id = existingId ?? uuid();
     this.indestructible = indestructible !== undefined;
   }
@@ -22,46 +23,24 @@ export class CanvasComponent {
 
 // начало перечисления классов компонентов канвы
 export class StorageComponent extends CanvasComponent {
-  constructor(indestructible?: boolean, existingId?: string) {
-    super("storage", indestructible, existingId);
+  constructor(type: string, draggable: boolean, indestructible?: boolean, existingId?: string) {
+    super("storage", draggable, indestructible, existingId);
   }
   storedValue: string = StorageValues.empty;
 }
-export class DisplayComponent extends CanvasComponent {
-  constructor(indestructible?: boolean, existingId?: string) {
-    super("display", indestructible, existingId);
-  }
-}
-export class DigitalBlockComponent extends CanvasComponent {
-  constructor(indestructible?: boolean, existingId?: string) {
-    super("digitalBlock", indestructible, existingId);
-  }
-}
-export class EqualizationButtonComponent extends CanvasComponent {
-  constructor(indestructible?: boolean, existingId?: string) {
-    super("equalizationButton", indestructible, existingId);
-  }
-}
-export class OperationButtonsComponent extends CanvasComponent {
-  constructor(indestructible?: boolean, existingId?: string) {
-    super("operationButtons", indestructible, existingId);
-  }
-}
 export class RuntimeSwitchComponent extends CanvasComponent {
-  constructor(indestructible?: boolean, existingId?: string) {
-    super("runtimeSwitch", indestructible, existingId);
+  constructor(type: string, draggable: boolean, indestructible?: boolean, existingId?: string) {
+    super("runtimeSwitch", draggable, indestructible, existingId);
+  }
+  runtime: boolean = false;
+}
+export class DisplayComponent extends CanvasComponent {
+  constructor(type: string, draggable: boolean, indestructible?: boolean, existingId?: string) {
+    super("display", false, indestructible, existingId);
   }
   runtime: boolean = false;
 }
 // конец перечисления классов компонентов канвы
-
-export type CanvasComponents =
-  | StorageComponent
-  | DisplayComponent
-  | DigitalBlockComponent
-  | EqualizationButtonComponent
-  | OperationButtonsComponent
-  | RuntimeSwitchComponent;
 
 export const CanvasComponentsObject = {
   runtimeSwitch: {
@@ -69,15 +48,15 @@ export const CanvasComponentsObject = {
     component: RuntimeSwitch,
   },
   operationButtons: {
-    class: OperationButtonsComponent,
+    class: CanvasComponent,
     component: OperationButtons,
   },
   equalizationButton: {
-    class: EqualizationButtonComponent,
+    class: CanvasComponent,
     component: EqualizationButton,
   },
   digitalBlock: {
-    class: DigitalBlockComponent,
+    class: CanvasComponent,
     component: DigitalBlock,
   },
   display: {
@@ -92,12 +71,19 @@ export const CanvasComponentsObject = {
 
 export type CanvasExistingComponent = {
   component: keyof typeof CanvasComponentsObject;
+  draggable: boolean;
   indestructible?: boolean;
 };
-export type CanvasComponentsArrayType = CanvasComponents[];
+
 export type CanvasComponentProps = {
   canvasId: string;
-  componentId: string;
+  id: string;
   indestructible: boolean;
   componentsShadow: boolean;
+  draggable: boolean;
+  index: number;
 };
+export type DragCanvasWidgetProps = CanvasComponentProps &
+  ReturnType<typeof useCanvasWidget> & {
+    componentRef: React.RefObject<HTMLDivElement>;
+  };

@@ -1,12 +1,12 @@
 import { useAction } from "redux/helpers";
 import { Canvas } from "types/Canvas";
-import { StorageComponent, CanvasComponents } from "types/Canvas/Canvas.components";
+import { StorageComponent, CanvasComponent } from "types/Canvas/Canvas.components";
 import { StorageValues } from "types/Storage";
 
 export const useStorageModifier = (
   canvas: Canvas | undefined,
   runtime: boolean,
-  componentState: CanvasComponents | null
+  componentState: CanvasComponent | null
 ) => {
   const { changeComponentData } = useAction();
 

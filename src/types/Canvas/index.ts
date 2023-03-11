@@ -1,22 +1,21 @@
 import { v4 as uuid } from "uuid";
-import {
-  CanvasComponents,
-  CanvasComponentsArrayType,
-  CanvasComponentsObject,
-  CanvasExistingComponent,
-} from "./Canvas.components";
+import { CanvasComponent, CanvasComponentsObject, CanvasExistingComponent } from "./Canvas.components";
 
 export class Canvas {
   id: string = uuid();
-  components: CanvasComponentsArrayType;
+  components: CanvasComponent[];
 
   constructor(existingComponents?: CanvasExistingComponent[]) {
-    let instancesArray: CanvasComponents[] = [];
+    let instancesArray: CanvasComponent[] = [];
     existingComponents?.forEach((existingComponent) => {
       const neededClass =
         CanvasComponentsObject[existingComponent.component as keyof typeof CanvasComponentsObject].class;
-      const classInstance = new neededClass(existingComponent.indestructible);
-      instancesArray.push({ ...classInstance } as CanvasComponents);
+      const classInstance = new neededClass(
+        existingComponent.component,
+        existingComponent.draggable,
+        existingComponent.indestructible
+      );
+      instancesArray.push({ ...classInstance } as CanvasComponent);
     });
     this.components = instancesArray;
   }

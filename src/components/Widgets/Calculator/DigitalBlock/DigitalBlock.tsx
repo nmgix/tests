@@ -1,17 +1,14 @@
 import classNames from "classnames";
-import { useRef } from "react";
-import { CanvasComponentProps } from "types/Canvas/Canvas.components";
-import { useCanvasWidget } from "../useCanvasWidget";
+import { DragCanvasWidgetProps } from "types/Canvas/Canvas.components";
 import { useStorageModifier } from "../useStorageModifier";
 
-export const DigitalBlock: React.FC<CanvasComponentProps> = ({
-  canvasId,
-  componentId,
-  indestructible,
+export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
+  canvas,
+  componentRef,
+  componentState,
+  runtime,
   componentsShadow,
 }) => {
-  const componentRef = useRef<HTMLDivElement>(null);
-  const { canvas, runtime, componentState } = useCanvasWidget(canvasId, componentId, componentRef, indestructible);
   const { updateData } = useStorageModifier(canvas, runtime, componentState);
 
   const operations: {

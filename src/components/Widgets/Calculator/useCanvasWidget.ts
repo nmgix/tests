@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useDrag } from "react-dnd";
 import { useAction, useAppSelector } from "redux/helpers";
 import { Canvas, CanvasState } from "types/Canvas";
 import { CanvasComponent } from "types/Canvas/Canvas.components";
@@ -19,7 +20,9 @@ export const useCanvasWidget = (
   canvasId: string,
   componentId: string,
   componentRef: React.RefObject<HTMLDivElement>,
-  indestructible: boolean
+  indestructible: boolean,
+  draggable: boolean,
+  index: number
 ) => {
   const { removeComponent } = useAction();
   const state = useAppSelector((state) => state.canvas);
@@ -59,10 +62,27 @@ export const useCanvasWidget = (
   // в таком случае на старом месте пока элемент тащится, текущий остается на месте, а при сбросе на другое полотно на старом месте будет создаваться копия но уже полупрозрачная
   // }, [state.canvases]);
 
+  const [{ isDragging }, drag] = useDrag({
+    item: { uuid: componentState?.id, type: "canvasWidget" },
+    type: componentState?.type ?? "",
+    collect: (monitor) => {
+      return {
+        isDragging: monitor.isDragging(),
+      };
+    },
+    canDrag: () => {
+      return componentState?.draggable ?? draggable;
+    },
+  });
+
   return {
     componentState,
     state,
     canvas,
     runtime,
+    dnd: {
+      isDragging,
+      drag,
+    },
   };
 };
