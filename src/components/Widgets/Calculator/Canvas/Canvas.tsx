@@ -20,6 +20,7 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
         .filter((c) => requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
         .map((component, index) => (
           <DragCanvasWidget
+            key={component.id}
             child={component}
             canvasId={canvasState.id}
             componentsShadow={componentsShadow ?? false}
@@ -44,6 +45,7 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
             .filter((c) => !requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
             .map((component, index) => (
               <DragCanvasWidget
+                key={component.id}
                 child={component}
                 canvasId={canvasState.id}
                 componentsShadow={componentsShadow ?? false}

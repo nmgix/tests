@@ -19,5 +19,5 @@ export const useStorage = (canvas: Canvas | undefined, componentState: StorageCo
     changeComponentData({ canvasId: canvas.id, componentId: componentState.id, newComponentData });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [componentState?.storedValue, runtime]);
+  }, [runtime]);
 };
