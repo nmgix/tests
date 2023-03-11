@@ -45,8 +45,8 @@ export const OperationButtons: React.FC<DragCanvasWidgetProps> = ({
         {operations.map((o) => (
           <li
             key={o.operation}
-            className='text-sm text-black font-medium rounded-md border border-outline-100 border-solid flex justify-center align-middle hover:shadow-button'>
-            <button className='w-[50px] h-[46px]' onClick={() => updateData(o.operation)}>
+            className='text-sm text-black font-medium rounded-md flex justify-center align-middle shadow-button hover:shadow-buttonHover'>
+            <button className='w-[50px] h-[48px]' onClick={() => updateData(o.operation)}>
               {o.symbol}
             </button>
           </li>

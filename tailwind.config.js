@@ -19,7 +19,8 @@ module.exports = {
         // sky/50
       },
       boxShadow: {
-        button: "inset 0 0 0 2px #5D5FEF",
+        button: "inset 0 0 0 1px #E2E3E5",
+        buttonHover: "inset 0 0 0 2px #5D5FEF",
       },
     },
   },
@@ -27,7 +28,7 @@ module.exports = {
     spacedItems({
       values: {
         8: "8px",
-        16: "16px",
+        12: "12px",
       },
     }),
   ],

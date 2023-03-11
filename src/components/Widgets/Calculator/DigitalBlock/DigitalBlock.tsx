@@ -107,7 +107,7 @@ export const DigitalBlock: React.FC<DragCanvasWidgetProps> = ({
               // такой косяк обсуждается в переходе на Tailwind V3
               o.size.width === 2 ? "col-span-2" : "col-span-1",
               `row-span-${o.size.height}`,
-              "text-center border border-outline-100 rounded-md hover:shadow-button"
+              "text-center rounded-md shadow-button hover:shadow-buttonHover"
             )}>
             <button className='h-[48px] w-full' onClick={() => updateData(o.operation)}>
               {o.operation}
