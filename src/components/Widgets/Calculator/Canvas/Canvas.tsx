@@ -1,15 +1,10 @@
 import classNames from "classnames";
 import Icon from "components/Widgets/Calculator/Icon";
 import React from "react";
-import { CanvasComponentsObject, CanvasExistingComponent } from "types/Canvas/Canvas.components";
+import { CanvasProps } from "types/Canvas";
+import { CanvasComponentsObject } from "types/Canvas/Canvas.components";
 import { DragCanvasWidget } from "../DragCanvasWidget/DragCanvasWidget";
 import { useCanvas } from "./useCanvas";
-
-type CanvasProps = {
-  noRuntime?: true;
-  existingComponents?: CanvasExistingComponent[];
-  componentsShadow?: true;
-};
 
 const requiredElements: (keyof typeof CanvasComponentsObject)[] = ["runtimeSwitch", "storage"];
 
@@ -41,28 +36,32 @@ const DropzoneLine: React.FC = () => (
   />
 );
 
-export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsShadow }) => {
+export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsShadow, maxItemsIndex }) => {
   const {
     canvasState,
     runtime,
     dnd: { drop, isOver, drawLine },
-  } = useCanvas(existingComponents);
+  } = useCanvas(maxItemsIndex, existingComponents);
+
+  const constantElements = canvasState.components.filter((c) =>
+    requiredElements.includes(c.type as keyof typeof CanvasComponentsObject)
+  );
 
   return (
     <div ref={drop} className='flex flex-col w-[240px] h-full'>
-      {canvasState.components
-        .filter((c) => requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
-        .map((component, index) => (
-          <DragCanvasWidget
-            key={component.id}
-            child={component}
-            canvasId={canvasState.id}
-            componentsShadow={componentsShadow ?? false}
-            index={index}
-            {...component}
-          />
-        ))}
+      {/* рендерить элементы которые не попадают в дроп зону, остаются всегда */}
+      {constantElements.map((component, index) => (
+        <DragCanvasWidget
+          key={component.id}
+          child={component}
+          canvasId={canvasState.id}
+          componentsShadow={componentsShadow ?? false}
+          index={index}
+          {...component}
+        />
+      ))}
       <div className='h-full spaced-y-12'>
+        {/* рендерить все остальные элементы, которые могут пропасть при удалении в конструкторе */}
         {canvasState.components.filter((c) => !["runtimeSwitch", "storage"].includes(c.type)).length === 0 &&
         !runtime ? (
           <Dropzone isOver={isOver} />
@@ -76,7 +75,7 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
                   child={component}
                   canvasId={canvasState.id}
                   componentsShadow={componentsShadow ?? false}
-                  index={index}
+                  index={index + constantElements.length}
                   {...component}
                 />
               ))}

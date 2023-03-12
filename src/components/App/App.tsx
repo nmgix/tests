@@ -9,29 +9,34 @@ import { DndProvider } from "react-dnd-multi-backend";
 
 const sidebarComponents: CanvasExistingComponent[] = [
   {
-    component: "display",
-    indestructible: true,
-    draggable: true,
-  },
-  {
     component: "operationButtons",
     indestructible: true,
     draggable: true,
+    undraggableInConstructor: true,
   },
   {
     component: "digitalBlock",
     indestructible: true,
     draggable: true,
+    undraggableInConstructor: true,
+  },
+  {
+    component: "display",
+    indestructible: true,
+    draggable: true,
+    undraggableInConstructor: true,
   },
   {
     component: "equalizationButton",
     indestructible: true,
     draggable: true,
+    undraggableInConstructor: true,
   },
   {
     component: "storage",
     indestructible: true,
     draggable: true,
+    undraggableInConstructor: true,
   },
 ];
 
@@ -71,10 +76,10 @@ export const App: React.FC = () => {
         <div className='bg-neutral-200 min-h-screen h-full w-screen flex justify-center items-center'>
           <Container externalClassnames='bg-white md:w-[695px] mx-4 my-4 flex justify-between items-stretch flex-col md:flex-row py-10 px-20 pb-[86px] spaced-y-12 md:spaced-y-0'>
             <Container externalClassnames='pt-[68px]'>
-              <Canvas componentsShadow existingComponents={sidebarComponents} />
+              <Canvas maxItemsIndex={3} componentsShadow existingComponents={sidebarComponents} />
             </Container>
             <Container>
-              <Canvas existingComponents={canvasComponents} />
+              <Canvas maxItemsIndex={3} existingComponents={canvasComponents} />
             </Container>
           </Container>
         </div>

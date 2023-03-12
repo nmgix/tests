@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import { useAction, useAppSelector } from "redux/helpers";
 import { Canvas, CanvasState } from "types/Canvas";
 import { CanvasComponent, CanvasComponentsObject } from "types/Canvas/Canvas.components";
@@ -24,7 +24,7 @@ export const useCanvasWidget = (
   draggable: boolean,
   index: number
 ) => {
-  const { addComponent, removeComponent } = useAction();
+  const { addComponent, removeComponent, moveComponent } = useAction();
   const state = useAppSelector((state) => state.canvas);
   const canvas = useCanvas(state, canvasId);
   const { runtime, runtimeExists } = useRuntime(canvas);
@@ -56,8 +56,9 @@ export const useCanvasWidget = (
     };
   }, [componentRef, onClickHandler]);
 
+  // dnd
   const [{ isDragging }, drag] = useDrag({
-    item: { uuid: componentState?.id, type: componentState?.type },
+    item: { index, uuid: componentState?.id, type: componentState?.type },
     type: "canvasWidget",
     collect: (monitor) => {
       return {
@@ -73,12 +74,41 @@ export const useCanvasWidget = (
     },
     end: (draggedItem, monitor) => {
       const dropCanvas = monitor.getDropResult<{ canvasId: string }>();
-      if (!dropCanvas || !draggedItem.type) return;
+      if (!dropCanvas || !draggedItem.type || (canvas && canvas.id === dropCanvas.canvasId)) return;
+
       const neededClass = CanvasComponentsObject[draggedItem.type as keyof typeof CanvasComponentsObject].class;
       const classInstance = new neededClass(draggedItem.type, true);
       addComponent({ canvasId: dropCanvas.canvasId, component: { ...classInstance } });
     },
   });
+
+  const [, drop] = useDrop({
+    accept: "canvasWidget",
+    hover(
+      item: {
+        index: number;
+        uuid: string | undefined;
+        type: string | undefined;
+      },
+      monitor
+    ) {
+      if (!canvas) return;
+      if (!componentRef.current) return;
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      if (dragIndex === hoverIndex) return;
+      const hoverBoundingRect = componentRef.current?.getBoundingClientRect();
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
+      moveComponent({ canvasId: canvas!.id, dragIndex, hoverIndex });
+      item.index = hoverIndex;
+    },
+  });
+
+  drag(drop(componentRef));
 
   return {
     componentState,

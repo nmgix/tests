@@ -7,7 +7,7 @@ import { useRuntime } from "../useRuntime";
 
 export const useStorage = (canvas: Canvas | undefined, componentState: StorageComponent | null) => {
   const { changeComponentData } = useAction();
-  const runtime = useRuntime(canvas);
+  const { runtime } = useRuntime(canvas);
 
   useEffect(() => {
     if (!canvas || !componentState) return;

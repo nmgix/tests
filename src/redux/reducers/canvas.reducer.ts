@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Canvas, CanvasState } from "types/Canvas";
+import { Canvas, CanvasState, sortCanvasComponents } from "types/Canvas";
 import { CanvasComponent } from "types/Canvas/Canvas.components";
 
 const initialState: CanvasState = {
@@ -17,23 +17,48 @@ const CanvasReducer = createSlice({
       return { ...state, canvases: state.canvases.filter((canvas) => canvas.id !== action.payload.id) };
     },
     addComponent: (state, action: PayloadAction<{ canvasId: string; component: CanvasComponent }>) => {
-      const updatedCanvas = state.canvases.map((canvas) =>
-        canvas.id === action.payload.canvasId
-          ? { ...canvas, components: [...canvas.components, { ...action.payload.component }] }
-          : canvas
-      );
-      return { ...state, canvases: updatedCanvas };
-    },
-    removeComponent: (state, action: PayloadAction<{ canvasId: string; componentId: string }>) => {
-      const updatedCanvas = state.canvases.map((canvas) =>
+      const updatedCanvases = state.canvases.map((canvas) =>
         canvas.id === action.payload.canvasId
           ? {
               ...canvas,
-              components: canvas.components.filter((component) => component.id !== action.payload.componentId),
+              components: [...canvas.components, { ...action.payload.component }].sort(sortCanvasComponents),
             }
           : canvas
       );
-      return { ...state, canvases: updatedCanvas };
+      return { ...state, canvases: updatedCanvases };
+    },
+    removeComponent: (state, action: PayloadAction<{ canvasId: string; componentId: string }>) => {
+      const updatedCanvases = state.canvases.map((canvas) =>
+        canvas.id === action.payload.canvasId
+          ? {
+              ...canvas,
+              components: canvas.components
+                .filter((component) => component.id !== action.payload.componentId)
+                .sort(sortCanvasComponents),
+            }
+          : canvas
+      );
+      return { ...state, canvases: updatedCanvases };
+    },
+    moveComponent: (state, action: PayloadAction<{ canvasId: string; dragIndex: number; hoverIndex: number }>) => {
+      const currentCanvas = state.canvases.find((c) => c.id === action.payload.canvasId);
+
+      if (!currentCanvas) return;
+      const dragItem = currentCanvas.components[action.payload.dragIndex];
+
+      if (dragItem) {
+        const copiedStateArray = [...currentCanvas.components];
+        const prevItem = copiedStateArray.splice(action.payload.hoverIndex, 1, dragItem);
+
+        if (prevItem[0].undraggableInConstructor === true) return;
+
+        copiedStateArray.splice(action.payload.dragIndex, 1, prevItem[0]);
+        const updatedCanvases = state.canvases.map((canvas) =>
+          canvas.id === action.payload.canvasId ? { ...canvas, components: copiedStateArray } : canvas
+        );
+
+        return { ...state, canvases: updatedCanvases };
+      }
     },
     changeComponentData: (
       state,

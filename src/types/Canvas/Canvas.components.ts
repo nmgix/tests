@@ -19,6 +19,7 @@ export class CanvasComponent {
     public type: string,
     public draggable: boolean,
     public undraggableInConstructor?: boolean,
+    public preferableIndex?: number,
     indestructible?: boolean,
     existingId?: string
   ) {
@@ -33,10 +34,11 @@ export class StorageComponent extends CanvasComponent {
     type: string,
     draggable: boolean,
     undraggableInConstructor?: boolean,
+    preferableIndex?: number,
     indestructible?: boolean,
     existingId?: string
   ) {
-    super("storage", draggable, undraggableInConstructor, indestructible, existingId);
+    super("storage", draggable, undraggableInConstructor, preferableIndex, indestructible, existingId);
   }
   storedValue: string = StorageValues.empty;
 }
@@ -45,10 +47,11 @@ export class RuntimeSwitchComponent extends CanvasComponent {
     type: string,
     draggable: boolean,
     undraggableInConstructor?: boolean,
+    preferableIndex?: number,
     indestructible?: boolean,
     existingId?: string
   ) {
-    super("runtimeSwitch", draggable, undraggableInConstructor, indestructible, existingId);
+    super("runtimeSwitch", draggable, undraggableInConstructor, preferableIndex, indestructible, existingId);
   }
   runtime: boolean = false;
 }
@@ -57,10 +60,11 @@ export class DisplayComponent extends CanvasComponent {
     type: string,
     draggable: boolean,
     undraggableInConstructor?: boolean,
+    preferableIndex?: number,
     indestructible?: boolean,
     existingId?: string
   ) {
-    super("display", draggable, true, indestructible, existingId);
+    super("display", draggable, true, 0, indestructible, existingId);
   }
 }
 // конец перечисления классов компонентов канвы

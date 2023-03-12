@@ -5,10 +5,12 @@ import { CanvasComponent, CanvasExistingComponent } from "types/Canvas/Canvas.co
 import { useRuntime } from "../useRuntime";
 import { useDrop } from "react-dnd";
 
-export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
+export type DrawLineProps = { active: boolean; index: number };
+
+export const useCanvas = (maxComponents: number, existingComponents?: CanvasExistingComponent[]) => {
   const { addNewCanvas, removeCanvas } = useAction();
   const state = useAppSelector((state) => state.canvas);
-  const { current } = useRef(new Canvas(existingComponents));
+  const { current } = useRef(new Canvas(maxComponents, existingComponents));
 
   const [canvasState, setCanvasState] = useState<Canvas>(current);
   const { runtime } = useRuntime(canvasState);
@@ -27,7 +29,7 @@ export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [drawLine, setDrawLine] = useState<{ active: boolean; index: number }>({ active: false, index: 0 });
+  const [drawLine, setDrawLine] = useState<DrawLineProps>({ active: false, index: 0 });
   const [canCanvasDrop, setCanCanvasDrop] = useState<boolean>(true);
   const [{ canDrop, isOver, hoveredItem }, drop] = useDrop({
     accept: "canvasWidget",
