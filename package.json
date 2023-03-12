@@ -1,11 +1,16 @@
 {
   "name": "react-dnd-calculator",
-  "version": "0.1.0",
+  "homepage": "https://nmgix.github.io/react-calculator-builder",
+  "version": "1",
   "private": true,
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start:tailwind": "tailwindcss -i src/styles/tailwind.css -o src/styles/tailwind.output.css --watch",
     "start:react": "react-scripts start",
     "start": "concurrently \"npm run start:tailwind\" \"npm run start:react\"",
+    "prebuild": "npm run build:tailwind",
+    "build:tailwind": "tailwindcss -i src/styles/tailwind.css -o src/styles/tailwind.output.css",
     "build": "react-scripts build",
     "test": "react-scripts test"
   },
@@ -37,6 +42,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "classnames": "^2.3.2",
+    "gh-pages": "^5.0.0",
     "install": "^0.13.0",
     "mathjs": "^11.6.0",
     "npm": "^9.6.1",
