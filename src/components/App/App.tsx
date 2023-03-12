@@ -46,10 +46,10 @@ const canvasComponents: CanvasExistingComponent[] = [
     indestructible: true,
     draggable: false,
   },
-  // {
-  //   component: "display",
-  //   draggable: false,
-  // },
+  {
+    component: "display",
+    draggable: false,
+  },
   // {
   //   component: "operationButtons",
   //   draggable: false,

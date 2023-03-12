@@ -19,7 +19,7 @@ const CanvasReducer = createSlice({
     addComponent: (state, action: PayloadAction<{ canvasId: string; component: CanvasComponent }>) => {
       const updatedCanvas = state.canvases.map((canvas) =>
         canvas.id === action.payload.canvasId
-          ? { ...canvas, components: [...canvas.components, action.payload.component] }
+          ? { ...canvas, components: [...canvas.components, { ...action.payload.component }] }
           : canvas
       );
       return { ...state, canvases: updatedCanvas };

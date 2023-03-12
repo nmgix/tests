@@ -13,6 +13,7 @@ export class Canvas {
       const classInstance = new neededClass(
         existingComponent.component,
         existingComponent.draggable,
+        existingComponent.undraggableInConstructor,
         existingComponent.indestructible
       );
       instancesArray.push({ ...classInstance } as CanvasComponent);

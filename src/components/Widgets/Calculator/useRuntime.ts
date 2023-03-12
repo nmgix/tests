@@ -9,5 +9,8 @@ export const useRuntime = (canvas: Canvas | undefined) => {
     setCurrentRuntime(canvas?.components.find((c) => c.type === "runtimeSwitch") as RuntimeSwitchComponent);
   }, [canvas]);
 
-  return currentRuntime?.runtime ?? false;
+  return {
+    runtimeExists: currentRuntime !== undefined,
+    runtime: currentRuntime?.runtime ?? false,
+  };
 };

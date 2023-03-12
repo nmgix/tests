@@ -15,7 +15,13 @@ export class CanvasComponent {
   id: string;
   indestructible: boolean;
 
-  constructor(public type: string, public draggable: boolean, indestructible?: boolean, existingId?: string) {
+  constructor(
+    public type: string,
+    public draggable: boolean,
+    public undraggableInConstructor?: boolean,
+    indestructible?: boolean,
+    existingId?: string
+  ) {
     this.id = existingId ?? uuid();
     this.indestructible = indestructible !== undefined;
   }
@@ -23,22 +29,39 @@ export class CanvasComponent {
 
 // начало перечисления классов компонентов канвы
 export class StorageComponent extends CanvasComponent {
-  constructor(type: string, draggable: boolean, indestructible?: boolean, existingId?: string) {
-    super("storage", draggable, indestructible, existingId);
+  constructor(
+    type: string,
+    draggable: boolean,
+    undraggableInConstructor?: boolean,
+    indestructible?: boolean,
+    existingId?: string
+  ) {
+    super("storage", draggable, undraggableInConstructor, indestructible, existingId);
   }
   storedValue: string = StorageValues.empty;
 }
 export class RuntimeSwitchComponent extends CanvasComponent {
-  constructor(type: string, draggable: boolean, indestructible?: boolean, existingId?: string) {
-    super("runtimeSwitch", draggable, indestructible, existingId);
+  constructor(
+    type: string,
+    draggable: boolean,
+    undraggableInConstructor?: boolean,
+    indestructible?: boolean,
+    existingId?: string
+  ) {
+    super("runtimeSwitch", draggable, undraggableInConstructor, indestructible, existingId);
   }
   runtime: boolean = false;
 }
 export class DisplayComponent extends CanvasComponent {
-  constructor(type: string, draggable: boolean, indestructible?: boolean, existingId?: string) {
-    super("display", draggable, indestructible, existingId);
+  constructor(
+    type: string,
+    draggable: boolean,
+    undraggableInConstructor?: boolean,
+    indestructible?: boolean,
+    existingId?: string
+  ) {
+    super("display", draggable, true, indestructible, existingId);
   }
-  runtime: boolean = false;
 }
 // конец перечисления классов компонентов канвы
 
@@ -72,6 +95,7 @@ export const CanvasComponentsObject = {
 export type CanvasExistingComponent = {
   component: keyof typeof CanvasComponentsObject;
   draggable: boolean;
+  undraggableInConstructor?: boolean;
   indestructible?: boolean;
 };
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import { useAction, useAppSelector } from "redux/helpers";
 import { Canvas, CanvasState } from "types/Canvas";
-import { CanvasComponent } from "types/Canvas/Canvas.components";
+import { CanvasComponent, CanvasComponentsObject } from "types/Canvas/Canvas.components";
 import { useRuntime } from "./useRuntime";
 
 export const useCanvas = (state: CanvasState, canvasId: string) => {
@@ -24,10 +24,10 @@ export const useCanvasWidget = (
   draggable: boolean,
   index: number
 ) => {
-  const { removeComponent } = useAction();
+  const { addComponent, removeComponent } = useAction();
   const state = useAppSelector((state) => state.canvas);
   const canvas = useCanvas(state, canvasId);
-  const runtime = useRuntime(canvas);
+  const { runtime, runtimeExists } = useRuntime(canvas);
 
   // состояние компонента
   const [componentState, setComponentState] = useState<CanvasComponent | null>(null);
@@ -57,7 +57,7 @@ export const useCanvasWidget = (
   }, [componentRef, onClickHandler]);
 
   const [{ isDragging }, drag] = useDrag({
-    item: { uuid: componentState?.id, type: "canvasWidget" },
+    item: { uuid: componentState?.id, type: componentState?.type },
     type: "canvasWidget",
     collect: (monitor) => {
       return {
@@ -65,10 +65,18 @@ export const useCanvasWidget = (
       };
     },
     canDrag: () => {
-      return componentState?.draggable ?? draggable;
+      return runtime
+        ? false
+        : runtimeExists && componentState?.undraggableInConstructor
+        ? !componentState?.undraggableInConstructor
+        : draggable;
     },
     end: (draggedItem, monitor) => {
-      console.log(draggedItem, monitor);
+      const dropCanvas = monitor.getDropResult<{ canvasId: string }>();
+      if (!dropCanvas || !draggedItem.type) return;
+      const neededClass = CanvasComponentsObject[draggedItem.type as keyof typeof CanvasComponentsObject].class;
+      const classInstance = new neededClass(draggedItem.type, true);
+      addComponent({ canvasId: dropCanvas.canvasId, component: { ...classInstance } });
     },
   });
 

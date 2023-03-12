@@ -8,7 +8,7 @@ import { useKey } from "../useKey";
 
 export const useEqualizationButton = (canvas: Canvas | undefined, componentState: CanvasComponent | null) => {
   const { changeComponentData } = useAction();
-  const runtime = useRuntime(canvas);
+  const { runtime } = useRuntime(canvas);
 
   const calculateData = () => {
     if (!canvas || !componentState || !runtime) return;

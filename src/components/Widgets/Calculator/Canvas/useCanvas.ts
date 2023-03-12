@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas } from "types/Canvas";
 import { useAction, useAppSelector } from "redux/helpers";
-import { CanvasExistingComponent } from "types/Canvas/Canvas.components";
+import { CanvasComponent, CanvasExistingComponent } from "types/Canvas/Canvas.components";
 import { useRuntime } from "../useRuntime";
 import { useDrop } from "react-dnd";
 
@@ -11,7 +11,7 @@ export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
   const { current } = useRef(new Canvas(existingComponents));
 
   const [canvasState, setCanvasState] = useState<Canvas>(current);
-  const runtime = useRuntime(canvasState);
+  const { runtime } = useRuntime(canvasState);
 
   useEffect(() => {
     const currentCanvas = state.canvases.find((c) => c.id === current.id);
@@ -27,19 +27,40 @@ export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [{ canDrop, isOver }, drop] = useDrop({
+  const [drawLine, setDrawLine] = useState<{ active: boolean; index: number }>({ active: false, index: 0 });
+  const [canCanvasDrop, setCanCanvasDrop] = useState<boolean>(true);
+  const [{ canDrop, isOver, hoveredItem }, drop] = useDrop({
     accept: "canvasWidget",
-    drop: (item) => console.log(item),
-
+    drop: () => ({ canvasId: canvasState.id }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
+      hoveredItem: monitor.getItem<{ uuid: string; type: CanvasComponent["id"] }>(),
     }),
-
-    // hover: (item, monitor) => {
-    //   console.log(monitor.getDropResult());
-    // },
+    canDrop: () => {
+      return canCanvasDrop;
+    },
   });
+  useEffect(() => {
+    if (runtime) return setDrawLine((prev) => ({ ...prev, active: false }));
+    if (isOver) {
+      setDrawLine((prev) => ({ ...prev, active: canCanvasDrop }));
+    } else {
+      setDrawLine((prev) => ({ ...prev, active: false }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOver, runtime, canCanvasDrop]);
+
+  useEffect(() => {
+    if (runtime) return setCanCanvasDrop(false);
+    if (hoveredItem && !canvasState.components.find((c) => c.type === hoveredItem.type)) {
+      setCanCanvasDrop(true);
+    } else {
+      setCanCanvasDrop(false);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hoveredItem]);
 
   return {
     canvasState,
@@ -48,6 +69,7 @@ export const useCanvas = (existingComponents?: CanvasExistingComponent[]) => {
       canDrop,
       isOver,
       drop,
+      drawLine,
     },
   };
 };
