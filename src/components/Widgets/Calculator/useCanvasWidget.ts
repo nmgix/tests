@@ -81,7 +81,6 @@ export const useCanvasWidget = (
       addComponent({ canvasId: dropCanvas.canvasId, component: { ...classInstance } });
     },
   });
-
   const [, drop] = useDrop({
     accept: "canvasWidget",
     hover(
@@ -107,7 +106,6 @@ export const useCanvasWidget = (
       item.index = hoverIndex;
     },
   });
-
   drag(drop(componentRef));
 
   return {

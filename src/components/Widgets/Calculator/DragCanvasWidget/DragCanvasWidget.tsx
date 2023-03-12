@@ -17,15 +17,9 @@ const createComponent = (component: CanvasComponent, props: DragCanvasWidgetProp
   });
 };
 
-export const DragCanvasWidget: React.FC<CanvasComponentProps & { child: CanvasComponent }> = ({
-  canvasId,
-  id,
-  componentsShadow,
-  draggable,
-  indestructible,
-  index,
-  child,
-}) => {
+export const DragCanvasWidget: React.FC<
+  CanvasComponentProps & { child: CanvasComponent; existsInAnotherCanvas: boolean }
+> = ({ canvasId, id, componentsShadow, draggable, indestructible, index, child, existsInAnotherCanvas }) => {
   const componentRef = useRef<HTMLDivElement>(null);
 
   const { canvas, componentState, dnd, runtime, state } = useCanvasWidget(
@@ -38,14 +32,17 @@ export const DragCanvasWidget: React.FC<CanvasComponentProps & { child: CanvasCo
   );
 
   return (
-    <div ref={dnd.drag} className={"translate-x-0 translate-y-0"}>
+    <div
+      ref={dnd.drag}
+      className={"translate-x-0 translate-y-0"}
+      style={{ opacity: existsInAnotherCanvas ? "0.5" : 1 }}>
       {createComponent(child, {
         canvas,
         canvasId,
         componentRef,
-        componentsShadow,
+        componentsShadow: existsInAnotherCanvas ? false : componentsShadow,
         componentState,
-        draggable,
+        draggable: draggable,
         indestructible,
         index,
         runtime,

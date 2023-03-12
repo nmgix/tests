@@ -41,6 +41,7 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
     canvasState,
     runtime,
     dnd: { drop, isOver, drawLine },
+    intersectingElements,
   } = useCanvas(maxItemsIndex, existingComponents);
 
   const constantElements = canvasState.components.filter((c) =>
@@ -57,6 +58,7 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
           canvasId={canvasState.id}
           componentsShadow={componentsShadow ?? false}
           index={index}
+          existsInAnotherCanvas={intersectingElements.includes(component.id)}
           {...component}
         />
       ))}
@@ -76,6 +78,7 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
                   canvasId={canvasState.id}
                   componentsShadow={componentsShadow ?? false}
                   index={index + constantElements.length}
+                  existsInAnotherCanvas={intersectingElements.includes(component.id)}
                   {...component}
                 />
               ))}
