@@ -40,7 +40,7 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
   const {
     canvasState,
     runtime,
-    dnd: { drop, isOver, drawLine },
+    dnd: { drop, isOver, drawLine, setDrawLine },
     intersectingElements,
   } = useCanvas(maxItemsIndex, existingComponents);
 
@@ -59,6 +59,9 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
           componentsShadow={componentsShadow ?? false}
           index={index}
           existsInAnotherCanvas={intersectingElements.includes(component.id)}
+          drawLine={drawLine}
+          setDrawLine={setDrawLine}
+          maxItemsIndex={maxItemsIndex}
           {...component}
         />
       ))}
@@ -72,17 +75,22 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
             {canvasState.components
               .filter((c) => !requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
               .map((component, index) => (
-                <DragCanvasWidget
-                  key={component.id}
-                  child={component}
-                  canvasId={canvasState.id}
-                  componentsShadow={componentsShadow ?? false}
-                  index={index + constantElements.length}
-                  existsInAnotherCanvas={intersectingElements.includes(component.id)}
-                  {...component}
-                />
+                <div key={component.id}>
+                  {drawLine.hoverIndex === index && drawLine.active && <DropzoneLine />}
+                  <DragCanvasWidget
+                    child={component}
+                    canvasId={canvasState.id}
+                    componentsShadow={componentsShadow ?? false}
+                    index={index + constantElements.length}
+                    existsInAnotherCanvas={intersectingElements.includes(component.id)}
+                    drawLine={drawLine}
+                    setDrawLine={setDrawLine}
+                    maxItemsIndex={maxItemsIndex}
+                    {...component}
+                  />
+                </div>
               ))}
-            {drawLine.active && <DropzoneLine />}
+            {drawLine.hoverIndex === canvasState.components.length && drawLine.active && <DropzoneLine />}
           </>
         )}
       </div>

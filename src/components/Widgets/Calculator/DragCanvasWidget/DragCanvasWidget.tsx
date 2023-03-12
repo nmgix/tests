@@ -6,6 +6,7 @@ import {
   CanvasComponentsObject,
   DragCanvasWidgetProps,
 } from "types/Canvas/Canvas.components";
+import { DrawLineProps } from "../Canvas/useCanvas";
 import { useCanvasWidget } from "../useCanvasWidget";
 
 const createComponent = (component: CanvasComponent, props: DragCanvasWidgetProps) => {
@@ -18,8 +19,26 @@ const createComponent = (component: CanvasComponent, props: DragCanvasWidgetProp
 };
 
 export const DragCanvasWidget: React.FC<
-  CanvasComponentProps & { child: CanvasComponent; existsInAnotherCanvas: boolean }
-> = ({ canvasId, id, componentsShadow, draggable, indestructible, index, child, existsInAnotherCanvas }) => {
+  CanvasComponentProps & {
+    child: CanvasComponent;
+    existsInAnotherCanvas: boolean;
+    drawLine: DrawLineProps;
+    setDrawLine: React.Dispatch<React.SetStateAction<DrawLineProps>>;
+    maxItemsIndex: number;
+  }
+> = ({
+  canvasId,
+  id,
+  componentsShadow,
+  draggable,
+  indestructible,
+  index,
+  child,
+  existsInAnotherCanvas,
+  drawLine,
+  setDrawLine,
+  maxItemsIndex,
+}) => {
   const componentRef = useRef<HTMLDivElement>(null);
 
   const { canvas, componentState, dnd, runtime, state } = useCanvasWidget(
@@ -28,7 +47,11 @@ export const DragCanvasWidget: React.FC<
     componentRef,
     indestructible,
     draggable,
-    index
+    index,
+    drawLine,
+    setDrawLine,
+    existsInAnotherCanvas,
+    maxItemsIndex
   );
 
   return (

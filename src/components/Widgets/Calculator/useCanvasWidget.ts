@@ -3,6 +3,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { useAction, useAppSelector } from "redux/helpers";
 import { Canvas, CanvasState } from "types/Canvas";
 import { CanvasComponent, CanvasComponentsObject } from "types/Canvas/Canvas.components";
+import { DrawLineProps } from "./Canvas/useCanvas";
 import { useRuntime } from "./useRuntime";
 
 export const useCanvas = (state: CanvasState, canvasId: string) => {
@@ -22,7 +23,11 @@ export const useCanvasWidget = (
   componentRef: React.RefObject<HTMLDivElement>,
   indestructible: boolean,
   draggable: boolean,
-  index: number
+  index: number,
+  drawLine: DrawLineProps,
+  setDrawLine: React.Dispatch<React.SetStateAction<DrawLineProps>>,
+  existsInAnotherCanvas: boolean,
+  maxItemsIndex: number
 ) => {
   const { addComponent, removeComponent, moveComponent } = useAction();
   const state = useAppSelector((state) => state.canvas);
@@ -66,7 +71,9 @@ export const useCanvasWidget = (
       };
     },
     canDrag: () => {
-      return runtime
+      return existsInAnotherCanvas
+        ? false
+        : runtime
         ? false
         : runtimeExists && componentState?.undraggableInConstructor
         ? !componentState?.undraggableInConstructor
@@ -74,14 +81,22 @@ export const useCanvasWidget = (
     },
     end: (draggedItem, monitor) => {
       const dropCanvas = monitor.getDropResult<{ canvasId: string }>();
-      if (!dropCanvas || !draggedItem.type || (canvas && canvas.id === dropCanvas.canvasId)) return;
 
-      const neededClass = CanvasComponentsObject[draggedItem.type as keyof typeof CanvasComponentsObject].class;
-      const classInstance = new neededClass(draggedItem.type, true);
-      addComponent({ canvasId: dropCanvas.canvasId, component: { ...classInstance } });
+      if (!dropCanvas || !draggedItem.type || !canvas) return;
+      if (dropCanvas.canvasId === canvas.id) {
+        moveComponent({ canvasId, dragIndex: drawLine.dragIndex, hoverIndex: drawLine.hoverIndex });
+      } else {
+        const neededClass = CanvasComponentsObject[draggedItem.type as keyof typeof CanvasComponentsObject].class;
+        const classInstance = new neededClass(draggedItem.type, true);
+        addComponent({ canvasId: dropCanvas.canvasId, component: { ...classInstance } });
+      }
     },
   });
   const [, drop] = useDrop({
+    drop: () => ({ canvasId }),
+    canDrop: () => {
+      return !componentState?.undraggableInConstructor ?? true;
+    },
     accept: "canvasWidget",
     hover(
       item: {
@@ -91,8 +106,7 @@ export const useCanvasWidget = (
       },
       monitor
     ) {
-      if (!canvas) return;
-      if (!componentRef.current) return;
+      if (!canvas || !componentRef.current) return;
       const dragIndex = item.index;
       const hoverIndex = index;
       if (dragIndex === hoverIndex) return;
@@ -102,7 +116,7 @@ export const useCanvasWidget = (
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
-      moveComponent({ canvasId: canvas!.id, dragIndex, hoverIndex });
+      setDrawLine({ active: true, dragIndex, hoverIndex });
       item.index = hoverIndex;
     },
   });

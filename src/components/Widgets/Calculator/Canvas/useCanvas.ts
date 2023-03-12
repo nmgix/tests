@@ -5,7 +5,7 @@ import { CanvasComponent, CanvasExistingComponent } from "types/Canvas/Canvas.co
 import { useRuntime } from "../useRuntime";
 import { useDrop } from "react-dnd";
 
-export type DrawLineProps = { active: boolean; index: number };
+export type DrawLineProps = { active: boolean; hoverIndex: number; dragIndex: number };
 
 export const useCanvas = (maxComponents: number, existingComponents?: CanvasExistingComponent[]) => {
   const { addNewCanvas, removeCanvas } = useAction();
@@ -32,7 +32,7 @@ export const useCanvas = (maxComponents: number, existingComponents?: CanvasExis
   }, []);
 
   // линия dnd и dnd логика в общем
-  const [drawLine, setDrawLine] = useState<DrawLineProps>({ active: false, index: 0 });
+  const [drawLine, setDrawLine] = useState<DrawLineProps>({ active: false, hoverIndex: 0, dragIndex: 0 });
   const [canCanvasDrop, setCanCanvasDrop] = useState<boolean>(true);
   const [{ canDrop, isOver, hoveredItem }, drop] = useDrop({
     accept: "canvasWidget",
@@ -45,6 +45,15 @@ export const useCanvas = (maxComponents: number, existingComponents?: CanvasExis
     canDrop: () => {
       return canCanvasDrop;
     },
+    hover: () => {
+      if (canvasState.components.length < canvasState.maxItemsIndex) {
+        setDrawLine({
+          active: true,
+          hoverIndex: canvasState.components.length,
+          dragIndex: canvasState.components.length,
+        });
+      }
+    },
   });
   useEffect(() => {
     if (runtime) return setDrawLine((prev) => ({ ...prev, active: false }));
@@ -55,7 +64,6 @@ export const useCanvas = (maxComponents: number, existingComponents?: CanvasExis
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOver, runtime, canCanvasDrop]);
-
   useEffect(() => {
     if (runtime) return setCanCanvasDrop(false);
     if (hoveredItem && !canvasState.components.find((c) => c.type === hoveredItem.type)) {
@@ -82,7 +90,7 @@ export const useCanvas = (maxComponents: number, existingComponents?: CanvasExis
         otherCanvases.some((otherCanv) => {
           if (found) return true;
           return otherCanv.components.some((otherCanvComponent) => {
-            if (otherCanvComponent.type === stateComponent.type) {
+            if (otherCanvComponent && otherCanvComponent.type === stateComponent.type) {
               found = true;
               idArr.push(stateComponent.id);
               return true;
@@ -109,6 +117,7 @@ export const useCanvas = (maxComponents: number, existingComponents?: CanvasExis
       isOver,
       drop,
       drawLine,
+      setDrawLine,
     },
     intersectingElements,
   };

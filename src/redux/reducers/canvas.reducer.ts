@@ -50,8 +50,6 @@ const CanvasReducer = createSlice({
         const copiedStateArray = [...currentCanvas.components];
         const prevItem = copiedStateArray.splice(action.payload.hoverIndex, 1, dragItem);
 
-        if (prevItem[0].undraggableInConstructor === true) return;
-
         copiedStateArray.splice(action.payload.dragIndex, 1, prevItem[0]);
         const updatedCanvases = state.canvases.map((canvas) =>
           canvas.id === action.payload.canvasId ? { ...canvas, components: copiedStateArray } : canvas

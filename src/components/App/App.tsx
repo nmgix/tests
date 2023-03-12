@@ -76,10 +76,10 @@ export const App: React.FC = () => {
         <div className='bg-neutral-200 min-h-screen h-full w-screen flex justify-center items-center'>
           <Container externalClassnames='bg-white md:w-[695px] mx-4 my-4 flex justify-between items-stretch flex-col md:flex-row py-10 px-20 pb-[86px] spaced-y-12 md:spaced-y-0'>
             <Container externalClassnames='pt-[68px]'>
-              <Canvas maxItemsIndex={3} componentsShadow existingComponents={sidebarComponents} />
+              <Canvas maxItemsIndex={5} componentsShadow existingComponents={sidebarComponents} />
             </Container>
             <Container>
-              <Canvas maxItemsIndex={3} existingComponents={canvasComponents} />
+              <Canvas maxItemsIndex={6} existingComponents={canvasComponents} />
             </Container>
           </Container>
         </div>
