@@ -26,14 +26,17 @@ const Dropzone: React.FC<{ isOver: boolean }> = ({ isOver }) => {
   );
 };
 
-const DropzoneLine: React.FC = () => (
-  <div
-    className={classNames(
-      "w-full border-iris-100 border-b border-t relative",
-      "after:w-[4px] after:h-[4px] after:bg-iris-100 after:content-[''] after:absolute after:rotate-45 after:translate-x-1/2 after:-translate-y-1/2 after:right-0",
-      "before:w-[4px] before:h-[4px] before:bg-iris-100 before:content-[''] before:absolute before:rotate-45 before:-translate-x-1/2 before:-translate-y-1/2"
-    )}
-  />
+const DropzoneLine: React.FC<{ externalClassnames?: string }> = ({ externalClassnames }) => (
+  <div className='absolute w-full'>
+    <div
+      className={classNames(
+        "w-full border-iris-100 border-b border-t relative",
+        "after:w-[4px] after:h-[4px] after:bg-iris-100 after:content-[''] after:absolute after:rotate-45 after:translate-x-1/2 after:-translate-y-1/2 after:right-0",
+        "before:w-[4px] before:h-[4px] before:bg-iris-100 before:content-[''] before:absolute before:rotate-45 before:-translate-x-1/2 before:-translate-y-1/2",
+        externalClassnames
+      )}
+    />
+  </div>
 );
 
 export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsShadow, maxItemsIndex }) => {
@@ -75,8 +78,11 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
             {canvasState.components
               .filter((c) => !requiredElements.includes(c.type as keyof typeof CanvasComponentsObject))
               .map((component, index) => (
-                <div key={component.id}>
-                  {drawLine.hoverIndex === index && drawLine.active && <DropzoneLine />}
+                <div key={component.id} className='relative'>
+                  {/* drawLine.active && */}
+                  {drawLine.lineIndex - constantElements.length === index && drawLine.active && (
+                    <DropzoneLine externalClassnames='-top-[4px]' />
+                  )}
                   <DragCanvasWidget
                     child={component}
                     canvasId={canvasState.id}
@@ -87,10 +93,15 @@ export const Canvas: React.FC<CanvasProps> = ({ existingComponents, componentsSh
                     setDrawLine={setDrawLine}
                     maxItemsIndex={maxItemsIndex}
                     {...component}
-                  />
+                  />{" "}
                 </div>
               ))}
-            {drawLine.hoverIndex === canvasState.components.length && drawLine.active && <DropzoneLine />}
+            {/* если канвас забит не полностью, то рисуется полоска в конце */}
+            {drawLine.lineIndex === canvasState.components.length && drawLine.active && (
+              <div className='relative'>
+                <DropzoneLine externalClassnames='-top-[4px]' />
+              </div>
+            )}
           </>
         )}
       </div>

@@ -51,22 +51,6 @@ const canvasComponents: CanvasExistingComponent[] = [
     indestructible: true,
     draggable: false,
   },
-  {
-    component: "display",
-    draggable: false,
-  },
-  // {
-  //   component: "operationButtons",
-  //   draggable: false,
-  // },
-  // {
-  //   component: "digitalBlock",
-  //   draggable: false,
-  // },
-  // {
-  //   component: "equalizationButton",
-  //   draggable: false,
-  // },
 ];
 
 export const App: React.FC = () => {

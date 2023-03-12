@@ -40,22 +40,33 @@ const CanvasReducer = createSlice({
       );
       return { ...state, canvases: updatedCanvases };
     },
-    moveComponent: (state, action: PayloadAction<{ canvasId: string; dragIndex: number; hoverIndex: number }>) => {
+    moveComponent: (state, action: PayloadAction<{ canvasId: string; index: number; fromIndex: number }>) => {
       const currentCanvas = state.canvases.find((c) => c.id === action.payload.canvasId);
 
       if (!currentCanvas) return;
-      const dragItem = currentCanvas.components[action.payload.dragIndex];
+      const dragItem = currentCanvas.components[action.payload.fromIndex];
 
       if (dragItem) {
         const copiedStateArray = [...currentCanvas.components];
-        const prevItem = copiedStateArray.splice(action.payload.hoverIndex, 1, dragItem);
 
-        copiedStateArray.splice(action.payload.dragIndex, 1, prevItem[0]);
-        const updatedCanvases = state.canvases.map((canvas) =>
-          canvas.id === action.payload.canvasId ? { ...canvas, components: copiedStateArray } : canvas
-        );
+        const prevDropItem = copiedStateArray.splice(action.payload.index, 1, dragItem);
+        copiedStateArray.splice(action.payload.fromIndex, 1);
 
-        return { ...state, canvases: updatedCanvases };
+        if (!prevDropItem[0]) {
+          const updatedCanvases = state.canvases.map((canvas) =>
+            canvas.id === action.payload.canvasId ? { ...canvas, components: copiedStateArray } : canvas
+          );
+
+          return { ...state, canvases: updatedCanvases };
+        } else {
+          const rest = copiedStateArray.splice(action.payload.index + 1);
+          const resultArray = [...copiedStateArray, ...prevDropItem, ...rest];
+          const updatedCanvases = state.canvases.map((canvas) =>
+            canvas.id === action.payload.canvasId ? { ...canvas, components: resultArray } : canvas
+          );
+
+          return { ...state, canvases: updatedCanvases };
+        }
       }
     },
     changeComponentData: (

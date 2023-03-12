@@ -84,7 +84,7 @@ export const useCanvasWidget = (
 
       if (!dropCanvas || !draggedItem.type || !canvas) return;
       if (dropCanvas.canvasId === canvas.id) {
-        moveComponent({ canvasId, dragIndex: drawLine.dragIndex, hoverIndex: drawLine.hoverIndex });
+        moveComponent({ canvasId, index: drawLine.lineIndex, fromIndex: drawLine.fromIndex });
       } else {
         const neededClass = CanvasComponentsObject[draggedItem.type as keyof typeof CanvasComponentsObject].class;
         const classInstance = new neededClass(draggedItem.type, true);
@@ -110,14 +110,23 @@ export const useCanvasWidget = (
       const dragIndex = item.index;
       const hoverIndex = index;
       if (dragIndex === hoverIndex) return;
+
       const hoverBoundingRect = componentRef.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
-      setDrawLine({ active: true, dragIndex, hoverIndex });
-      item.index = hoverIndex;
+
+      console.log(componentState?.type, item.type);
+
+      if (hoverClientY < hoverMiddleY) {
+        return setDrawLine({ active: true, lineIndex: index, fromIndex: item.index });
+      }
+
+      if (hoverClientY > hoverMiddleY) {
+        return setDrawLine({ active: true, lineIndex: index + 1, fromIndex: item.index });
+      }
+
+      // item.index = hoverIndex;
     },
   });
   drag(drop(componentRef));

@@ -5,7 +5,7 @@ import { CanvasComponent, CanvasExistingComponent } from "types/Canvas/Canvas.co
 import { useRuntime } from "../useRuntime";
 import { useDrop } from "react-dnd";
 
-export type DrawLineProps = { active: boolean; hoverIndex: number; dragIndex: number };
+export type DrawLineProps = { active: boolean; lineIndex: number; fromIndex: number };
 
 export const useCanvas = (maxComponents: number, existingComponents?: CanvasExistingComponent[]) => {
   const { addNewCanvas, removeCanvas } = useAction();
@@ -32,7 +32,7 @@ export const useCanvas = (maxComponents: number, existingComponents?: CanvasExis
   }, []);
 
   // линия dnd и dnd логика в общем
-  const [drawLine, setDrawLine] = useState<DrawLineProps>({ active: false, hoverIndex: 0, dragIndex: 0 });
+  const [drawLine, setDrawLine] = useState<DrawLineProps>({ active: false, lineIndex: 0, fromIndex: 0 });
   const [canCanvasDrop, setCanCanvasDrop] = useState<boolean>(true);
   const [{ canDrop, isOver, hoveredItem }, drop] = useDrop({
     accept: "canvasWidget",
@@ -45,12 +45,12 @@ export const useCanvas = (maxComponents: number, existingComponents?: CanvasExis
     canDrop: () => {
       return canCanvasDrop;
     },
-    hover: () => {
+    hover: (item) => {
       if (canvasState.components.length < canvasState.maxItemsIndex) {
         setDrawLine({
           active: true,
-          hoverIndex: canvasState.components.length,
-          dragIndex: canvasState.components.length,
+          lineIndex: canvasState.components.length,
+          fromIndex: (item as { index: number }).index,
         });
       }
     },
