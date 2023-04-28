@@ -1,0 +1,83 @@
+.wrapper {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+
+  padding-top: 46px;
+
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    width: 140px;
+    position: relative;
+
+    :global(.icon) {
+      height: 24px;
+    }
+
+    &::after {
+      position: absolute;
+      top: calc(100% + 10px);
+
+      content: "крупный интегратор CRM в Росcии и ещё 8 странах";
+      font-family: "Montserrat", Arial, sans-serif;
+      word-wrap: break-word;
+      font-weight: 100;
+      font-size: 10px;
+      line-height: 12px;
+      margin-bottom: 4px;
+      color: white;
+    }
+  }
+
+  .navMenu {
+    margin-left: 52px;
+
+    & > *:not(:last-child) {
+      margin-right: 30px;
+    }
+    :global(.link) {
+      span {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+      }
+    }
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    & > a:first-child {
+      margin-right: 47px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      text-align: right;
+      word-break: keep-all;
+    }
+
+    :global(.icon) {
+      width: 24px;
+    }
+
+    &Nested {
+      display: flex;
+
+      & > *:not(:last-child) {
+        margin-right: 30px;
+      }
+    }
+  }
+}
