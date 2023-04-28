@@ -58,14 +58,8 @@
     justify-content: flex-end;
     flex-wrap: wrap;
 
-    & > a:first-child {
+    :global(.phone) {
       margin-right: 47px;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 19px;
-      text-align: right;
-      word-break: keep-all;
     }
 
     :global(.icon) {

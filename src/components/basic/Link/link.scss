@@ -1,4 +1,14 @@
 .link {
-  text-decoration: none;
   color: inherit;
+}
+
+.phone {
+  a {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: right;
+    word-break: keep-all;
+  }
 }
