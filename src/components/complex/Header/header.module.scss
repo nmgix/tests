@@ -4,7 +4,7 @@
   position: relative;
   z-index: 1;
 
-  padding-top: 46px;
+  padding-top: 58px;
 
   display: flex;
   flex-direction: row;
@@ -29,7 +29,7 @@
       font-family: "Montserrat", Arial, sans-serif;
       word-wrap: break-word;
       font-weight: 100;
-      font-size: 10px;
+      font-size: 10.1px;
       line-height: 12px;
       margin-bottom: 4px;
       color: white;
@@ -39,9 +39,8 @@
   .navMenu {
     margin-left: 52px;
 
-    & > *:not(:last-child) {
-      margin-right: 30px;
-    }
+    display: flex;
+    column-gap: 30.7px;
     :global(.link) {
       span {
         font-weight: 500;
@@ -62,15 +61,13 @@
       margin-right: 47px;
     }
 
-    :global(.icon) {
-      width: 24px;
-    }
-
     &Nested {
       display: flex;
+      column-gap: 30px;
 
-      & > *:not(:last-child) {
-        margin-right: 30px;
+      margin-right: -2px;
+      :global(.icon) {
+        width: 20px;
       }
     }
   }
