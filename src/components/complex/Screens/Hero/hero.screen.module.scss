@@ -1,0 +1,123 @@
+.heroScreen {
+  //   flex: 1 !important;
+  width: 100%;
+
+  margin-top: 129px;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  .hero {
+    grid-column: auto/span 4;
+
+    h1 {
+      font-weight: 400;
+      font-size: 48px;
+      line-height: 58px;
+      margin: 0 0 30px 0;
+
+      b {
+        font-weight: 900;
+        text-transform: uppercase;
+        background: linear-gradient(92deg, #fcb045 27.14%, #ff3f78 121.36%), #e4e5ea;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .advantanges {
+    grid-column: -5 / span 4;
+
+    h3 {
+      margin: 0;
+      b {
+        background: linear-gradient(90deg, #fcb045 36.99%, #fd1d1d 100%);
+        -webkit-text-fill-color: transparent;
+        font-weight: 900;
+        font-size: 18px;
+        // line-height: 22px;
+        // letter-spacing: 0.05em;
+        text-transform: uppercase;
+        -webkit-background-clip: text;
+        background-clip: text;
+        // box-decoration-break: clone;
+        // background-attachment: local;
+        // background-position: left bottom;
+        // background-size: auto, cover;
+        // background-origin: content-box;
+        // background-size: cover;
+        // background-clip: content-box;
+        // margin: 0px 0px 0px 50px;
+        // -webkit-text-fill-color: transparent;
+      }
+    }
+
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 30px;
+      column-gap: 40px;
+
+      max-width: 340px;
+      margin-bottom: 60px;
+
+      li {
+        text-align: right;
+        h4 {
+          margin: 0;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 6px;
+        }
+        p {
+          font-family: "Montserrat";
+          margin: 0;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    .pc {
+      margin-top: 20px;
+      display: grid;
+      grid-template-rows: repeat(2, auto);
+      grid-template-columns: repeat(4, 1fr);
+
+      &Content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        grid-row: 1 / 1;
+        grid-column: 1 / span 4;
+
+        h3 {
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          text-align: right;
+          margin-bottom: 40px;
+        }
+      }
+
+      :global(.button) {
+        grid-row: 2 / 2;
+        grid-column: 2/5;
+      }
+    }
+    .mobile {
+      display: none;
+    }
+  }
+}
