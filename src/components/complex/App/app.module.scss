@@ -6,7 +6,11 @@
   flex-grow: 1;
   position: relative;
 
+  display: flex;
+  flex-direction: column;
+
   & > * {
     z-index: 1;
+    flex: 0;
   }
 }

@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
               <Link link='tel:+75555555555' component={<span>+7 555 555-55-55</span>} />
             </li>
             <li className={classnames.contactsLinks}>
-              <Link link='tg://resolve?domain=bzbrznslnshk' component={<Icon icon='telegram' />} />
+              <Link link='tg://resolve?domain=dnl_chstv' component={<Icon icon='telegram' />} />
               <Link link='viber://chat?number=%2B75555555555' component={<Icon icon='viber' />} />
               <Link link='whatsapp://send?text=Hello&phone=+75555555555' component={<Icon icon='whatsapp' />} />
             </li>
