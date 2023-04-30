@@ -52,16 +52,14 @@
 
   .links {
     display: flex;
+    row-gap: 5px;
     align-items: center;
     flex: 1;
     justify-content: flex-end;
     flex-wrap: wrap;
 
-    :global(.phone) {
-      margin-right: 47px;
-    }
-
     &Nested {
+      margin-left: 47px;
       display: flex;
       column-gap: 30px;
 
