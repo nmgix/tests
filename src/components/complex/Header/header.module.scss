@@ -1,3 +1,6 @@
+@import "styles/breakpoints.scss";
+@import "styles/colors.scss";
+
 .wrapper {
   width: 100%;
   height: auto;
@@ -38,9 +41,9 @@
 
   .navMenu {
     margin-left: 52px;
-
     display: flex;
     column-gap: 30.7px;
+
     :global(.link) {
       span {
         font-weight: 500;
@@ -69,4 +72,61 @@
       }
     }
   }
+}
+
+.pc {
+  @media screen and (min-width: $breakpoint-mid-tablet) {
+    display: flex;
+  }
+  @media screen and (max-width: $breakpoint-mid-tablet) {
+    display: none;
+  }
+}
+
+.mobile {
+  @media screen and (min-width: $breakpoint-mid-tablet) {
+    display: none;
+  }
+
+  @media screen and (max-width: $breakpoint-mid-tablet) {
+    display: flex;
+  }
+
+  left: 0;
+  top: 0;
+  position: absolute;
+
+  background-color: $black;
+
+  display: flex;
+  justify-content: center;
+  padding: 0;
+
+  .navMenu {
+    margin: 0;
+    padding: 16px 20px;
+
+    @media screen and (max-width: $breakpoint-min-tablet) {
+      :global(.link) {
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+    @media screen and (max-width: $breakpoint-min-phone) {
+      column-gap: 16px;
+
+      :global(.link) {
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  // .logo {
+  //   &::after {
+  //     display: none;
+  //   }
+  // }
 }
