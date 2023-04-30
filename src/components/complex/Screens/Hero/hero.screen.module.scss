@@ -1,14 +1,14 @@
 .heroScreen {
-  //   flex: 1 !important;
   width: 100%;
 
-  margin-top: 129px;
+  margin-top: 127px;
 
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 
   .hero {
     grid-column: auto/span 4;
+    margin-left: -2px;
 
     h1 {
       font-weight: 400;
@@ -17,8 +17,8 @@
       margin: 0 0 30px 0;
 
       b {
-        font-weight: 900;
-        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        font-weight: 800;
         background: linear-gradient(92deg, #fcb045 27.14%, #ff3f78 121.36%), #e4e5ea;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -28,6 +28,10 @@
 
     p {
       margin: 0;
+      font-family: "Montserrat";
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 22px;
     }
   }
 
@@ -41,20 +45,10 @@
         -webkit-text-fill-color: transparent;
         font-weight: 900;
         font-size: 18px;
-        // line-height: 22px;
-        // letter-spacing: 0.05em;
         text-transform: uppercase;
         -webkit-background-clip: text;
         background-clip: text;
-        // box-decoration-break: clone;
-        // background-attachment: local;
-        // background-position: left bottom;
-        // background-size: auto, cover;
-        // background-origin: content-box;
-        // background-size: cover;
-        // background-clip: content-box;
-        // margin: 0px 0px 0px 50px;
-        // -webkit-text-fill-color: transparent;
+        letter-spacing: 0.6px;
       }
     }
 
@@ -62,19 +56,25 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       row-gap: 30px;
-      column-gap: 40px;
 
       max-width: 340px;
       margin-bottom: 60px;
 
       li {
         text-align: right;
+        justify-self: flex-end;
+        width: 96%;
+
+        &:nth-child(1),
+        &:nth-child(3) {
+          margin-right: -3.7%;
+        }
         h4 {
           margin: 0;
           font-weight: 500;
           font-size: 18px;
           line-height: 22px;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.04em;
           text-transform: uppercase;
           margin-bottom: 6px;
         }
@@ -89,7 +89,7 @@
     }
 
     .pc {
-      margin-top: 20px;
+      margin-top: 16px;
       display: grid;
       grid-template-rows: repeat(2, auto);
       grid-template-columns: repeat(4, 1fr);
@@ -114,6 +114,10 @@
       :global(.button) {
         grid-row: 2 / 2;
         grid-column: 2/5;
+
+        font-weight: 400;
+        padding: 20.5px 35px;
+        margin-left: 23px;
       }
     }
     .mobile {

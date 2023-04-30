@@ -41,7 +41,11 @@ const HeroScreen: React.FC = () => {
           <br />
           <b>с WELBEX</b>
         </h1>
-        <p>Развиваем и контролируем продажи за вас</p>
+        <p>
+          Развиваем и контролируем
+          <br />
+          продажи за вас
+        </p>
       </div>
       <div className={classnames.advantanges}>
         <div className={classnames.pc}>
