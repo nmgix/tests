@@ -1,3 +1,5 @@
+@import "styles/breakpoints.scss";
+
 .heroScreen {
   width: 100%;
 
@@ -33,12 +35,32 @@
       font-size: 18px;
       line-height: 22px;
     }
+
+    @media screen and (max-width: $breakpoint-min-phone) {
+      margin-left: 0;
+      h1 {
+        font-weight: 400;
+        font-size: 36px;
+        line-height: 44px;
+        margin: 0 0 20px 0;
+
+        b {
+          letter-spacing: 0.3px;
+          font-weight: 800;
+          background: linear-gradient(92deg, #fcb045 27.14%, #ff3f78 121.36%), #e4e5ea;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      }
+    }
   }
 
   .advantanges {
     grid-column: -5 / span 4;
 
     h3 {
+      font-weight: 500;
       margin: 0;
       b {
         background: linear-gradient(90deg, #fcb045 36.99%, #fd1d1d 100%);
@@ -90,7 +112,6 @@
 
     .pc {
       margin-top: 16px;
-      display: grid;
       grid-template-rows: repeat(2, auto);
       grid-template-columns: repeat(4, 1fr);
 
@@ -119,9 +140,81 @@
         padding: 20.5px 35px;
         margin-left: 23px;
       }
+
+      @media screen and (min-width: $breakpoint-min-phone) {
+        display: grid;
+      }
+      @media screen and (max-width: $breakpoint-min-phone) {
+        display: none;
+      }
     }
     .mobile {
-      display: none;
+      row-gap: 20px;
+
+      @media screen and (min-width: $breakpoint-min-phone) {
+        display: none;
+      }
+      @media screen and (max-width: $breakpoint-min-phone) {
+        display: grid;
+      }
+
+      h3 {
+        font-weight: 500;
+        letter-spacing: -0.3px;
+        b {
+          text-transform: lowercase;
+          letter-spacing: -0.3px;
+        }
+      }
+
+      ul {
+        margin: 0;
+        row-gap: 13px;
+        width: 91%;
+        margin-left: 1px;
+
+        li {
+          display: flex;
+          align-items: center;
+          margin: 0 !important;
+          width: 100% !important;
+
+          &::before {
+            content: "—";
+            margin-right: 5px;
+            margin-bottom: 3px;
+
+            background: linear-gradient(90deg, #fcb045 36.99%, #fd1d1d 100%);
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            font-size: 10px;
+            // line-height: 5px;
+            -webkit-background-clip: text;
+            background-clip: text;
+          }
+
+          h4 {
+            font-family: "Montserrat";
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 16px;
+            margin: 0;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: pre;
+          }
+        }
+      }
     }
+  }
+
+  // @media screen and (max-width: $breakpoint-min-tablet) {
+  //   margin-top: 100px;
+  // }
+  @media screen and (max-width: $breakpoint-min-phone) {
+    margin-top: 94px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
   }
 }

@@ -105,6 +105,7 @@
   .navMenu {
     margin: 0;
     padding: 16px 20px;
+    text-transform: uppercase;
 
     @media screen and (max-width: $breakpoint-min-tablet) {
       :global(.link) {
