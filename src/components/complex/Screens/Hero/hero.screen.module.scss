@@ -69,16 +69,16 @@
     grid-column: -5 / span 4;
 
     h3 {
+      background: linear-gradient(90deg, #fcb045 36.99%, #fd1d1d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
       font-weight: 500;
       margin: 0;
       b {
-        background: linear-gradient(90deg, #fcb045 36.99%, #fd1d1d 100%);
         -webkit-text-fill-color: transparent;
         font-weight: 900;
         font-size: 18px;
         text-transform: uppercase;
-        -webkit-background-clip: text;
-        background-clip: text;
         letter-spacing: 0.6px;
       }
     }

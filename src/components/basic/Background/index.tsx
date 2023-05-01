@@ -1,6 +1,6 @@
 import classnames from "./background.module.scss";
 
-const route = process.env.NODE_ENV === "production" ? "amoCRM-front-laylout" : "";
+const route = process.env.NODE_ENV === "production" ? "/amoCRM-front-laylout" : "";
 
 const Background: React.FC = () => {
   return (
