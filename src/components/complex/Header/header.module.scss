@@ -14,14 +14,20 @@
   // justify-content: space-between;
   align-items: center;
 
-  @media screen and (max-width: $breakpoint-mid-tablet) {
+  @media screen and (max-width: $breakpoint-max-tablet) {
     background-color: $black;
+
+    position: fixed;
+    top: 0;
+    left: 0;
 
     display: flex;
     justify-content: center;
     padding: 0;
     width: calc(100% - 16px - 16px);
-    padding: 16px 16px;
+    padding: 16px 16px 18px;
+
+    z-index: 3 !important;
   }
 
   .logo {
@@ -62,7 +68,7 @@
       }
     }
 
-    @media screen and (max-width: $breakpoint-mid-tablet) {
+    @media screen and (max-width: $breakpoint-max-tablet) {
       column-gap: 0;
       justify-content: space-between;
       width: 100%;
@@ -112,19 +118,19 @@
 }
 
 .pc {
-  @media screen and (min-width: $breakpoint-mid-tablet) {
+  @media screen and (min-width: $breakpoint-max-tablet) {
     display: flex;
   }
-  @media screen and (max-width: $breakpoint-mid-tablet) {
+  @media screen and (max-width: $breakpoint-max-tablet) {
     display: none;
   }
 }
 
 .mobile {
-  @media screen and (min-width: $breakpoint-mid-tablet) {
+  @media screen and (min-width: $breakpoint-max-tablet) {
     display: none;
   }
-  @media screen and (max-width: $breakpoint-mid-tablet) {
+  @media screen and (max-width: $breakpoint-max-tablet) {
     display: flex;
   }
 }

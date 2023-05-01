@@ -6,10 +6,7 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 
-  // @media screen and (max-width: $breakpoint-min-tablet) {
-  //   margin-top: 100px;
-  // }
-  @media screen and (max-width: $breakpoint-min-phone) {
+  @media screen and (max-width: $breakpoint-max-tablet) {
     margin-top: 42px;
     display: flex;
     flex-direction: column;
@@ -47,7 +44,7 @@
       line-height: 22px;
     }
 
-    @media screen and (max-width: $breakpoint-min-phone) {
+    @media screen and (max-width: $breakpoint-max-tablet) {
       margin-left: 0;
       h1 {
         font-weight: 400;
@@ -153,10 +150,10 @@
         margin-left: 23px;
       }
 
-      @media screen and (min-width: $breakpoint-min-phone) {
+      @media screen and (min-width: $breakpoint-max-tablet) {
         display: grid;
       }
-      @media screen and (max-width: $breakpoint-min-phone) {
+      @media screen and (max-width: $breakpoint-max-tablet) {
         display: none;
       }
     }
@@ -164,10 +161,10 @@
       row-gap: 19px;
       margin-left: 1px;
 
-      @media screen and (min-width: $breakpoint-min-phone) {
+      @media screen and (min-width: $breakpoint-max-tablet) {
         display: none;
       }
-      @media screen and (max-width: $breakpoint-min-phone) {
+      @media screen and (max-width: $breakpoint-max-tablet) {
         display: grid;
       }
 

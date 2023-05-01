@@ -16,7 +16,13 @@
     flex: 0;
   }
 
-  @media screen and (max-width: $breakpoint-min-phone) {
+  @media screen and (max-width: $breakpoint-max-tablet) {
     padding: 0;
+  }
+
+  .mainSection {
+    @media screen and (max-width: $breakpoint-max-tablet) {
+      padding-top: 53px;
+    }
   }
 }

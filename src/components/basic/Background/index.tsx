@@ -3,11 +3,24 @@ import classnames from "./background.module.scss";
 const Background: React.FC = () => {
   return (
     <div className={classnames.wrapper}>
-      <div className={classnames.redLight} />
-      <div className={classnames.purpleLight} />
-      <div className={classnames.redBall1} />
-      <div className={classnames.redBall2} />
-      <div className={classnames.purpleBall} />
+      <div className={classnames.pc}>
+        <div className={classnames.pcRedLight} />
+        <div className={classnames.pcPurpleLight} />
+        <div className={classnames.pcRedBall1} />
+        <div className={classnames.pcRedBall2} />
+        <div className={classnames.pcPurpleBall} />
+      </div>
+      <div className={classnames.mobile}>
+        <div className={classnames.mobilePurpleLight} />
+        <div className={classnames.mobileRedLight} />
+        <div className={classnames.mobileYellowLight} />
+        <img className={classnames.mobileNoise} src={`/png/noise.png`} alt='background' draggable={false} />
+        <div className={classnames.mobileGlass} />
+        <div className={classnames.mobileRedBall1} />
+        <div className={classnames.mobileYellowBall1} />
+        <div className={classnames.mobilePurpleBall1} />
+        <div className={classnames.mobileRedBall2} />
+      </div>
     </div>
   );
 };

@@ -8,7 +8,9 @@ const App: React.FC = () => {
   return (
     <div className={classnames.app}>
       <Header />
-      <HeroScreen />
+      <div className={classnames.mainSection}>
+        <HeroScreen />
+      </div>
       <Footer />
       <Background />
     </div>

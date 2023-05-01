@@ -47,8 +47,8 @@ const navLinks = {
           title: "Кейсы"
         },
         {
-          link: "/customer-gratitude",
-          title: "Благодарность клиентов"
+          link: "/grateful-letters",
+          title: "Благодарственные письма"
         },
         {
           link: "/certificates",

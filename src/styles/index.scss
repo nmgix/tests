@@ -12,9 +12,9 @@ body {
   overflow-x: hidden;
   background-color: $black;
 
-  @media screen and (max-width: $breakpoint-min-phone) {
-    overflow-x: scroll;
-  }
+  // @media screen and (max-width: $breakpoint-min-phone) {
+  //   overflow-x: scroll;
+  // }
 }
 
 #root {

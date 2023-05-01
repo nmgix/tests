@@ -10,8 +10,9 @@
   margin-bottom: 20px;
   flex: 1 !important;
 
-  @media screen and (max-width: $breakpoint-min-phone) {
+  @media screen and (max-width: $breakpoint-max-tablet) {
     margin-top: 59px;
+    margin-bottom: 0px;
     flex-direction: column;
     background-color: $black;
 
@@ -26,7 +27,7 @@
     flex-direction: row;
     row-gap: 16px;
 
-    @media screen and (max-width: $breakpoint-min-phone) {
+    @media screen and (max-width: $breakpoint-max-tablet) {
       flex-direction: column;
       margin-bottom: 50px;
       row-gap: 30px;
@@ -43,7 +44,7 @@
         color: $dark-gray;
         margin-bottom: 20px;
 
-        @media screen and (max-width: $breakpoint-min-phone) {
+        @media screen and (max-width: $breakpoint-max-tablet) {
           font-size: 12px;
           margin-top: 0;
           margin-bottom: 19px;
@@ -62,7 +63,7 @@
         row-gap: 10px;
         column-gap: 52px;
 
-        @media screen and (max-width: $breakpoint-min-phone) {
+        @media screen and (max-width: $breakpoint-max-tablet) {
           row-gap: 10px;
           column-gap: 21px;
         }
@@ -74,7 +75,7 @@
           font-size: 16px;
           line-height: 19px;
 
-          @media screen and (max-width: $breakpoint-min-phone) {
+          @media screen and (max-width: $breakpoint-max-tablet) {
             font-size: 14px;
             line-height: 17px;
           }
@@ -83,7 +84,7 @@
     }
 
     .list:nth-child(1) {
-      @media screen and (max-width: $breakpoint-min-phone) {
+      @media screen and (max-width: $breakpoint-max-tablet) {
         h3 {
           margin-top: 1px;
           margin-bottom: 18px;
@@ -96,12 +97,12 @@
       flex-grow: 1;
       margin-left: 98px;
 
-      @media screen and (max-width: $breakpoint-min-phone) {
+      @media screen and (max-width: $breakpoint-max-tablet) {
         margin-left: 0px;
       }
 
       ul {
-        @media screen and (max-width: $breakpoint-min-phone) {
+        @media screen and (max-width: $breakpoint-max-tablet) {
           row-gap: 10px;
           column-gap: 23px;
           margin-bottom: 9px;
@@ -120,7 +121,7 @@
       text-align: end;
       flex: 1;
 
-      @media screen and (max-width: $breakpoint-min-phone) {
+      @media screen and (max-width: $breakpoint-max-tablet) {
         align-items: flex-start;
       }
 
@@ -128,7 +129,7 @@
         align-items: flex-end;
         row-gap: 20px;
 
-        @media screen and (max-width: $breakpoint-min-phone) {
+        @media screen and (max-width: $breakpoint-max-tablet) {
           align-items: flex-start;
           row-gap: 8px;
         }
@@ -145,7 +146,7 @@
           width: 20px;
         }
 
-        @media screen and (max-width: $breakpoint-min-phone) {
+        @media screen and (max-width: $breakpoint-max-tablet) {
           margin-bottom: 2px;
 
           :global(.icon) {
@@ -157,18 +158,18 @@
   }
 
   .pc {
-    @media screen and (min-width: $breakpoint-min-phone) {
+    @media screen and (min-width: $breakpoint-max-tablet) {
       display: flex;
     }
-    @media screen and (max-width: $breakpoint-min-phone) {
+    @media screen and (max-width: $breakpoint-max-tablet) {
       display: none;
     }
   }
   .mobile {
-    @media screen and (min-width: $breakpoint-min-phone) {
+    @media screen and (min-width: $breakpoint-max-tablet) {
       display: none;
     }
-    @media screen and (max-width: $breakpoint-min-phone) {
+    @media screen and (max-width: $breakpoint-max-tablet) {
       display: flex;
     }
   }
@@ -178,7 +179,7 @@
     flex-direction: column;
     align-items: flex-end;
 
-    @media screen and (max-width: $breakpoint-min-phone) {
+    @media screen and (max-width: $breakpoint-max-tablet) {
       align-items: flex-start;
     }
 
