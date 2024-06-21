@@ -1,7 +1,9 @@
 import classnames from "classnames";
 import { memo } from "react";
 
-enum AvailableIcons {}
+enum AvailableIcons {
+  "error-sign"
+}
 
 interface IIconProps {
   /**
