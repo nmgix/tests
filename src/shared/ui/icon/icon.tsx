@@ -1,19 +1,13 @@
 import classnames from "classnames";
 import { memo } from "react";
+import "./icon.scss";
 
 enum AvailableIcons {
   "error-sign"
 }
 
 interface IIconProps {
-  /**
-   * Choose between available icons located at public/svg
-   */
   icon: keyof typeof AvailableIcons;
-  /**
-   * background color for icon, set in `element.style`
-   * @optional
-   */
   color?: string;
   classNames?: string | string[];
 }

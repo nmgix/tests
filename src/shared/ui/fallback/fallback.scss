@@ -1,0 +1,20 @@
+.fallback {
+  &::before {
+    content: "";
+    background-color: var(--background);
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 70vw;
+  height: 50vh;
+
+  border-radius: 20px;
+  background-color: var(--white);
+}
