@@ -1,0 +1,41 @@
+@import "src/app/styles/breakpoints";
+
+.promo {
+  //promo как namespace
+  &__wrapper {
+  }
+
+  &__buy-btn {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 20px 42px;
+    border-radius: 30px;
+  }
+
+  &__last-chance {
+    &::after {
+      content: "горящее предложение";
+      position: absolute;
+      top: 0;
+      left: 42px;
+
+      @media screen and (max-width: $xs) {
+        //пока xs, для адатива, понятное дело, будет дургая ширина
+        left: 0;
+      }
+    }
+
+    // немного плаваю с этим в BEM
+    .last-chance {
+      mark {
+        color: var(--accent);
+      }
+
+      &__intro {
+        .last-chance__title mark {
+          font-family: "Rubik";
+        }
+      }
+    }
+  }
+}

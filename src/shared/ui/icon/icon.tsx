@@ -3,7 +3,10 @@ import { memo } from "react";
 import "./icon.scss";
 
 enum AvailableIcons {
-  "error-sign"
+  "error-sign",
+  "close",
+  "star",
+  "price-cross"
 }
 
 interface IIconProps {

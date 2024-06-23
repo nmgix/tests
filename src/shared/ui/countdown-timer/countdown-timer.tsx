@@ -28,10 +28,15 @@ interface ICountdownTimerProps {
 
 export const CountdownTimer: React.FC<ICountdownTimerProps> = props => {
   const [localDebugActive, setlocalDebugMode] = useState(false); //для показа анимации при 30сек таймере
+  const onCountEnd = () => console.log("remove counter? and offer lower discounts");
 
   return (
     <>
-      <Countdown date={props.timeUntilExpire} renderer={timeProps => <TimerRenderer {...timeProps} debug={localDebugActive} />} />
+      <Countdown
+        date={props.timeUntilExpire}
+        renderer={timeProps => <TimerRenderer {...timeProps} debug={localDebugActive} />}
+        onComplete={onCountEnd}
+      />
       {props.appDebugMode && <input type='checkbox' onChange={e => setlocalDebugMode(e.target.checked)} />}
     </>
   );

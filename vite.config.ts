@@ -43,25 +43,25 @@ export default defineConfig(({ mode }) => {
           start_url: mode === "production" ? "/test-gym/" : "/",
           icons: [
             {
-              src: "assets/icons/favicons/512.png",
+              src: "icons/favicons/512.png",
               sizes: "512x512",
               type: "image/png",
               purpose: "any"
             },
             {
-              src: "assets/icons/favicons/192.png",
+              src: "icons/favicons/192.png",
               sizes: "192x192",
               type: "image/png",
               purpose: "any"
             },
             {
-              src: "assets/icons/favicons/180.png",
+              src: "icons/favicons/180.png",
               sizes: "180x180",
               type: "image/png",
               purpose: "any"
             },
             {
-              src: "assets/icons/favicons/icon.svg",
+              src: "icons/favicons/icon.svg",
               sizes: "32x32",
               type: "image/svg"
             }
