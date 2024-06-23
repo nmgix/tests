@@ -1,4 +1,36 @@
-@import "./fonts/BebasNeue/font.scss";
 @import "./fonts/PTRootUI/font.scss";
+@import "./fonts/BebasNeue/font.scss";
 @import "./fonts/Rubik/font.scss";
+
 @import "./theme.scss";
+
+body {
+  font-family: "PTRootUI Medium", sans-serif;
+  line-height: 1.3;
+  text-rendering: optimizeSpeed;
+
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+ol,
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
