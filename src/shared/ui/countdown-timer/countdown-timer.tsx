@@ -5,14 +5,14 @@ import "./countdown-timer.scss";
 
 type TTimerRendererProps = { debug?: boolean } & CountdownRenderProps;
 
-const TimerRenderer: React.FC<TTimerRendererProps> = ({ total, minutes, seconds, debug }) => {
+const TimerRenderer: React.FC<TTimerRendererProps> = ({ total, formatted: { minutes, seconds }, debug }) => {
   return (
-    <div className={classnames("countdown-timer", { "countdown-timer__warn": total <= 30000 || debug })}>
+    <div className={classnames("countdown-timer", { "countdown-timer--warn": total <= 30000 || debug })}>
       <div className='countdown-timer__time'>
         <h1 className='timer__time'>{minutes}</h1>
         <h4 className='timer__units'>минут</h4>
       </div>
-      <div className='countdown-timer__time-separator' />
+      <span className='countdown-timer__time-separator'>&#58;</span>
       <div className='countdown-timer__time'>
         <h1 className='timer__time'>{seconds}</h1>
         <h4 className='timer__units'>секунд</h4>
@@ -36,6 +36,7 @@ export const CountdownTimer: React.FC<ICountdownTimerProps> = props => {
         date={props.timeUntilExpire}
         renderer={timeProps => <TimerRenderer {...timeProps} debug={localDebugActive} />}
         onComplete={onCountEnd}
+        daysInHours={true}
       />
       {props.appDebugMode && <input type='checkbox' onChange={e => setlocalDebugMode(e.target.checked)} />}
     </>

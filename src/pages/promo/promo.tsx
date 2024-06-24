@@ -48,7 +48,7 @@ const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeMod
 
 export const PromoPage = () => {
   const [privacyAccept, setPrivacyAccept] = useState(false);
-  const [lastChance, setLastChance] = useState(true); // в будущем с глобал стейта
+  const [lastChance, setLastChance] = useState(false); // в будущем с глобал стейта
 
   const pageRef = useRef<HTMLDivElement>(null);
 

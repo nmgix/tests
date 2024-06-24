@@ -1,13 +1,59 @@
+@import "src/app/styles/fonts/PTRootUI/mixin";
+
+$timer-padding: 9px;
+
 .countdown-timer {
+  color: var(--accent);
+
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+
   &__time {
+    color: inherit;
+    position: relative;
+
+    padding: $timer-padding;
   }
   &__time-separator {
+    color: inherit;
+    opacity: 0.5;
+    margin-top: -13px;
+
+    @include font-family-ptrootui;
+    font-weight: 700;
+    font-size: 35px;
+  }
+
+  &--warn {
+    // тут анимация моргания (через gsap? зачем) 30 сек потом просто колор стоп
+    color: var(--primary);
+  }
+
+  h1,
+  h4 {
+    margin: 0;
   }
 }
 
 .timer {
   &__time {
+    font-family: "Bebas Neue";
+    font-weight: 400;
+    color: inherit;
+    font-size: 60px;
+    line-height: 1.03;
   }
   &__units {
+    color: var(--text2);
+
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include font-family-ptrootui;
+    font-weight: 700;
+    font-size: 16px;
   }
 }
