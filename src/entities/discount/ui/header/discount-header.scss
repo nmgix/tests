@@ -6,13 +6,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 15px;
-  padding: 5px 0;
+  column-gap: 1.5rem;
+  padding: 0.5rem 1rem;
 
   &__title {
     @include font-family-ptrootui;
     font-weight: 700;
-    font-size: 30px;
+    font-size: 3rem;
     color: var(--text);
 
     margin: 0;

@@ -11,12 +11,12 @@
     z-index: 2;
   }
 
-  max-width: 750px;
-  padding: 40px;
+  max-width: 75rem;
+  padding: 4rem;
 
   @media screen and (max-width: $xs) {
     //пока xs, для адатива, понятное дело, будет другая ширина
-    padding: 20px;
+    padding: 2rem;
   }
 
   &::before {
