@@ -55,7 +55,8 @@ export const PromoPage = () => {
   return (
     <>
       <div className='page promo' id='promo' ref={pageRef}>
-        <img className='image' src='/assets/images/to_be_2.png' />
+        <h1 className='promo__title'>Выберите подходящий тарифный план</h1>
+        <img className='promo__image' src='/assets/images/to_be_2.png' />
         <div className='promo__wrapper'>
           <div className='rate__wrapper'>
             <ul className='rate__options'>

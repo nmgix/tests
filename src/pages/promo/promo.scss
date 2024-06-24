@@ -1,7 +1,17 @@
 @import "src/app/styles/breakpoints";
+@import "src/app/styles/fonts/Rubik/mixin";
 
 .promo {
+  background-color: var(--background);
   //promo как namespace
+
+  &__title {
+    @include font-family-rubik;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: calc(1em / 100);
+  }
+
   &__wrapper {
   }
 
