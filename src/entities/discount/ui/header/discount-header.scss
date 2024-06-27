@@ -2,12 +2,15 @@
 @import "src/app/styles/fonts/PTRootUI/mixin";
 
 .discount-header {
+  position: absolute;
+  width: 100vw;
+
   background-color: var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 1.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0 1rem 0.42rem;
 
   &__title {
     @include font-family-ptrootui;
@@ -20,6 +23,11 @@
     @media screen and (max-width: $xs) {
       //пока xs, для адатива, понятное дело, будет другая ширина
       font-weight: 500;
+    }
+  }
+  .countdown-timer {
+    .countdown-timer__time {
+      padding-top: 0.5rem;
     }
   }
 

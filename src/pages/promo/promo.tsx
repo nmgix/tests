@@ -3,12 +3,33 @@ import { Link } from "react-router-dom";
 import { Modal } from "src/widgets/Modal";
 
 import "./promo.scss";
-import { RateCardDiscounted } from "src/entities/rate";
+import { RateCard, RateCardDiscounted, TRateProps } from "src/entities/rate";
 
 interface IPromoLastСhanceModalProps {
   closeModal: React.ComponentProps<typeof Modal>["closeModal"];
 }
 const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeModal }) => {
+  const rateOptions: TRateProps[] = [
+    {
+      name: "1 неделя",
+      price: 999,
+      discount: 699,
+      sidenote: "Чтобы просто начать 👍🏻"
+    },
+    {
+      name: "1 месяц",
+      price: 1690,
+      discount: 999,
+      sidenote: "Привести тело впорядок 💪🏻"
+    },
+    {
+      name: "3 месяца",
+      price: 5990,
+      discount: 2990,
+      sidenote: "Изменить образ жизни 🔥"
+    }
+  ];
+
   return (
     <Modal closeModal={closeModal} externalClassnames={["promo", "promo__last-chance"]}>
       <h1>
@@ -28,17 +49,18 @@ const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeMod
       <div className='last-chance__offer'>
         <span className='last-chance__title'>Посмотри, что мы для тебя приготовили 🔥</span>
         <ul className='last-chance__cards'>
-          <li className='last-chance__card'>
-            <RateCardDiscounted
-              cardSelected={false}
-              onInputSelect={() => console.log("выбрал эту карточку")}
-              price={599}
-              prevPrice={999}
-              name='1 неделя (мок)'
-            />
-          </li>
-          <li className='last-chance__card'></li>
-          <li className='last-chance__card'></li>
+          {rateOptions.map(r => (
+            <li className='last-chance__card'>
+              <RateCardDiscounted
+                cardSelected={false}
+                onInputSelect={() => console.log("выбрал эту карточку")}
+                price={r.price}
+                name={r.name}
+                discount={r.discount}
+                discountActive={true}
+              />
+            </li>
+          ))}
         </ul>
       </div>
       <button className='promo__buy-btn'>Начать тренироваться</button>
@@ -52,33 +74,65 @@ export const PromoPage = () => {
 
   const pageRef = useRef<HTMLDivElement>(null);
 
+  const rateOptions: TRateProps[] = [
+    {
+      name: "1 неделя",
+      price: 999,
+      discount: 699,
+      sidenote: "Чтобы просто начать 👍🏻"
+    },
+    {
+      name: "1 месяц",
+      price: 1690,
+      discount: 999,
+      sidenote: "Привести тело впорядок 💪🏻"
+    },
+    {
+      name: "3 месяца",
+      price: 5990,
+      discount: 2990,
+      sidenote: "Изменить образ жизни 🔥"
+    },
+    {
+      name: "Навсегда",
+      price: 18990,
+      discount: 5990,
+      sidenote: "Всегда быть в форме и поддерживать своё здоровье ⭐️"
+    }
+  ];
+
+  const discAct = true; // с глобал стейта
+
   return (
     <>
-      <div className='page promo' id='promo' ref={pageRef}>
-        <h1 className='promo__title'>Выберите подходящий тарифный план</h1>
-        <img className='promo__image' src='/assets/images/to_be_2.png' />
-        <div className='promo__wrapper'>
-          <div className='rate__wrapper'>
-            <ul className='rate__options'>
-              <li className='rate__option'>699</li>
-              <li className='rate__option'>999</li>
-              <li className='rate__option'>2990</li>
-              <li className='rate__option'>5990</li>
-            </ul>
-            <span className='rate__sidenote'>Следуя плану на 3 месяца, люди получают в 2 раза лучший результат, чем за 1 месяц</span>
-          </div>
-          <div className='promo__privacy-policy'>
-            <input type='checkbox' checked={privacyAccept} onChange={e => setPrivacyAccept(e.target.checked)} />
-            <span>
-              Я соглашаюсь с <Link to={"/"}>Правилами сервиса</Link> и условиями <Link to={"/"}>Публичной оферты.</Link>
-            </span>
-          </div>
-          <div className='promo__checkout'>
-            <button className='promo__buy-btn'>Купить</button>
-            <span className='promo__buy-sidenote'>
-              Нажимая «Купить», Пользователь соглашается на автоматическое списание денежных средств по истечению купленного периода. Дальнейшие
-              списания по тарифам участвующим в акции осуществляются по полной стоимости согласно оферте.
-            </span>
+      <div className='promo__wrapper'>
+        <div className='page promo' id='promo' ref={pageRef}>
+          <h1 className='promo__title'>Выберите подходящий тарифный план</h1>
+          <img className='promo__image' draggable='false' src='/assets/images/to_be_2.png' alt='накачанный мужчина' />
+          <div className='promo__content'>
+            <div className='rate__wrapper'>
+              <ul className='rate__options'>
+                {rateOptions.map((r, i) => (
+                  <li className='rate__option'>
+                    <RateCard {...r} discountActive={discAct} externalClassNames={(i + 1) % 4 === 0 ? "rate-card--horizontal" : undefined} />
+                  </li>
+                ))}
+              </ul>
+              <span className='rate__sidenote'>Следуя плану на 3 месяца, люди получают в 2 раза лучший результат, чем за 1 месяц</span>
+            </div>
+            <div className='promo__privacy-policy'>
+              <input type='checkbox' checked={privacyAccept} onChange={e => setPrivacyAccept(e.target.checked)} />
+              <span>
+                Я соглашаюсь с <Link to={"/"}>Правилами сервиса</Link> и условиями <Link to={"/"}>Публичной оферты.</Link>
+              </span>
+            </div>
+            <div className='promo__checkout'>
+              <button className='promo__buy-btn'>Купить</button>
+              <span className='promo__buy-sidenote'>
+                Нажимая «Купить», Пользователь соглашается на автоматическое списание денежных средств по истечению купленного периода. Дальнейшие
+                списания по тарифам участвующим в акции осуществляются по полной стоимости согласно оферте.
+              </span>
+            </div>
           </div>
         </div>
       </div>

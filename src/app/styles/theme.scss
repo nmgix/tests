@@ -13,3 +13,19 @@
   --icon: #2f4353;
   --linear: linear-gradient(0%, rgba(245, 247, 247, 0), 100%, rgba(245, 247, 247, 1));
 }
+
+:root {
+  --primary-rgb: 253, 77, 53;
+  --accent-rgb: 1, 185, 197;
+  --text-halftone-rgb: 149, 151, 159;
+  --text-gray-rgb: 104, 112, 120;
+  --link-rgb: 45, 151, 249;
+  --text-rgb: 45, 50, 66;
+  --text2-rgb: 129, 135, 152;
+  --white-rgb: 255, 255, 255;
+  --accent-transparent-rgb: rgba(1, 185, 197, 0.05);
+  --background-rgb: 245, 247, 247;
+  --gray-transparent-rgb: 211, 214, 221;
+  --icon-rgb: 47, 67, 83;
+  --linear-rgb: linear-gradient(0%, rgba(var(--background-rgb), 0), 100%, rgba(var(--background-rgb), 1));
+}

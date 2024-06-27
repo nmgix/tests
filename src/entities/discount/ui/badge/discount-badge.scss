@@ -1,0 +1,29 @@
+@import "src/app/styles/breakpoints";
+@import "src/app/styles/fonts/PTRootUI/mixin";
+
+.discount-badge {
+  position: relative;
+  width: 6.6em;
+  height: 6.7em;
+
+  .icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    color: var(--primary);
+  }
+
+  &__amount {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    @include font-family-ptrootui;
+    font-weight: 500;
+    font-size: 1.867em;
+    line-height: 1.3;
+    color: var(--white);
+  }
+}
