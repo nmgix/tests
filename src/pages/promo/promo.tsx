@@ -121,14 +121,21 @@ export const PromoPage = () => {
               <span className='rate__sidenote'>Следуя плану на 3 месяца, люди получают в 2 раза лучший результат, чем за 1 месяц</span>
             </div>
             <div className='promo__privacy-policy'>
-              <input type='checkbox' checked={privacyAccept} onChange={e => setPrivacyAccept(e.target.checked)} />
-              <span>
-                Я соглашаюсь с <Link to={"/"}>Правилами сервиса</Link> и условиями <Link to={"/"}>Публичной оферты.</Link>
+              <input className='privacy-policy__input' type='checkbox' checked={privacyAccept} onChange={e => setPrivacyAccept(e.target.checked)} />
+              <span className='privacy-policy__description'>
+                Я соглашаюсь с{" "}
+                <Link className='privacy-policy__link' to={"/"}>
+                  правилами сервиса
+                </Link>{" "}
+                и условиями{" "}
+                <Link className='privacy-policy__link' to={"/"}>
+                  публичной оферты.
+                </Link>
               </span>
             </div>
             <div className='promo__checkout'>
-              <button className='promo__buy-btn'>Купить</button>
-              <span className='promo__buy-sidenote'>
+              <button className='checkout__btn'>Купить</button>
+              <span className='checkout__sidenote'>
                 Нажимая «Купить», Пользователь соглашается на автоматическое списание денежных средств по истечению купленного периода. Дальнейшие
                 списания по тарифам участвующим в акции осуществляются по полной стоимости согласно оферте.
               </span>
