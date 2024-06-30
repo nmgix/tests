@@ -108,37 +108,41 @@ export const PromoPage = () => {
       <div className='promo__wrapper'>
         <div className='page promo' id='promo' ref={pageRef}>
           <h1 className='promo__title'>Выберите подходящий тарифный план</h1>
-          <img className='promo__image' draggable='false' src='/assets/images/to_be_2.png' alt='накачанный мужчина' />
           <div className='promo__content'>
-            <div className='rate__wrapper'>
-              <ul className='rate__options'>
-                {rateOptions.map((r, i) => (
-                  <li className='rate__option'>
-                    <RateCard {...r} discountActive={discAct} externalClassNames={(i + 1) % 4 === 0 ? "rate-card--horizontal" : undefined} />
-                  </li>
-                ))}
-              </ul>
-              <span className='rate__sidenote'>Следуя плану на 3 месяца, люди получают в 2 раза лучший результат, чем за 1 месяц</span>
+            <div className='image__wrapper'>
+              <img className='image' draggable='false' src='/assets/images/to_be_2.png' alt='накачанный мужчина' />
             </div>
-            <div className='promo__privacy-policy'>
-              <input className='privacy-policy__input' type='checkbox' checked={privacyAccept} onChange={e => setPrivacyAccept(e.target.checked)} />
-              <span className='privacy-policy__description'>
-                Я соглашаюсь с{" "}
-                <Link className='privacy-policy__link' to={"/"}>
-                  правилами сервиса
-                </Link>{" "}
-                и условиями{" "}
-                <Link className='privacy-policy__link' to={"/"}>
-                  публичной оферты.
-                </Link>
-              </span>
-            </div>
-            <div className='promo__checkout'>
-              <button className='checkout__btn'>Купить</button>
-              <span className='checkout__sidenote'>
-                Нажимая «Купить», Пользователь соглашается на автоматическое списание денежных средств по истечению купленного периода. Дальнейшие
-                списания по тарифам участвующим в акции осуществляются по полной стоимости согласно оферте.
-              </span>
+            <div className='promo__info'>
+              <div className='rate__wrapper'>
+                <ul className='rate__options'>
+                  {rateOptions.map(r => (
+                    <li className='rate__option'>
+                      <RateCard {...r} discountActive={discAct} />
+                    </li>
+                  ))}
+                </ul>
+                <span className='rate__sidenote'>Следуя плану на 3 месяца, люди получают в 2 раза лучший результат, чем за 1 месяц</span>
+              </div>
+              <div className='promo__privacy-policy'>
+                <input className='privacy-policy__input' type='checkbox' checked={privacyAccept} onChange={e => setPrivacyAccept(e.target.checked)} />
+                <span className='privacy-policy__description'>
+                  Я соглашаюсь с{" "}
+                  <Link className='privacy-policy__link' to={"/"}>
+                    правилами сервиса
+                  </Link>{" "}
+                  и условиями{" "}
+                  <Link className='privacy-policy__link' to={"/"}>
+                    публичной оферты.
+                  </Link>
+                </span>
+              </div>
+              <div className='promo__checkout'>
+                <button className='checkout__btn'>Купить</button>
+                <span className='checkout__sidenote'>
+                  Нажимая «Купить», Пользователь соглашается на автоматическое списание денежных средств по истечению купленного периода. Дальнейшие
+                  списания по тарифам участвующим в акции осуществляются по полной стоимости согласно оферте.
+                </span>
+              </div>
             </div>
           </div>
         </div>

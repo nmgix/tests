@@ -2,7 +2,7 @@ import { CountdownTimer } from "src/shared/ui";
 import "./discount-header.scss";
 
 export const DiscountHeader: React.FC = () => {
-  const debugMode = true; //из глобал стейта брать
+  const debugMode = false; //из глобал стейта брать
   const timerUntil = new Date(debugMode ? Date.now() + 35000 : Date.now() + 60000 * 2);
 
   return (

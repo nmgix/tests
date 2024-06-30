@@ -10,13 +10,15 @@ export type TRateProps = { discount: number; sidenote?: string; discountActive?:
 
 export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, discountActive, externalClassNames }) => {
   return (
-    <div className={classnames("rate-card rate-card--default", externalClassNames)}>
+    <div className={classnames("rate-card", externalClassNames)}>
       {discountActive && <DiscountBadge price={price} discount={discount} externalClassnames={"price__discount-badge"} />}
-      <h1 className='time-course'>{name}</h1>
-      {/* price wrapper есть в карточке ниже, как с неймингом быть? вроде разные классы */}
-      <div className='price__wrapper'>
-        <h1 className='price__tag'>{formatPrice(discountActive ? discount : price)}₽</h1>
-        {discountActive && <h2 className='price__discount'>{formatPrice(price)}₽</h2>}
+      <div className='time-n-price'>
+        <h1 className='time-course'>{name}</h1>
+        {/* price wrapper есть в карточке ниже, как с неймингом быть? вроде разные классы */}
+        <div className='price__wrapper'>
+          <h1 className='price__tag'>{formatPrice(discountActive ? discount : price)}₽</h1>
+          {discountActive && <h2 className='price__discount'>{formatPrice(price)}₽</h2>}
+        </div>
       </div>
       {sidenote && <span className='rate-card__sidenote'>{sidenote}</span>}
     </div>
