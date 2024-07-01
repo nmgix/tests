@@ -9,20 +9,23 @@ interface IPromoLastСhanceModalProps {
   closeModal: React.ComponentProps<typeof Modal>["closeModal"];
 }
 const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeModal }) => {
-  const rateOptions: TRateProps[] = [
+  const rateOptions: Omit<TRateProps, "onSelect" | "selected">[] = [
     {
+      id: "9cb876c5-9758-4215-abd6-bdeadb9f1ce4",
       name: "1 неделя",
       price: 999,
       discount: 699,
       sidenote: "Чтобы просто начать 👍🏻"
     },
     {
+      id: "8cd07806-bf89-4209-9e39-d81cb68d6837",
       name: "1 месяц",
       price: 1690,
       discount: 999,
       sidenote: "Привести тело впорядок 💪🏻"
     },
     {
+      id: "6aaf56d2-9854-439e-be23-fc9757e8114e",
       name: "3 месяца",
       price: 5990,
       discount: 2990,
@@ -52,11 +55,12 @@ const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeMod
           {rateOptions.map(r => (
             <li className='last-chance__card'>
               <RateCardDiscounted
-                cardSelected={false}
-                onInputSelect={() => console.log("выбрал эту карточку")}
+                selected={false}
+                onSelect={id => console.log("выбрал эту карточку, " + id)}
                 price={r.price}
                 name={r.name}
                 discount={r.discount}
+                id={r.id}
                 discountActive={true}
               />
             </li>
@@ -74,26 +78,30 @@ export const PromoPage = () => {
 
   const pageRef = useRef<HTMLDivElement>(null);
 
-  const rateOptions: TRateProps[] = [
+  const rateOptions: Omit<TRateProps, "onSelect" | "selected">[] = [
     {
+      id: "9cb876c5-9758-4215-abd6-bdeadb9f1ce4",
       name: "1 неделя",
       price: 999,
       discount: 699,
       sidenote: "Чтобы просто начать 👍🏻"
     },
     {
+      id: "8cd07806-bf89-4209-9e39-d81cb68d6837",
       name: "1 месяц",
       price: 1690,
       discount: 999,
       sidenote: "Привести тело впорядок 💪🏻"
     },
     {
+      id: "6aaf56d2-9854-439e-be23-fc9757e8114e",
       name: "3 месяца",
       price: 5990,
       discount: 2990,
       sidenote: "Изменить образ жизни 🔥"
     },
     {
+      id: "6ce81fa9-c558-40a4-923e-29b9c7be9333",
       name: "Навсегда",
       price: 18990,
       discount: 5990,
@@ -117,7 +125,7 @@ export const PromoPage = () => {
                 <ul className='rate__options'>
                   {rateOptions.map(r => (
                     <li className='rate__option'>
-                      <RateCard {...r} discountActive={discAct} />
+                      <RateCard {...r} discountActive={discAct} onSelect={id => console.log("выбрал эту карточку, " + id)} selected={false} />
                     </li>
                   ))}
                 </ul>

@@ -14,7 +14,7 @@
   border-radius: 2em;
   border: 0.2em solid var(--gray-transparent);
   // padding: 4.5em 1.8em 2.6em;
-  padding: 3.7em 1.8em 2.6em;
+  padding: 4.4em 1.8em 2.6em;
 
   &:hover {
     background-color: rgba(var(--accent-rgb), 0.05);
@@ -28,7 +28,7 @@
 
     transform: translate(-1%, -1%);
     .time-course {
-      transform: translate(-4%, 3%);
+      transform: translate(-19%, -6%);
     }
   }
 
@@ -88,7 +88,13 @@
   }
 
   .price__wrapper {
-    margin-bottom: 2rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .discount-badge {
+    .icon {
+      display: block; //от кнопки наследуется inline
+    }
   }
 
   h1,

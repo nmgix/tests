@@ -5,12 +5,22 @@ import { DiscountBadge } from "src/entities/discount/ui/badge";
 import "./rate-card.scss";
 import classnames from "classnames";
 import { formatPrice } from "src/shared/lib/format-price";
+import { memo, useCallback } from "react";
 
-export type TRateProps = { discount: number; sidenote?: string; discountActive?: true; externalClassNames?: string | string[] } & RateShortened;
+export type TRateProps = {
+  discount: number;
+  onSelect: (id: string) => void;
+  selected: boolean;
+  sidenote?: string;
+  discountActive?: true;
+  externalClassNames?: string | string[];
+} & RateShortened;
 
-export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, discountActive, externalClassNames }) => {
+export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, discountActive, externalClassNames, onSelect, id }) => {
+  const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
+
   return (
-    <button className={classnames("rate-card", externalClassNames)}>
+    <button onClick={onSelectMemo} className={classnames("rate-card", externalClassNames)}>
       {discountActive && <DiscountBadge price={price} discount={discount} externalClassnames={"price__discount-badge"} />}
       <div className='time-n-price'>
         <h1 className='time-course'>{name}</h1>
@@ -25,8 +35,11 @@ export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount
   );
 };
 
-type TRateDiscountedProps = { onInputSelect: () => void; cardSelected: boolean } & Omit<TRateProps, "sidenote">;
-export const RateCardDiscounted: React.FC<TRateDiscountedProps> = ({ onInputSelect, cardSelected, name, price, discount }) => {
+export const RateCardMemo = memo(RateCard, (prev, next) => prev.selected === next.selected);
+
+export const RateCardDiscounted: React.FC<TRateProps> = ({ onSelect, selected, name, price, discount, id }) => {
+  const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
+
   return (
     // rate-discounted  костыль?
     <div className='rate-card rate-discounted'>
@@ -39,7 +52,7 @@ export const RateCardDiscounted: React.FC<TRateDiscountedProps> = ({ onInputSele
             <IconMemo icon='price-cross' classNames={"prev-price__discount"} />
           </div>
         </div>
-        <input className='time-cource__select' onChange={onInputSelect} checked={cardSelected} type='radio' />
+        <input className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
       </div>
       <hr className='rate-discounted__separation-line' />
       <div className='price__wrapper'>
@@ -49,3 +62,5 @@ export const RateCardDiscounted: React.FC<TRateDiscountedProps> = ({ onInputSele
     </div>
   );
 };
+
+export const RateCardDiscountedMemo = memo(RateCardDiscounted, (prev, next) => prev.selected === next.selected);

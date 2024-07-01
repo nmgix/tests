@@ -1,4 +1,5 @@
 export interface Rate {
+  id: string;
   name: string;
   price: number;
   isPopular: boolean;
