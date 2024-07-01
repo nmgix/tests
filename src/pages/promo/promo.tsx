@@ -118,7 +118,9 @@ export const PromoPage = () => {
           <h1 className='promo__title'>Выберите подходящий тарифный план</h1>
           <div className='promo__content'>
             <div className='image__wrapper'>
-              <img className='image' draggable='false' src='/assets/images/to_be_2.png' alt='накачанный мужчина' />
+              <div className='image__effect'>
+                <img className='image' draggable='false' src='/assets/images/to_be_2.png' alt='накачанный мужчина' />
+              </div>
             </div>
             <div className='promo__info'>
               <div className='rate__wrapper'>
