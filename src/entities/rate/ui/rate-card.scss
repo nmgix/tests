@@ -21,6 +21,11 @@
     border: 0.2em solid var(--accent);
   }
 
+  &--selected {
+    background-color: rgba(var(--accent-rgb), 0.05);
+    border: 0.2em solid var(--accent);
+  }
+
   .time-n-price {
     display: flex;
     flex-direction: column;

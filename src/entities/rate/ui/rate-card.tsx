@@ -16,11 +16,11 @@ export type TRateProps = {
   externalClassNames?: string | string[];
 } & RateShortened;
 
-export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, discountActive, externalClassNames, onSelect, id }) => {
+const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, discountActive, externalClassNames, onSelect, id, selected }) => {
   const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
 
   return (
-    <button onClick={onSelectMemo} className={classnames("rate-card", externalClassNames)}>
+    <button onClick={onSelectMemo} className={classnames("rate-card", { "rate-card--selected": selected }, externalClassNames)}>
       {discountActive && <DiscountBadge price={price} discount={discount} externalClassnames={"price__discount-badge"} />}
       <div className='time-n-price'>
         <h1 className='time-course'>{name}</h1>
@@ -37,7 +37,7 @@ export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount
 
 export const RateCardMemo = memo(RateCard, (prev, next) => prev.selected === next.selected);
 
-export const RateCardDiscounted: React.FC<TRateProps> = ({ onSelect, selected, name, price, discount, id }) => {
+const RateCardDiscounted: React.FC<TRateProps> = ({ onSelect, selected, name, price, discount, id }) => {
   const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
 
   return (
