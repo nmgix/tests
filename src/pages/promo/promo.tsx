@@ -124,8 +124,14 @@ export const PromoPage = () => {
                 <span className='rate__sidenote'>Следуя плану на 3 месяца, люди получают в 2 раза лучший результат, чем за 1 месяц</span>
               </div>
               <div className='promo__privacy-policy'>
-                <input className='privacy-policy__input' type='checkbox' checked={privacyAccept} onChange={e => setPrivacyAccept(e.target.checked)} />
-                <span className='privacy-policy__description'>
+                <input
+                  id='privacy-policy'
+                  className='privacy-policy__input'
+                  type='checkbox'
+                  checked={privacyAccept}
+                  onChange={e => setPrivacyAccept(e.target.checked)}
+                />
+                <label htmlFor='privacy-policy' className='privacy-policy__description'>
                   Я соглашаюсь с{" "}
                   <Link className='privacy-policy__link' to={"/"}>
                     правилами сервиса
@@ -134,7 +140,7 @@ export const PromoPage = () => {
                   <Link className='privacy-policy__link' to={"/"}>
                     публичной оферты.
                   </Link>
-                </span>
+                </label>
               </div>
               <div className='promo__checkout'>
                 <button className='checkout__btn'>Купить</button>

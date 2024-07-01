@@ -4,6 +4,7 @@
 @import "src/app/styles/fonts/PTRootUI/mixin";
 
 @import "./theme.scss";
+@import "./elements.scss";
 
 @import "./page.scss";
 @import "./modal.scss";
@@ -34,21 +35,4 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-ol,
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-  font-family: inherit;
-}
-
-button {
-  border: none;
-  font-family: inherit;
 }

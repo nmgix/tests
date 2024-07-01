@@ -10,7 +10,7 @@ export type TRateProps = { discount: number; sidenote?: string; discountActive?:
 
 export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, discountActive, externalClassNames }) => {
   return (
-    <div className={classnames("rate-card", externalClassNames)}>
+    <button className={classnames("rate-card", externalClassNames)}>
       {discountActive && <DiscountBadge price={price} discount={discount} externalClassnames={"price__discount-badge"} />}
       <div className='time-n-price'>
         <h1 className='time-course'>{name}</h1>
@@ -21,7 +21,7 @@ export const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount
         </div>
       </div>
       {sidenote && <span className='rate-card__sidenote'>{sidenote}</span>}
-    </div>
+    </button>
   );
 };
 
