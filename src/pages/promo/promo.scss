@@ -195,22 +195,6 @@
     align-items: flex-start;
 
     .checkout__btn {
-      background-color: var(--primary);
-      // padding: 2.8rem 10rem;
-      padding: 3.6rem 10rem;
-
-      border-radius: 4rem;
-      margin-bottom: 3rem;
-
-      cursor: pointer;
-
-      @include font-family-rubik;
-      font-weight: 500;
-      font-size: 2rem;
-      color: var(--white);
-      line-height: 0.2;
-      text-transform: uppercase;
-
       @keyframes blink {
         0%,
         100% {

@@ -1,88 +1,12 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Modal } from "src/widgets/Modal";
 
-import "./promo.scss";
-import { RateCardDiscountedMemo, RateCardMemo, TRateProps, useRateCards } from "src/entities/rate";
+import { RateCardMemo, TRateProps, useRateCards } from "src/entities/rate";
 import classnames from "classnames";
 import { useAction, useAppSelector } from "src/shared/lib/hooks/redux";
-import { useDebug } from "src/entities/debug";
 
-interface IPromoLastСhanceModalProps {
-  closeModal: React.ComponentProps<typeof Modal>["closeModal"];
-}
-
-const mockModalRateOptions: Omit<TRateProps, "onSelect" | "selected">[] = [
-  {
-    id: "9cb876c5-9758-4215-abd6-bdeadb9f1ce4",
-    name: "1 неделя",
-    price: 999,
-    discount: 699,
-    sidenote: "Чтобы просто начать 👍🏻"
-  },
-  {
-    id: "8cd07806-bf89-4209-9e39-d81cb68d6837",
-    name: "1 месяц",
-    price: 1690,
-    discount: 999,
-    sidenote: "Привести тело впорядок 💪🏻"
-  },
-  {
-    id: "6aaf56d2-9854-439e-be23-fc9757e8114e",
-    name: "3 месяца",
-    price: 5990,
-    discount: 2990,
-    sidenote: "Изменить образ жизни 🔥"
-  }
-];
-const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeModal }) => {
-  const { selectedCardId, selectCard } = useRateCards();
-  const cb = useMemo(() => {
-    return mockModalRateOptions.map(r => () => selectCard(r.id));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const { debug } = useDebug();
-  const internalCloseModal = useCallback(debug ? () => console.log("debug close modal") : closeModal, [debug]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return (
-    <Modal closeModal={internalCloseModal} externalClassnames={["promo", "promo__last-chance"]}>
-      <div onClick={internalCloseModal} className='background' />
-      <h1>
-        Не упусти свой <mark>последний шанс</mark>
-      </h1>
-      <div className='last-chance__intro'>
-        <h2 className='last-chance__title'>
-          Мы знаем, как трудно начать.. <mark>Поэтому!</mark>
-        </h2>
-        <h2 className='last-chance__discount-doubledown'>
-          <b>
-            Дарим скидку для <mark>лёгкого старта</mark>
-          </b>{" "}
-          🏃‍♂️
-        </h2>
-      </div>
-      <div className='last-chance__offer'>
-        <span className='last-chance__title'>Посмотри, что мы для тебя приготовили 🔥</span>
-        <ul className='last-chance__cards'>
-          {mockModalRateOptions.map((r, idx) => (
-            <li className='last-chance__card' key={r.id}>
-              <RateCardDiscountedMemo
-                selected={r.id === selectedCardId}
-                onSelect={cb[idx]}
-                price={r.price}
-                name={r.name}
-                discount={r.discount}
-                id={r.id}
-                discountActive={true}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <button className='promo__buy-btn'>Начать тренироваться</button>
-    </Modal>
-  );
-};
+import "./promo.scss";
+import { PromoLastСhanceModal } from "./promo-modal";
 
 const mockPageRateOptions: Omit<TRateProps, "onSelect" | "selected">[] = [
   {
@@ -168,7 +92,7 @@ export const PromoPage = () => {
                 </label>
               </div>
               <div className='promo__checkout'>
-                <button className={classnames("checkout__btn", { "checkout__btn--highlighted": highlightBtnActive })}>Купить</button>
+                <button className={classnames("button--primary checkout__btn", { "checkout__btn--highlighted": highlightBtnActive })}>Купить</button>
                 <span className='checkout__sidenote'>
                   Нажимая «Купить», Пользователь соглашается на автоматическое списание денежных средств по истечению купленного периода. Дальнейшие
                   списания по тарифам участвующим в акции осуществляются по полной стоимости согласно оферте.
@@ -178,7 +102,7 @@ export const PromoPage = () => {
           </div>
         </div>
       </div>
-      {lastChanceActive && <PromoLastСhanceModal closeModal={() => changeLastChanceState({ active: false })} />}
+      {lastChanceActive && <PromoLastСhanceModal show={lastChanceActive} closeModal={() => changeLastChanceState({ active: false })} />}
     </>
   );
 };
