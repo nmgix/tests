@@ -1,10 +1,12 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "src/widgets/Modal";
 
 import "./promo.scss";
 import { RateCardDiscountedMemo, RateCardMemo, TRateProps, useRateCards } from "src/entities/rate";
 import classnames from "classnames";
+import { useAction, useAppSelector } from "src/shared/lib/hooks/redux";
+import { useDebug } from "src/entities/debug";
 
 interface IPromoLastСhanceModalProps {
   closeModal: React.ComponentProps<typeof Modal>["closeModal"];
@@ -39,8 +41,12 @@ const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeMod
     return mockModalRateOptions.map(r => () => selectCard(r.id));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const { debug } = useDebug();
+  const internalCloseModal = useCallback(debug ? () => console.log("debug close modal") : closeModal, [debug]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <Modal closeModal={closeModal} externalClassnames={["promo", "promo__last-chance"]}>
+    <Modal closeModal={internalCloseModal} externalClassnames={["promo", "promo__last-chance"]}>
+      <div onClick={internalCloseModal} className='background' />
       <h1>
         Не упусти свой <mark>последний шанс</mark>
       </h1>
@@ -59,7 +65,7 @@ const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ closeMod
         <span className='last-chance__title'>Посмотри, что мы для тебя приготовили 🔥</span>
         <ul className='last-chance__cards'>
           {mockModalRateOptions.map((r, idx) => (
-            <li className='last-chance__card'>
+            <li className='last-chance__card' key={r.id}>
               <RateCardDiscountedMemo
                 selected={r.id === selectedCardId}
                 onSelect={cb[idx]}
@@ -109,10 +115,10 @@ const mockPageRateOptions: Omit<TRateProps, "onSelect" | "selected">[] = [
   }
 ];
 export const PromoPage = () => {
-  const discountActive = true; // с глобал стейта
+  const { lastChanceActive, discountActive } = useAppSelector(s => s.discount);
+  const { changeLastChanceState } = useAction();
 
   const [privacyAccept, setPrivacyAccept] = useState(false);
-  const [lastChance, setLastChance] = useState(false); // в будущем с глобал стейта
   const { selectedCardId, selectCard } = useRateCards();
   const cb = useMemo(() => {
     return mockPageRateOptions.map(r => () => selectCard(r.id));
@@ -135,7 +141,7 @@ export const PromoPage = () => {
               <div className='rate__wrapper'>
                 <ul className='rate__options'>
                   {mockPageRateOptions.map((r, idx) => (
-                    <li className='rate__option'>
+                    <li className='rate__option' key={r.id}>
                       <RateCardMemo {...r} discountActive={discountActive} onSelect={cb[idx]} selected={r.id === selectedCardId} />
                     </li>
                   ))}
@@ -172,7 +178,7 @@ export const PromoPage = () => {
           </div>
         </div>
       </div>
-      {lastChance && <PromoLastСhanceModal closeModal={() => setLastChance(c => !c)} />}
+      {lastChanceActive && <PromoLastСhanceModal closeModal={() => changeLastChanceState({ active: false })} />}
     </>
   );
 };

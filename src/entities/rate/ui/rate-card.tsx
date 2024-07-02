@@ -12,7 +12,7 @@ export type TRateProps = {
   onSelect: (id: string) => void;
   selected: boolean;
   sidenote?: string;
-  discountActive?: true;
+  discountActive?: boolean;
   externalClassNames?: string | string[];
 } & RateShortened;
 

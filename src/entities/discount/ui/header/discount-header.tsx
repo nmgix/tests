@@ -1,14 +1,18 @@
 import { CountdownTimer } from "src/shared/ui";
 import "./discount-header.scss";
+import { useAction } from "src/shared/lib/hooks/redux";
+import { useDebug } from "src/entities/debug";
 
 export const DiscountHeader: React.FC = () => {
-  const debugMode = false; //из глобал стейта брать
-  const timerUntil = new Date(debugMode ? Date.now() + 35000 : Date.now() + 60000 * 2);
+  const { debug } = useDebug();
+  const timerUntil = new Date(debug ? Date.now() + 35000 : Date.now() + 60000 * 2);
+
+  const { changeLastChanceState } = useAction();
 
   return (
     <div className='discount-header'>
       <h2 className='discount-header__title'>Скидка действует:</h2>
-      <CountdownTimer timeUntilExpire={timerUntil} appDebugMode={debugMode} />
+      <CountdownTimer timeUntilExpire={timerUntil} onCountEnd={() => changeLastChanceState({ active: true })} appDebugMode={debug} />
     </div>
   );
 };

@@ -23,22 +23,28 @@ const TimerRenderer: React.FC<TTimerRendererProps> = ({ total, formatted: { minu
 
 interface ICountdownTimerProps {
   timeUntilExpire: Date;
+  onCountEnd: () => void;
   appDebugMode?: boolean;
 }
 
 export const CountdownTimer: React.FC<ICountdownTimerProps> = props => {
   const [localDebugActive, setlocalDebugMode] = useState(false); //для показа анимации при 30сек таймере
-  const onCountEnd = () => console.log("remove counter? and offer lower discounts");
 
   return (
     <>
       <Countdown
         date={props.timeUntilExpire}
         renderer={timeProps => <TimerRenderer {...timeProps} debug={localDebugActive} />}
-        onComplete={onCountEnd}
+        onComplete={props.onCountEnd}
         daysInHours={true}
       />
-      {props.appDebugMode && <input type='checkbox' onChange={e => setlocalDebugMode(e.target.checked)} />}
+      {props.appDebugMode && (
+        <div>
+          <input id='debug-timer-styles' type='checkbox' onChange={e => setlocalDebugMode(e.target.checked)} />
+          <label htmlFor='debug-timer-styles'>timer-styles</label>
+        </div>
+      )}
+      {props.appDebugMode && <button onClick={() => props.onCountEnd()}>callback</button>}
     </>
   );
 };
