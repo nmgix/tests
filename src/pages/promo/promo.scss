@@ -195,6 +195,8 @@
     align-items: flex-start;
 
     .checkout__btn {
+      margin-bottom: 3rem;
+
       @keyframes blink {
         0%,
         100% {
@@ -218,47 +220,8 @@
     }
   }
 
-  &__last-chance {
-    .background {
-      content: "";
-      z-index: 0;
-
-      position: absolute;
-      width: 100vw;
-      height: 100vh;
-
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    &::after {
-      content: "горящее предложение";
-      position: absolute;
-      top: 0;
-      left: 4.2rem;
-
-      @media screen and (max-width: $xs) {
-        //пока xs, для адатива, понятное дело, будет другая ширина
-        left: 0;
-      }
-    }
-
-    // немного плаваю с этим в BEM
-    .last-chance {
-      mark {
-        color: var(--accent);
-      }
-
-      &__intro {
-        .last-chance__title mark {
-          font-family: "Rubik";
-        }
-      }
-    }
-  }
+  // &__last-chance {
+  // }
 
   &__title {
     margin-bottom: 9.7rem;

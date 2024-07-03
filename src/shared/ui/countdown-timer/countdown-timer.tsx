@@ -44,7 +44,7 @@ export const CountdownTimer: React.FC<ICountdownTimerProps> = props => {
           <label htmlFor='debug-timer-styles'>timer-styles</label>
         </div>
       )}
-      {props.appDebugMode && <button onClick={() => props.onCountEnd()}>callback</button>}
+      {props.appDebugMode && <button onClick={() => props.onCountEnd()}>модальное окно</button>}
     </>
   );
 };

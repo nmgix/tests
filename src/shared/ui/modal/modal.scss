@@ -5,6 +5,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  border: none;
 
   & > * {
     position: relative;
@@ -17,5 +18,9 @@
   @media screen and (max-width: $xs) {
     //пока xs, для адатива, понятное дело, будет другая ширина
     padding: 2rem;
+  }
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
   }
 }

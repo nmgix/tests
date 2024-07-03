@@ -2,6 +2,8 @@ import { Link, useRouteError } from "react-router-dom";
 import { RouteError } from "../../types/error";
 import { IconMemo } from "src/shared/ui/icon";
 
+import "./fallback.scss";
+
 export const Fallback = () => {
   const error = useRouteError() as RouteError;
 

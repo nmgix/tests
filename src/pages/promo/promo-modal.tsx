@@ -4,6 +4,7 @@ import { RateCardDiscountedMemo, TRateProps, useRateCards } from "src/entities/r
 import { useDebug } from "src/entities/debug";
 
 import "./promo.scss";
+import "./last-chance.scss";
 
 interface IPromoLastСhanceModalProps {
   show: boolean;
@@ -43,16 +44,20 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
   const internalCloseModal = useCallback(debug ? () => console.log("debug close modal") : closeModal, [debug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Modal show={show} closeModal={internalCloseModal} externalClassnames={["promo", "promo__last-chance"]}>
-      <div onClick={internalCloseModal} className='background' />
-      <h1>
+    <Modal
+      label='Последний шанс начать тренироваться'
+      show={show}
+      closeModal={internalCloseModal}
+      externalClassnames={["last-chance", "promo__last-chance"]}>
+      {/* <div onClick={internalCloseModal} className='background' /> */}
+      <h1 className='last-chance__title'>
         Не упусти свой <mark>последний шанс</mark>
       </h1>
       <div className='last-chance__intro'>
-        <h2 className='last-chance__title'>
+        <h2 className='title'>
           Мы знаем, как трудно начать.. <mark>Поэтому!</mark>
         </h2>
-        <h2 className='last-chance__discount-doubledown'>
+        <h2 className='discount-doubledown'>
           <b>
             Дарим скидку для <mark>лёгкого старта</mark>
           </b>{" "}
@@ -60,10 +65,12 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
         </h2>
       </div>
       <div className='last-chance__offer'>
-        <span className='last-chance__title'>Посмотри, что мы для тебя приготовили 🔥</span>
-        <ul className='last-chance__cards'>
+        <span className='title'>
+          Посмотри, что мы для тебя приготовили <mark>🔥</mark>
+        </span>
+        <ul className='cards'>
           {mockModalRateOptions.map((r, idx) => (
-            <li className='last-chance__card' key={r.id}>
+            <li className='card' key={r.id}>
               <RateCardDiscountedMemo
                 selected={r.id === selectedCardId}
                 onSelect={cb[idx]}
@@ -71,13 +78,14 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
                 name={r.name}
                 discount={r.discount}
                 id={r.id}
+                group_name={"last-chance-cards"}
                 discountActive={true}
               />
             </li>
           ))}
         </ul>
       </div>
-      <button className='promo__buy-btn'>Начать тренироваться</button>
+      <button className='button--primary promo__buy-btn'>Начать тренироваться</button>
     </Modal>
   );
 };

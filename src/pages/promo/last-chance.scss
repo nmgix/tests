@@ -1,0 +1,209 @@
+@import "src/app/styles/breakpoints";
+@import "src/app/styles/fonts/PTRootUI/mixin";
+@import "src/app/styles/fonts/BebasNeue/mixin";
+
+.last-chance {
+  z-index: 1;
+  background-color: var(--background);
+  padding-top: 6.1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &[open] {
+    margin: 0;
+  }
+
+  .modal__close {
+    position: absolute;
+    background: transparent;
+    padding: 0;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  mark {
+    color: var(--accent);
+    background-color: transparent;
+  }
+
+  h1,
+  h2 {
+    margin: 0;
+  }
+
+  &::after {
+    content: "горящее предложение";
+    text-transform: lowercase;
+    padding: 0.7rem 1rem 0.6rem;
+    letter-spacing: 0.03rem;
+    line-height: 1.3;
+    background-color: var(--accent);
+    color: var(--white);
+
+    position: absolute;
+    top: 0;
+    left: 4.2rem;
+
+    @media screen and (max-width: $xs) {
+      //пока xs, для адатива, понятное дело, будет другая ширина
+      left: 0;
+    }
+  }
+
+  &__title {
+    font-family: "Rubik";
+    white-space: pre;
+    font-weight: 700;
+    line-height: 1.3;
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin-bottom: 3rem !important;
+  }
+
+  &__intro {
+    margin-bottom: 4rem;
+
+    .title {
+      @include font-family-ptrootui;
+      font-size: 2.4rem;
+      line-height: 1.3;
+      font-weight: 500;
+
+      margin-bottom: 0.8rem;
+
+      mark {
+        font-family: "Rubik";
+        color: var(--black);
+      }
+    }
+    .discount-doubledown {
+      @include font-family-ptrootui;
+      line-height: 1.3;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--text);
+
+      border-radius: 3rem;
+      border: 0.15rem solid var(--accent);
+      padding: 1.2rem 2.7rem 1.4rem;
+    }
+  }
+
+  &__offer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4rem;
+
+    .title {
+      @include font-family-ptrootui;
+      font-weight: 500;
+      font-size: 2.4rem;
+
+      margin-bottom: 2rem;
+
+      mark {
+        font-weight: 700;
+      }
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: nowrap;
+      column-gap: 2rem;
+
+      .card {
+        flex: 1;
+        min-width: 0;
+        min-width: 21rem;
+
+        .rate-card {
+          padding: 2.6rem 2.2rem 2rem 2.6rem;
+          align-items: flex-start;
+
+          .time-cource__wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+          }
+          .time-cource {
+            display: block;
+
+            &__title {
+              @include font-family-bebas-cyr;
+              font-size: 2.6rem;
+              font-weight: 400;
+              color: var(--text);
+            }
+          }
+
+          .prev-price {
+            position: relative;
+
+            &__price {
+              @include font-family-ptrootui;
+              color: var(--text);
+              opacity: 0.7;
+              font-size: 2rem;
+              font-weight: 700;
+              line-height: 1.1;
+            }
+
+            .icon {
+              position: absolute;
+              left: 0;
+              top: 0;
+
+              width: 100%;
+              transform: translateY(-20%);
+            }
+          }
+
+          .rate-discounted__separation-line {
+            width: calc(100% - 10.45% - 10.45%);
+            border: none;
+            height: 0.2rem;
+            // background-color: var(--separation);
+            background-color: red;
+            border-radius: 0.02rem;
+            margin: 1.6rem 10.45% 2.4rem;
+          }
+
+          .price__wrapper {
+            position: relative;
+            margin: 0;
+            align-self: flex-start;
+
+            .price__tag {
+              @include font-family-ptrootui;
+              font-weight: 700;
+              font-size: 4.6rem;
+              line-height: 1.1;
+            }
+
+            .discount-badge {
+              position: absolute;
+              width: 4.5rem;
+              height: 4.6rem;
+              transform: translateY(0);
+
+              top: -0.9rem;
+              right: -4.9rem;
+
+              &__amount {
+                font-size: 1.313rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .promo__buy-btn {
+    text-transform: none;
+    padding: 2.9rem 4.25rem;
+  }
+}

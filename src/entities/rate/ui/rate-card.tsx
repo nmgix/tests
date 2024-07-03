@@ -37,7 +37,9 @@ const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, disco
 
 export const RateCardMemo = memo(RateCard, (prev, next) => prev.selected === next.selected);
 
-const RateCardDiscounted: React.FC<TRateProps> = ({ onSelect, selected, name, price, discount, id }) => {
+type RateCardDiscountedProps = { group_name: string } & TRateProps;
+
+const RateCardDiscounted: React.FC<RateCardDiscountedProps> = ({ onSelect, selected, name, price, discount, id, group_name }) => {
   const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
 
   return (
@@ -48,11 +50,11 @@ const RateCardDiscounted: React.FC<TRateProps> = ({ onSelect, selected, name, pr
           <h2 className='time-cource__title'>{name}</h2>
           {/* price-prev-костыль, мб price--prev если только, а то реюза ноль */}
           <div className='prev-price time-cource__discount'>
-            <h3 className='prev-price__price'>{formatPrice(price)}₽</h3>
+            <h3 className='prev-price__price'>{formatPrice(price)}Р</h3>
             <IconMemo icon='price-cross' classNames={"prev-price__discount"} />
           </div>
         </div>
-        <input className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
+        <input name={group_name} className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
       </div>
       <hr className='rate-discounted__separation-line' />
       <div className='price__wrapper'>

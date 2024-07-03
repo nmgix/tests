@@ -102,7 +102,7 @@ export const PromoPage = () => {
           </div>
         </div>
       </div>
-      {lastChanceActive && <PromoLastСhanceModal show={lastChanceActive} closeModal={() => changeLastChanceState({ active: false })} />}
+      <PromoLastСhanceModal show={lastChanceActive} closeModal={() => changeLastChanceState({ active: false })} />
     </>
   );
 };
