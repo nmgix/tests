@@ -43,8 +43,7 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps> = ({ onSelect, selec
   const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
 
   return (
-    // rate-discounted  костыль?
-    <div className='rate-card rate-discounted'>
+    <label className='rate-card'>
       <div className='time-cource__wrapper'>
         <div className='time-cource'>
           <h2 className='time-cource__title'>{name}</h2>
@@ -56,12 +55,12 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps> = ({ onSelect, selec
         </div>
         <input name={group_name} className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
       </div>
-      <hr className='rate-discounted__separation-line' />
+      <hr className='separation-line' />
       <div className='price__wrapper'>
         <h1 className='price__tag'>{formatPrice(discount)}₽</h1>
         <DiscountBadge price={price} discount={discount} externalClassnames={"price__discount-badge"} />
       </div>
-    </div>
+    </label>
   );
 };
 

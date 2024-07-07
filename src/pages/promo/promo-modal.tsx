@@ -1,7 +1,6 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { Modal } from "src/shared/ui/modal";
 import { RateCardDiscountedMemo, TRateProps, useRateCards } from "src/entities/rate";
-import { useDebug } from "src/entities/debug";
 
 import "./promo.scss";
 import "./last-chance.scss";
@@ -40,15 +39,8 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
     return mockModalRateOptions.map(r => () => selectCard(r.id));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { debug } = useDebug();
-  const internalCloseModal = useCallback(debug ? () => console.log("debug close modal") : closeModal, [debug]); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
-    <Modal
-      label='Последний шанс начать тренироваться'
-      show={show}
-      closeModal={internalCloseModal}
-      externalClassnames={["last-chance", "promo__last-chance"]}>
+    <Modal label='Последний шанс начать тренироваться' show={show} closeModal={closeModal} externalClassnames={["last-chance", "promo__last-chance"]}>
       {/* <div onClick={internalCloseModal} className='background' /> */}
       <h1 className='last-chance__title'>
         Не упусти свой <mark>последний шанс</mark>

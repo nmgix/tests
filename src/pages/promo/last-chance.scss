@@ -7,11 +7,11 @@
   background-color: var(--background);
   padding-top: 6.1rem;
 
-  display: flex;
   flex-direction: column;
   align-items: center;
 
   &[open] {
+    display: flex;
     margin: 0;
   }
 
@@ -127,6 +127,7 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: flex-start;
+            width: 100%;
           }
           .time-cource {
             display: block;
@@ -161,12 +162,12 @@
             }
           }
 
-          .rate-discounted__separation-line {
+          .separation-line {
             width: calc(100% - 10.45% - 10.45%);
             border: none;
             height: 0.2rem;
-            // background-color: var(--separation);
-            background-color: red;
+            background-color: var(--separation);
+            // background-color: red;
             border-radius: 0.02rem;
             margin: 1.6rem 10.45% 2.4rem;
           }
