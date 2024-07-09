@@ -49,7 +49,6 @@
 
   .image {
     height: 100%;
-    width: 100%;
     object-fit: scale-down;
     object-position: top left;
 
@@ -206,6 +205,12 @@
       .rate-card {
         @include rate-card--horizontal;
       }
+    }
+  }
+
+  @include media-maxw($md-custom) {
+    .image {
+      width: 100%;
     }
   }
 
