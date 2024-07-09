@@ -1,11 +1,11 @@
-import { IconMemo } from "src/shared/ui";
 import { RateShortened } from "../model";
 import { DiscountBadge } from "src/entities/discount/ui/badge";
 
-import "./rate-card.scss";
 import classnames from "classnames";
 import { formatPrice } from "src/shared/lib/format-price";
 import { memo, useCallback } from "react";
+
+import "./rate-card.scss";
 
 export type TRateProps = {
   discount: number;
@@ -43,17 +43,17 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps> = ({ onSelect, selec
   const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
 
   return (
-    <label className='rate-card'>
+    <label className='rate-card rate-card--discounted'>
       <div className='time-cource__wrapper'>
         <div className='time-cource'>
           <h2 className='time-cource__title'>{name}</h2>
           {/* price-prev-костыль, мб price--prev если только, а то реюза ноль */}
           <div className='prev-price time-cource__discount'>
             <h3 className='prev-price__price'>{formatPrice(price)}Р</h3>
-            <IconMemo icon='price-cross' classNames={"prev-price__discount"} />
           </div>
         </div>
-        <input name={group_name} className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
+        <input id='time-cource-select' name={group_name} className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
+        <label htmlFor='time-cource-select'></label>
       </div>
       <hr className='separation-line' />
       <div className='price__wrapper'>

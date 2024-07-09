@@ -86,6 +86,7 @@
       font-size: 2.4rem;
       font-weight: 700;
       color: var(--text);
+      text-align: center;
 
       border-radius: 3rem;
       border: 0.15rem solid var(--accent);
@@ -119,88 +120,6 @@
         flex: 1;
         min-width: 0;
         min-width: 21rem;
-
-        .rate-card {
-          padding: 2.6rem 2.2rem 2rem 2.6rem;
-          align-items: flex-start;
-
-          .time-cource__wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
-          }
-          .time-cource {
-            display: block;
-
-            &__title {
-              @include font-family-bebas-cyr;
-              font-size: 2.6rem;
-              font-weight: 400;
-              color: var(--text);
-            }
-          }
-
-          .prev-price {
-            position: relative;
-
-            &__price {
-              @include font-family-ptrootui;
-              color: var(--text);
-              opacity: 0.7;
-              font-size: 2rem;
-              font-weight: 700;
-              line-height: 1.1;
-            }
-
-            .icon {
-              position: absolute;
-              left: 0;
-              top: 0;
-
-              width: 100%;
-              transform: translateY(-20%);
-            }
-          }
-
-          .separation-line {
-            width: calc(100% - 10.45% - 10.45%);
-            border: none;
-            height: 0.2rem;
-            background-color: var(--separation);
-            // background-color: red;
-            border-radius: 0.02rem;
-            margin: 1.6rem 10.45% 2.4rem;
-          }
-
-          .price__wrapper {
-            position: relative;
-            margin: 0;
-            align-self: flex-start;
-
-            .price__tag {
-              @include font-family-ptrootui;
-              font-weight: 700;
-              font-size: 4.6rem;
-              line-height: 1.1;
-            }
-
-            .discount-badge {
-              position: absolute;
-              width: 4.5rem;
-              height: 4.6rem;
-              transform: translateY(0);
-
-              top: -0.9rem;
-              right: -4.9rem;
-
-              &__amount {
-                font-size: 1.313rem;
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -210,13 +129,71 @@
     padding: 2.9rem 4.25rem;
   }
 
-  @include media-maxw($md-custom) {
-    .last-chance__offer .cards {
-      flex-direction: column;
+  @include media-maxw($md) {
+    .last-chance__offer {
+      .cards {
+        flex-direction: column;
+        row-gap: 0.6rem;
 
-      .card {
-        min-width: 100%;
+        .card {
+          min-width: 100%;
+
+          .rate-card {
+            padding: 2.4rem 2rem 2rem 2rem;
+
+            .separation-line {
+              display: none;
+            }
+
+            .prev-price {
+              position: absolute;
+              bottom: 2.5rem;
+              right: 2rem;
+            }
+          }
+        }
       }
+    }
+  }
+
+  @include media-maxw($md-custom) {
+    padding: 5rem 2rem 2rem;
+
+    &::after {
+      left: 0;
+    }
+
+    .last-chance__title {
+      font-size: 2.4rem;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .last-chance__intro {
+      margin-bottom: 2.6rem;
+
+      .title {
+        font-size: 1.5rem;
+      }
+
+      .discount-doubledown {
+        font-size: 1.5rem;
+      }
+    }
+
+    .last-chance__offer {
+      width: 100%;
+      margin-bottom: 2rem;
+
+      .title {
+        font-size: 1.5rem;
+      }
+    }
+
+    .modal__close {
+      top: 1rem;
+      right: 1rem;
     }
   }
 }

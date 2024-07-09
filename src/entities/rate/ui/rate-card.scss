@@ -109,6 +109,102 @@
   }
 }
 
+.rate-card--discounted {
+  padding: 2.6rem 2.2rem 2rem 2.6rem;
+  align-items: flex-start;
+
+  .time-cource__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .time-cource {
+    display: block;
+
+    &__title {
+      @include font-family-bebas-cyr;
+      font-size: 2.6rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+  }
+
+  .prev-price {
+    position: relative;
+
+    &__price {
+      @include font-family-ptrootui;
+      color: var(--text);
+      opacity: 0.7;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.1;
+
+      position: relative;
+
+      &::after {
+        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='21' viewBox='0 0 60 21' fill='none'%3E%3Cline x1='0.689324' y1='19.6901' x2='57.7203' y2='1.04948' stroke='%23FD4D35' stroke-width='2'/%3E%3Cline x1='1.31068' y1='1.04949' x2='59.2921' y2='20.0007' stroke='%23FD4D35' stroke-width='2'/%3E%3C/svg%3E");
+        overflow: hidden;
+        width: 100%;
+        height: 2.4rem;
+        display: block;
+
+        position: absolute;
+        left: 0;
+        top: -0.4rem;
+      }
+    }
+
+    // .icon {
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+
+    //   width: 100%;
+    //   transform: translateY(-20%);
+    // }
+  }
+
+  .separation-line {
+    width: calc(100% - 10.45% - 10.45%);
+    border: none;
+    height: 0.2rem;
+    background-color: var(--separation);
+    // background-color: red;
+    border-radius: 0.02rem;
+    margin: 1.6rem 10.45% 2.4rem;
+  }
+
+  .price__wrapper {
+    position: relative;
+    margin: 0;
+    align-self: flex-start;
+
+    .price__tag {
+      @include font-family-ptrootui;
+      font-weight: 700;
+      font-size: 4.6rem;
+      line-height: 1.1;
+    }
+
+    .discount-badge {
+      position: absolute;
+      width: 4.5rem;
+      height: 4.6rem;
+      transform: translateY(0);
+
+      top: -0.9rem;
+      right: -4.9rem;
+
+      &__amount {
+        font-size: 1.313rem;
+      }
+    }
+  }
+}
+
 @mixin rate-card--horizontal {
   flex-direction: row;
   justify-content: space-between;

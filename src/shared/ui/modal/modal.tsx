@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { IconMemo } from "src/shared/ui";
 import { createPortal } from "react-dom";
 import "./modal.scss";
+import { useClickOutside } from "src/shared/lib/hooks/useClickOutside";
 
 interface IModal {
   children: React.ReactNode;
@@ -19,21 +20,7 @@ export const Modal: React.FC<IModal> = ({ children, show, closeModal, externalCl
     if (show) modalRef.current?.showModal();
   }, [show]);
 
-  useEffect(() => {
-    modalRef.current?.addEventListener("click", closeOnBackDropClick);
-
-    function closeOnBackDropClick({ currentTarget, target }: MouseEvent) {
-      const dialogElement = currentTarget as HTMLDialogElement;
-      const isClickedOnBackDrop = target === dialogElement;
-      if (isClickedOnBackDrop) {
-        dialogElement?.close();
-      }
-
-      return () => {
-        modalRef.current?.removeEventListener("click", closeOnBackDropClick);
-      };
-    }
-  }, []);
+  useClickOutside(modalRef, () => modalRef.current?.close());
 
   return createPortal(
     <dialog
