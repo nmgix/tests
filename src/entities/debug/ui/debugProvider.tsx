@@ -3,15 +3,15 @@ import { DebugContext } from "../config";
 
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 
-(window as any).debugMode = true;
+(window as any).dev = true;
 
 export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [debug, setDebug] = useState<boolean>((window as any).debugMode);
+  const [debug, setDebug] = useState<boolean>((window as any).dev);
 
   // просто не было идеи как спрятать debug режим :)
   useEffect(() => {
     const interval = setInterval(() => {
-      if ((window as any).debugMode !== debug) setDebug((window as any).debugMode);
+      if ((window as any).dev !== debug) setDebug((window as any).dev);
     }, 1000);
 
     return () => clearInterval(interval);

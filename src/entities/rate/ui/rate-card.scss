@@ -108,3 +108,90 @@
     margin: 0;
   }
 }
+
+@mixin rate-card--horizontal {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2em 3em;
+
+  .time-n-price {
+    flex-direction: row;
+
+    .time-course {
+      color: var(--text);
+      font-size: 3.8em;
+      transform: translate(2%, 24%);
+    }
+
+    .price__wrapper {
+      transform: translate(2.3rem, 0.8rem);
+    }
+  }
+
+  .discount-badge {
+    transform: translateY(-3.3em);
+    right: 0.7em;
+  }
+
+  .rate-card__sidenote {
+    text-align: left;
+    max-width: 40%;
+
+    padding-left: 5%;
+    padding-top: 2%;
+  }
+}
+
+@mixin rate-card--mobile {
+  width: 100%;
+  padding: 3.6rem 2.4rem 2.6rem;
+  align-items: flex-start;
+
+  .time-n-price {
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: flex-start;
+    width: 100%;
+
+    .time-course {
+      transform: none;
+      margin-bottom: 1.8rem;
+    }
+
+    .price__wrapper {
+      position: absolute;
+      // left: 40.73%;
+      left: 43.73%;
+      top: 50%;
+      transform: translate(0%, -25%);
+      margin: 0;
+
+      .price__tag {
+        font-size: 4.4rem;
+      }
+
+      .price__discount {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .discount-badge {
+    transform: translateY(0.4em);
+    right: 0.9rem;
+
+    width: 4.6rem;
+    height: 4.7rem;
+  }
+
+  .discount-badge__amount {
+    font-size: 1.333rem;
+  }
+
+  .rate-card__sidenote {
+    align-self: flex-start;
+    text-align: start;
+    max-width: 41%;
+  }
+}

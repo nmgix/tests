@@ -43,7 +43,7 @@ export const Modal: React.FC<IModal> = ({ children, show, closeModal, externalCl
       onCancel={closeModal}
       onClose={closeModal}
       className={classnames("modal", externalClassnames)}>
-      <button onClick={closeModal} className='modal__close'>
+      <button onClick={() => modalRef.current?.close()} className='modal__close'>
         <IconMemo icon='close' />
       </button>
       {children}

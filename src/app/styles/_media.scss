@@ -1,0 +1,17 @@
+@function max-width-f($max-width) {
+  @return "(max-width: #{$max-width})";
+}
+@function min-width-f($min-width) {
+  @return "(min-width: #{$min-width})";
+}
+
+@mixin media-maxw($max-width) {
+  @media screen and #{max-width-f($max-width)} {
+    @content;
+  }
+}
+@mixin media-minw($min-width) {
+  @media screen and #{min-width-f($min-width)} {
+    @content;
+  }
+}

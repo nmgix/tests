@@ -52,7 +52,6 @@ input[type="radio"] {
     align-items: center;
     user-select: none;
   }
-  /* создание в label псевдоэлемента  before со следующими стилями */
   & + label::before {
     content: "";
     display: inline-block;
@@ -66,20 +65,16 @@ input[type="radio"] {
     background-position: center center;
     background-size: 50% 50%;
   }
-  /* стили при наведении курсора на радио */
   &:not(:disabled):not(:checked) + label:hover::before {
     border-color: var(--accent);
   }
-  /* стили для активной радиокнопки (при нажатии на неё) */
   &:not(:disabled):active + label::before {
     background-color: var(--gray-transparent);
     border-color: var(--gray-transparent);
   }
-  /* стили для радиокнопки, находящейся в фокусе и не находящейся в состоянии checked */
   &:focus:not(:checked) + label::before {
     box-shadow: 0 0 0 0.2rem black;
   }
-  /* стили для радиокнопки, находящейся в состоянии checked */
   &:checked + label::before {
     border-color: var(--accent);
     background-color: var(--accent);

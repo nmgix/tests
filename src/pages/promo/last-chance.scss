@@ -1,4 +1,6 @@
 @import "src/app/styles/breakpoints";
+@import "src/app/styles/media";
+
 @import "src/app/styles/fonts/PTRootUI/mixin";
 @import "src/app/styles/fonts/BebasNeue/mixin";
 
@@ -206,5 +208,15 @@
   .promo__buy-btn {
     text-transform: none;
     padding: 2.9rem 4.25rem;
+  }
+
+  @include media-maxw($md-custom) {
+    .last-chance__offer .cards {
+      flex-direction: column;
+
+      .card {
+        min-width: 100%;
+      }
+    }
   }
 }

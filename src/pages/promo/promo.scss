@@ -1,20 +1,13 @@
 @import "src/app/styles/breakpoints";
+@import "src/app/styles/media";
+
 @import "src/app/styles/fonts/Rubik/mixin";
 @import "src/app/styles/fonts/PTRootUI/mixin";
 
+@import "src/entities/rate/ui/rate-card.scss";
+
 .promo {
   //promo как namespace
-
-  // display: flex;
-  // flex-wrap: wrap;
-  // justify-content: center;
-  // align-items: center;
-
-  // row-gap: 6.7rem;
-  // column-gap: 7.9rem;
-
-  // padding: 2.7rem calc((100vw - 109.8rem) / 2) 10.7rem !important;
-  // padding: 2.2rem 0 10.7rem !important;
   padding: 2.8rem 0 10.7rem !important;
 
   max-width: $xl;
@@ -22,9 +15,8 @@
   &__wrapper {
     background-color: var(--background);
     width: 100vw;
-    // min-height: 100vh;
+    min-height: 100vh;
     padding-top: 8rem;
-    max-height: 100vh;
 
     display: flex;
     justify-content: center;
@@ -57,8 +49,7 @@
 
   .image {
     height: 100%;
-    // object-fit: scale-down;
-    // transform: translate(-1.4rem, -2.2rem);
+    width: 100%;
     object-fit: scale-down;
     object-position: top left;
 
@@ -77,7 +68,7 @@
         width: 100%;
         height: 13.137rem;
         left: 50%;
-        bottom: 0.5rem;
+        bottom: 0.4rem;
         transform: translateX(-50%);
         background: linear-gradient(0deg, rgba(var(--background-rgb), 1) 0%, rgba(var(--background-rgb), 0) 100%);
       }
@@ -97,47 +88,11 @@
       margin-bottom: 1.2rem;
     }
 
-    &__option {
-      flex: 1;
-
-      &:nth-child(4n) {
-        grid-column: span 3;
-
-        .rate-card {
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.2em 3em;
-
-          .time-n-price {
-            flex-direction: row;
-
-            .time-course {
-              color: var(--text);
-              font-size: 3.8em;
-              transform: translate(2%, 24%);
-            }
-
-            .price__wrapper {
-              transform: translate(2.3rem, 0.8rem);
-            }
-          }
-
-          .discount-badge {
-            transform: translateY(-3.3em);
-            right: 0.7em;
-          }
-
-          .rate-card__sidenote {
-            text-align: left;
-            max-width: 40%;
-
-            padding-left: 5%;
-            padding-top: 2%;
-          }
-        }
-      }
-    }
+    // &__option {
+    //   &:nth-child(4n) {
+    //     @include rate-card--horizontal;
+    //   }
+    // }
 
     &__sidenote {
       color: var(--text);
@@ -242,6 +197,79 @@
       .checkout__btn {
         margin-left: 0.3rem;
       }
+    }
+  }
+
+  @include media-minw($md-custom) {
+    .rate__option:nth-child(4n) {
+      grid-column: span 3;
+      .rate-card {
+        @include rate-card--horizontal;
+      }
+    }
+  }
+
+  @include media-maxw($lg) {
+    padding: 2rem !important;
+
+    .promo__title {
+      margin-bottom: 0;
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .promo__content {
+      flex-direction: column;
+      align-items: center;
+      row-gap: 1rem;
+    }
+  }
+
+  @include media-maxw($md-custom) {
+    .promo__title {
+      text-align: start;
+      font-size: 2.4rem;
+    }
+
+    .promo__info .rate__wrapper {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 3.6rem;
+
+      .rate__options {
+        row-gap: 1rem;
+        grid-template-columns: repeat(1, 1fr);
+
+        .rate__option {
+          .rate-card {
+            @include rate-card--mobile;
+          }
+        }
+        .rate__option:nth-child(4n) {
+          grid-column: initial;
+        }
+      }
+    }
+
+    .promo__privacy-policy {
+      margin-bottom: 2.2rem;
+      max-width: none;
+    }
+
+    .promo__checkout {
+      .checkout__btn {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .checkout__sidenote {
+        display: none;
+      }
+    }
+
+    .rate__sidenote {
+      font-size: 1.4rem;
+      max-width: 84.78%;
     }
   }
 }
