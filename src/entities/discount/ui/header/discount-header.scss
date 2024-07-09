@@ -1,4 +1,6 @@
 @import "src/app/styles/breakpoints";
+@import "src/app/styles/media";
+
 @import "src/app/styles/fonts/PTRootUI/mixin";
 
 .discount-header {
@@ -21,11 +23,6 @@
 
     margin: 0;
     padding-top: 0.1em;
-
-    @media screen and (max-width: $xs) {
-      //пока xs, для адатива, понятное дело, будет другая ширина
-      font-weight: 500;
-    }
   }
   .countdown-timer {
     .countdown-timer__time {
@@ -33,5 +30,25 @@
     }
   }
 
-  // .countdown-timer
+  @include media-maxw($md-custom) {
+    margin: 0 auto;
+    width: 100%;
+    padding: 0.8rem 0;
+
+    .discount-header__title {
+      font-weight: 500;
+      font-size: 1.6rem;
+    }
+
+    .countdown-timer {
+      .countdown-timer__time {
+        .timer__time {
+          font-size: 4rem;
+        }
+        .timer__units {
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
 }
