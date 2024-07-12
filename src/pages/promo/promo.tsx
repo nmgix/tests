@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { RateCardMemo, TRateProps, useRateCards } from "src/entities/rate";
@@ -40,7 +40,7 @@ const mockPageRateOptions: Omit<TRateProps, "onSelect" | "selected">[] = [
 ];
 export const PromoPage = () => {
   const { lastChanceActive, discountActive } = useAppSelector(s => s.discount);
-  const { changeLastChanceState } = useAction();
+  const { changeLastChanceState, fetchRates } = useAction();
 
   const [privacyAccept, setPrivacyAccept] = useState(false);
   const { selectedCardId, selectCard } = useRateCards();
@@ -49,6 +49,10 @@ export const PromoPage = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const highlightBtnActive = privacyAccept === true && selectedCardId !== null;
+
+  useLayoutEffect(() => {
+    fetchRates();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

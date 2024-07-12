@@ -9,3 +9,5 @@ export interface Rate {
 }
 
 export type RateShortened = Omit<Rate, "creationDateTime" | "lengthInDays" | "isPopular" | "isDiscount">;
+
+export type IRateState = Rate[];

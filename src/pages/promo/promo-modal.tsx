@@ -53,7 +53,7 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
           <b>
             Дарим скидку для <mark>лёгкого старта</mark>
           </b>{" "}
-          🏃‍♂️
+          🏃
         </h2>
       </div>
       <div className='last-chance__offer'>
