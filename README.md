@@ -13,7 +13,7 @@
 2. .env в корне с значениями
 
 ````md
-VITE*API_URL = "\_base-url.app*" VITE*RATE_URL = "\_sub../list*"
+VITE_API_URL = "base-url.app" VITE_RATE_URL = "sub../list"
 
 ```(чтобы не заиндексировалась ваша апи)
 3. npm run dev

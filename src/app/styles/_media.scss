@@ -32,7 +32,7 @@
   }
 }
 @mixin media-minh-maxh($minh, $maxh) {
-  @media screen, #{min-height-f($minh)} and #{max-height-f($maxh)} {
+  @media #{min-height-f($minh)} and #{max-height-f($maxh)} {
     @content;
   }
 }

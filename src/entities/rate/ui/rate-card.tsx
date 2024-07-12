@@ -8,26 +8,27 @@ import { memo, useCallback } from "react";
 import "./rate-card.scss";
 
 export type TRateProps = {
-  discount: number;
   onSelect: (id: string) => void;
   selected: boolean;
+  discount_from?: number;
   sidenote?: string;
-  discountActive?: boolean;
+  // discountActive?: boolean;
   externalClassNames?: string | string[];
 } & RateShortened;
 
-const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, discountActive, externalClassNames, onSelect, id, selected }) => {
+const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount_from, externalClassNames, onSelect, id, selected }) => {
   const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
 
   return (
     <button onClick={onSelectMemo} className={classnames("rate-card", { "rate-card--selected": selected }, externalClassNames)}>
-      {discountActive && <DiscountBadge price={price} discount={discount} externalClassnames={"price__discount-badge"} />}
+      {discount_from && <DiscountBadge price={price} discount={discount_from} externalClassnames={"price__discount-badge"} />}
       <div className='time-n-price'>
         <h1 className='time-course'>{name}</h1>
-        {/* price wrapper есть в карточке ниже, как с неймингом быть? вроде разные классы */}
         <div className='price__wrapper'>
-          <h1 className='price__tag'>{formatPrice(discountActive ? discount : price)}₽</h1>
-          {discountActive && <h2 className='price__discount'>{formatPrice(price)}₽</h2>}
+          {/* <h1 className='price__tag'>{formatPrice(discountActive ? discount : price)}₽</h1> */}
+          {/* {discountActive && <h2 className='price__discount'>{formatPrice(price)}₽</h2>} */}
+          <h1 className='price__tag'>{formatPrice(price)}₽</h1>
+          {discount_from && <h2 className='price__discount'>{formatPrice(discount_from)}₽</h2>}
         </div>
       </div>
       {sidenote && <span className='rate-card__sidenote'>{sidenote}</span>}
@@ -35,11 +36,19 @@ const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount, disco
   );
 };
 
-export const RateCardMemo = memo(RateCard, (prev, next) => prev.selected === next.selected);
+export const RateCardMemo = memo(RateCard, (prev, next) => prev.selected === next.selected && prev.id === next.id);
 
 type RateCardDiscountedProps = { group_name: string } & TRateProps;
 
-const RateCardDiscounted: React.FC<RateCardDiscountedProps> = ({ onSelect, selected, name, price, discount, id, group_name }) => {
+const RateCardDiscounted: React.FC<RateCardDiscountedProps & { discount_from: number }> = ({
+  onSelect,
+  selected,
+  name,
+  price,
+  discount_from,
+  id,
+  group_name
+}) => {
   const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
 
   return (
@@ -47,9 +56,8 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps> = ({ onSelect, selec
       <div className='time-cource__wrapper'>
         <div className='time-cource'>
           <h2 className='time-cource__title'>{name}</h2>
-          {/* price-prev-костыль, мб price--prev если только, а то реюза ноль */}
           <div className='prev-price time-cource__discount'>
-            <h3 className='prev-price__price'>{formatPrice(price)}Р</h3>
+            <h3 className='prev-price__price'>{formatPrice(discount_from)}Р</h3>
           </div>
         </div>
         <input id='time-cource-select' name={group_name} className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
@@ -57,11 +65,11 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps> = ({ onSelect, selec
       </div>
       <hr className='separation-line' />
       <div className='price__wrapper'>
-        <h1 className='price__tag'>{formatPrice(discount)}₽</h1>
-        <DiscountBadge price={price} discount={discount} externalClassnames={"price__discount-badge"} />
+        <h1 className='price__tag'>{formatPrice(price)}₽</h1>
+        <DiscountBadge price={price} discount={discount_from} externalClassnames={"price__discount-badge"} />
       </div>
     </label>
   );
 };
 
-export const RateCardDiscountedMemo = memo(RateCardDiscounted, (prev, next) => prev.selected === next.selected);
+export const RateCardDiscountedMemo = memo(RateCardDiscounted, (prev, next) => prev.selected === next.selected && prev.id === next.id);
