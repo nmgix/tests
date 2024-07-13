@@ -16,7 +16,7 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
   const { selectedCardId, selectCard } = useRateCards();
   const default_cards_cb = useMemo(() => {
     return discounted_price_cards.map(r => () => selectCard(r.id));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [discounted_price_cards, selectCard]);
 
   return (
     <Modal label='Последний шанс начать тренироваться' show={show} closeModal={closeModal} externalClassnames={["last-chance", "promo__last-chance"]}>

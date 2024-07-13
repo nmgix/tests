@@ -2,6 +2,7 @@
 @import "src/app/styles/fonts/PTRootUI/mixin";
 
 .rate-card {
+  width: 100%;
   font-size: 1rem;
   position: relative;
 
@@ -156,15 +157,6 @@
         top: -0.4rem;
       }
     }
-
-    // .icon {
-    //   position: absolute;
-    //   left: 0;
-    //   top: 0;
-
-    //   width: 100%;
-    //   transform: translateY(-20%);
-    // }
   }
 
   .separation-line {
@@ -270,6 +262,11 @@
       .price__discount {
         font-size: 2rem;
       }
+    }
+  }
+  &:not(:has(.rate-card__sidenote)) {
+    .price__wrapper {
+      transform: translate(0%, -50%);
     }
   }
 

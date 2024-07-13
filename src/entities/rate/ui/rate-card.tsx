@@ -6,6 +6,7 @@ import { formatPrice } from "src/shared/lib/format-price";
 import { memo, useCallback } from "react";
 
 import "./rate-card.scss";
+import classNames from "classnames";
 
 export type TRateProps = {
   onSelect: (id: string) => void;
@@ -49,10 +50,8 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps & { discount_from: nu
   id,
   group_name
 }) => {
-  const onSelectMemo = useCallback(() => onSelect(id), [onSelect, id]);
-
   return (
-    <label className='rate-card rate-card--discounted'>
+    <label htmlFor='time-cource-select' className={classNames("rate-card rate-card--discounted", { "rate-card--selected": selected })}>
       <div className='time-cource__wrapper'>
         <div className='time-cource'>
           <h2 className='time-cource__title'>{name}</h2>
@@ -60,8 +59,15 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps & { discount_from: nu
             <h3 className='prev-price__price'>{formatPrice(discount_from)}Р</h3>
           </div>
         </div>
-        <input id='time-cource-select' name={group_name} className='time-cource__select' onChange={onSelectMemo} checked={selected} type='radio' />
-        <label htmlFor='time-cource-select'></label>
+        <input
+          id='time-cource-select'
+          name={group_name}
+          className='time-cource__select'
+          onChange={() => onSelect(id)}
+          checked={selected}
+          type='radio'
+        />
+        {/* <label htmlFor='time-cource-select'></label> */}
       </div>
       <hr className='separation-line' />
       <div className='price__wrapper'>

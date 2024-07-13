@@ -28,6 +28,12 @@ export const PromoPage = () => {
   const discounted_price_cards = rates.slice(0, 4);
   const original_price_cards = rates.slice(4, 8);
   const modal_discounted_price_cards = rates.slice(8, 11);
+  const sidenotes = [
+    "Чтобы просто начать 👍🏻",
+    "Привести тело впорядок 💪🏻",
+    "Изменить образ жизни 🔥",
+    "Всегда быть в форме и поддерживать своё здоровье ⭐️"
+  ];
 
   return (
     <>
@@ -51,12 +57,13 @@ export const PromoPage = () => {
                             {...r}
                             onSelect={default_cards_cb[idx]}
                             selected={r.id === selectedCardId}
+                            sidenote={sidenotes[idx]}
                           />
                         </li>
                       ))
                     : original_price_cards.map((r, idx) => (
                         <li className='rate__option' key={r.id}>
-                          <RateCardMemo {...r} onSelect={default_cards_cb[idx]} selected={r.id === selectedCardId} />
+                          <RateCardMemo {...r} onSelect={default_cards_cb[idx]} selected={r.id === selectedCardId} sidenote={sidenotes[idx]} />
                         </li>
                       ))}
                 </ul>
