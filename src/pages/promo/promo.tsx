@@ -11,7 +11,7 @@ import "./promo.scss";
 
 export const PromoPage = () => {
   const { lastChanceActive, discountActive } = useAppSelector(s => s.discount);
-  const { changeLastChanceState, fetchRates } = useAction();
+  const { changeDiscount, fetchRates } = useAction();
 
   const [privacyAccept, setPrivacyAccept] = useState(false);
   const { selectedCardId, selectCard } = useRateCards();
@@ -101,7 +101,7 @@ export const PromoPage = () => {
       </div>
       <PromoLastСhanceModal
         show={lastChanceActive}
-        closeModal={() => changeLastChanceState({ active: false })}
+        closeModal={() => changeDiscount({ lastChance: false })}
         discounted_price_cards={modal_discounted_price_cards}
         original_price_cards={original_price_cards}
       />

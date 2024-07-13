@@ -95,6 +95,14 @@
 
   .price__wrapper {
     margin-bottom: 2rem;
+
+    .price__tag {
+      margin-bottom: 2.3rem;
+    }
+
+    .price__discount {
+      margin-top: -2.3rem;
+    }
   }
 
   .discount-badge {

@@ -10,15 +10,6 @@ const discountSlice = createSlice({
   name: "discount",
   initialState,
   reducers: {
-    switchDiscountState: store => {
-      return { ...store, discountActive: !store.discountActive };
-    },
-    changeLastChanceState: (store, action: PayloadAction<{ active?: boolean }>) => {
-      return {
-        ...store,
-        lastChanceActive: action.payload.active ?? store.lastChanceActive
-      };
-    },
     changeDiscount: (store, action: PayloadAction<{ discount?: boolean; lastChance?: boolean }>) => {
       return {
         discountActive: action.payload.discount ?? store.discountActive,

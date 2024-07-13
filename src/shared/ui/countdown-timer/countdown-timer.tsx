@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Countdown, { CountdownRenderProps } from "react-countdown";
 import classnames from "classnames";
 import "./countdown-timer.scss";
@@ -25,23 +25,30 @@ interface ICountdownTimerProps {
   timeUntilExpire: Date;
   onCountEnd: () => void;
   appDebugMode?: boolean;
+  debugComponents?: React.ReactNode;
 }
 
 export const CountdownTimer: React.FC<ICountdownTimerProps> = props => {
-  const [localDebugActive, setlocalDebugMode] = useState(false); //для показа анимации при 30сек таймере
+  const [countdownAnimationActive, setCountdownAnimation] = useState(false); // для показа анимации при 30сек таймере
+  const countdownRef = useRef<Countdown>(null);
+  useEffect(() => {
+    countdownRef.current?.start();
+  }, [props.timeUntilExpire]);
 
   return (
     <>
       <Countdown
+        ref={countdownRef}
         date={props.timeUntilExpire}
-        renderer={timeProps => <TimerRenderer {...timeProps} debug={localDebugActive} />}
-        onComplete={props.onCountEnd}
+        renderer={timeProps => <TimerRenderer {...timeProps} debug={countdownAnimationActive} />}
         daysInHours={true}
+        onComplete={props.onCountEnd}
       />
       {props.appDebugMode && (
         <div>
-          <input id='debug-timer-styles' type='checkbox' onChange={e => setlocalDebugMode(e.target.checked)} />
+          <input id='debug-timer-styles' type='checkbox' onChange={e => setCountdownAnimation(e.target.checked)} />
           <label htmlFor='debug-timer-styles'>timer-styles</label>
+          {props.debugComponents}
         </div>
       )}
       {props.appDebugMode && <button onClick={() => props.onCountEnd()}>модальное окно</button>}
