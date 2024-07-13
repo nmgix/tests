@@ -18,6 +18,12 @@ const discountSlice = createSlice({
         ...store,
         lastChanceActive: action.payload.active ?? store.lastChanceActive
       };
+    },
+    changeDiscount: (store, action: PayloadAction<{ discount?: boolean; lastChance?: boolean }>) => {
+      return {
+        discountActive: action.payload.discount ?? store.discountActive,
+        lastChanceActive: action.payload.lastChance ?? store.lastChanceActive
+      };
     }
   }
 });
