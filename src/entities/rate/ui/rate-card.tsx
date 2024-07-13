@@ -26,8 +26,6 @@ const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, discount_from, 
       <div className='time-n-price'>
         <h1 className='time-course'>{name}</h1>
         <div className='price__wrapper'>
-          {/* <h1 className='price__tag'>{formatPrice(discountActive ? discount : price)}₽</h1> */}
-          {/* {discountActive && <h2 className='price__discount'>{formatPrice(price)}₽</h2>} */}
           <h1 className='price__tag'>{formatPrice(price)}₽</h1>
           {discount_from && <h2 className='price__discount'>{formatPrice(discount_from)}₽</h2>}
         </div>

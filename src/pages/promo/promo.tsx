@@ -21,13 +21,18 @@ export const PromoPage = () => {
   useLayoutEffect(() => {
     fetchRates();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const default_cards_cb = useMemo(() => {
-    return rates.map(r => () => selectCard(r.id));
-  }, [rates]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const discounted_price_cards = rates.slice(0, 4);
   const original_price_cards = rates.slice(4, 8);
   const modal_discounted_price_cards = rates.slice(8, 11);
+
+  const discounted_cards_cb = useMemo(() => {
+    return discounted_price_cards.map(r => () => selectCard(r.id));
+  }, [rates]); // eslint-disable-line react-hooks/exhaustive-deps
+  const original_cards_cb = useMemo(() => {
+    return original_price_cards.map(r => () => selectCard(r.id));
+  }, [rates]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const sidenotes = [
     "Чтобы просто начать 👍🏻",
     "Привести тело впорядок 💪🏻",
@@ -55,7 +60,7 @@ export const PromoPage = () => {
                           <RateCardMemo
                             discount_from={original_price_cards[idx].price}
                             {...r}
-                            onSelect={default_cards_cb[idx]}
+                            onSelect={discounted_cards_cb[idx]}
                             selected={r.id === selectedCardId}
                             sidenote={sidenotes[idx]}
                           />
@@ -63,7 +68,7 @@ export const PromoPage = () => {
                       ))
                     : original_price_cards.map((r, idx) => (
                         <li className='rate__option' key={r.id}>
-                          <RateCardMemo {...r} onSelect={default_cards_cb[idx]} selected={r.id === selectedCardId} sidenote={sidenotes[idx]} />
+                          <RateCardMemo {...r} onSelect={original_cards_cb[idx]} selected={r.id === selectedCardId} sidenote={sidenotes[idx]} />
                         </li>
                       ))}
                 </ul>
