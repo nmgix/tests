@@ -39,6 +39,7 @@ export const PromoPage = () => {
     "Изменить образ жизни 🔥",
     "Всегда быть в форме и поддерживать своё здоровье ⭐️"
   ];
+  const sidenotes_sm = [undefined, undefined, undefined, "Всегда быть в форме ⭐️"];
 
   return (
     <>
@@ -63,12 +64,19 @@ export const PromoPage = () => {
                             onSelect={discounted_cards_cb[idx]}
                             selected={r.id === selectedCardId}
                             sidenote={sidenotes[idx]}
+                            sidenote_sm={sidenotes_sm[idx]}
                           />
                         </li>
                       ))
                     : original_price_cards.map((r, idx) => (
                         <li className='rate__option' key={r.id}>
-                          <RateCardMemo {...r} onSelect={original_cards_cb[idx]} selected={r.id === selectedCardId} sidenote={sidenotes[idx]} />
+                          <RateCardMemo
+                            {...r}
+                            onSelect={original_cards_cb[idx]}
+                            selected={r.id === selectedCardId}
+                            sidenote={sidenotes[idx]}
+                            sidenote_sm={sidenotes_sm[idx]}
+                          />
                         </li>
                       ))}
                 </ul>

@@ -1,6 +1,9 @@
 @import "src/app/styles/fonts/BebasNeue/mixin";
 @import "src/app/styles/fonts/PTRootUI/mixin";
 
+@import "src/app/styles/breakpoints";
+@import "src/app/styles/media";
+
 .rate-card {
   width: 100%;
   font-size: 1rem;
@@ -8,13 +11,11 @@
 
   display: flex;
   flex-direction: column;
-  //   align-items: center;
   cursor: pointer;
 
   background-color: rgba(var(--white-rgb), 0.05);
   border-radius: 2em;
   border: 0.2em solid var(--gray-transparent);
-  // padding: 4.5em 1.8em 2.6em;
   padding: 4.4em 1.8em 2.6em;
 
   &:hover {
@@ -78,7 +79,8 @@
     }
   }
 
-  .rate-card__sidenote {
+  .rate-card__sidenote,
+  .rate-card__sidenote--small {
     @include font-family-ptrootui;
     font-weight: 500;
     font-size: 1.6em;
@@ -87,6 +89,21 @@
 
     align-self: center;
     max-width: 77%;
+  }
+
+  .rate-card__sidenote--small {
+    display: none;
+  }
+
+  &:has(.rate-card__sidenote--small) {
+    @include media-maxw($md-custom) {
+      .rate-card__sidenote {
+        display: none;
+      }
+      .rate-card__sidenote--small {
+        display: block;
+      }
+    }
   }
 
   .time-course {
@@ -119,8 +136,9 @@
 }
 
 .rate-card--discounted {
-  padding: 2.6rem 2.2rem 2rem 2.6rem;
+  padding: 2.6rem 2.2rem 2rem 2.4rem;
   align-items: flex-start;
+  position: relative;
 
   .time-cource__wrapper {
     display: flex;
@@ -130,13 +148,21 @@
     width: 100%;
   }
   .time-cource {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
     &__title {
       @include font-family-bebas-cyr;
       font-size: 2.6rem;
       font-weight: 400;
       color: var(--text);
+    }
+
+    &__select {
+      position: absolute;
+      top: 2.6rem;
+      right: 2.2rem;
     }
   }
 
@@ -162,7 +188,7 @@
 
         position: absolute;
         left: 0;
-        top: -0.4rem;
+        top: 0;
       }
     }
   }
@@ -172,7 +198,6 @@
     border: none;
     height: 0.2rem;
     background-color: var(--separation);
-    // background-color: red;
     border-radius: 0.02rem;
     margin: 1.6rem 10.45% 2.4rem;
   }
@@ -187,6 +212,8 @@
       font-weight: 700;
       font-size: 4.6rem;
       line-height: 1.1;
+
+      margin-bottom: 0;
     }
 
     .discount-badge {
@@ -230,7 +257,8 @@
     right: 0.7em;
   }
 
-  .rate-card__sidenote {
+  .rate-card__sidenote,
+  .rate-card__sidenote--small {
     text-align: left;
     max-width: 40%;
 
@@ -252,12 +280,11 @@
 
     .time-course {
       transform: none;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1rem;
     }
 
     .price__wrapper {
       position: absolute;
-      // left: 40.73%;
       left: 43.73%;
       top: 50%;
       transform: translate(0%, -25%);
@@ -265,6 +292,7 @@
 
       .price__tag {
         font-size: 4.4rem;
+        margin-bottom: 0.3rem;
       }
 
       .price__discount {
@@ -290,7 +318,8 @@
     font-size: 1.333rem;
   }
 
-  .rate-card__sidenote {
+  .rate-card__sidenote,
+  .rate-card__sidenote--small {
     align-self: flex-start;
     text-align: start;
     max-width: 41%;

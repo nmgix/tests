@@ -1,5 +1,4 @@
 input[type="checkbox"] {
-  //   background-color: red;
   position: absolute;
   z-index: -1;
   opacity: 0;
@@ -42,6 +41,9 @@ input[type="checkbox"] {
   }
 }
 
+@mixin input-radio {
+}
+
 input[type="radio"] {
   position: absolute;
   z-index: -1;
@@ -55,8 +57,8 @@ input[type="radio"] {
   & + label::before {
     content: "";
     display: inline-block;
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2.2rem;
+    height: 2.2rem;
     flex-shrink: 0;
     flex-grow: 0;
     border: 1px solid var(--text2);
@@ -77,8 +79,7 @@ input[type="radio"] {
   }
   &:checked + label::before {
     border-color: var(--accent);
-    background-color: var(--accent);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%01b9c5'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='11' fill='%2301B9C5'/%3E%3C/svg%3E%0A");
   }
 }
 

@@ -5,7 +5,6 @@ import { calculateDiscount } from "src/shared/lib/discount";
 import { memo } from "react";
 
 interface IBadge {
-  // discountPercent: number;
   price: number;
   discount: number;
   externalClassnames?: string | string[];

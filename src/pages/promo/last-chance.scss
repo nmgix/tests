@@ -10,6 +10,8 @@
   padding-top: 6.1rem;
   overflow-x: hidden;
 
+  transform: translate(-50%, -50%);
+
   flex-direction: column;
   align-items: center;
 
@@ -39,7 +41,7 @@
   &::after {
     content: "горящее предложение";
     text-transform: lowercase;
-    padding: 0.7rem 1rem 0.6rem;
+    padding: 0.6rem 1rem 0.6rem;
     letter-spacing: 0.03rem;
     line-height: 1.3;
     background-color: var(--accent);
@@ -47,10 +49,9 @@
 
     position: absolute;
     top: 0;
-    left: 4.2rem;
+    left: 4.1rem;
 
     @media screen and (max-width: $xs) {
-      //пока xs, для адатива, понятное дело, будет другая ширина
       left: 0;
     }
   }
@@ -91,7 +92,7 @@
 
       border-radius: 3rem;
       border: 0.15rem solid var(--accent);
-      padding: 1.2rem 2.7rem 1.4rem;
+      padding: 1.1rem 2.6rem 1.4rem 2.7rem;
     }
   }
 
@@ -122,6 +123,14 @@
         flex: 1;
         min-width: 0;
         min-width: 21rem;
+
+        .rate-card--discounted {
+          .time-cource__wrapper {
+            .time-cource__title {
+              margin-bottom: 1.2rem;
+            }
+          }
+        }
       }
     }
   }
