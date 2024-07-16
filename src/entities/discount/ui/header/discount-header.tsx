@@ -19,7 +19,7 @@ export const DiscountHeader: React.FC = () => {
   const createTTL = (debug?: boolean, timerShort?: boolean) => {
     let _timerUntil = Date.now() + 60000 * 2;
     if (debug) _timerUntil = Date.now() + 35000;
-    if (debug && timerShort) _timerUntil = Date.now() + 5000;
+    if (debug && timerShort) _timerUntil = Date.now() + 1000;
     return new Date(_timerUntil);
   };
   const timerUntil = createTTL(debug, timerShortActive);

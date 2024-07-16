@@ -1,12 +1,11 @@
-import { RateShortened } from "../model";
-import { DiscountBadge } from "src/entities/discount/ui/badge";
-
-import classnames from "classnames";
-import { formatPrice } from "src/shared/lib/format-price";
 import { memo, useCallback, useId } from "react";
+import classnames from "classnames";
+
+import { formatPrice } from "src/shared/lib/format-price";
+import { DiscountBadge } from "src/entities/discount/ui/badge";
+import { RateShortened } from "../model";
 
 import "./rate-card.scss";
-import classNames from "classnames";
 
 export type TRateProps = {
   onSelect: (id: string) => void;
@@ -32,6 +31,7 @@ const RateCard: React.FC<TRateProps> = ({ name, price, sidenote, sidenote_sm, di
       </div>
       {sidenote && <span className='rate-card__sidenote'>{sidenote}</span>}
       {sidenote_sm && <span className='rate-card__sidenote--small'>{sidenote_sm}</span>}
+      {/* <div className='backface' /> */}
     </button>
   );
 };
@@ -53,7 +53,7 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps & { discount_from: nu
   const internalOnSelect = useCallback(() => onSelect(id), [id, onSelect]);
 
   return (
-    <button onClick={internalOnSelect} className={classNames("rate-card rate-card--discounted", { "rate-card--selected": selected })}>
+    <button onClick={internalOnSelect} className={classnames("rate-card rate-card--discounted", { "rate-card--selected": selected })}>
       <div className='time-cource__wrapper'>
         <div className='time-cource'>
           <h2 className='time-cource__title'>{name}</h2>
@@ -69,6 +69,7 @@ const RateCardDiscounted: React.FC<RateCardDiscountedProps & { discount_from: nu
         <h1 className='price__tag'>{formatPrice(price)}₽</h1>
         <DiscountBadge price={price} discount={discount_from} externalClassnames={"price__discount-badge"} />
       </div>
+      <div className='backface' />
     </button>
   );
 };

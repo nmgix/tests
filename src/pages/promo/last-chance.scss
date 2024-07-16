@@ -149,7 +149,8 @@
         .card {
           min-width: 100%;
 
-          .rate-card {
+          .rate-card,
+          .react-loading-skeleton {
             padding: 2.4rem 2rem 2rem 2rem;
 
             .separation-line {

@@ -91,6 +91,26 @@
       font-size: 1.8rem;
       line-height: 1.3;
     }
+
+    &__card-animation {
+      position: relative;
+      .rate-card:nth-child(1) {
+        transform: rotateY(0deg);
+        -webkit-transform: rotateY(0deg);
+
+        z-index: 2;
+      }
+      .rate-card:nth-child(2) {
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        z-index: 1;
+      }
+    }
   }
 
   &__privacy-policy {
@@ -191,6 +211,9 @@
       .rate-card {
         @include rate-card--horizontal;
       }
+      .react-loading-skeleton {
+        min-height: 13vh;
+      }
     }
   }
 
@@ -236,7 +259,8 @@
             @include rate-card--mobile;
           }
         }
-        .rate__option:nth-child(4n) {
+        .rate__option:nth-child(4n),
+        .react-loading-skeleton:nth-child(4n) {
           grid-column: initial;
         }
       }
