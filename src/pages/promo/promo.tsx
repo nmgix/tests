@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { gsap } from "gsap";
@@ -9,11 +9,13 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { Rate, RateCardMemo, TRateProps, useRateCards } from "src/entities/rate";
 import { useAction, useAppSelector } from "src/shared/lib/hooks/redux";
+import { fillArr } from "src/shared/lib/fillArray";
 
-// import { PromoLastСhanceModal } from "./promo-modal";
+import { PromoLastСhanceModal } from "./promo-modal";
 
 import "./promo.scss";
-import { createRoot } from "react-dom/client";
+import { Breakpoints } from "src/shared/types/breakpoints";
+import { useDebug } from "src/entities/debug";
 
 const sidenotes = [
   "Чтобы просто начать 👍🏻",
@@ -24,35 +26,43 @@ const sidenotes = [
 const sidenotes_sm = [undefined, undefined, undefined, "Всегда быть в форме ⭐️"];
 
 export const PromoPage = () => {
-  const { /*lastChanceActive,*/ discountActive } = useAppSelector(s => s.discount);
-  const { /*changeDiscount,*/ fetchRates } = useAction();
+  const { lastChanceActive, discountActive } = useAppSelector(s => s.discount);
+  const { changeDiscount, fetchRates } = useAction();
+  const { debug } = useDebug();
+  const [skeletonList, setSkeletonList] = useState(false);
 
   const { selectedCardId, selectCard } = useRateCards();
   const [privacyAccept, setPrivacyAccept] = useState(false);
   const highlightBtnActive = privacyAccept === true && selectedCardId !== null;
 
-  const createListElement = (el: Rate, idx: number, onSelect: () => void, discounted: boolean) => {
-    return {
-      ...el,
-      onSelect,
-      selected: el.id === selectedCardId,
-      discount_from: discounted ? original_price_cards[idx].price : undefined,
-      sidenote: sidenotes[idx],
-      sidenote_sm: sidenotes_sm[idx]
-    } as unknown as TRateProps;
-  };
-
-  const createList = (list: Rate[], onSelect: (() => void)[], discounted: boolean) => {
-    return list.map((c, idx) => createListElement(c, idx, onSelect[idx], discounted));
-  };
   const rates = useAppSelector(s => s.rate);
   useLayoutEffect(() => {
     fetchRates();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const discounted_price_cards = useMemo(() => rates.slice(0, 4), [rates]);
+  const original_price_cards = useMemo(() => rates.slice(4, 8), [rates]);
+  const modal_discounted_price_cards = useMemo(() => (!skeletonList ? rates.slice(8, 11) : fillArr(3, undefined)), [rates, skeletonList]);
 
-  const discounted_price_cards = rates.slice(0, 4);
-  const original_price_cards = rates.slice(4, 8);
-  // const modal_discounted_price_cards = rates.slice(8, 11);
+  const createListElement = useCallback(
+    (el: Rate, idx: number, onSelect: () => void, discounted: boolean) => {
+      return {
+        ...el,
+        onSelect,
+        selected: el.id === selectedCardId,
+        discount_from: discounted ? original_price_cards[idx].price : undefined,
+        sidenote: sidenotes[idx],
+        sidenote_sm: sidenotes_sm[idx]
+      } as unknown as TRateProps;
+    },
+    [original_price_cards, selectedCardId]
+  );
+
+  const createList = useCallback(
+    (list: Rate[], onSelect: (() => void)[], discounted: boolean) => {
+      return list.map((c, idx) => createListElement(c, idx, onSelect[idx], discounted));
+    },
+    [createListElement]
+  );
 
   const discounted_cards_cb = useMemo(() => {
     return discounted_price_cards.map(r => () => selectCard(r.id));
@@ -61,104 +71,106 @@ export const PromoPage = () => {
     return original_price_cards.map(r => () => selectCard(r.id));
   }, [rates]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const discountedList = useMemo(
+    () => (!skeletonList ? createList(discounted_price_cards, discounted_cards_cb, true) : fillArr(4, undefined)),
+    [discounted_price_cards, createList, discounted_cards_cb, skeletonList]
+  );
+  const originalList = useMemo(
+    () => (!skeletonList ? createList(original_price_cards, original_cards_cb, false) : fillArr(4, undefined)),
+    [original_price_cards, createList, original_cards_cb, skeletonList]
+  );
+
   const listRef = useRef<HTMLUListElement>(null);
-  const flippersRef = useRef<(HTMLLIElement | null)[]>([]);
-  // const currentList = useRef(discounted_price_cards);
 
   useGSAP(
     () => {
       if (discountActive) return;
 
-      const nodes = listRef.current?.querySelectorAll(".rate__option");
-      const discountedList = createList(discounted_price_cards, discounted_cards_cb, true);
-      const originalList = createList(original_price_cards, original_cards_cb, false);
-      nodes?.forEach((el, idx) => {
-        createRoot(el).render(
-          <div className='rate__card-animation'>
-            <RateCardMemo {...discountedList[idx]} />
-            <RateCardMemo {...originalList[idx]} />
-          </div>
-        );
-      });
-
-      nodes?.forEach(el => {
+      const animateCard = (element: Element, direction: "horizontal" | "vertical", delay?: number) => {
         const cardTL = gsap.timeline();
-        const cards = el.firstElementChild;
-        console.log(cards);
-        if (!cards) return console.log("Animation failed");
-        const internalCards = cards.querySelectorAll(".rate-card");
-        // const discountBadge = internalCards.item(0).querySelector(".discount-badge");
-        // const discountTL = gsap.timeline();
+        const card = element.firstElementChild;
+        if (!card) return console.log("Animation failed");
+        const internalCards = card?.querySelectorAll(".rate-card");
+        const discountBadge = internalCards.item(0)?.querySelector(".discount-badge");
+        if (!discountBadge) return;
+        const discountTL = gsap.timeline();
+
+        const horizontal1Config: gsap.TweenVars = {
+          duration: 1,
+          rotateY: 90,
+          ease: "elastic.in",
+          onComplete: () => {
+            (internalCards.item(0) as HTMLDivElement).style["zIndex"] = "0";
+            (internalCards.item(0) as HTMLDivElement).style["display"] = "none";
+            (internalCards.item(1) as HTMLDivElement).style["display"] = "flex";
+            (internalCards.item(1) as HTMLDivElement).style["position"] = "relative";
+          },
+          delay
+        };
+        const horizontal2Config: gsap.TweenVars = {
+          duration: 1,
+          ease: "elastic.out",
+          rotateY: 180,
+
+          onComplete: () => {}
+        };
+
+        const vertical1Config: gsap.TweenVars = {
+          duration: 1,
+          rotateX: 90,
+          ease: "elastic.in",
+          onComplete: () => {
+            (internalCards.item(0) as HTMLDivElement).style["zIndex"] = "0";
+            (internalCards.item(0) as HTMLDivElement).style["display"] = "none";
+            (internalCards.item(1) as HTMLDivElement).style["display"] = "flex";
+            (internalCards.item(1) as HTMLDivElement).style["position"] = "relative";
+            (internalCards.item(1) as HTMLDivElement).style["transform"] = "rotateX(180deg)";
+          },
+          delay
+        };
+        const vertical2Config: gsap.TweenVars = {
+          duration: 1,
+          ease: "elastic.out",
+          rotateX: 180,
+
+          onComplete: () => {}
+        };
 
         cardTL
-          .to(cards, {
-            duration: 1,
-            rotateY: 90,
-            onComplete: () => {
-              (internalCards.item(0) as HTMLDivElement).style["zIndex"] = "0";
-            }
-          })
-          .to(cards, {
-            duration: 1,
-            rotateY: 180
-          });
+          .to(card, direction === "horizontal" ? horizontal1Config : vertical1Config)
+          .to(card, direction === "horizontal" ? horizontal2Config : vertical2Config);
 
-        // discountTL.to(discountBadge, {
-        //   delay: 0.3,
-        //   duration: 0.7,
-        //   translateY: 40
-        // });
+        discountTL.to(discountBadge, {
+          delay: delay ? delay + 1 : 1,
+          duration: 0.1,
+          translateY: 40,
+          ease: "elastic.in"
+        });
+      };
+
+      const _nodes = listRef.current?.querySelectorAll(".rate__option");
+      const nodes = [..._nodes!];
+      const firstRow = nodes.slice(0, 3);
+      const secondRow = nodes[3];
+
+      firstRow?.forEach((el, idx) => {
+        animateCard(el, "horizontal", idx * 0.1);
       });
+      animateCard(secondRow, secondRow.scrollWidth <= Breakpoints["md-custom"] ? "horizontal" : "vertical", 0.4);
 
-      // listData.current.forEach((_, i) => {
-      //   const cardTL = gsap.timeline();
-      //   const currentCard = flippersRef.current[i];
-      //   if (!currentCard) return;
-      // const discountBadge = currentCard.querySelector(".discount-badge");
-      // const discountTL = gsap.timeline();
-      //   const backface = currentCard.querySelector(".backface");
-      //   const backfaceTL = gsap.timeline();
-
-      //   cardTL.to(currentCard, {
-      //     duration: 1,
-      //     rotateY: 180
-      //     // onComplete: () => {
-      //     //   // setCurrentList(prev => prev.map((el, idx) => (idx === i ? original_price_cards[i] : el)));
-
-      //     //   // currentCard = <div></div>
-      //     //   // currentCard = createElement(RateCardMemo)
-      //     // },
-      //   });
-      //   // .add(() => {
-      //   //   listData.current[i] = createListElement(original_price_cards[i], i, original_cards_cb[i]);
-      //   //   forceUpdate();
-      //   // })
-      //   // .to(currentCard, {
-      //   //   duration: 1,
-      //   //   rotationY: 360
-      //   // });
-      //   // backfaceTL
-      //   //   .to(backface, {
-      //   //     duration: 0,
-      //   //     rotateY: 180
-      //   //   })
-      //   //   .to(backface, {
-      //   //     duration: 0.6,
-      //   //     rotateY: 360
-      //   //   });
-
-      // discountTL.to(discountBadge, {
-      //   delay: 0.3,
-      //   duration: 0.7,
-      //   translateY: 40
-      // });
-      // });
+      selectCard(null);
     },
     { dependencies: [discountActive], scope: listRef }
   );
 
   return (
     <>
+      {debug && (
+        <div className='debug-window'>
+          <input id='debug-skeleton-loader' type='checkbox' onChange={() => setSkeletonList(prev => !prev)} checked={skeletonList} />
+          <label htmlFor='debug-skeleton-loader'>skeleton loader</label>
+        </div>
+      )}
       <div className='promo__wrapper'>
         <div className='page promo' id='promo'>
           <h1 className='promo__title'>Выберите подходящий тарифный план</h1>
@@ -171,23 +183,19 @@ export const PromoPage = () => {
             <div className='promo__info'>
               <div className='rate__wrapper'>
                 <ul ref={listRef} className='rate__options'>
-                  {/* {currentList.current.map((r, idx) => (
-                    <li className='rate__option' key={r.id} ref={el => (flippersRef.current[idx] = el)}>
-                      <RateCardMemo
-                        discount_from={original_price_cards[idx].price}
-                        {...r}
-                        onSelect={discounted_cards_cb[idx]}
-                        selected={r.id === selectedCardId}
-                        sidenote={sidenotes[idx]}
-                        sidenote_sm={sidenotes_sm[idx]}
-                      />
-                    </li>
-                  ))} */}
-                  {createList(discounted_price_cards, discounted_cards_cb, true).map((r, idx) => (
-                    <li className='rate__option' key={r?.id ?? idx} ref={el => (flippersRef.current[idx] = el)}>
-                      {r !== null ? <RateCardMemo {...r} /> : <Skeleton />}
-                    </li>
-                  ))}
+                  {rates &&
+                    fillArr(4, null).map((_, idx) => (
+                      <li className='rate__option' key={idx}>
+                        {discountedList[idx] === undefined || originalList[idx] === null ? (
+                          <Skeleton key={idx} />
+                        ) : (
+                          <div className='rate__card-animation'>
+                            <RateCardMemo {...discountedList[idx]!} />
+                            <RateCardMemo {...originalList[idx]!} />
+                          </div>
+                        )}
+                      </li>
+                    ))}
                 </ul>
                 <span className='rate__sidenote'>Следуя плану на 3 месяца, люди получают в 2 раза лучший результат, чем за 1 месяц</span>
               </div>
@@ -221,12 +229,12 @@ export const PromoPage = () => {
           </div>
         </div>
       </div>
-      {/* <PromoLastСhanceModal
+      <PromoLastСhanceModal
         show={lastChanceActive}
         closeModal={() => changeDiscount({ lastChance: false })}
         discounted_price_cards={modal_discounted_price_cards}
         original_price_cards={original_price_cards}
-      /> */}
+      />
     </>
   );
 };

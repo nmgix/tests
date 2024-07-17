@@ -94,6 +94,8 @@
 
     &__card-animation {
       position: relative;
+      height: 100%;
+
       .rate-card:nth-child(1) {
         transform: rotateY(0deg);
         -webkit-transform: rotateY(0deg);
@@ -109,6 +111,7 @@
         top: 0;
 
         z-index: 1;
+        display: none;
       }
     }
   }
@@ -212,7 +215,7 @@
         @include rate-card--horizontal;
       }
       .react-loading-skeleton {
-        min-height: 13vh;
+        min-height: 10.5vh;
       }
     }
   }
@@ -287,4 +290,10 @@
       max-width: 84.78%;
     }
   }
+}
+
+.debug-window {
+  position: absolute;
+  right: 14%;
+  top: 1%;
 }

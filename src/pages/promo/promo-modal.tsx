@@ -2,25 +2,27 @@ import { useMemo } from "react";
 import { Modal } from "src/shared/ui/modal";
 import { Rate, RateCardDiscountedMemo, useRateCards } from "src/entities/rate";
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import "./promo.scss";
 import "./last-chance.scss";
 
 interface IPromoLastСhanceModalProps {
   show: boolean;
   closeModal: React.ComponentProps<typeof Modal>["closeModal"];
-  discounted_price_cards: Rate[];
+  discounted_price_cards: Rate[] | undefined[];
   original_price_cards: Rate[];
 }
 
 export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ show, closeModal, discounted_price_cards, original_price_cards }) => {
   const { selectedCardId, selectCard } = useRateCards();
   const default_cards_cb = useMemo(() => {
-    return discounted_price_cards.map(r => () => selectCard(r.id));
+    return discounted_price_cards.map(card => () => card ? selectCard(card.id) : undefined);
   }, [discounted_price_cards, selectCard]);
 
   return (
     <Modal label='Последний шанс начать тренироваться' show={show} closeModal={closeModal} externalClassnames={["last-chance", "promo__last-chance"]}>
-      {/* <div onClick={internalCloseModal} className='background' /> */}
       <h1 className='last-chance__title'>
         Не упусти свой <mark>последний шанс</mark>
       </h1>
@@ -40,17 +42,21 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
           Посмотри, что мы для тебя приготовили <mark>🔥</mark>
         </span>
         <ul className='cards'>
-          {discounted_price_cards.map((r, idx) => (
-            <li className='card' key={r.id}>
-              <RateCardDiscountedMemo
-                selected={r.id === selectedCardId}
-                onSelect={default_cards_cb[idx]}
-                price={r.price}
-                name={r.name}
-                discount_from={original_price_cards[idx].price}
-                id={r.id}
-                group_name={"last-chance-cards"}
-              />
+          {discounted_price_cards.map((card, idx) => (
+            <li className='card' key={card ? card.id : idx}>
+              {!card ? (
+                <Skeleton />
+              ) : (
+                <RateCardDiscountedMemo
+                  selected={card.id === selectedCardId}
+                  onSelect={default_cards_cb![idx]}
+                  price={card.price}
+                  name={card.name}
+                  discount_from={original_price_cards[idx].price}
+                  id={card.id}
+                  group_name={"last-chance-cards"}
+                />
+              )}
             </li>
           ))}
         </ul>

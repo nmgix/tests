@@ -1,3 +1,3 @@
 export * from "./config";
 export * from "./lib/useDebug";
-export * from "./ui/debugProvider";
+export * from "./ui/debug-provider";

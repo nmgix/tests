@@ -3,21 +3,21 @@ import { DebugContext } from "../config";
 
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 
-(window as any).dev = true;
+(window as any).debug = true;
 
 export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [debug, setDebug] = useState<boolean>((window as any).dev);
+  const [debugInternal, setDebugInternal] = useState<boolean>((window as any).debug);
 
   // просто не было идеи как спрятать debug режим :)
   useEffect(() => {
     const interval = setInterval(() => {
-      if ((window as any).dev !== debug) setDebug((window as any).dev);
+      if ((window as any).debug !== debugInternal) setDebugInternal((window as any).debug);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [debug]);
+  }, [debugInternal]);
 
-  const value = useMemo(() => ({ debug, setDebug }), [debug]);
+  const value = useMemo(() => ({ debug: debugInternal, setDebug: setDebugInternal }), [debugInternal]);
 
   return <DebugContext.Provider value={value}>{children}</DebugContext.Provider>;
 };
