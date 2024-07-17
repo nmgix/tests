@@ -163,18 +163,8 @@
     .checkout__btn {
       margin-bottom: 3rem;
 
-      @keyframes blink {
-        0%,
-        100% {
-          background-color: rgba(var(--primary-rgb), 1);
-        }
-        50% {
-          background-color: rgba(var(--primary-rgb), 0.5);
-        }
-      }
-
       &--highlighted {
-        animation: blink 2s infinite ease-in-out;
+        animation: blink-bg 2s infinite ease-in-out;
       }
     }
     .checkout__sidenote {

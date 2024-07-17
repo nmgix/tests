@@ -1,0 +1,19 @@
+@keyframes blink-bg {
+  0%,
+  100% {
+    background-color: rgba(var(--primary-rgb), 1);
+  }
+  50% {
+    background-color: rgba(var(--primary-rgb), 0.5);
+  }
+}
+
+@keyframes blink-color {
+  0%,
+  100% {
+    color: rgba(var(--primary-rgb), 1);
+  }
+  50% {
+    color: rgba(var(--primary-rgb), 0.5);
+  }
+}

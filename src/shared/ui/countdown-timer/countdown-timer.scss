@@ -26,8 +26,7 @@ $timer-padding: 0.9rem;
   }
 
   &--warn {
-    // тут анимация моргания (через gsap? зачем) 30 сек потом просто колор стоп
-    color: var(--primary);
+    animation: blink-color 2s infinite ease-in-out;
   }
 
   h1,
