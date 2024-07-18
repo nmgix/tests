@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { gsap } from "gsap";
@@ -28,7 +28,7 @@ const sidenotes_sm = [undefined, undefined, undefined, "Всегда быть в
 export const PromoPage = () => {
   const { lastChanceActive, discountActive } = useAppSelector(s => s.discount); // стейт скидки, при discountActive=false вызывается useGSAP с анимациями, lastChanceActive отвечает за рендер модалки
   const { changeDiscount, fetchRates } = useAction(); // экшены из стейта
-  const { debug } = useDebug(); // дебаг контекст
+  const { debug, toggleDebug } = useDebug(); // дебаг контекст
   // const [skeletonList, setSkeletonList] = useState(false); // дебаг скелетон загрузки, ипнут в хедере при debug=true
   // const [hideModal, setHideModal] = useState(false); // дебаг модалки, ипнут в хедере при debug=true
 
@@ -212,6 +212,8 @@ export const PromoPage = () => {
             checked={internalDebug.hideModal}
           />
           <label htmlFor='debug-hide-modal'>hide modal</label>
+
+          <button onClick={toggleDebug}>переключить debug режим</button>
         </div>
       )}
       <div className='promo__wrapper'>
