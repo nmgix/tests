@@ -90,16 +90,6 @@ export const PromoPage = () => {
 
   const listRef = useRef<HTMLUListElement>(null); // для анимации при сбросе скидок
 
-  // useLayoutEffect(() => {
-  //   const _nodes = listRef.current?.querySelectorAll(".rate__option");
-  //   const nodes = [..._nodes!];
-
-  //   nodes.forEach(el => {
-  //     (el.firstElementChild as HTMLDivElement).style["transform"] = "none";
-  //     console.log(el.firstElementChild as HTMLDivElement);
-  //   });
-  // }, [discountActive]);
-
   useGSAP(
     () => {
       const _nodes = listRef.current?.querySelectorAll(".rate__option");
@@ -143,20 +133,12 @@ export const PromoPage = () => {
             (internalCards.item(1) as HTMLDivElement).style["display"] = "flex";
             (internalCards.item(1) as HTMLDivElement).style["position"] = "relative";
           },
-          // onInterrupt: () => {
-          //   reverseAnimateCard(element);
-          //   cardTL.kill();
-          // },
           delay
         };
         const horizontal2Config: gsap.TweenVars = {
           duration: 1,
           ease: "elastic.out",
           rotateY: 180
-          // onInterrupt: () => {
-          //   reverseAnimateCard(element);
-          //   cardTL.kill();
-          // }
         };
 
         const vertical1Config: gsap.TweenVars = {
@@ -169,28 +151,15 @@ export const PromoPage = () => {
             (internalCards.item(1) as HTMLDivElement).style["position"] = "relative";
             (internalCards.item(1) as HTMLDivElement).style["transform"] = "rotateX(180deg)";
           },
-          // onInterrupt: () => {
-          //   reverseAnimateCard(element);
-          //   cardTL.kill();
-          // },
           delay
         };
         const vertical2Config: gsap.TweenVars = {
           duration: 1,
           ease: "elastic.out",
           rotateX: 180
-          // onInterrupt: () => {
-          //   reverseAnimateCard(element);
-          //   cardTL.kill();
-          // }
         };
 
         cardTL
-          // .from(card, {
-          //   duration: 0,
-          //   rotateX: 0,
-          //   rotateY: 0
-          // })
           .to(card, direction === "horizontal" ? horizontal1Config : vertical1Config)
           .to(card, direction === "horizontal" ? horizontal2Config : vertical2Config);
 
@@ -205,7 +174,7 @@ export const PromoPage = () => {
       };
 
       if (discountActive) {
-        // откат стилей
+        // откат стилей (не рабоотает если преключить timer-time во время анимации (onInterrupt не помогает))
         nodes?.forEach(el => {
           reverseAnimateCard(el);
         });
