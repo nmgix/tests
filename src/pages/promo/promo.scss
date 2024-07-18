@@ -164,7 +164,7 @@
       margin-bottom: 3rem;
 
       &--highlighted {
-        animation: blink-bg 2s infinite ease-in-out;
+        animation: blink-bg 1.5s infinite ease-in-out;
       }
     }
     .checkout__sidenote {
@@ -286,4 +286,10 @@
   position: absolute;
   right: 14%;
   top: 1%;
+
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(10rem, 1fr);
+  gap: 0.5rem;
 }
