@@ -3,7 +3,7 @@ import { DebugContext } from "../config";
 
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 
-(window as any).debug = true;
+(window as any).debug = import.meta.env.DEV;
 
 export const DebugProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [debugInternal, setDebugInternal] = useState<boolean>((window as any).debug);
