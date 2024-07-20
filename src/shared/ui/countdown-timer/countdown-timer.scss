@@ -1,4 +1,5 @@
 @import "src/app/styles/fonts/PTRootUI/mixin";
+@import "src/app/styles/fonts/BebasNeue/mixin";
 
 $timer-padding: 0.9rem;
 
@@ -37,7 +38,7 @@ $timer-padding: 0.9rem;
 
 .timer {
   &__time {
-    font-family: "Bebas Neue";
+    @include font-family-bebas;
     font-weight: 400;
     color: inherit;
     font-size: 6rem;

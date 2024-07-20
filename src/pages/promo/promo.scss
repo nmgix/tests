@@ -53,13 +53,19 @@
 
     &__wrapper {
       //потому что img сам по себе void element
-      flex: 0;
+      flex: 1;
       display: inline-block;
       transform: translateX(2px);
     }
 
     &__effect {
       position: relative;
+
+      &:has(span) {
+        &::after {
+          content: none;
+        }
+      }
 
       &:after {
         content: "";
@@ -71,6 +77,10 @@
         transform: translateX(-50%);
         background: linear-gradient(0deg, rgba(var(--background-rgb), 1) 0%, rgba(var(--background-rgb), 0) 100%);
       }
+
+      // span + *::after {
+      //   content: none;
+      // }
     }
   }
 
@@ -205,8 +215,14 @@
         @include rate-card--horizontal;
       }
       .react-loading-skeleton {
-        min-height: 10.5vh;
+        min-height: 12.65vh;
+        height: 12.65vh;
       }
+    }
+
+    .image__effect .react-loading-skeleton {
+      min-width: 40rem;
+      min-height: 70rem;
     }
   }
 
@@ -278,6 +294,15 @@
     .rate__sidenote {
       font-size: 1.4rem;
       max-width: 84.78%;
+    }
+
+    .image__wrapper {
+      width: 60%;
+    }
+
+    .image__effect .react-loading-skeleton {
+      width: 100%;
+      min-height: 40rem;
     }
   }
 }
