@@ -10,10 +10,10 @@ import { useAction, useAppSelector } from "src/shared/lib/hooks/redux";
 import { fillArr } from "src/shared/lib/fillArray";
 import { PromoLastСhanceModal } from "./promo-modal";
 import { useDebug } from "src/entities/debug";
-import { ImageMemo } from "src/shared/ui/image/image";
+import { ImageMemo } from "src/shared/ui/image";
 
-import "./promo.scss";
 import { useAnimateCards } from "src/entities/rate/lib/hooks/useAnimateCards";
+import "./promo.scss";
 
 const usePromoDebug = () => {
   const { debug, toggleDebug } = useDebug(); // дебаг контекст
@@ -88,7 +88,7 @@ export const PromoPage = () => {
             <div className='image__wrapper'>
               <div className='image__effect'>
                 <ImageMemo
-                  path='/assets/images/to_be_2.png'
+                  path='/assets/images/to_be_2.webp'
                   alt='накачанный мужчина'
                   externalConditions={!promoDebugVars.internalDebug.skeletonList}
                 />
