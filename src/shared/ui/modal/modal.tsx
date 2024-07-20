@@ -17,6 +17,7 @@ export const Modal: React.FC<IModal> = ({ children, show, closeModal, externalCl
 
   useEffect(() => {
     if (show) modalRef.current?.showModal();
+    else modalRef.current?.close();
   }, [show]);
 
   return createPortal(

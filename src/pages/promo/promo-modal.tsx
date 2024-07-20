@@ -13,9 +13,16 @@ interface IPromoLastСhanceModalProps {
   closeModal: React.ComponentProps<typeof Modal>["closeModal"];
   discounted_price_cards: Rate[] | undefined[];
   original_price_cards: Rate[];
+  callback: (selectedCardId: string | null) => void;
 }
 
-export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ show, closeModal, discounted_price_cards, original_price_cards }) => {
+export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({
+  show,
+  closeModal,
+  discounted_price_cards,
+  original_price_cards,
+  callback
+}) => {
   const { selectedCardId, selectCard } = useRateCards();
   const default_cards_cb = useMemo(() => {
     return discounted_price_cards.map(card => () => card ? selectCard(card.id) : undefined);
@@ -61,7 +68,9 @@ export const PromoLastСhanceModal: React.FC<IPromoLastСhanceModalProps> = ({ s
           ))}
         </ul>
       </div>
-      <button className='button--primary promo__buy-btn'>Начать тренироваться</button>
+      <button onClick={() => callback(selectedCardId)} className='button--primary promo__buy-btn'>
+        Начать тренироваться
+      </button>
     </Modal>
   );
 };
