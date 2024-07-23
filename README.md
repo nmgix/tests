@@ -12,15 +12,13 @@
 1. npm i
 2. .env в корне с значениями
 
-````md
-VITE_API_URL = "base-url.app" VITE_RATE_URL = "sub../list"
+```md
+VITE_API_URL = "base-url.app" VITE_RATE_URL = "sub../list" (чтобы не заиндексировалась ваша апи)
+```
 
-```(чтобы не заиндексировалась ваша апи)
 3. npm run dev
 4. (опционально) в F12(девтулз) в консоли написать `debug=false`
 5. (опционально) чекбокс timer-time и чекбокс hide-modal чтобы увидеть анимацию
-```
-````
 
 ### Что можно было бы улучшить
 
