@@ -9,15 +9,15 @@
 
 ## Как запустить
 
-1. npm i
+1. `npm i`
 2. .env в корне с значениями
 
 ```md
 VITE_API_URL = "base-url.app" VITE_RATE_URL = "sub../list" (чтобы не заиндексировалась ваша апи)
 ```
 
-3. npm run dev
-4. (опционально) в F12(девтулз) в консоли написать `debug=false`
+3. `npm run dev` / `npm run build && npm run preview`
+4. (опционально) в F12(девтулз) в консоли написать `debug=false` если в dev mode
 5. (опционально) чекбокс timer-time и чекбокс hide-modal чтобы увидеть анимацию
 
 ### Что можно было бы улучшить
