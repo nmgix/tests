@@ -1,15 +1,8 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+import app from "./app";
+import "./cron";
 
-dotenv.config();
+const PORT = process.env.PORT || 3000;
 
-const app: Express = express();
-const port = process.env.PORT || 3000;
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
-
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
 });

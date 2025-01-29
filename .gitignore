@@ -10,6 +10,9 @@ coverage
 *.env.*
 *.env
 
+#google
+credentials.json 
+
 logs
 *.log
 npm-debug.log*

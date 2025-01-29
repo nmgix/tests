@@ -1,0 +1,42 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Development group",
+            "type": "shell",
+            "problemMatcher": [],
+            "dependsOn": ["Dev", "Git"],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                // "group": "build"
+                "echo": false
+            }
+        },
+        {
+            "type": "npm",
+            "script": "dev",
+            "problemMatcher": [],
+            "label": "Dev",
+            "presentation": {
+                // "group": "build"
+                "echo": false
+            }
+        },
+        {
+            "type": "process",
+            "label": "Git",
+            "command": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": [
+                "-l" // login shell for bash
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                // "group": "build"
+                "echo": false, // silence "Executing task ...",
+                "focus": true
+            }
+        }
+    ]
+}
