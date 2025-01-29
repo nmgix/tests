@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    // "experimentalDecorators": true,
+    "module": "NodeNext",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "paths": {
+      "#*": ["./src/*"]
+    },
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    // "alwaysStrict": true,
+    "noUnusedLocals": true ,
+    "noUnusedParameters": true ,
+    "noFallthroughCasesInSwitch": true ,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "src/**/*.test.*", "src/**/*.spec.*"]
+}

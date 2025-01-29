@@ -1,0 +1,11 @@
+{
+    "ignore": [
+      "node_modules"
+    ],
+    "watch": [
+      "src",
+      "yarn.lock"
+    ],
+    "exec": "babel-node dist/index.js",
+    "ext": "ts"
+  }
