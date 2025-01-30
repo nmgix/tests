@@ -8,9 +8,9 @@
         "start": "cross-env NODE_ENV=production node dist/index.js",
         "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
         "test": "jest",
-        "migrate:make": "knex migrate:make --knexfile ./src/db/config.ts",
-        "migrate:latest": "knex migrate:latest --knexfile ./src/db/config.ts",
-        "migrate:rollback": "knex migrate:rollback --knexfile ./src/db/config.ts",
+        "migrate:make": "knex migrate:make --knexfile ./src/db/pg/config.ts",
+        "migrate:latest": "knex migrate:latest --knexfile ./src/db/pg/config.ts",
+        "migrate:rollback": "knex migrate:rollback --knexfile ./src/db/pg/config.ts",
         "lint": "eslint \"src/**/*.ts\""
     },
     "imports": {

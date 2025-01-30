@@ -12,18 +12,13 @@ const config: Configuration = {
             level: "error",
             appender: "errorFile",
         },
+        console: {
+            type: "console",
+        },
     },
-    categories: { default: { appenders: ["app", "errors"], level: "debug" } },
+    categories: { default: { appenders: ["app", "errors", "console"], level: "debug" } },
 };
 
 log4js.configure(config);
 
 export const logger = log4js.getLogger("file");
-
-// export const loggerinfo = log4js.getLogger("info"); // initialize the var to use.
-// export const loggererror = log4js.getLogger("error"); // initialize the var to use.
-// export const loggerdebug = log4js.getLogger("debug"); // initialize the var to use.
-
-// loggerinfo.info("This is Information Logger");
-// loggererror.info("This is Error Logger");
-// loggerdebug.info("This is Debugger");

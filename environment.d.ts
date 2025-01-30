@@ -5,6 +5,7 @@ declare namespace NodeJS {
         WB_API_KEY: string;
         WB_BASE_URL: string;
         WB_BOX_TARIFF_ENDPOINT: string;
+        GOOGLE_SHEET_NAME: string;
 
         POSTGRES_USER: string;
         POSTGRES_PASSWORD: string;

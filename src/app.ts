@@ -1,13 +1,15 @@
+import "#shared/dotenv.ts";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import cors from "cors";
 
-import "#shared/dotenv.ts";
-
-import db from "#db/knex.ts";
-import { fetchTariffs } from "#services/marketplace.ts";
-import { AppErrors } from "#shared/errors.ts";
 import { logger } from "#logger.ts";
+import { AppErrors } from "#shared/errors.ts";
+
+import db from "#db/pg/knex.ts";
+import "#db/google/init.ts";
+
+import { fetchTariffs } from "#services/marketplace.ts";
 
 const app = express();
 app.use(express.json());

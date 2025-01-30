@@ -21,10 +21,5 @@ PGADMIN_DEFAULT_EMAIL=admin@example.com
 PGADMIN_DEFAULT_PASSWORD=admin
 ```
 
-3. root/google.env
-
-```.env
-SPREADSHEET_ID=id
-```
-
-4. root/credentials.json (google)
+3. root/credentials.json (google)
+   apis: spreadsheets и drive (drive для тестов)

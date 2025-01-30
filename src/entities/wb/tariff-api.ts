@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { box } from "./box";
+import { warehouseScheme } from "./warehouse";
 
 /** WB эндпоинт "Коэффициенты складов" */
-export const tariffApiResponse = z.object({
+export const tariffApiResponseScheme = z.object({
     response: z.object({
         data: z.object({
             /**
@@ -18,7 +18,8 @@ export const tariffApiResponse = z.object({
              */
             dtTillMax: z.string(),
             /** Тарифы для коробов, сгруппированные по складам. */
-            warehouseList: z.array(box),
+            warehouseList: z.array(warehouseScheme),
         }),
     }),
 });
+export type TariffApiResponse = z.infer<typeof tariffApiResponseScheme>;

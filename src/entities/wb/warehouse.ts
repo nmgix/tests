@@ -1,9 +1,9 @@
 import { ZodValidationErrors } from "#shared/errors.ts";
-import { numberRegex } from "#shared/zod.js";
+import { numberRegex } from "#shared/zod.ts";
 import { z } from "zod";
 
-/** WB короб */
-export const box = z.object({
+/** WB склад */
+export const warehouseScheme = z.object({
     /**
      * Коэффициент, %. На него умножается стоимость доставки и хранения. Во всех тарифах этот коэффициент уже учтён.
      *
@@ -41,3 +41,4 @@ export const box = z.object({
      */
     warehouseName: z.string(),
 });
+export type Warehouse = z.infer<typeof warehouseScheme>;
