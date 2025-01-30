@@ -1,5 +1,4 @@
 import { Warehouse } from "#entities/wb/warehouse.ts";
-
 export const warehouseList: Warehouse[] = [
     {
         boxDeliveryAndStorageExpr: "115",
@@ -227,10 +226,10 @@ export const warehouseList: Warehouse[] = [
     },
 ];
 export const warehouseListMock: Warehouse[] = Array.from({ length: 20 }, (_, i) => ({
-    boxDeliveryAndStorageExpr: String(i + 100),
-    boxDeliveryBase: String(i + 50),
-    boxDeliveryLiter: String(i + 25),
-    boxStorageBase: String(i + 60),
-    boxStorageLiter: String(i + 30),
+    boxDeliveryAndStorageExpr: i + 100,
+    boxDeliveryBase: i + 50,
+    boxDeliveryLiter: i + 25,
+    boxStorageBase: i + 60,
+    boxStorageLiter: i + 30,
     warehouseName: `Warehouse ${i}`,
 }));

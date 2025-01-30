@@ -2,7 +2,7 @@ import { axiosInstance } from "#axios.ts";
 import { tariffApiResponseScheme } from "#entities/wb/tariff-api.ts";
 import { logger } from "#logger.ts";
 import { formatDate } from "#shared/date.ts";
-import { MarketplaceErrors } from "#shared/errors.ts";
+import { MarketplaceErrors } from "#shared/errors.messages.ts";
 
 export async function fetchTariffs(date: Date = new Date()) {
     try {

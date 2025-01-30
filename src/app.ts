@@ -4,9 +4,9 @@ import rateLimit from "express-rate-limit";
 import cors from "cors";
 
 import { logger } from "#logger.ts";
-import { AppErrors } from "#shared/errors.ts";
+import { AppErrors } from "#shared/errors.messages.ts";
 
-import db from "#db/pg/knex.ts";
+import db from "#db/sql/knex.ts";
 import "#db/google/init.ts";
 
 import { fetchTariffs } from "#services/marketplace.ts";
