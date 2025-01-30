@@ -36,4 +36,7 @@ app.get("/testreq", async (_req, res) => {
     return res.json(data);
 });
 
+// /get tariff to pg
+// /post с выбором даты? pg to google
+
 export default app;

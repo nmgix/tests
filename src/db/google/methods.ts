@@ -3,7 +3,7 @@ import { GoogleErrors } from "#shared/errors.messages.ts";
 import { drive_v3, google } from "googleapis";
 
 /** Создание таблицы для листов (drive api чтобы назначались права доступа) */
-export const createSpreadsheet = async (spreadsheetTitle: string, drive: drive_v3.Drive) => {
+export const createSpreadsheet = async (spreadsheetTitle: string, drive: drive_v3.Drive, sendPermissionEmail: boolean = false) => {
     const fileMetadata = {
         name: spreadsheetTitle,
         mimeType: "application/vnd.google-apps.spreadsheet", // Тип Google Таблицы
@@ -24,6 +24,7 @@ export const createSpreadsheet = async (spreadsheetTitle: string, drive: drive_v
             role: "writer",
             emailAddress: process.env.GOOGLE_TRUSTED_EMAIL,
         },
+        sendNotificationEmail: sendPermissionEmail,
     });
     logger.info(`Доступ к ${file.data.id} выдан пользователю: ${process.env.GOOGLE_TRUSTED_EMAIL}`);
     return file.data.id;

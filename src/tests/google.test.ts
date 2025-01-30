@@ -18,7 +18,7 @@ describe("Обновление гугл таблиц", () => {
         test("Получение значений складов", () => {
             const result = processWarehouses(warehouseList);
             expect(result.length).toBe(29); // 1+ (28+1) потому что первый массив это ключи
-            expect(result[1 + 5][0]).toBe("145"); // 1+ потому что первый массив это ключи
+            expect(result[1 + 5][0]).toBe(145); // 1+ потому что первый массив это ключи
         });
     });
 
@@ -31,8 +31,6 @@ describe("Обновление гугл таблиц", () => {
             // к тому-же проверка создания таблицы для листов
             sheetId = await createSpreadsheet(String(new Date().getMilliseconds()), drive);
         }, 10000);
-
-        // добавить тестов где undefined поля чтобы проверить zod
 
         // afterEach тоже подойдёт, но придётся дольше ждать (~1мин)
         afterAll(async () => {
@@ -52,7 +50,9 @@ describe("Обновление гугл таблиц", () => {
             if (!sheetId) throw new Error("Лист не создан");
             const rows = 10;
             const sheetName = process.env.GOOGLE_SHEET_NAME || "mock_sheet";
-            await updateSheet(sheetId, processWarehouses(warehouseList), sheetName);
+            const processedWarehousess = processWarehouses(warehouseList);
+            console.log(processedWarehousess);
+            await updateSheet(sheetId, processedWarehousess, sheetName);
             const req = await google.sheets("v4").spreadsheets.values.get({ spreadsheetId: sheetId, range: `${sheetName}!A1:F${rows}` });
             // if (!testWarehouses || testWarehouses.length !== rows) throw new Error("Длина массива не сходится/массив не найден")
             console.log(req.data.values);

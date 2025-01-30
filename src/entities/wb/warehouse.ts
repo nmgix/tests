@@ -2,6 +2,20 @@ import { ZodValidationErrors } from "#shared/errors.messages.ts";
 import { numberRegex } from "#shared/zod.ts";
 import { z } from "zod";
 
+function parseNumberOrDash() {
+    return z
+        .union([z.string(), z.number()])
+        .refine((val) => {
+            if (typeof val === "string") return val === "-" || numberRegex.test(val);
+            else return true;
+        }, ZodValidationErrors.invNumFormat)
+        .transform((val) => {
+            if (typeof val === "number") return val;
+            if (val === "-") return val;
+            return Number(val.replace(",", "."));
+        });
+}
+
 /** WB склад */
 export const warehouseScheme = z.object({
     /**
@@ -9,41 +23,31 @@ export const warehouseScheme = z.object({
      *
      * @type {string}
      */
-    boxDeliveryAndStorageExpr: z.string().regex(numberRegex, ZodValidationErrors.invNumFormat),
-    // .transform((val) => Number(val))
-    // .refine((val) => !isNaN(val), ZodValidationErrors.invNumFormat),
+    boxDeliveryAndStorageExpr: parseNumberOrDash(),
     /**
      * Доставка 1 литра, ₽.
      *
      * @type {string}
      */
-    boxDeliveryBase: z.string().regex(numberRegex, ZodValidationErrors.invNumFormat),
-    // .transform((val) => Number(val))
-    // .refine((val) => !isNaN(val), ZodValidationErrors.invNumFormat),
+    boxDeliveryBase: parseNumberOrDash(),
     /**
      * Доставка каждого дополнительного литра, ₽.
      *
      * @type {string}
      */
-    boxDeliveryLiter: z.string().regex(numberRegex, ZodValidationErrors.invNumFormat),
-    // .transform((val) => Number(val))
-    // .refine((val) => !isNaN(val), ZodValidationErrors.invNumFormat),
+    boxDeliveryLiter: parseNumberOrDash(),
     /**
      * Хранение 1 литра, ₽.
      *
      * @type {string}
      */
-    boxStorageBase: z.string().regex(numberRegex, ZodValidationErrors.invNumFormat),
-    // .transform((val) => Number(val))
-    // .refine((val) => !isNaN(val), ZodValidationErrors.invNumFormat),
+    boxStorageBase: parseNumberOrDash(),
     /**
      * Хранение каждого дополнительного литра, ₽.
      *
      * @type {string}
      */
-    boxStorageLiter: z.string().regex(numberRegex, ZodValidationErrors.invNumFormat),
-    // .transform((val) => Number(val))
-    // .refine((val) => !isNaN(val), ZodValidationErrors.invNumFormat),
+    boxStorageLiter: parseNumberOrDash(),
     /**
      * Название склада.
      *

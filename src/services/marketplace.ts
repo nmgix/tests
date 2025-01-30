@@ -11,7 +11,7 @@ export async function fetchTariffs(date: Date = new Date()) {
                 date: formatDate(date),
             },
         });
-        return response.data.response;
+        return tariffApiResponseScheme.parse(response.data.response);
     } catch (error) {
         logger.error(`${MarketplaceErrors.fetchTariffs}: ${error}`);
     }

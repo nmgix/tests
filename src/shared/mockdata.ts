@@ -1,3 +1,4 @@
+// @ts-nocheck ибо warehouseList как с апи wb
 import { Warehouse } from "#entities/wb/warehouse.ts";
 export const warehouseList: Warehouse[] = [
     {
