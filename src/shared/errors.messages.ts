@@ -13,9 +13,10 @@ export enum GoogleErrors {
     listCreate = "Лист не создан",
     sheetGeneric = "Ошибка при работе с Google Sheets",
     listDelete = "Ошибка при удалении листа",
+    queryParams = "Не указаны params",
 }
 
 export enum MarketplaceErrors {
     fetchGeneric = "Произошла ошибка при получении данных с api маркетплейса",
-    fetchTariffs = "Ошибка при получении тарифов с api маркетплейса",
+    fetchBoxTariffs = "Ошибка при получении тарифов коробов с api маркетплейса",
 }

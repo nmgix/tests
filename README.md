@@ -11,6 +11,7 @@ WB_BOX_TARIFF_ENDPOINT=/tariffs/box
 
 GOOGLE_SHEET_NAME=stocks_coefs
 GOOGLE_TRUSTED_EMAIL=some@gmail.com
+GOOGLE_DEFAULT_SHEETS=id_таблицы1,id_таблицы2,id_таблицы3 (через запятую id таблиц)
 ```
 
 2. root/db.env

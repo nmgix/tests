@@ -15,7 +15,7 @@ export const processWarehouses = (chunk: Warehouse[]) => {
 };
 
 /** Обновление данных в google листе */
-export async function updateSheet(spreadsheetId: string, warehouseValues: (string | number)[][], sheetName: string) {
+export async function updateWarehouseSheet(spreadsheetId: string, warehouseValues: (string | number)[][], sheetName: string) {
     try {
         const _sheetName = await createListIfNotExists(spreadsheetId, sheetName);
 
@@ -24,7 +24,7 @@ export async function updateSheet(spreadsheetId: string, warehouseValues: (strin
             .sheets("v4")
             .spreadsheets.values.update({ spreadsheetId, range: `${_sheetName}!A1`, valueInputOption: "RAW", requestBody: { values: gData } });
         // .spreadsheets.values.append({ spreadsheetId, range: `${sheetName}!A1`, valueInputOption: "RAW", insertDataOption: "INSERT_ROWS", requestBody: { values: gData } });
-        logger.info(`${GoogleMessages.listUpdate}: ${spreadsheetId}, внесены ${warehouseValues.length} складов`);
+        logger.info(`${GoogleMessages.listUpdate}: ${spreadsheetId}, внесены ${warehouseValues.length - 1} складов`);
     } catch (error) {
         const _error = error ? `${GoogleErrors.listUpdate}, ${error}` : GoogleErrors.listUpdate;
         logger.error(_error);
@@ -33,10 +33,11 @@ export async function updateSheet(spreadsheetId: string, warehouseValues: (strin
 }
 
 /** Рассылка на все google листы */
-export async function updateSheets(sheetIds: string[], data: Warehouse[], sheetName: string) {
+export async function updateWarehouseSheets(sheetIds: string[], data: Warehouse[], sheetName: string) {
     try {
         const warehouseValues = processWarehouses(data.sort((wA, wB) => Number(wA.boxDeliveryAndStorageExpr) - Number(wB.boxDeliveryAndStorageExpr)));
-        await Promise.all(sheetIds.map((sheetId) => updateSheet(sheetId, warehouseValues, sheetName)));
+        await Promise.all(sheetIds.map((sheetId) => updateWarehouseSheet(sheetId, warehouseValues, sheetName)));
+        logger.info(`Кол-во таблиц: ${sheetIds.length}, кол-во складов: ${data.length}`);
     } catch (error) {
         const _error = error ? `${GoogleErrors.sheetsUpdate}, ${error}` : GoogleErrors.sheetsUpdate;
         logger.error(_error);

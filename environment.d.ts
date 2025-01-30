@@ -7,6 +7,7 @@ declare namespace NodeJS {
         WB_BOX_TARIFF_ENDPOINT: string;
         GOOGLE_SHEET_NAME: string;
         GOOGLE_TRUSTED_EMAIL: string;
+        GOOGLE_DEFAULT_SHEETS: string;
 
         POSTGRES_USER: string;
         POSTGRES_PASSWORD: string;

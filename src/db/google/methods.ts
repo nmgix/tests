@@ -2,6 +2,9 @@ import { logger } from "#logger.ts";
 import { GoogleErrors } from "#shared/errors.messages.ts";
 import { drive_v3, google } from "googleapis";
 
+/** Разделение id таблиц из .env */
+export const parseSpreadsheetIds = (idsEnv: string) => idsEnv.split(",").map((id) => id.trim());
+
 /** Создание таблицы для листов (drive api чтобы назначались права доступа) */
 export const createSpreadsheet = async (spreadsheetTitle: string, drive: drive_v3.Drive, sendPermissionEmail: boolean = false) => {
     const fileMetadata = {
@@ -24,6 +27,7 @@ export const createSpreadsheet = async (spreadsheetTitle: string, drive: drive_v
             role: "writer",
             emailAddress: process.env.GOOGLE_TRUSTED_EMAIL,
         },
+        // https://stackoverflow.com/a/30197499/14889638
         sendNotificationEmail: sendPermissionEmail,
     });
     logger.info(`Доступ к ${file.data.id} выдан пользователю: ${process.env.GOOGLE_TRUSTED_EMAIL}`);
@@ -46,6 +50,7 @@ export async function createListIfNotExists(spreadsheetId: string, sheetName: st
         const sheetExists = response.data.sheets?.some((sheet) => sheet.properties?.title === sheetName);
 
         if (sheetExists) {
+            logger.info(`list ${sheetName} found, spreadsheetId: ${spreadsheetId}`);
             return sheetName;
         } else {
             const request = {
@@ -66,6 +71,7 @@ export async function createListIfNotExists(spreadsheetId: string, sheetName: st
             const createSheetResponse = await sheets.spreadsheets.batchUpdate(request);
             if (!createSheetResponse.data.replies || createSheetResponse.data.replies[0]?.addSheet?.properties?.title !== sheetName)
                 throw new Error(GoogleErrors.listCreate);
+            logger.info(`list ${sheetName} created, spreadsheetId: ${spreadsheetId}`);
             return sheetName;
         }
     } catch (error) {

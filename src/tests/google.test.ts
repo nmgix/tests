@@ -3,7 +3,7 @@ import "#db/google/init.ts";
 import "googleapis";
 import { google, sheets_v4, drive_v3 } from "googleapis";
 import { createSpreadsheet, createListIfNotExists, deleteSpreadsheet } from "#db/google/methods.ts";
-import { updateSheet, updateSheets, processWarehouses } from "#services/google.ts";
+import { updateWarehouseSheet, updateWarehouseSheets, processWarehouses } from "#services/google.ts";
 import { warehouseList, warehouseListMock } from "#shared/mockdata.ts";
 import { GoogleErrors } from "#shared/errors.messages.ts";
 import { logger } from "#logger.ts";
@@ -52,7 +52,7 @@ describe("Обновление гугл таблиц", () => {
             const sheetName = process.env.GOOGLE_SHEET_NAME || "mock_sheet";
             const processedWarehousess = processWarehouses(warehouseList);
             console.log(processedWarehousess);
-            await updateSheet(sheetId, processedWarehousess, sheetName);
+            await updateWarehouseSheet(sheetId, processedWarehousess, sheetName);
             const req = await google.sheets("v4").spreadsheets.values.get({ spreadsheetId: sheetId, range: `${sheetName}!A1:F${rows}` });
             // if (!testWarehouses || testWarehouses.length !== rows) throw new Error("Длина массива не сходится/массив не найден")
             console.log(req.data.values);
@@ -68,7 +68,7 @@ describe("Обновление гугл таблиц", () => {
             const sheetName = process.env.GOOGLE_SHEET_NAME || "mock_sheet";
             const rows = 10;
 
-            await updateSheets([sheetId, sheet2, sheet3], warehouseListMock, sheetName);
+            await updateWarehouseSheets([sheetId, sheet2, sheet3], warehouseListMock, sheetName);
 
             const req = await google.sheets("v4").spreadsheets.values.get({ spreadsheetId: sheetId, range: `${sheetName}!A1:F${rows}` });
             expect(req.data.values?.length).toBe(rows);
@@ -85,22 +85,22 @@ describe("Обновление гугл таблиц", () => {
             if (!sheetId) throw new Error("Лист не создан");
             const rows = 10;
             const sheetName = process.env.GOOGLE_SHEET_NAME || "mock_sheet";
-            await updateSheet(sheetId, processWarehouses(warehouseList), sheetName);
+            await updateWarehouseSheet(sheetId, processWarehouses(warehouseList), sheetName);
             const req = await google.sheets("v4").spreadsheets.values.get({ spreadsheetId: sheetId, range: `${sheetName}!A1:F${rows}` });
             expect(req.data.values?.length).toBe(rows);
             expect(req.data.values![1 + 5][0]).toBe("145");
 
-            await updateSheet(sheetId, processWarehouses(warehouseListMock), sheetName);
+            await updateWarehouseSheet(sheetId, processWarehouses(warehouseListMock), sheetName);
             const req2 = await google.sheets("v4").spreadsheets.values.get({ spreadsheetId: sheetId, range: `${sheetName}!A1:F${rows}` });
             expect(req.data.values?.length).toBe(rows);
             expect(req2.data.values![1 + 5][0]).toBe("105");
         }, 20000);
 
-        test("Добавление и сортировка (по возрастанию) складов (как в updateSheets)", async () => {
+        test("Добавление и сортировка (по возрастанию) складов (как в updateWarehouseSheets)", async () => {
             if (!sheetId) throw new Error("Лист не создан");
             const rows = 10;
             const sheetName = process.env.GOOGLE_SHEET_NAME || "mock_sheet";
-            await updateSheet(
+            await updateWarehouseSheet(
                 sheetId,
                 processWarehouses(warehouseList.sort((wA, wB) => Number(wA.boxDeliveryAndStorageExpr) - Number(wB.boxDeliveryAndStorageExpr))),
                 sheetName,
