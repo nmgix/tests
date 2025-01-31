@@ -14,8 +14,8 @@ googleRouter.post<{}, {}, {}, { table_name: string; sheetId: string }>("/createl
         const sheetName = req.query.table_name || process.env.GOOGLE_SHEET_NAME || fallbackSheetname;
         const resultSheetname = await createListIfNotExists(req.query.sheetId, sheetName);
         return res.status(HttpStatusCode.Created).json(resultSheetname);
-    } catch (error) {
-        if (error == HttpStatusCode.UnprocessableEntity) return res.status(HttpStatusCode.UnprocessableEntity).json(GoogleErrors.queryParams); // красивое оформление body/query я только в nest делал
+    } catch (error: any) {
+        if (error.message == HttpStatusCode.UnprocessableEntity) return res.status(HttpStatusCode.UnprocessableEntity).json(GoogleErrors.queryParams); // красивое оформление body/query я только в nest делал
         return res.status(HttpStatusCode.InternalServerError);
     }
 });
@@ -31,8 +31,8 @@ googleRouter.put<{}, {}, { spreadSheetIds: string | string[] }, { sheetName?: st
         const spreadsheets = typeof req.body.spreadSheetIds === "string" ? parseSpreadsheetIds(req.body.spreadSheetIds) : req.body.spreadSheetIds;
         await updateWarehouseSheets(spreadsheets, knexData, req.query.sheetName || process.env.GOOGLE_SHEET_NAME || fallbackSheetname);
         return res.status(HttpStatusCode.Ok).json({ tables: spreadsheets, warehouses: knexData.length });
-    } catch (error) {
-        if (error == HttpStatusCode.UnprocessableEntity) return res.status(HttpStatusCode.UnprocessableEntity).json(GoogleErrors.queryParams); // красивое оформление body/query я только в nest делал
+    } catch (error: any) {
+        if (error.message == HttpStatusCode.UnprocessableEntity) return res.status(HttpStatusCode.UnprocessableEntity).json(GoogleErrors.queryParams); // красивое оформление body/query я только в nest делал
         return res.status(HttpStatusCode.InternalServerError);
     }
 });

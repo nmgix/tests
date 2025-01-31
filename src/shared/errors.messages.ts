@@ -23,4 +23,5 @@ export enum MarketplaceErrors {
 
 export enum DBErrors {
     missingProperites = "Не переданы значения",
+    uploadError = "Произошла ошибка при загрузке в БД",
 }
