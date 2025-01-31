@@ -1,5 +1,5 @@
-import { logger } from "#logger.ts";
-import { GoogleErrors } from "#shared/errors.messages.ts";
+import { logger } from "../../logger";
+import { GoogleErrors } from "../../shared/errors.messages";
 import { drive_v3, google } from "googleapis";
 
 /** Разделение id таблиц из .env */

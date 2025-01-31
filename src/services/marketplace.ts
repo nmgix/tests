@@ -1,8 +1,8 @@
-import { axiosInstance } from "#axios.ts";
-import { TariffApiResponse, tariffApiResponseScheme } from "#entities/wb/tariff-api.ts";
-import { logger } from "#logger.ts";
-import { formatDate } from "#shared/date.ts";
-import { MarketplaceErrors } from "#shared/errors.messages.ts";
+import { axiosInstance } from "../axios";
+import { TariffApiResponse, tariffApiResponseScheme } from "../entities/wb/tariff-api";
+import { logger } from "../logger";
+import { formatDate } from "../shared/date";
+import { MarketplaceErrors } from "../shared/errors.messages";
 
 export async function fetchTariffs(dateDay: Date = new Date()) {
     try {

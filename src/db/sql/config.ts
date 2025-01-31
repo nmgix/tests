@@ -1,5 +1,5 @@
-import "#shared/dotenv.ts";
-import { logger } from "#logger.ts";
+import "../../shared/dotenv";
+import { logger } from "../../logger";
 import { Knex } from "knex";
 import path from "path";
 

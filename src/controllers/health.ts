@@ -1,12 +1,13 @@
 import express from "express";
-import db from "#db/sql/knex.ts";
-import { logger } from "#logger.ts";
-import { AppErrors } from "#shared/errors.messages.ts";
+import db from "../db/sql/knex";
+import { logger } from "../logger";
+import { AppErrors } from "../shared/errors.messages";
 
 const healthRouter = express.Router();
 healthRouter.get("/", async (_req, res) => {
     try {
         await db.raw("SELECT 1");
+        logger.info("DB health: OK");
         res.json({ status: "ok", database: "connected" });
     } catch (error) {
         logger.error(`${AppErrors.healthCheck}: `, error);

@@ -1,5 +1,5 @@
 // @ts-nocheck ибо warehouseList как с апи wb
-import { Warehouse } from "#entities/wb/warehouse.ts";
+import { Warehouse } from "../entities/wb/warehouse";
 export const warehouseList: Warehouse[] = [
     {
         boxDeliveryAndStorageExpr: "115",

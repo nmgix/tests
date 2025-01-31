@@ -1,8 +1,8 @@
-import { ZodValidationErrors } from "#shared/errors.messages.ts";
-import { numberRegex } from "#shared/zod.ts";
+import { ZodValidationErrors } from "../../shared/errors.messages";
+import { numberRegex } from "../../shared/zod";
 import { z } from "zod";
 
-import db from "#db/sql/knex.ts";
+import db from "../../db/sql/knex";
 import { Model, snakeCaseMappers } from "objection";
 Model.knex(db);
 
@@ -66,3 +66,10 @@ export class WarehouseKnexModel extends Model {
         return snakeCaseMappers();
     }
 }
+
+/** Получение значений Warehouse */
+export const processWarehouses = (chunk: Warehouse[]) => {
+    if (chunk[0] === undefined) return [];
+    const zodChunk = z.array(warehouseScheme).parse(chunk);
+    return [Object.keys(chunk[0]), ...zodChunk.map((obj) => Object.values(obj))];
+};

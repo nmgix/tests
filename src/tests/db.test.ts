@@ -1,6 +1,6 @@
-import db from "#db/sql/knex.ts";
-import { setWarehouses, getWarehouses } from "#services/db.ts";
-import { warehouseList } from "#shared/mockdata.ts";
+import db from "../db/sql/knex";
+import { setWarehouses, getWarehouses } from "../services/db";
+import { warehouseList } from "../shared/mockdata";
 describe("Сохранение и отдача данных с бд", () => {
     afterAll(async () => {
         await db.destroy();

@@ -4,7 +4,7 @@ export enum ZodValidationErrors {
 
 export enum AppErrors {
     rateLimit = "Слишком много запросов к api",
-    healthCheck = "Ошибка при healthchech БД",
+    healthCheck = "Ошибка при healthcheck БД",
 }
 
 export enum GoogleErrors {

@@ -1,4 +1,4 @@
-import { fetchTariffs } from "#services/marketplace.ts";
+import { fetchTariffs } from "../services/marketplace";
 
 describe("Работа с api маркетплейса", () => {
     test("Получение данных с апи", async () => {

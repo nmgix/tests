@@ -1,7 +1,5 @@
 import axios from "axios";
-
-// дублирование
-import "#shared/dotenv.ts";
+import "./shared/dotenv";
 
 export const axiosInstance = axios.create({
     baseURL: process.env.WB_BASE_URL,

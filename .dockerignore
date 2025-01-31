@@ -2,7 +2,8 @@ node_modules
 .git
 .vscode
 dist
-
+logs
+.vscode
 .env
 .env.*
 *.env.*

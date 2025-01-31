@@ -1,6 +1,6 @@
 import knex, { Knex } from "knex";
 import knexConfig from "./config";
-import { logger } from "#logger.ts";
+import { logger } from "../../logger";
 import { knexSnakeCaseMappers } from "objection";
 
 const environment = process.env.NODE_ENV || "development";

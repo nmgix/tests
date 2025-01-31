@@ -1,7 +1,7 @@
-import { Warehouse, WarehouseKnexModel, warehouseScheme } from "#entities/wb/warehouse.ts";
-import { logger } from "#logger.ts";
-import { formatDate } from "#shared/date.ts";
-import { DBErrors } from "#shared/errors.messages.ts";
+import { Warehouse, WarehouseKnexModel, warehouseScheme } from "../entities/wb/warehouse";
+import { logger } from "../logger";
+import { formatDate } from "../shared/date";
+import { DBErrors } from "../shared/errors.messages";
 import z from "zod";
 
 export const setWarehouses = async (data: Warehouse[], date: Date = new Date()) => {

@@ -1,17 +1,9 @@
-import { createListIfNotExists } from "#db/google/methods.ts";
-import { Warehouse, warehouseScheme } from "#entities/wb/warehouse.ts";
-import { logger } from "#logger.ts";
-import { GoogleMessages } from "#shared/default.messages.ts";
-import { GoogleErrors } from "#shared/errors.messages.ts";
+import { createListIfNotExists } from "../db/google/methods";
+import { processWarehouses, Warehouse } from "../entities/wb/warehouse";
+import { logger } from "../logger";
+import { GoogleMessages } from "../shared/default.messages";
+import { GoogleErrors } from "../shared/errors.messages";
 import { google } from "googleapis";
-import z from "zod";
-
-/** Получение значений Warehouse */
-export const processWarehouses = (chunk: Warehouse[]) => {
-    if (chunk[0] === undefined) return [];
-    const zodChunk = z.array(warehouseScheme).parse(chunk);
-    return [Object.keys(chunk[0]), ...zodChunk.map((obj) => Object.values(obj))];
-};
 
 /** Обновление данных в google листе */
 export async function updateWarehouseSheet(spreadsheetId: string, warehouseValues: (string | number)[][], sheetName: string) {

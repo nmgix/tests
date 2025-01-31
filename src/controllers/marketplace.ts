@@ -1,10 +1,10 @@
 import express from "express";
-import { fetchTariffs } from "#services/marketplace.ts";
-import { logger } from "#logger.ts";
+import { fetchTariffs } from "../services/marketplace";
+import { logger } from "../logger";
 import { HttpStatusCode } from "axios";
-import { DBErrors, MarketplaceErrors } from "#shared/errors.messages.ts";
-import { regexYYYYMMDD, parseDateWithTimezone } from "#shared/date.ts";
-import { setWarehouses } from "#services/db.ts";
+import { DBErrors, MarketplaceErrors } from "../shared/errors.messages";
+import { regexYYYYMMDD, parseDateWithTimezone } from "../shared/date";
+import { setWarehouses } from "../services/db";
 
 const marketplaceRouter = express.Router();
 marketplaceRouter.get("/testreq", async (_req, res) => {

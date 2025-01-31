@@ -1,20 +1,16 @@
-FROM node:18 AS deps
+FROM node:18
+
 WORKDIR /app
+
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM node:18 AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY . . 
 RUN npm run build
 
-FROM node:18 AS runtime
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
 ENV NODE_ENV=production
-EXPOSE 3000
+ENV PORT=$PORT
+
+EXPOSE $PORT
 
 CMD ["npm", "run", "start"]

@@ -1,20 +1,21 @@
-import "#shared/dotenv.ts";
+import "./shared/dotenv";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import cors from "cors";
-// import bodyParser from "body-parser";
 
-import { logger } from "#logger.ts";
-import { AppErrors } from "#shared/errors.messages.ts";
+import { logger } from "./logger";
+import { AppErrors } from "./shared/errors.messages";
 
-import "#db/google/init.ts";
+import "./db/google/init";
 
-import { healthRouter } from "#controllers/health.ts";
-import { marketplaceRouter } from "#controllers/marketplace.ts";
-import { googleRouter } from "#controllers/google.ts";
+import { healthRouter } from "./controllers/health";
+import { marketplaceRouter } from "./controllers/marketplace";
+import { googleRouter } from "./controllers/google";
+import { printRoutes } from "./shared/app";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(
     rateLimit({
@@ -23,11 +24,16 @@ app.use(
         message: AppErrors.rateLimit,
     }),
 );
-// app.use(bodyParser())
 
 app.use("/health", healthRouter);
 app.use("/marketplace", marketplaceRouter);
 app.use("/google", googleRouter);
+app._router.stack.forEach(function (r: any) {
+    if (r.route && r.route.path) {
+        console.log(r.route.path);
+    }
+});
+printRoutes(app);
 
 logger.debug(`app is running, timestamp: ` + new Date().getMilliseconds());
 
