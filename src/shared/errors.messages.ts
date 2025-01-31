@@ -20,3 +20,7 @@ export enum MarketplaceErrors {
     fetchGeneric = "Произошла ошибка при получении данных с api маркетплейса",
     fetchBoxTariffs = "Ошибка при получении тарифов коробов с api маркетплейса",
 }
+
+export enum DBErrors {
+    missingProperites = "Не переданы значения",
+}

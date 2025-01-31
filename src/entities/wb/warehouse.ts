@@ -2,6 +2,10 @@ import { ZodValidationErrors } from "#shared/errors.messages.ts";
 import { numberRegex } from "#shared/zod.ts";
 import { z } from "zod";
 
+import db from "#db/sql/knex.ts";
+import { Model, snakeCaseMappers } from "objection";
+Model.knex(db);
+
 function parseNumberOrDash() {
     return z
         .union([z.string(), z.number()])
@@ -56,3 +60,9 @@ export const warehouseScheme = z.object({
     warehouseName: z.string(),
 });
 export type Warehouse = z.infer<typeof warehouseScheme>;
+export class WarehouseKnexModel extends Model {
+    static tableName = "box_rates";
+    static get columnNameMappers() {
+        return snakeCaseMappers();
+    }
+}

@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "target": "es2017",
-        // "experimentalDecorators": true,
         "module": "NodeNext",
         "baseUrl": "./",
         "outDir": "./dist",

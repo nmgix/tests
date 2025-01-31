@@ -31,7 +31,7 @@ services:
             - backend
 
     pgadmin:
-        image: dpage/pgadmin4
+        image: dpage/pgadmin4:latest
         container_name: service_pgadmin
         restart: always
         ports:

@@ -17,10 +17,11 @@ GOOGLE_DEFAULT_SHEETS=id_таблицы1,id_таблицы2,id_таблицы3 (
 2. root/db.env
 
 ```.env
-POSTGRES_USER=user
-POSTGRES_PASSWORD=password
-POSTGRES_DB=mydb
-DATABASE_URL=postgres://user:password@postgres:5432/mydb
+DB_USER=user
+DB_PASSWORD=password
+DB_NAME=mydb
+DB_HOST=localhost
+DB_PORT=5432
 PGADMIN_DEFAULT_EMAIL=admin@example.com
 PGADMIN_DEFAULT_PASSWORD=admin
 ```

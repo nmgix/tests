@@ -1,6 +1,6 @@
 import { logger } from "#logger.ts";
-import app from "./app";
-import "./cron";
+import app from "./app.ts";
+import "./cron.ts";
 
 const PORT = process.env.PORT || 3000;
 

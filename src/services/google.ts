@@ -5,7 +5,6 @@ import { GoogleMessages } from "#shared/default.messages.ts";
 import { GoogleErrors } from "#shared/errors.messages.ts";
 import { google } from "googleapis";
 import z from "zod";
-// import { Readable } from "node:stream";
 
 /** Получение значений Warehouse */
 export const processWarehouses = (chunk: Warehouse[]) => {

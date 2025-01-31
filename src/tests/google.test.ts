@@ -1,12 +1,10 @@
 import "#shared/dotenv.ts";
 import "#db/google/init.ts";
 import "googleapis";
-import { google, sheets_v4, drive_v3 } from "googleapis";
+import { google } from "googleapis";
 import { createSpreadsheet, createListIfNotExists, deleteSpreadsheet } from "#db/google/methods.ts";
 import { updateWarehouseSheet, updateWarehouseSheets, processWarehouses } from "#services/google.ts";
 import { warehouseList, warehouseListMock } from "#shared/mockdata.ts";
-import { GoogleErrors } from "#shared/errors.messages.ts";
-import { logger } from "#logger.ts";
 
 // jest.mock('./createStream', () => ({
 //     ...jest.requireActual('./createStream'),

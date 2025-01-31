@@ -1,15 +1,20 @@
+import "#shared/dotenv.ts";
+import { logger } from "#logger.ts";
 import { Knex } from "knex";
-import dotenv from "dotenv";
 import path from "path";
 
-const envPath = path.resolve(process.cwd(), "../..", `.env`);
-dotenv.config({ path: envPath });
+// import { fileURLToPath } from "url";
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-const config: { [key in typeof process.env.NODE_ENV]: Knex.Config } = {
+logger.debug(`DB hosts (env check): ${process.env.DB_HOST}`);
+
+const config: { [key in Exclude<typeof process.env.NODE_ENV, undefined>]: Knex.Config } = {
     development: {
         client: "pg",
         connection: {
             host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT),
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
@@ -23,6 +28,21 @@ const config: { [key in typeof process.env.NODE_ENV]: Knex.Config } = {
         client: "pg",
         connection: {
             host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT),
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
+            timezone: "+03:00",
+        },
+        migrations: {
+            directory: path.join(__dirname, "./migrations"),
+        },
+    },
+    test: {
+        client: "pg",
+        connection: {
+            host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT),
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
