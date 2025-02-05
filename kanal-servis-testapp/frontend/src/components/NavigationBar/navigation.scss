@@ -1,0 +1,119 @@
+@use "../../index.scss";
+
+nav {
+  // position: relative;
+
+  width: calc(100% - 4em);
+  height: auto;
+  padding: 1.3em 2em;
+
+  -webkit-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+
+  display: flex;
+  justify-content: space-between;
+
+  & > .title {
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .sorting {
+    &-wrapper {
+      z-index: 3;
+      position: absolute;
+      top: 1px;
+      left: 1px;
+
+      display: grid;
+      grid-template-columns: 0.6fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px 10px;
+      grid-template-areas:
+        "sorting-column sorting-compare"
+        "sorting-column sorting-misc";
+      align-items: start;
+    }
+
+    &-misc {
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      grid-area: sorting-misc;
+    }
+    &-column {
+      text-align: center;
+      grid-area: sorting-column;
+    }
+    &-compare {
+      ul {
+        li:not(:first-child) {
+          margin-left: 0.3em;
+        }
+        li:not(:last-child) {
+          margin-right: 0.3em;
+        }
+      }
+      grid-area: sorting-compare;
+    }
+
+    &-list {
+      background-color: index.$background-color;
+      border-radius: 10px;
+      padding: 1em;
+
+      height: calc(100% - 2em);
+
+      -webkit-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+      -moz-box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        flex: 0 1;
+        margin-bottom: 0.2em;
+      }
+      ul {
+        flex: 1 1;
+        padding: 0;
+        margin: 0;
+
+        li {
+          list-style-type: none;
+
+          margin: 0.5em 0;
+
+          & > * {
+            width: 100%;
+          }
+
+          button {
+            height: 100%;
+          }
+        }
+      }
+
+      .vertical {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .horizontal {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    & > * {
+      width: 50%;
+    }
+  }
+}

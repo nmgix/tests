@@ -1,0 +1,16 @@
+.filter {
+  &-wrapper {
+    position: relative;
+  }
+
+  &-dropdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: auto;
+
+    padding: 1.3em;
+  }
+}
