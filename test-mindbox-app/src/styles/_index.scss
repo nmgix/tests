@@ -1,0 +1,96 @@
+@use "../resources/fonts/fonts";
+
+$background-color: #fff;
+$outline: #000;
+$error: red;
+
+$tablet-width: 960px;
+$sb-tablet-width: 680px;
+$mobile-witdh: 500px;
+
+html,
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: "Gilroy";
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+img.action-img {
+  width: 1.3rem;
+}
+
+input {
+  cursor: pointer;
+  padding: 0.5em 0.7em;
+  border: 1px solid $outline;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: darken($background-color, 10%);
+  }
+
+  &[type="checkbox"] {
+    z-index: 1;
+    display: grid;
+    place-content: center;
+
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: black;
+    width: 20px;
+    height: 25px;
+    border: 2px solid $outline;
+    border-radius: 0.15em;
+
+    &::before {
+      content: "";
+      width: 0.9em;
+      height: 0.8em;
+      display: none;
+      transition: 0.05s transform ease-in-out;
+      box-shadow: inset 1em 1em $outline;
+      clip-path: polygon(40% 56%, 85% 3%, 100% 17%, 40% 88%, 4% 58%, 20% 40%);
+    }
+    &:checked::before {
+      display: block;
+      z-index: 1;
+    }
+
+    &:hover {
+      background-color: darken($background-color, 10%);
+    }
+
+    &:focus {
+      outline: 0.05em solid $outline;
+      outline-offset: max(0px, 0px);
+    }
+  }
+}
+
+.vertical {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.horizontal {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+}
