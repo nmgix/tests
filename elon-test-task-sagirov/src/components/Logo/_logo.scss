@@ -1,0 +1,22 @@
+div[class*="logo-"] {
+  background-position: center;
+  background-size: cover;
+  flex: 0;
+  position: relative;
+
+  //   display: flex;
+
+  img {
+    // align-self: center;
+    margin: 25px 20px 39px;
+  }
+}
+
+.logo-medium {
+  margin: 0 !important;
+
+  img {
+    width: 100%;
+    margin: 30px 20px 30px !important;
+  }
+}
