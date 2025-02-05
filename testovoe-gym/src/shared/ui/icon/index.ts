@@ -1,0 +1,1 @@
+export { IconMemo } from "./icon";

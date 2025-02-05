@@ -1,0 +1,110 @@
+input[type="checkbox"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+
+  & + label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+  }
+
+  & + label::before {
+    content: "";
+    display: inline-block;
+    width: 2.4rem;
+    height: 2.4rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 1px solid var(--text2);
+    border-radius: 0.48rem;
+    margin-right: 1.2rem;
+    background-repeat: no-repeat;
+    background-size: 70% 70%;
+    background-position: 65% 50%;
+  }
+
+  &:checked + label::before {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12' fill='none'%3E%3Cpath d='M1 6.75789L5.56923 10.8L14.2 1.2' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  &:not(:disabled):not(:checked) + label:hover::before {
+    border-color: var(--accent);
+  }
+  &:not(:disabled):active + label::before {
+    background-color: var(--gray-transparent);
+    border-color: var(--gray-transparent);
+  }
+  &:focus + label::before {
+    box-shadow: 0 0 0 0.2rem black;
+  }
+}
+
+@mixin input-radio {
+}
+
+input[type="radio"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+
+  & + label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+  }
+  & + label::before {
+    content: "";
+    display: inline-block;
+    width: 2.2rem;
+    height: 2.2rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 1px solid var(--text2);
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+  }
+  &:not(:disabled):not(:checked) + label:hover::before {
+    border-color: var(--accent);
+  }
+  &:not(:disabled):active + label::before {
+    background-color: var(--gray-transparent);
+    border-color: var(--gray-transparent);
+  }
+  &:focus:not(:checked) + label::before {
+    box-shadow: 0 0 0 0.2rem black;
+  }
+  &:checked + label::before {
+    border-color: var(--accent);
+    background-image: url("data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='11' fill='%2301B9C5'/%3E%3C/svg%3E%0A");
+  }
+}
+
+ol,
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  font-family: inherit;
+}
+
+button {
+  border: none;
+  font-family: inherit;
+
+  font-size: 2rem;
+  padding: 1.2rem 1rem;
+  cursor: pointer;
+}
+
+dialog {
+  border: none;
+  padding: 0;
+}

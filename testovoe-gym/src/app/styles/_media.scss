@@ -1,0 +1,38 @@
+@function max-width-f($max-width) {
+  @return "(max-width: #{$max-width})";
+}
+@function min-width-f($min-width) {
+  @return "(min-width: #{$min-width})";
+}
+@mixin media-maxw($max-width) {
+  @media screen and #{max-width-f($max-width)} {
+    @content;
+  }
+}
+@mixin media-minw($min-width) {
+  @media screen and #{min-width-f($min-width)} {
+    @content;
+  }
+}
+
+@function max-height-f($max-height) {
+  @return "(max-height: #{$max-height})";
+}
+@function min-height-f($min-height) {
+  @return "(min-height: #{$min-height})";
+}
+@mixin media-maxh($max-height) {
+  @media screen and #{max-height-f($max-height)} {
+    @content;
+  }
+}
+@mixin media-minh($min-height) {
+  @media screen and #{min-height-f($min-height)} {
+    @content;
+  }
+}
+@mixin media-minh-maxh($minh, $maxh) {
+  @media #{min-height-f($minh)} and #{max-height-f($maxh)} {
+    @content;
+  }
+}

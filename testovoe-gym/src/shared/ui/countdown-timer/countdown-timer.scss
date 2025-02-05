@@ -1,0 +1,59 @@
+@import "src/app/styles/fonts/PTRootUI/mixin";
+@import "src/app/styles/fonts/BebasNeue/mixin";
+
+$timer-padding: 0.9rem;
+
+.countdown-timer {
+  color: var(--accent);
+
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  &__time {
+    color: inherit;
+    position: relative;
+
+    padding: $timer-padding;
+  }
+  &__time-separator {
+    color: inherit;
+    opacity: 0.5;
+    margin-top: -1.3rem;
+
+    @include font-family-ptrootui;
+    font-weight: 700;
+    font-size: 3.5rem;
+  }
+
+  &--warn {
+    animation: blink-color 1s infinite ease-in-out;
+  }
+
+  h1,
+  h4 {
+    margin: 0;
+  }
+}
+
+.timer {
+  &__time {
+    @include font-family-bebas;
+    font-weight: 400;
+    color: inherit;
+    font-size: 6rem;
+    line-height: 1.03;
+  }
+  &__units {
+    color: var(--text2);
+
+    position: absolute;
+    bottom: -0.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include font-family-ptrootui;
+    font-weight: 700;
+    font-size: 1.6rem;
+  }
+}

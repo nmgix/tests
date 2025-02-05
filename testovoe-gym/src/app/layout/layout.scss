@@ -1,0 +1,18 @@
+@import "src/app/styles/breakpoints";
+
+.layout {
+  &__wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    flex: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1;
+  }
+}

@@ -1,0 +1,5 @@
+@import "src/app/styles/breakpoints";
+
+.page {
+  padding: 0 calc((100vw - $xl) / 2); //backup plan
+}

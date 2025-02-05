@@ -1,0 +1,25 @@
+@import "src/app/styles/breakpoints";
+@import "src/app/styles/media";
+
+@import "src/app/styles/fonts/Rubik/mixin";
+
+.button--primary {
+  background-color: var(--primary);
+  padding: 3.6rem 10rem;
+
+  border-radius: 4rem;
+
+  cursor: pointer;
+
+  @include font-family-rubik;
+  font-weight: 500;
+  font-size: 2rem;
+  color: var(--white);
+  line-height: 0.2;
+  text-transform: uppercase;
+
+  @include media-maxw($xs) {
+    line-height: 1;
+    word-wrap: break-word;
+  }
+}
