@@ -1,0 +1,80 @@
+@use "./colors.scss";
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html,
+* {
+  font-family: Inter, sans-serif;
+  transition: all 100ms ease-in-out;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+a {
+  color: colors.$color-accent;
+
+  &:hover {
+    color: colors.$color-third-opacity;
+  }
+
+  &:visited {
+    color: colors.$color-accent;
+  }
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  background-color: #fafafa;
+  border: 2px solid colors.$color-third-opacity;
+  padding: 9px;
+  border-radius: 0;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid rgba(colors.$color-accent, 0.5);
+  }
+
+  &:active {
+    border: 2px solid colors.$color-accent;
+    background-color: 2px solid colors.$color-third-opacity;
+  }
+
+  &:checked {
+    background-color: #e9ecee;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05),
+      inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+    color: #99a1a7;
+  }
+
+  &:checked:after {
+    content: "\2714";
+    font-size: 14px;
+    position: absolute;
+    top: -5px;
+    left: 3px;
+    color: #99a1a7;
+    font-size: 28px;
+    left: 4px;
+  }
+}
