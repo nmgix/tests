@@ -1,0 +1,176 @@
+@use "../index.scss";
+
+.card {
+  $cardParent: &;
+
+  padding: 0;
+  margin: 0;
+  border: none;
+
+  background: transparent;
+
+  .underline-dashed {
+    border-bottom: 0.1em index.$outline-blue dashed;
+  }
+
+  & > * {
+    font-family: inherit !important;
+  }
+
+  &-selected {
+    #{$cardParent} {
+      &-undercard {
+        a {
+          color: index.$outline-pink;
+        }
+      }
+      &-content {
+        &-wrapper {
+          background-color: index.$outline-pink;
+        }
+        &::after {
+          border: 4px solid index.$outline-pink;
+        }
+        &-mass {
+          background-color: index.$outline-pink;
+        }
+      }
+      .underline-dashed {
+        border-bottom: 0.1em index.$outline-pink dashed;
+      }
+    }
+  }
+
+  &:disabled {
+    #{$cardParent}-content-wrapper {
+      cursor: default;
+
+      filter: grayscale(100%);
+    }
+  }
+
+  &-content {
+    height: 100%;
+    position: relative;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    clip-path: polygon(
+      4px 45px,
+      45px 4px,
+      45px 4px,
+      calc(100% - 4px) 4px,
+      calc(100% - 4px) calc(100% - 4px),
+      4px calc(100% - 4px)
+    );
+
+    &::after {
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: "";
+      background-color: transparent;
+      border: 4px solid index.$outline-blue;
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
+      border-radius: 12px;
+    }
+
+    &-wrapper {
+      cursor: pointer;
+
+      border-radius: 12px;
+      height: 100%;
+      position: relative;
+      background-color: index.$outline-blue;
+      clip-path: polygon(0 43px, 0px 43px, 43px 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    &-description {
+      z-index: 2;
+      margin-top: 21px;
+      width: 225px;
+      & > * {
+        text-align: start;
+        margin: 0;
+      }
+
+      &-above {
+        // opacity: 70%;
+        color: #666666;
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      &-title {
+        font-size: 48px;
+      }
+      &-under {
+        font-size: 24px;
+      }
+
+      &-bonuses {
+        padding: 0;
+        margin: 0;
+        margin-top: 15px;
+
+        list-style-type: none;
+
+        &-bonus {
+          color: #666666;
+          margin: 0.3em;
+          font-size: 14px;
+        }
+      }
+    }
+
+    &-mass {
+      border-radius: 50%;
+      background-color: inherit;
+      background-color: index.$outline-blue;
+
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      top: calc(100% - 80px - 16px);
+      left: calc(100% - 80px - 16px);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      & > * {
+        margin: 0.1em 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+
+      h1 {
+        font-size: 42px;
+        font-weight: 500;
+        line-height: 22px;
+        margin-top: 0.4em;
+      }
+      span {
+        font-size: 21px;
+      }
+    }
+  }
+
+  &-undercard {
+    color: #fff;
+    // background-color: inherit;
+    // color: transparent;
+    // background-clip: text;
+    // filter: invert(1) grayscale(1);
+    a {
+      color: index.$outline-blue;
+      text-decoration: none;
+    }
+  }
+}
