@@ -1,0 +1,30 @@
+.asteroidCard {
+  display: block;
+
+  time {
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .asteroidInfo {
+    display: flex;
+    flex-direction: column;
+    margin-left: 11px;
+
+    justify-content: space-between;
+
+    button {
+      padding: 0;
+      text-align: start;
+    }
+
+    &Wrapper {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  & > button {
+    margin-top: 16px;
+  }
+}

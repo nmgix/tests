@@ -1,0 +1,35 @@
+{
+  "name": "nasanext",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "cypress open",
+    "styles": "concurrently \"npx typed-scss-modules components --watch\" \"npx typed-scss-modules styles --watch\""
+  },
+  "dependencies": {
+    "@ungap/structured-clone": "^1.0.1",
+    "next": "12.2.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-infinite-scroll-component": "^6.1.0",
+    "sass": "^1.54.4",
+    "vercel": "^28.1.1"
+  },
+  "devDependencies": {
+    "@types/mocha": "^9.1.1",
+    "@types/node": "18.7.6",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "@types/ungap__structured-clone": "^0.3.0",
+    "concurrently": "^7.3.0",
+    "cypress": "^10.6.0",
+    "cypress-localstorage-commands": "^2.2.0",
+    "eslint": "8.22.0",
+    "eslint-config-next": "12.2.5",
+    "typed-scss-modules": "^6.5.0",
+    "typescript": "4.7.4"
+  }
+}

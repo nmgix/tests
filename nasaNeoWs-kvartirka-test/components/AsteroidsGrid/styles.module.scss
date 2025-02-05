@@ -1,0 +1,34 @@
+@use "../../styles/breakpointsMixins.scss";
+
+.asteroidsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  justify-content: flex-start;
+
+  padding: 0;
+  margin: 0;
+  margin-bottom: 20px;
+
+  li {
+    width: calc(25% - 20px);
+    margin: 10px;
+
+    @include breakpointsMixins.midLaptop {
+      width: calc(33% - 20px);
+    }
+
+    @include breakpointsMixins.maxTablet {
+      width: calc(50% - 20px);
+    }
+
+    @include breakpointsMixins.midPhone {
+      width: 100%;
+      margin: 10px 0;
+    }
+  }
+}
+
+.noMoreAsteroids {
+  text-align: center;
+}

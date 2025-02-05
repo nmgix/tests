@@ -1,0 +1,70 @@
+@use "../colors.scss";
+
+input {
+  background-color: colors.$primary;
+  border: 2px solid black;
+  border-radius: 5px;
+  outline: none;
+  color: black;
+
+  &:hover {
+    border: 2px solid colors.$font;
+    background-color: darken(colors.$primary, 10%);
+    color: colors.$font;
+    font-weight: 700;
+  }
+
+  &:focus {
+    border: 2px solid colors.$font;
+    background-color: darken(colors.$primary, 10%);
+    outline: 0.05em solid colors.$font;
+    color: colors.$font;
+    font-weight: 700;
+  }
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+
+  min-width: calc(1.2em + 4px);
+  min-height: calc(1.2em + 4px);
+
+  z-index: 1;
+  display: grid;
+  place-content: center;
+
+  appearance: none;
+  background-color: colors.$primary;
+  margin: 0;
+  font: inherit;
+  color: colors.$font;
+  border: 2px solid colors.$font;
+
+  &::before {
+    content: "";
+    width: 1.2em;
+    height: 1.2em;
+    display: none;
+    transition: 0.05s transform ease-in-out;
+    box-shadow: inset 1em 1em colors.$font;
+    clip-path: polygon(40% 56%, 85% 3%, 100% 17%, 40% 88%, 4% 58%, 20% 40%);
+  }
+  &:checked::before {
+    display: block;
+    z-index: 1;
+  }
+
+  &:hover {
+    border: 2px solid colors.$font;
+
+    &::before {
+      transition: all 100ms ease-in-out;
+      box-shadow: inset 1em 1em colors.$font;
+    }
+  }
+
+  &:focus {
+    outline: 0.05em solid colors.$font;
+    outline-offset: max(0px, 0px);
+  }
+}

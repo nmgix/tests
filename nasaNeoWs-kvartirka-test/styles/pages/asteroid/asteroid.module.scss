@@ -1,0 +1,84 @@
+.asteroidData {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+
+  .characteristics {
+    &Wrapper {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+
+      margin-bottom: 25px;
+    }
+
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    li:not(:first-child) {
+      margin-top: 10px;
+    }
+    li:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+
+  .approaches {
+    height: 180px;
+    &Wrapper {
+      flex: 0 1 auto;
+    }
+
+    .tableData {
+      width: 100%;
+      position: relative;
+
+      border-collapse: separate;
+      border-spacing: 0 15px;
+
+      tr {
+        margin: 10px 0;
+      }
+
+      td {
+        font-size: 18px;
+      }
+
+      td:nth-child(1) {
+        min-width: 240px;
+      }
+      td:nth-child(2),
+      td:nth-child(3) {
+        min-width: 140px;
+      }
+
+      thead {
+        td {
+          font-weight: 700;
+          opacity: 0.3;
+        }
+      }
+
+      tbody {
+        td {
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+  .buttonWrapper {
+    display: flex;
+    justify-content: center;
+
+    height: 40px;
+
+    margin-top: 25px;
+
+    button {
+      letter-spacing: 1.5px;
+      padding: 10px 20px;
+    }
+  }
+}

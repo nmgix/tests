@@ -1,0 +1,28 @@
+@use "../../../styles/colors.scss";
+
+.button {
+  font-size: 16px;
+
+  &Default {
+    border: none;
+    background-color: colors.$secondary;
+    border-radius: 24px;
+    color: colors.$font-alter;
+    font-weight: 700;
+    padding: 7px 11px;
+  }
+
+  &AsLink {
+    background-color: transparent;
+    text-decoration: underline;
+  }
+
+  &.active {
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
