@@ -1,0 +1,25 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+.component-greeting {
+  width: 25% !important;
+
+  @include media-breakpoint-down(lg) {
+    & {
+      width: 40% !important;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    & {
+      width: 60% !important;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    & {
+      width: 80% !important;
+    }
+  }
+}

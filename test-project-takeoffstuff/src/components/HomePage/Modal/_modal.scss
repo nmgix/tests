@@ -1,0 +1,57 @@
+.userModal {
+  z-index: 1050;
+
+  & > *,
+  & > * > *,
+  & > * > * > *,
+  & > * > * > * > *,
+  & > * > * > * > * > * {
+    z-index: inherit;
+  }
+
+  svg {
+    z-index: 1049;
+  }
+
+  ul {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    li {
+      list-style-type: none;
+    }
+  }
+
+  .modal-dialog {
+    top: 20%;
+
+    .mainInfo {
+      ul {
+        flex-direction: column;
+      }
+
+      .editZone {
+        ul {
+          margin: 0;
+        }
+
+        .formEditParams {
+          display: flex;
+          justify-content: end;
+
+          & > *:not(:last-child) {
+            margin-right: 0.7rem;
+          }
+        }
+      }
+    }
+
+    .mutualFriends {
+      ul {
+        li:not(:last-child) {
+          margin-right: 0.7rem;
+        }
+      }
+    }
+  }
+}

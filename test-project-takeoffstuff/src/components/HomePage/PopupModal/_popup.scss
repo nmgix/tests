@@ -1,0 +1,43 @@
+.popup {
+  .modal-dialog {
+    top: 50%;
+    transform: translateY(-70%) !important;
+
+    .modal-content {
+      border: none;
+
+      .modal-body {
+        box-shadow: rgb(0 0 0 / 25%) 0px 0px 60px 100vw;
+      }
+
+      .searchForm {
+        & > *:not(:last-child) {
+          margin-right: 0.5rem;
+        }
+      }
+
+      .foundUsers {
+        padding: 0;
+        margin-top: 0.7rem;
+
+        li:not(:last-child) {
+          margin-bottom: 0.7rem;
+        }
+
+        li {
+          align-items: center;
+          & > *:not(button) {
+            max-width: 50%;
+            word-break: break-all;
+          }
+
+          button {
+            height: 2.4rem;
+            width: 40%;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}
