@@ -1,0 +1,72 @@
+@use "../../../index.scss";
+@use "../books";
+
+.book-shelf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &-error {
+    text-align: center;
+  }
+
+  &-shelves {
+    width: 100%;
+
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 350px);
+    grid-gap: 0.5rem;
+  }
+
+  &-book {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    text-decoration: none;
+    color: index.$font-default;
+    margin: 20px;
+
+    padding: 5%;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &-load-more {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.3em;
+    margin: 50px;
+    border: none;
+    background-color: darken($color: index.$background-default, $amount: 20%);
+    color: rgba(darken($color: index.$background-default, $amount: 80%), 0.8);
+    border: 2px solid rgba(darken($color: index.$background-default, $amount: 80%), 0.6);
+    border-radius: 5px;
+
+    &:hover {
+      color: index.$background-default;
+      background-color: index.$color-main;
+      border: 2px solid index.$background-default;
+      border-radius: 7px;
+    }
+
+    &:active {
+      color: index.$background-default;
+      background-color: darken(index.$color-main, 20%);
+      border: 2px solid index.$background-default;
+      border-radius: 7px;
+    }
+
+    padding: 10px 20px;
+  }
+
+  .loader {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,53 @@
+@use "../../../index.scss";
+@use "../books";
+
+.book-page {
+  display: flex;
+  flex-direction: column;
+
+  &-image {
+    flex: 0 0;
+    padding: 5vh 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: darken($color: index.$background-default, $amount: 15%);
+
+    img {
+      width: 20vh;
+    }
+  }
+
+  &-information {
+    flex: 1 1;
+
+    margin: 2% 5%;
+
+    &-header {
+      margin: 1em auto 2em;
+
+      &-category {
+        opacity: 0.8;
+      }
+
+      &-title {
+        margin: 0.7em 0;
+      }
+
+      &-author {
+        font-weight: 500;
+        text-decoration: underline;
+        opacity: 0.6;
+        margin: 0;
+      }
+    }
+
+    &-description {
+      padding: 2em;
+      border-radius: 10px;
+      border: 1px solid rgba(darken($color: index.$background-default, $amount: 85%), 0.2);
+    }
+  }
+}

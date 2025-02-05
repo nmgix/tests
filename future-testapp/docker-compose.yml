@@ -1,0 +1,12 @@
+version: "3"
+services:
+  client:
+    container_name: client
+    build:
+      context: .
+      args:
+        REACT_APP_GOOGLE_API: ${REACT_APP_GOOGLE_API}
+        REACT_APP_GOOGLE_BOOKS_URL: ${REACT_APP_GOOGLE_BOOKS_URL}
+        REACT_APP_MAX_RESULTS: ${REACT_APP_MAX_RESULTS}
+    ports:
+      - "80:80"
