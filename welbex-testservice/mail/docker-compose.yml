@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  reverse-proxy:
+    image: nginx:1.17.9
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8083:8083
+  app:
+    env_file: ./.env
+    image: mailingapp
+    restart: on-failure
+    environment:
+      - PORT=3000
+    deploy:
+      replicas: 4
+networks:
+  default:
+    name: service
+    external: true
