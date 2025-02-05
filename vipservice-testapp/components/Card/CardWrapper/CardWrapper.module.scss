@@ -1,0 +1,46 @@
+@use "../../../styles/utils/colors.module.scss";
+
+.cardWrapper {
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+
+  box-shadow: 0px 0px 14px rgba(112, 121, 153, 0.3);
+
+  &Content {
+    flex: 4;
+
+    border-right: 1px solid colors.$lightGray;
+
+    li {
+      position: relative;
+
+      .separator {
+        position: absolute;
+        top: 0;
+        left: 15px;
+
+        height: 1px;
+        width: calc(100% - 15px);
+        background: repeating-linear-gradient(
+          270deg,
+          colors.$primary,
+          colors.$primary 4px,
+          transparent 4px,
+          transparent 10px
+        );
+      }
+    }
+  }
+
+  &Price {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    color: colors.$fontDark;
+    font-weight: 700;
+  }
+}

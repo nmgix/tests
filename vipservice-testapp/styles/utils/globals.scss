@@ -1,0 +1,38 @@
+@use "./colors.module.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+  transition: all 100ms ease-in-out;
+
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+body {
+  width: 100vw;
+  min-height: 50vh;
+  padding: 0 10%;
+  overflow-x: hidden;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}

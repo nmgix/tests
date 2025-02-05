@@ -1,0 +1,30 @@
+@use "../../../styles/utils/colors.module.scss";
+
+.button {
+  background-color: colors.$gray;
+  color: colors.$background;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  line-height: 10px;
+
+  &:not([disabled]) {
+    background-color: colors.$primary;
+    cursor: pointer;
+
+    &:hover {
+      background-color: colors.$primaryShade;
+    }
+
+    &:active {
+      color: transparentize(colors.$background, 0.5);
+      box-shadow: 0px 4px 4px rgba(92, 135, 219, 0.15);
+    }
+  }
+}

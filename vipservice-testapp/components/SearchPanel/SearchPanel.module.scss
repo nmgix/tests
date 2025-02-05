@@ -1,0 +1,95 @@
+@use "../../styles/utils/colors.module.scss";
+
+.searchPanel {
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 0 auto;
+
+  box-shadow: 0px 0px 14px rgba(112, 121, 153, 0.3);
+
+  .destinationBlock {
+    background-color: colors.$primary;
+    display: flex;
+
+    .inputsWrapper {
+      display: flex;
+      align-items: center;
+
+      flex: 1;
+      justify-content: space-around;
+
+      &:not(:first-child) {
+        margin-right: calc(29px / 2);
+      }
+
+      &:not(:last-child) {
+        margin-left: calc(29px / 2);
+      }
+
+      .labelWrapper {
+        flex: 1;
+        display: flex;
+
+        label {
+          margin-left: calc(29px / 2);
+          margin-right: calc(29px / 2);
+        }
+
+        label {
+          width: 100%;
+          color: colors.$background;
+
+          input {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .inputsConnection {
+      position: relative;
+
+      label {
+        z-index: 2;
+      }
+
+      .line {
+        position: absolute;
+        width: 50%;
+        height: 1px;
+        z-index: 1;
+
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+
+        background: repeating-linear-gradient(
+          270deg,
+          #fff,
+          /* White, starting at pixel 0 */ #fff 4px,
+          /* White, continuing to pixel 1 */ transparent 4px,
+          /* Transparent beginning at pixel 1 */ transparent 10px /* Transparent ending at pixel 11 (10 + 1) */
+        );
+      }
+    }
+  }
+
+  .controlBlock {
+    background-color: colors.$background;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 29px;
+
+    button {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+  }
+
+  .destinationBlock,
+  .controlBlock {
+    height: 100px;
+    width: 100%;
+  }
+}
