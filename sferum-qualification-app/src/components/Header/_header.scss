@@ -1,0 +1,21 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 27px;
+
+  width: calc(100vw - 48px);
+  height: auto;
+
+  .title {
+    display: flex;
+
+    h3 {
+      margin-left: 13px;
+    }
+  }
+
+  .balance {
+    display: flex;
+    align-items: center;
+  }
+}

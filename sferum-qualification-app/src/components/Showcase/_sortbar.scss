@@ -1,0 +1,65 @@
+@use "../../index.scss";
+
+.sortbar {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 1;
+  align-items: center;
+  width: 100%;
+  // margin-right: 10%;
+
+  @media screen and (max-width: index.$mid-tablet-width) {
+    justify-content: space-between;
+  }
+
+  .categories {
+    position: relative;
+
+    ul {
+      border: 1px solid rgba(128, 128, 128, 0.5);
+      position: absolute;
+      border-radius: 5px;
+      box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.2);
+      padding: 0;
+      margin: 0;
+      background: #fff;
+      z-index: 2;
+
+      li {
+        cursor: pointer;
+        word-break: keep-all;
+        list-style-type: none;
+        padding: 10px 8px;
+      }
+    }
+  }
+
+  .input-wrapper {
+    margin-right: 50%;
+    margin-top: 5px;
+    width: 100%;
+    flex-grow: 2;
+
+    @media screen and (max-width: index.$mid-tablet-width) {
+      margin-right: 0%;
+    }
+
+    &-search {
+      position: relative;
+      margin-left: 19px;
+
+      input {
+        padding-left: 30px;
+        width: calc(100% - 10px - 30px);
+      }
+      img {
+        position: absolute;
+        left: 5px;
+        top: 50%;
+        transform: translate(15%, -53%);
+        opacity: 0.6;
+        cursor: pointer;
+      }
+    }
+  }
+}

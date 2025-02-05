@@ -1,0 +1,99 @@
+@use "../../index.scss";
+
+.showcase {
+  margin-right: 2%;
+  display: flex;
+  width: 70%;
+  flex-direction: column;
+  height: auto;
+
+  @media screen and (max-width: index.$sm-tablet-width) {
+    width: calc(100% - 2%);
+    margin-right: 0%;
+  }
+
+  .book {
+    width: 47.5%;
+    height: 200px;
+    display: flex;
+    margin: 23px 10px;
+
+    @media screen and (max-width: index.$laptop-width) {
+      width: 100%;
+    }
+
+    img {
+      object-fit: cover;
+      width: 35%;
+      flex: 0 1;
+      // max-height: 35%;
+    }
+
+    &-info {
+      flex: 1 1;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      @media screen and (max-width: index.$mobile-witdh) {
+        text-align: center;
+      }
+    }
+
+    &-priceinfo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      @media screen and (max-width: index.$mobile-witdh) {
+        flex-direction: column;
+
+        & > *:not(:last-child) {
+          margin-bottom: 7px;
+        }
+      }
+
+      & > * {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      span {
+        height: 25px;
+        display: flex;
+        align-items: center;
+
+        & > * {
+          margin-right: 5px;
+        }
+      }
+    }
+
+    &-list {
+      margin: 20px 5px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      flex: 1 1;
+      overflow-y: scroll;
+      overflow-x: hidden;
+
+      @media screen and (max-width: index.$sm-tablet-width) {
+        margin-bottom: 41px;
+      }
+
+      .helper-text {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
