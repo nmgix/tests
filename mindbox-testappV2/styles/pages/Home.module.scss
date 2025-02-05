@@ -1,0 +1,67 @@
+@use "../colors.scss";
+@use "../_breakpointMixins.scss";
+
+.container {
+  width: calc(50% - 8em);
+  margin: 3em auto;
+  padding: 2em 4em;
+
+  @include breakpointMixins.maxLaptop {
+    width: calc(80% - 8em);
+  }
+
+  @include breakpointMixins.maxPhone {
+    padding: 1em;
+    width: calc(100% - 2em);
+  }
+
+  border-radius: 10px;
+  border: 2px solid colors.$secondary;
+
+  .header {
+    font-weight: bolder;
+    text-align: center;
+    margin: 0;
+  }
+
+  .status {
+    margin: 0.75em 0;
+    margin-bottom: calc(2em - 10px);
+    ul {
+      margin: 0.3em 0;
+      text-align: center;
+
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      list-style-type: none;
+    }
+  }
+
+  .active {
+    background-color: colors.$primary;
+    border: 2px solid colors.$secondary;
+    color: colors.$secondary;
+    font-weight: 700;
+    border-radius: 0.3em;
+
+    &:hover {
+      background-color: darken(colors.$primary, 10%);
+    }
+  }
+
+  .menuButton,
+  .addTodo {
+    margin: 0 auto;
+    margin-top: calc(2em - 10px);
+
+    display: flex;
+    align-items: center;
+
+    b {
+      font-size: 1.7em;
+      margin-right: 0.3em;
+    }
+  }
+}

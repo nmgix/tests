@@ -1,0 +1,23 @@
+@use "../../../styles/colors.scss";
+
+.notification {
+  word-break: break-word;
+  padding: 1em 2em;
+  border-radius: 0.7em;
+  font-weight: 700;
+  color: white;
+  list-style-type: none;
+  transition: all 1s ease-in-out;
+}
+
+.warning {
+  background-color: colors.$warning;
+}
+
+.informative {
+  background-color: colors.$notification;
+}
+
+.success {
+  background-color: colors.$success;
+}
