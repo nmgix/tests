@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+    nodejs:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: test-service
+        restart: unless-stopped
+        ports:
+            - "${PORT}:${PORT}"
+        env_file:
+            - .env
+            - db.prod.env
+        depends_on:
+            - postgres
+        networks:
+            - backend
+
+    postgres:
+        image: postgres:15
+        container_name: service_pg
+        restart: always
+        ports:
+            - "5432:5432"
+        env_file:
+            - db.prod.env
+        volumes:
+            - pg_data:/var/lib/postgresql/data
+        networks:
+            - backend
+
+    pgadmin:
+        image: dpage/pgadmin4:latest
+        container_name: service_pgadmin
+        restart: always
+        ports:
+            - "5050:80"
+        env_file:
+            - db.prod.env
+        depends_on:
+            - postgres
+        networks:
+            - backend
+
+volumes:
+    pg_data:
+
+networks:
+    backend:

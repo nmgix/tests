@@ -1,0 +1,23 @@
+# compiled output
+/dist
+/node_modules
+
+coverage
+/coverage
+
+.env
+.env.*
+*.env.*
+*.env
+
+#google
+credentials.json 
+
+logs
+*.log
+npm-debug.log*
+
+.DS_Store
+
+
+!.vscode/settings.json
