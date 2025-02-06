@@ -1,0 +1,8 @@
+{
+  "short_name": "DND калькулятор",
+  "name": "React Drag-N-Drop калькулятор",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
