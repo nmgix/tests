@@ -1,0 +1,28 @@
+@import "styles/breakpoints.scss";
+
+.app {
+  max-width: 1140px;
+  min-height: 980px;
+  padding: 0 50px;
+
+  flex-grow: 1;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    z-index: 1;
+    flex: 0;
+  }
+
+  @media screen and (max-width: $breakpoint-max-tablet) {
+    padding: 0;
+  }
+
+  .mainSection {
+    @media screen and (max-width: $breakpoint-max-tablet) {
+      padding-top: 53px;
+    }
+  }
+}

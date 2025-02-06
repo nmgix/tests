@@ -1,0 +1,8 @@
+/node_modules
+/build
+
+*.env*
+package-lock.json
+.git
+.vscode
+*.scss.d.ts

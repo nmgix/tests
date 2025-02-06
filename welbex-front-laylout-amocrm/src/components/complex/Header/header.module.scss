@@ -1,0 +1,136 @@
+@import "styles/breakpoints.scss";
+@import "styles/colors.scss";
+
+.wrapper {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+
+  padding-top: 58px;
+
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: $breakpoint-max-tablet) {
+    background-color: $black;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    width: calc(100% - 16px - 16px);
+    padding: 16px 16px 18px;
+
+    z-index: 3 !important;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    width: 140px;
+    position: relative;
+
+    :global(.icon) {
+      height: 24px;
+    }
+
+    &::after {
+      position: absolute;
+      top: calc(100% + 10px);
+
+      content: "крупный интегратор CRM в Росcии и ещё 8 странах";
+      font-family: "Montserrat", Arial, sans-serif;
+      word-wrap: break-word;
+      font-weight: 100;
+      font-size: 10.1px;
+      line-height: 12px;
+      margin-bottom: 4px;
+      color: white;
+    }
+  }
+
+  .navMenu {
+    margin-left: 52px;
+    display: flex;
+    column-gap: 30.7px;
+
+    :global(.link) {
+      span {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-max-tablet) {
+      column-gap: 0;
+      justify-content: space-between;
+      width: 100%;
+      margin: 0;
+      text-transform: uppercase;
+
+      :global(.link) {
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+
+    @media screen and (max-width: $breakpoint-min-phone) {
+      :global(.link) {
+        span {
+          font-size: 12px;
+        }
+
+        // &:first-child {
+        //   margin-left: -2px;
+        //   margin-right: 2px;
+        // }
+      }
+    }
+  }
+
+  .links {
+    display: flex;
+    row-gap: 5px;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    &Nested {
+      margin-left: 47px;
+      display: flex;
+      column-gap: 30px;
+
+      margin-right: -2px;
+      :global(.icon) {
+        width: 20px;
+      }
+    }
+  }
+}
+
+.pc {
+  @media screen and (min-width: $breakpoint-max-tablet) {
+    display: flex;
+  }
+  @media screen and (max-width: $breakpoint-max-tablet) {
+    display: none;
+  }
+}
+
+.mobile {
+  @media screen and (min-width: $breakpoint-max-tablet) {
+    display: none;
+  }
+  @media screen and (max-width: $breakpoint-max-tablet) {
+    display: flex;
+  }
+}
