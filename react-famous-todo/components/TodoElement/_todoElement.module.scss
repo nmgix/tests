@@ -1,0 +1,94 @@
+.todoElement {
+  position: relative;
+  display: flex;
+
+  font-size: 24px;
+  border-bottom: 1px solid rgb(var(--color-border));
+
+  word-break: break-all;
+  padding: 15px 15px 15px 60px;
+  line-height: 1.2;
+  transition: all 0.4s ease-in-out;
+
+  .changeCompletion {
+    position: absolute;
+    display: none;
+
+    &:checked + .changeCompletionLabel {
+      background-image: url("/icons/circle-checked.svg");
+    }
+
+    &Label {
+      position: absolute;
+
+      width: 40px;
+      height: 40px;
+
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      background-image: url("/icons/circle.svg");
+    }
+  }
+
+  .todoTitle {
+    flex: 1;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .changeCompletion:checked ~ .todoTitle {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .editTitle {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    margin: 0;
+    width: calc(100% - 60px);
+    height: 100%;
+    font-size: 24px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1.4em;
+    border: 0;
+    color: inherit;
+    padding: 6px;
+    border: 1px solid #999;
+    box-shadow: inset 0 -1px 5px 0 rgb(0 0 0 / 20%);
+  }
+
+  &:hover {
+    .destroy {
+      display: block;
+    }
+  }
+  .destroy {
+    border: none;
+    background: none;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    margin: auto 0;
+    font-size: 30px;
+    color: #cc9a9a;
+    margin-bottom: 11px;
+    transition: color 0.2s ease-out;
+
+    &:hover {
+      text-decoration: none;
+      color: rgb(var(--color-buttons-active));
+    }
+
+    &::after {
+      content: "×";
+    }
+  }
+}

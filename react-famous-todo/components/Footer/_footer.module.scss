@@ -1,0 +1,11 @@
+.footer {
+  margin: 65px auto 0;
+  color: rgb(var(--color-gray));
+  font-size: 10px;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 50%);
+  text-align: center;
+
+  p {
+    line-height: 1;
+  }
+}
