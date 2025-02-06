@@ -1,4 +1,4 @@
-![header](./.git.content/header.png)
+<img src="./.git.content/header.png"/>
 
 # Тестовые задания (сборка)
 
