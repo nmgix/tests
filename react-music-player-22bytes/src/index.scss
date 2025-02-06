@@ -1,0 +1,64 @@
+$width-monitor: 1920px;
+$width-laptop: 1280px;
+$width-laptop-s: 920px;
+$width-tablet: 768px;
+$width-smartphone: 480px;
+
+body,
+html,
+* {
+  font-family: "Helvetica";
+  transition: all 100ms ease-in-out;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  @media screen and (max-width: $width-laptop) {
+    overflow-y: visible !important;
+  }
+}
+
+#root {
+  width: 100%;
+  position: relative;
+  min-height: 100vh;
+  background-color: #6066d3; //в дальнейшем будем перелив цветов
+
+  @media screen and (max-width: $width-laptop) {
+    overflow-y: auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.icon {
+  cursor: pointer;
+  &:hover {
+    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.3));
+  }
+}
+
+.icon.shuffle-icon {
+  opacity: 0.3;
+  &:active {
+    opacity: 1;
+    fill: white !important;
+  }
+  &:active path {
+    opacity: 1;
+    fill: white !important;
+  }
+}

@@ -1,0 +1,10 @@
+.song {
+  &-controller {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin: 0 0 20px;
+  }
+}

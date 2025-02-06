@@ -1,0 +1,49 @@
+@use "../../index.scss";
+
+.song {
+  &-playlist {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translate(0%, -50%);
+    width: 25vw;
+    padding: 20px;
+
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+
+    flex-direction: column;
+
+    @media screen and (max-width: index.$width-laptop) {
+      // position: relative;
+      position: relative;
+      // position: absolute;
+      width: 35%;
+      border-radius: 0px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      margin-bottom: 20px;
+
+      // transform: none;
+      top: 0;
+      left: 0;
+      transform: none;
+      margin-bottom: 0;
+      // top: 35%;
+    }
+
+    @media screen and (max-width: index.$width-laptop-s) {
+      width: 50%;
+    }
+
+    @media screen and (max-width: index.$width-tablet) {
+      width: 70%;
+    }
+
+    @media screen and (max-width: index.$width-smartphone) {
+      width: calc(100% - 40px - 40px);
+    }
+  }
+}
