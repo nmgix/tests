@@ -1,9 +1,10 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Seminar } from "../../shared/seminar";
 import "./card.scss";
 
 export type CardProps = {
   seminar: Seminar;
+  _imageTimeout?: number;
 };
 
 const Image = React.lazy(() => import("./components/image").then(module => ({ default: module.Image })));
@@ -11,9 +12,7 @@ const Image = React.lazy(() => import("./components/image").then(module => ({ de
 export const Card = ({ seminar }: CardProps) => {
   return (
     <article className='card'>
-      <Suspense fallback={<div>img load UwU</div>}>
-        <Image externalClassnames='card-image' src={seminar.photo} alt={`${seminar.title}. изображение.`} />
-      </Suspense>
+      <Image externalClassnames='card-image' src={seminar.photo} alt={`${seminar.title}. изображение.`} fallback={<div>img load UwU</div>} />
       <div className='card-header'>
         <h3 className='card-header-title'>{seminar.title}</h3>
         <div className='card-header-subtitle'>
