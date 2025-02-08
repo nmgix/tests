@@ -1,0 +1,39 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5em;
+  border-radius: 1em;
+
+  padding: 0.5em;
+
+  &-image {
+    object-fit: cover;
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  &-header {
+    display: block;
+    flex-wrap: nowrap;
+
+    &-title {
+      font-size: 1.7em;
+    }
+
+    &-subtitle {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      &-date {
+        font-size: 1em;
+      }
+    }
+  }
+
+  &-description {
+    max-height: 2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

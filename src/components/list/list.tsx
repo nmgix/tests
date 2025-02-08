@@ -1,3 +1,5 @@
+import "./list.scss";
+
 export type ListProps = {};
 
 export const List = ({}: ListProps) => {
