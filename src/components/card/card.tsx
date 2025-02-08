@@ -12,7 +12,13 @@ const Image = React.lazy(() => import("./components/image").then(module => ({ de
 export const Card = ({ seminar }: CardProps) => {
   return (
     <article className='card'>
-      <Image externalClassnames='card-image' src={seminar.photo} alt={`${seminar.title}. изображение.`} fallback={<div>img load UwU</div>} />
+      <Image
+        externalClassnames='card-image'
+        height={150}
+        src={seminar.photo}
+        alt={`${seminar.title}. изображение.`}
+        fallback={<div>img load UwU</div>}
+      />
       <div className='card-header'>
         <h3 className='card-header-title'>{seminar.title}</h3>
         <div className='card-header-subtitle'>

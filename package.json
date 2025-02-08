@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "@storybook/addon-essentials": "^8.5.3",
+    "prop-types": "^15.8.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-lazyload": "^3.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
@@ -25,6 +27,7 @@
     "@storybook/test": "^8.5.3",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/react-lazyload": "^3.2.3",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",
