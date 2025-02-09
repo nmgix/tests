@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LazyLoad from "react-lazyload";
 
 type ImageProps = {

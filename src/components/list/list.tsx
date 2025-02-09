@@ -35,9 +35,9 @@ export const List = ({ items, ListItemComponent, LoadingListItemComponent, prelo
       {itemsLoaded &&
         _items !== undefined &&
         itemsLengthOverZero &&
-        _items.map((s, i) => (
+        _items.map(s => (
           <ListItemComponent
-            key={`${s.seminar?.id}${i}`}
+            key={s.seminar?.id}
             onDelete={dId => {
               setItems(prev => prev?.filter(s => s.seminar?.id !== dId));
               if (s.onDelete) s.onDelete(dId);

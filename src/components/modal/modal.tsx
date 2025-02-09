@@ -9,10 +9,9 @@ interface IModal {
   ariaLabel: string;
   externalClassnames?: string | string[];
   hideCloseBtn?: true;
-  outsideToClose?: true;
 }
 
-export const Modal: React.FC<IModal> = ({ children, show, onClose, externalClassnames, ariaLabel, hideCloseBtn, outsideToClose }) => {
+export const Modal: React.FC<IModal> = ({ children, show, onClose, externalClassnames, ariaLabel, hideCloseBtn }) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
