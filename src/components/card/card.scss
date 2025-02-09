@@ -40,4 +40,29 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  &-controls {
+    display: flex;
+    column-gap: 1em;
+    float: left;
+    flex-wrap: wrap;
+
+    button {
+      border-radius: 0.5em;
+      border: none;
+      padding: 0.7em;
+      font-family: inherit;
+      font: 1.3em;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &:active {
+        opacity: 0.6;
+      }
+    }
+  }
 }

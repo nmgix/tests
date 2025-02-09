@@ -1,1 +1,1 @@
-export { ImageSuspense as Image } from "./image";
+export { Image } from "./image";

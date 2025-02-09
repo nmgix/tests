@@ -5,11 +5,12 @@ type ImageProps = {
   src: string;
   height: number;
   alt: string;
-  externalClassnames: string;
+  fallback: React.ReactElement;
+  externalClassnames?: string;
   _imageTimeout?: number;
 };
 
-const Image = ({ src, alt, externalClassnames, height, _imageTimeout }: ImageProps) => {
+export const Image = ({ src, alt, externalClassnames, height, fallback, _imageTimeout }: ImageProps) => {
   const [fakeLoading, setFakeLoading] = useState(_imageTimeout !== undefined);
   useEffect(() => {
     if (_imageTimeout !== undefined) {
@@ -18,15 +19,19 @@ const Image = ({ src, alt, externalClassnames, height, _imageTimeout }: ImagePro
   }, []);
 
   return (
-    <LazyLoad height={height} once unmountIfInvisible preventLoading={fakeLoading} className={externalClassnames} style={{ height }}>
+    <LazyLoad
+      throttle
+      height={height}
+      // once
+      unmountIfInvisible
+      preventLoading={fakeLoading}
+      className={externalClassnames}
+      style={{ height }}
+      placeholder={fallback}>
       {/* // https://stackoverflow.com/a/76253300/14889638 */}
       <img loading='lazy' src={src} alt={alt} />
     </LazyLoad>
   );
 };
 
-export const ImageSuspense = (props: ImageProps & { fallback: React.ReactElement }) => (
-  <Suspense fallback={props.fallback}>
-    <Image {...props} />
-  </Suspense>
-);
+Image.displayName = "Image";
