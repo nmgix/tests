@@ -23,6 +23,7 @@ export const Default: Story = {
         "https://images.unsplash.com/photo-1736636990289-d891ac0decc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUzNDV8&ixlib=rb-4.0.3&q=80&w=1080"
     },
     onDelete: (id: number) => console.log(id),
+    onEdit: s => console.log(s),
     loading: false,
     _imageTimeout: 3000 // не работает
   }

@@ -3,6 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import { Seminar } from "../../shared/seminar";
 import "./card.scss";
 import { Modal } from "../modal";
+import { toast } from "react-toastify";
 
 export type CardProps = {
   loading?: boolean;
@@ -22,11 +23,28 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
   const [modalOpen, setModalOpen] = useState(false);
   const onModelSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const object: Partial<Seminar> = {};
-    // @ts-ignore
-    Object.keys(seminar!).forEach(k => (object[k] = e.currentTarget.elements[k].value));
-    console.log(object);
-    if (onEdit) onEdit(object);
+    const updateObject: Partial<Seminar> = {};
+    Object.keys(seminar!).forEach(k => {
+      // @ts-ignore
+      let currentValue = e.currentTarget.elements[k].value;
+      // проверка ни о чём, честно говоря
+      if (String(currentValue) !== String(seminar![k as keyof Seminar])) {
+        // console.log({ v: currentValue, sV: seminar![k as keyof Seminar] });
+        updateObject[k as keyof Seminar] = currentValue;
+      }
+    });
+    if (onEdit) {
+      if (Object.keys(updateObject).length > 0) {
+        onEdit(updateObject);
+        toast("Семинар изменён", { type: "success" });
+      } else {
+        toast("Данные не изменены", { type: "warning" });
+      }
+    } else {
+      // если onEdit нет, но кнопка изменить почему-то появилась из-за невнимательности при render conditioning
+      toast("Данные не могут быть изменены", { type: "error" });
+    }
+    setModalOpen(false);
   };
 
   const deleteCard = useCallback(seminar && onDelete ? () => onDelete(seminar.id) : () => null, [seminar, onDelete]);
@@ -69,14 +87,16 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
       </div>
       {modalOpen && (
         <Modal ariaLabel={`card edit, id: ${seminar!.id}`} onClose={() => setModalOpen(false)} show={modalOpen} externalClassnames={"card-modal"}>
-          <h3>Редактирование семинара &#171;{seminar!.title}&#187;</h3>
-          <form onSubmit={onModelSubmit}>
-            {Object.keys(seminar!).map(k => (
-              <div id={k}>
-                <label htmlFor={k}>{k}</label>
-                <input id={k} name={k} placeholder={k} defaultValue={seminar![k as keyof Seminar]} />
-              </div>
-            ))}
+          <h3 className='header'>Редактирование семинара &#171;{seminar!.title}&#187;</h3>
+          <form className='edit-form' onSubmit={onModelSubmit}>
+            <div className='inputs'>
+              {Object.keys(seminar!).map(k => (
+                <div className='input-wrapper' key={k}>
+                  <label htmlFor={k}>{k}</label>
+                  <input id={k} name={k} placeholder={k} defaultValue={seminar![k as keyof Seminar]} />
+                </div>
+              ))}
+            </div>
             <button className='card-button' id='edit' type='submit'>
               Изменить семинар
             </button>

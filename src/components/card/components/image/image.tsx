@@ -23,6 +23,7 @@ export const Image = ({ src, alt, externalClassnames, height, fallback, _imageTi
       throttle
       height={height}
       // once
+      debounce={100}
       unmountIfInvisible
       preventLoading={fakeLoading}
       className={externalClassnames}

@@ -29,7 +29,8 @@ export const Default: Story = {
       .fill(null)
       .map((_, i) => ({
         seminar: { ...mockSeminar, id: mockSeminar.id + i },
-        onDelete: id => console.log(id)
+        onDelete: id => console.log(id),
+        onEdit: id => console.log(id)
       })),
     ListItemComponent: Card,
     LoadingListItemComponent: Card,
