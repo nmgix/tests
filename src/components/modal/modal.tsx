@@ -28,7 +28,7 @@ export const Modal: React.FC<IModal> = ({ children, show, onClose, externalClass
       onCancel={onClose}
       onClose={onClose}
       className={`modal ${externalClassnames ?? ""}`}>
-      <div onClick={e => e.stopPropagation()}>
+      <div className='modal-wrapper' onClick={e => e.stopPropagation()}>
         {!hideCloseBtn && (
           <button onClick={() => modalRef.current?.close()} className='modal__close'>
             X

@@ -52,6 +52,11 @@
   }
 }
 
+.card-delete-modal {
+  border: 1px solid red !important;
+  border-radius: 0.7em;
+}
+
 .card-modal {
   border-radius: 1em;
 
@@ -76,51 +81,31 @@
     z-index: 1;
   }
 
-  .edit-form {
+  .modal-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
-    .inputs {
+    .edit-form {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      row-gap: 0.7em;
+      justify-content: space-between;
 
-      .input-wrapper {
+      .inputs {
         display: flex;
         flex-direction: column;
+        row-gap: 0.7em;
+
+        .input-wrapper {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      button[type="submit"] {
+        margin-top: 10px;
       }
     }
-
-    button[type="submit"] {
-      margin-top: 10px;
-    }
-  }
-}
-
-.card-button {
-  border-radius: 0.5em;
-  border: none;
-  padding: 0.7em;
-  font-family: inherit;
-  font-size: 1em;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  &:active {
-    opacity: 0.6;
-  }
-
-  &#delete {
-    background-color: red;
-  }
-
-  &#edit {
-    background-color: yellow;
   }
 }

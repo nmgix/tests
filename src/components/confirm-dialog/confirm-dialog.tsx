@@ -11,19 +11,18 @@ export const ConfirmDialog = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onReject: () => void;
-  onConfirm: () => void;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onConfirm?: () => void;
+  onReject?: () => void;
   externalClassnames?: string | string[];
 }) => {
   return (
     <Modal ariaLabel='confirm dialog' onClose={onClose} show={isOpen} externalClassnames={classnames("confirm-dialog", externalClassnames)}>
-      {" "}
-      <div className=''>
-        <p className=''>Вы точно хотите это сделать?</p>
-        <div className=''>
+      <>
+        <p className='confirm-dialog-prompt-text'>Вы точно хотите это сделать?</p>
+        <div className='confirm-dialog-btn-wrapper'>
           <button
-            className=''
+            className='default-button'
             onClick={() => {
               if (onReject) onReject();
               onClose();
@@ -31,7 +30,7 @@ export const ConfirmDialog = ({
             Отмена
           </button>
           <button
-            className=''
+            className='default-button'
             onClick={() => {
               if (onConfirm) onConfirm();
               onClose();
@@ -39,7 +38,7 @@ export const ConfirmDialog = ({
             Подтвердить
           </button>
         </div>
-      </div>
+      </>
     </Modal>
   );
 };

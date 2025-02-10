@@ -7,16 +7,20 @@
   transform: translate(-50%, -50%);
   border: none;
   max-width: 80vw;
-  padding: 24px;
 
-  & > * {
-    position: relative;
-    z-index: 2;
-    box-sizing: border-box;
-  }
+  padding: 0;
 
-  @media screen and (max-width: breakpoints.$xs) {
-    padding: 12px;
+  .modal-wrapper {
+    padding: 24px;
+    @media screen and (max-width: breakpoints.$xs) {
+      padding: 12px;
+    }
+
+    & > * {
+      position: relative;
+      z-index: 2;
+      box-sizing: border-box;
+    }
   }
 
   &::backdrop {

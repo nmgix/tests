@@ -4,6 +4,7 @@ import { Seminar } from "../../shared/seminar";
 import "./card.scss";
 import { Modal } from "../modal";
 import { toast } from "react-toastify";
+import { ConfirmDialog } from "../confirm-dialog/confirm-dialog";
 
 export type CardProps = {
   loading?: boolean;
@@ -20,7 +21,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
   const seminarData = seminar !== undefined;
   const componentLoaded = !loading && seminarData;
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const onModelSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!seminar) return toast("Семинар е найден", { type: "error" });
@@ -45,8 +46,9 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
       // если onEdit нет, но кнопка изменить почему-то появилась из-за невнимательности при render conditioning
       toast("Данные не могут быть изменены", { type: "error" });
     }
-    setModalOpen(false);
+    setEditModalOpen(false);
   };
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const deleteCard = useCallback(seminar && onDelete ? () => onDelete(seminar.id) : () => null, [seminar, onDelete]);
   return (
@@ -76,18 +78,22 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
       <p className='card-description'>{componentLoaded ? seminar.description : <Skeleton count={2} />}</p>
       <div className='card-controls'>
         {seminarData && deleteCard !== null && (
-          <button id='delete' className='card-button' onClick={deleteCard}>
+          <button id='delete' className='default-button' onClick={() => setDeleteModalOpen(true)}>
             Удалить семинар
           </button>
         )}
         {seminarData && onEdit !== null && (
-          <button id='edit' className='card-button' onClick={() => setModalOpen(true)}>
+          <button id='edit' className='default-button' onClick={() => setEditModalOpen(true)}>
             Редактировать семинар
           </button>
         )}
       </div>
-      {modalOpen && (
-        <Modal ariaLabel={`card edit, id: ${seminar!.id}`} onClose={() => setModalOpen(false)} show={modalOpen} externalClassnames={"card-modal"}>
+      {editModalOpen && (
+        <Modal
+          ariaLabel={`card edit, id: ${seminar!.id}`}
+          onClose={() => setEditModalOpen(false)}
+          show={editModalOpen}
+          externalClassnames={"card-modal"}>
           <h3 className='header'>Редактирование семинара &#171;{seminar!.title}&#187;</h3>
           <form className='edit-form' onSubmit={onModelSubmit}>
             <div className='inputs'>
@@ -98,11 +104,20 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
                 </div>
               ))}
             </div>
-            <button className='card-button' id='edit' type='submit'>
+            <button className='default-button' id='edit' type='submit'>
               Изменить семинар
             </button>
           </form>
         </Modal>
+      )}
+      {deleteModalOpen && (
+        <ConfirmDialog
+          externalClassnames={"card-delete-modal"}
+          isOpen={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onConfirm={deleteCard}
+          setOpen={setDeleteModalOpen}
+        />
       )}
     </article>
   );
