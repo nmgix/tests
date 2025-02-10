@@ -2,6 +2,8 @@ import { Children, JSX, useEffect, useRef, useState } from "react";
 import { CardProps } from "../card";
 import "./list.scss";
 import { toast } from "react-toastify";
+import { axiosInstance } from "@/shared/axios";
+import { Api } from "@/shared/api";
 
 export type ListProps<ChildProps = CardProps> = {
   items: ChildProps[] | undefined;
@@ -39,28 +41,31 @@ export const List = ({ items, ListItemComponent, LoadingListItemComponent, prelo
 
   const itemsLengthOverZero = _items ? _items.length > 0 : false;
 
+  const onDelete = async (deleteId: number, card: CardProps) => {
+    setItems(prev => prev?.filter(s => s.seminar?.id !== deleteId));
+    if (card.onDelete) card.onDelete(deleteId);
+    toast(`Семинар #${card.seminar!.id} удален`, { type: "info" });
+    const resetTimeout = setTimeout(() => {
+      toast(`Семинар #${card.seminar!.id} не удален`, { type: "error" });
+      setItems(prev => (prev ? [...prev, card] : [card]));
+    }, 3000);
+    // тут промис на удаление и если не удалится за 3000мс то таймаут resetTimeout сработает
+    await axiosInstance.delete(`${Api.Seminars}/${card.seminar?.id}`).then(() => clearTimeout(resetTimeout));
+  };
+
   return (
     <div className='list'>
       {/* (элементы загрузились) && (элементы !== undefined) && (длина массива > 0) */}
       {itemsLoaded &&
         _items !== undefined &&
         itemsLengthOverZero &&
-        _items.map(s => (
+        _items.map(card => (
           // всё равно перемешал :/
           <ListItemComponent
-            key={s.seminar?.id}
-            onDelete={dId => {
-              setItems(prev => prev?.filter(s => s.seminar?.id !== dId));
-              if (s.onDelete) s.onDelete(dId);
-              toast(`Семинар #${s.seminar!.id} удален`, { type: "info" });
-              const resetTimeout = setTimeout(() => {
-                toast(`Семинар #${s.seminar!.id} не удален`, { type: "error" });
-                setItems(prev => (prev ? [...prev, s] : [s]));
-              }, 3000);
-              // тут промис на удаление и если не удалится за 3000мс то таймаут resetTimeout сработает
-            }}
-            onEdit={s.onEdit}
-            seminar={s.seminar}
+            key={card.seminar?.id}
+            onDelete={dId => onDelete(dId, card)}
+            onEdit={card.onEdit}
+            seminar={card.seminar}
             loading={false}
           />
         ))}

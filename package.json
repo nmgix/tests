@@ -4,16 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "cross-env VITE_BASE_API_URL='//localhost:3000' vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server --watch seminars.json",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "cross-env VITE_BASE_API_URL='//localhost:3000' storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
     "@storybook/addon-essentials": "^8.5.3",
+    "axios": "^1.7.9",
+    "classnames": "^2.5.1",
+    "cross-env": "^7.0.3",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

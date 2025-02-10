@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 export type CardProps = {
   loading?: boolean;
   onDelete?: (id: number) => void;
-  onEdit?: (seminar: Partial<Seminar>) => void;
+  onEdit?: (seminar: Partial<Seminar>, prevSeminar: Seminar) => void;
   seminar?: Seminar;
   _imageTimeout?: number;
 };
@@ -23,6 +23,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
   const [modalOpen, setModalOpen] = useState(false);
   const onModelSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!seminar) return toast("Семинар е найден", { type: "error" });
     const updateObject: Partial<Seminar> = {};
     Object.keys(seminar!).forEach(k => {
       // @ts-ignore
@@ -35,7 +36,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
     });
     if (onEdit) {
       if (Object.keys(updateObject).length > 0) {
-        onEdit(updateObject);
+        onEdit(updateObject, seminar!);
         toast("Семинар изменён", { type: "success" });
       } else {
         toast("Данные не изменены", { type: "warning" });

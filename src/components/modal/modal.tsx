@@ -20,13 +20,22 @@ export const Modal: React.FC<IModal> = ({ children, show, onClose, externalClass
   }, [show]);
 
   return createPortal(
-    <dialog tabIndex={-1} aria-label={ariaLabel} ref={modalRef} onCancel={onClose} onClose={onClose} className={`modal ${externalClassnames ?? ""}`}>
-      {!hideCloseBtn && (
-        <button onClick={() => modalRef.current?.close()} className='modal__close'>
-          X
-        </button>
-      )}
-      {children}
+    <dialog
+      onClick={onClose}
+      tabIndex={-1}
+      aria-label={ariaLabel}
+      ref={modalRef}
+      onCancel={onClose}
+      onClose={onClose}
+      className={`modal ${externalClassnames ?? ""}`}>
+      <div onClick={e => e.stopPropagation()}>
+        {!hideCloseBtn && (
+          <button onClick={() => modalRef.current?.close()} className='modal__close'>
+            X
+          </button>
+        )}
+        {children}
+      </div>
     </dialog>,
     document.body
   );

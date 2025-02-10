@@ -6,7 +6,7 @@
       "description": "Обзор новых средств и методик от Kosmoteros.",
       "date": "01.02.2025",
       "time": "10:00",
-      "photo": "https://picsum.photos/id/1/750/730"
+      "photo": "https://static.seekingalpha.com/uploads/2021/10/4/122491-16333637068099356_origin.jpg"
     },
     {
       "id": "2",
@@ -14,7 +14,7 @@
       "description": "Разбор новейших тенденций в косметологии и трендовых продуктов.",
       "date": "03.02.2025",
       "time": "11:00",
-      "photo": "https://picsum.photos/id/2/750/730"
+      "photo": "https://avatars.mds.yandex.net/i?id=86e5cd405b1d0019f893340bd3f77744_l-5246466-images-thumbs&ref=rim&n=13&w=660&h=440"
     },
     {
       "id": "3",
@@ -22,7 +22,7 @@
       "description": "Изучение современных методик ухода за кожей с применением новейших технологий.",
       "date": "05.02.2025",
       "time": "12:00",
-      "photo": "https://picsum.photos/id/3/750/730"
+      "photo": "https://magnostack.com/wp-content/uploads/2020/09/search-intent-keywords.jpg"
     },
     {
       "id": "4",
@@ -30,7 +30,7 @@
       "description": "Обсуждение современных трендов и методик в бьюти-индустрии.",
       "date": "07.02.2025",
       "time": "13:00",
-      "photo": "https://picsum.photos/id/4/750/730"
+      "photo": "https://images.unsplash.com/photo-1735779411191-4a2f31a67686?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUyODB8&ixlib=rb-4.0.3&q=80&w=1080"
     },
     {
       "id": "5",
@@ -38,7 +38,7 @@
       "description": "Семинар с участием ведущих специалистов по использованию средств Kosmoteros.",
       "date": "09.02.2025",
       "time": "14:00",
-      "photo": "https://picsum.photos/id/5/750/730"
+      "photo": "https://images.unsplash.com/photo-1736279622234-239bb949c7ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUzMDN8&ixlib=rb-4.0.3&q=80&w=1080"
     },
     {
       "id": "6",
@@ -46,7 +46,7 @@
       "description": "Обучение современным методикам омоложения и ухода за кожей.",
       "date": "11.02.2025",
       "time": "15:00",
-      "photo": "https://picsum.photos/id/6/750/730"
+      "photo": "https://images.unsplash.com/photo-1736847280194-a114a4108fc0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUzMjN8&ixlib=rb-4.0.3&q=80&w=1080"
     },
     {
       "id": "7",
@@ -54,7 +54,7 @@
       "description": "Демонстрация новых продуктов Kosmoteros и их уникальных свойств.",
       "date": "13.02.2025",
       "time": "16:00",
-      "photo": "https://picsum.photos/id/7/750/730"
+      "photo": "https://images.unsplash.com/photo-1735192395661-9358e7d8cb75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUzMzZ8&ixlib=rb-4.0.3&q=80&w=1080"
     },
     {
       "id": "8",
@@ -62,7 +62,15 @@
       "description": "Семинар о новейших трендах в уходе за кожей и эффективных методах лечения.",
       "date": "15.02.2025",
       "time": "17:00",
-      "photo": "https://picsum.photos/id/8/750/730"
+      "photo": "https://images.unsplash.com/photo-1736636990289-d891ac0decc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUzNDV8&ixlib=rb-4.0.3&q=80&w=1080"
+    },
+    {
+      "id": 9,
+      "title": "Мастер-класс от Kosmoteros",
+      "description": "Практический мастер-класс по использованию инновационных косметических средств.",
+      "date": "17.02.2025",
+      "time": "18:00",
+      "photo": "https://images.unsplash.com/photo-1736279622234-239bb949c7ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUzMDN8&ixlib=rb-4.0.3&q=80&w=1080"
     },
     {
       "id": "10",
@@ -70,7 +78,7 @@
       "description": "Обсуждение перспектив развития косметологии и роли инноваций.",
       "date": "19.02.2025",
       "time": "19:00",
-      "photo": "https://picsum.photos/id/10/750/730"
+      "photo": "https://images.unsplash.com/photo-1736401701398-ae959ca48599?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxODY2Nzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzkwMjUzODh8&ixlib=rb-4.0.3&q=80&w=1080"
     }
   ]
 }
