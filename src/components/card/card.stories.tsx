@@ -20,7 +20,8 @@ const CardWrapper: (props: Story["args"]) => JSX.Element = props => {
     <Card
       {...props}
       seminar={seminar}
-      onEditCb={newSeminar =>
+      onEditCb={newSeminar => {
+        console.log(newSeminar);
         setSeminar(prev => ({
           id: newSeminar?.id ?? prev?.id ?? -1,
           date: newSeminar?.date ?? prev?.date ?? "01.01.1970",
@@ -28,8 +29,8 @@ const CardWrapper: (props: Story["args"]) => JSX.Element = props => {
           photo: newSeminar?.photo ?? prev?.photo ?? "ошибка при обновлении фото",
           time: newSeminar?.time ?? prev?.time ?? "00:00",
           title: newSeminar?.title ?? prev?.title ?? "ошибка при обновлении заголовка"
-        }))
-      }
+        }));
+      }}
       onDeleteCb={() => setSeminar(null)}
     />
   );

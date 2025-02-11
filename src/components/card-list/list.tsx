@@ -1,19 +1,14 @@
-import { Children, JSX, useEffect, useRef, useState } from "react";
-import { CardProps } from "../card";
+import { Children, useEffect, useRef, useState } from "react";
+import { CardProps, Card } from "../card";
 import "./list.scss";
-import { toast } from "react-toastify";
-import { axiosInstance } from "@/shared/axios";
-import { Api } from "@/shared/api-messages";
 
-export type ListProps<ChildProps = CardProps> = {
-  items: ChildProps[] | undefined;
+export type ListProps = {
+  items: CardProps[] | null | undefined;
   preloadSekeletonAmount: number;
   timeout: number;
-  ListItemComponent: (props: ChildProps) => JSX.Element;
-  LoadingListItemComponent: (props: ChildProps) => JSX.Element;
 };
 
-export const List = ({ items, ListItemComponent, LoadingListItemComponent, preloadSekeletonAmount = 5, timeout = 3000 }: ListProps) => {
+export const CardList = ({ items, preloadSekeletonAmount = 5, timeout = 3000 }: ListProps) => {
   const [itemsLoaded, setItemsLoaded] = useState(false);
   const [_items, setItems] = useState(items); // обновлять список их карточек внутри
   const timeoutRef = useRef<NodeJS.Timeout>(null);
@@ -57,25 +52,29 @@ export const List = ({ items, ListItemComponent, LoadingListItemComponent, prelo
     <div className='list'>
       {/* (элементы загрузились) && (элементы !== undefined) && (длина массива > 0) */}
       {itemsLoaded &&
-        _items !== undefined &&
+        !!_items &&
         itemsLengthOverZero &&
         _items.map(card => (
           // всё равно перемешал :/
-          <ListItemComponent
+          <Card
             key={card.seminar?.id}
-            onDelete={dId => onDelete(dId, card)}
-            onEdit={card.onEdit}
+            // onDelete={dId => onDelete(dId, card)}
+            // onEdit={card.onEdit}
+            // onDeleteCb={dId => onDelete(dId, card)}
+            onDeleteCb={id => {
+              // тут сайдлогика в списке если нужна, думаю нет
+              if (card.onDeleteCb) card.onDeleteCb(id);
+            }}
+            onEditCb={card.onEditCb}
             seminar={card.seminar}
             loading={false}
           />
         ))}
       {/* (элементы не загрузились) && (элементы == undefined) */}
-      {!itemsLoaded &&
-        !_items &&
-        Children.map(Array(preloadSekeletonAmount).fill(null), (_, i) => <LoadingListItemComponent loading={false} key={i} />)}
+      {!itemsLoaded && !_items && Children.map(Array(preloadSekeletonAmount).fill(null), (_, i) => <Card seminar={null} loading={false} key={i} />)}
       {/* (элементы загрузились) && (длина массива == 0), если черезе props.timeout items останутся undefined, то _items присвоится пустой массив и выставится itemsLoaded == false */}
-      {_items !== undefined && !itemsLengthOverZero && <span className='list-nothing-to-show'>нечего показывать</span>}
+      {!!_items && !itemsLengthOverZero && <span className='list-nothing-to-show'>нечего показывать</span>}
     </div>
   );
 };
-List.displayName = "List";
+CardList.displayName = "List";

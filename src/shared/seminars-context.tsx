@@ -4,7 +4,7 @@ import { axiosInstance } from "./axios";
 import { Api, ApiErrors } from "./api-messages";
 
 type Tail<T extends any[]> = T extends [any, ...infer R] ? R : never; // gpt, чтобы исключать первый элемент (cb: Promise<T>) из reqWrapper пропсов [cb, onFail, onSuccess, reqLimit]
-const reqWrapper = async <T = any,>(cb: Promise<T>, onFail?: (err?: Error) => void, onSuccess?: (val?: T) => void, reqLimit = 5000) => {
+const reqWrapper = async <T = any | undefined,>(cb: Promise<T>, onFail?: (err?: Error) => void, onSuccess?: (val?: T) => void, reqLimit = 5000) => {
   const timeout = setTimeout(() => {
     if (onFail) onFail();
     return;
@@ -43,13 +43,13 @@ export const SeminarContextProvider = ({ children }: { children: React.ReactElem
       cbFail,
       seminars => {
         setSeminars(seminars ?? null);
-        if (cbSuccess) cbSuccess(seminars);
+        if (cbSuccess) cbSuccess(seminars as any); // зачем тогда дженерик добавлял
       },
       reqLimit
     );
   };
   const apiDeleteSeminar: ISeminarsContext["apiDeleteSeminar"] = async (id, cbFail, cbSuccess, reqLimit) => {
-    await reqWrapper(
+    await reqWrapper<undefined>(
       new Promise(async (res, rej) => {
         const req = await axiosInstance.delete(`${Api.Seminars}/${id}`);
         console.log(req);
@@ -62,7 +62,7 @@ export const SeminarContextProvider = ({ children }: { children: React.ReactElem
     );
   };
   const apiEditSeminar: ISeminarsContext["apiEditSeminar"] = async (seminar, cbFail, cbSuccess, reqLimit = 5000) => {
-    await reqWrapper(
+    await reqWrapper<undefined>(
       new Promise(async (res, rej) => {
         const req = await axiosInstance.put(`${Api.Seminars}/${seminar.id}`, JSON.stringify(seminar));
         console.log(req);

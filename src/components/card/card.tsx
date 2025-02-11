@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Seminar } from "../../shared/seminar";
 import "./card.scss";
@@ -67,6 +67,11 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
     }
     await seminarCtx.apiDeleteSeminar<number>(seminar.id, undefined, onDeleteCb);
   };
+
+  useEffect(() => {
+    setDeleteModalOpen(false);
+    setEditModalOpen(false);
+  }, [seminar]); // прии изменении данных карточки закрывать модалки
 
   if (!seminar) return <></>; //костыль
 
