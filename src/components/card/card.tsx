@@ -12,13 +12,15 @@ export type CardProps = {
   seminar: Seminar | null;
   _imageTimeout?: number;
   onEditCb?: (seminar: { id: number } & Partial<Seminar>) => void;
+  onEditCbFail?: (seminar: { id: number } & Partial<Seminar>) => void;
   onDeleteCb?: (id?: number) => void;
+  onDeleteCbFail?: (id: number) => void;
 };
 const imageHeight = 150;
 
 const Image = React.lazy(() => import("./components/image").then(module => ({ default: module.Image })));
 
-export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDeleteCb }: CardProps) => {
+export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDeleteCb, onEditCbFail, onDeleteCbFail }: CardProps) => {
   const seminarData = seminar !== undefined;
   const componentLoaded = !loading && seminarData;
 
@@ -47,10 +49,13 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
       await seminarCtx.apiEditSeminar(
         { id: seminar.id, ...updateObject },
         () => {
+          toast("Данные не изменены", { type: "warning" });
+          if (onEditCbFail) onEditCbFail({ id: seminar.id, ...updateObject });
+        },
+        () => {
           toast("Семинар изменён", { type: "success" });
           if (onEditCb) onEditCb({ id: seminar.id, ...updateObject });
         },
-        () => toast("Данные не изменены", { type: "warning" }),
         5000
       );
     }
@@ -65,7 +70,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
       console.log("seminar ctx not inited!");
       return toast("Проблема с инициализацией приложения", { type: "error" });
     }
-    await seminarCtx.apiDeleteSeminar<number>(seminar.id, undefined, onDeleteCb);
+    await seminarCtx.apiDeleteSeminar<number>(seminar.id, () => onDeleteCbFail(seminar.id), onDeleteCb);
   };
 
   useEffect(() => {

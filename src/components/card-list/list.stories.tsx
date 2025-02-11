@@ -1,10 +1,10 @@
-import type { Args, Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { CardList } from "./list";
-import { Card, CardProps } from "../card";
-import { use, useEffect, useState, type JSX } from "react";
+import { use, useEffect, type JSX } from "react";
 import { Seminar } from "@/shared/seminar";
 import { SeminarsContext } from "@/shared/seminars-context";
+import { toast } from "react-toastify";
 
 const mockSeminar = {
   id: 11,
@@ -41,49 +41,58 @@ const ListWrapper: () => JSX.Element = () => {
     })();
   }, []);
 
+  const editCb = (
+    newSeminar: {
+      id: number;
+    } & Partial<Seminar>
+  ) => {
+    seminarsCtx.setSeminars(prev => {
+      if (!prev || !seminarsCtx.seminars) {
+        console.log("no prev array");
+        return null;
+      }
+      const prevDataIdx = seminarsCtx.seminars?.findIndex(s => s.id == newSeminar.id);
+      if (prevDataIdx < 0) {
+        console.log("didnt find card with this id");
+        return prev;
+      }
+      const prevData = seminarsCtx.seminars[prevDataIdx];
+      if (!prevData) {
+        console.log("prev data not found");
+        return prev;
+      }
+
+      const newData = {
+        id: newSeminar?.id ?? prevData?.id ?? -1,
+        date: newSeminar?.date ?? prevData?.date ?? "01.01.1970",
+        description: newSeminar?.description ?? prevData?.description ?? "ошибка при обновлении описания",
+        photo: newSeminar?.photo ?? prevData?.photo ?? "ошибка при обновлении фото",
+        time: newSeminar?.time ?? prevData?.time ?? "00:00",
+        title: newSeminar?.title ?? prevData?.title ?? "ошибка при обновлении заголовка"
+      };
+      // надежнее было бы новый стейт с апи запросить, наверное
+
+      toast("Дебаг, данные обновлены");
+      return prev.map(pSeminar => (pSeminar.id !== prevData.id ? pSeminar : newData));
+    });
+  };
+
   return (
-    <CardList
-      preloadSekeletonAmount={3}
-      timeout={100}
-      items={seminarsCtx.seminars?.map(s => ({
-        seminar: s,
-        loading: false,
-        onDeleteCb: cId => seminarsCtx.setSeminars(prev => (prev ? prev.filter(pS => pS.id !== cId) : [])),
-        onEditCb: newSeminar => {
-          seminarsCtx.setSeminars(prev => {
-            if (!prev || !seminarsCtx.seminars) {
-              console.log("no prev array");
-              return null;
-            }
-            const prevDataIdx = seminarsCtx.seminars?.findIndex(s => s.id == newSeminar.id);
-            if (prevDataIdx < 0) {
-              console.log("didnt find card with this id");
-              return prev;
-            }
-            const prevData = seminarsCtx.seminars[prevDataIdx];
-            if (!prevData) {
-              console.log("prev data not found");
-              return prev;
-            }
-
-            const newData = {
-              id: newSeminar?.id ?? prevData?.id ?? -1,
-              date: newSeminar?.date ?? prevData?.date ?? "01.01.1970",
-              description: newSeminar?.description ?? prevData?.description ?? "ошибка при обновлении описания",
-              photo: newSeminar?.photo ?? prevData?.photo ?? "ошибка при обновлении фото",
-              time: newSeminar?.time ?? prevData?.time ?? "00:00",
-              title: newSeminar?.title ?? prevData?.title ?? "ошибка при обновлении заголовка"
-            };
-
-            // надежнее было бы новый стейт с апи запросить, наверное
-
-            console.log(newData);
-
-            return prev.map(pSeminar => (pSeminar.id !== prevData.id ? pSeminar : newData));
-          });
-        }
-      }))}
-    />
+    <>
+      {seminarsCtx.seminars === null && <mark>сейчас моковые данные загрузятся</mark>}
+      <CardList
+        preloadSekeletonAmount={3}
+        timeout={100}
+        items={seminarsCtx.seminars?.map(s => ({
+          seminar: s,
+          loading: false,
+          onDeleteCbFail: cId => seminarsCtx.setSeminars(prev => (prev ? prev.filter(pS => pS.id !== cId) : [])),
+          onDeleteCb: cId => seminarsCtx.setSeminars(prev => (prev ? prev.filter(pS => pS.id !== cId) : [])),
+          onEditCb: editCb,
+          onEditCbFail: editCb
+        }))}
+      />
+    </>
   );
 };
 

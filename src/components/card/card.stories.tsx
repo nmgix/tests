@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Card } from "./card";
 import { JSX, useState } from "react";
 import { Seminar } from "@/shared/seminar";
+import { toast } from "react-toastify";
 
 const meta = {
   title: "Card",
@@ -16,22 +17,30 @@ type Story = StoryObj<typeof meta>;
 const CardWrapper: (props: Story["args"]) => JSX.Element = props => {
   const [seminar, setSeminar] = useState<Seminar | null>({ ...props["seminar"]! });
 
+  const editCb = (
+    newSeminar: {
+      id: number;
+    } & Partial<Seminar>
+  ) => {
+    toast("Дебаг, данные обновлены");
+    setSeminar(prev => ({
+      id: newSeminar?.id ?? prev?.id ?? -1,
+      date: newSeminar?.date ?? prev?.date ?? "01.01.1970",
+      description: newSeminar?.description ?? prev?.description ?? "ошибка при обновлении описания",
+      photo: newSeminar?.photo ?? prev?.photo ?? "ошибка при обновлении фото",
+      time: newSeminar?.time ?? prev?.time ?? "00:00",
+      title: newSeminar?.title ?? prev?.title ?? "ошибка при обновлении заголовка"
+    }));
+  };
+
   return (
     <Card
       {...props}
       seminar={seminar}
-      onEditCb={newSeminar => {
-        console.log(newSeminar);
-        setSeminar(prev => ({
-          id: newSeminar?.id ?? prev?.id ?? -1,
-          date: newSeminar?.date ?? prev?.date ?? "01.01.1970",
-          description: newSeminar?.description ?? prev?.description ?? "ошибка при обновлении описания",
-          photo: newSeminar?.photo ?? prev?.photo ?? "ошибка при обновлении фото",
-          time: newSeminar?.time ?? prev?.time ?? "00:00",
-          title: newSeminar?.title ?? prev?.title ?? "ошибка при обновлении заголовка"
-        }));
-      }}
+      onEditCb={editCb}
+      onEditCbFail={editCb}
       onDeleteCb={() => setSeminar(null)}
+      onDeleteCbFail={() => setSeminar(null)}
     />
   );
 };
