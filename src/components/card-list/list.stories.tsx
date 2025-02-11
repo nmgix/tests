@@ -5,6 +5,9 @@ import { use, useEffect, type JSX } from "react";
 import { Seminar } from "@/shared/seminar";
 import { SeminarsContext } from "@/shared/seminars-context";
 import { toast } from "react-toastify";
+import { deleteCardUpdateUI, editCardUpdateUI } from "./ui-update";
+import { CardProps } from "../card/card";
+import { replaceRange } from "@/shared/array";
 
 const mockSeminar = {
   id: 11,
@@ -37,45 +40,17 @@ const ListWrapper: () => JSX.Element = () => {
 
   useEffect(() => {
     (async () => {
-      await seminarsCtx.apiFetchSeminars(0, 5, () => seminarsCtx.setSeminars(createMockSeminars(5)));
+      await seminarsCtx.apiFetchSeminars<Seminar[]>(
+        { from: 0, limit: 5 },
+        () => seminarsCtx.setSeminars(createMockSeminars(5)),
+        seminars => {
+          console.log(seminars);
+          if (!seminars) return;
+          seminarsCtx.setSeminars(prev => replaceRange(prev ?? [], 0, 5, seminars));
+        }
+      );
     })();
   }, []);
-
-  const editCb = (
-    newSeminar: {
-      id: number;
-    } & Partial<Seminar>
-  ) => {
-    seminarsCtx.setSeminars(prev => {
-      if (!prev || !seminarsCtx.seminars) {
-        console.log("no prev array");
-        return null;
-      }
-      const prevDataIdx = seminarsCtx.seminars?.findIndex(s => s.id == newSeminar.id);
-      if (prevDataIdx < 0) {
-        console.log("didnt find card with this id");
-        return prev;
-      }
-      const prevData = seminarsCtx.seminars[prevDataIdx];
-      if (!prevData) {
-        console.log("prev data not found");
-        return prev;
-      }
-
-      const newData = {
-        id: newSeminar?.id ?? prevData?.id ?? -1,
-        date: newSeminar?.date ?? prevData?.date ?? "01.01.1970",
-        description: newSeminar?.description ?? prevData?.description ?? "ошибка при обновлении описания",
-        photo: newSeminar?.photo ?? prevData?.photo ?? "ошибка при обновлении фото",
-        time: newSeminar?.time ?? prevData?.time ?? "00:00",
-        title: newSeminar?.title ?? prevData?.title ?? "ошибка при обновлении заголовка"
-      };
-      // надежнее было бы новый стейт с апи запросить, наверное
-
-      toast("Дебаг, данные обновлены");
-      return prev.map(pSeminar => (pSeminar.id !== prevData.id ? pSeminar : newData));
-    });
-  };
 
   return (
     <>
@@ -86,10 +61,10 @@ const ListWrapper: () => JSX.Element = () => {
         items={seminarsCtx.seminars?.map(s => ({
           seminar: s,
           loading: false,
-          onDeleteCbFail: cId => seminarsCtx.setSeminars(prev => (prev ? prev.filter(pS => pS.id !== cId) : [])),
-          onDeleteCb: cId => seminarsCtx.setSeminars(prev => (prev ? prev.filter(pS => pS.id !== cId) : [])),
-          onEditCb: editCb,
-          onEditCbFail: editCb
+          onDeleteCbFail: deleteCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onDeleteCb"],
+          onDeleteCb: deleteCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onDeleteCbFail"],
+          onEditCb: editCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onEditCb"], //ибо ещё ctx просит, мб стоит через .bind добавить
+          onEditCbFail: editCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onEditCbFail"] //ибо ещё ctx просит, мб стоит через .bind добавить
         }))}
       />
     </>

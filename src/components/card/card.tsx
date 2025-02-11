@@ -14,7 +14,7 @@ export type CardProps = {
   onEditCb?: (seminar: { id: number } & Partial<Seminar>) => void;
   onEditCbFail?: (seminar: { id: number } & Partial<Seminar>) => void;
   onDeleteCb?: (id?: number) => void;
-  onDeleteCbFail?: (id: number) => void;
+  onDeleteCbFail?: (id?: number) => void;
 };
 const imageHeight = 150;
 
@@ -49,7 +49,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
       await seminarCtx.apiEditSeminar(
         { id: seminar.id, ...updateObject },
         () => {
-          toast("Данные не изменены", { type: "warning" });
+          toast("Данные в апи не изменены", { type: "warning" });
           if (onEditCbFail) onEditCbFail({ id: seminar.id, ...updateObject });
         },
         () => {
@@ -70,7 +70,13 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
       console.log("seminar ctx not inited!");
       return toast("Проблема с инициализацией приложения", { type: "error" });
     }
-    await seminarCtx.apiDeleteSeminar<number>(seminar.id, () => onDeleteCbFail(seminar.id), onDeleteCb);
+    await seminarCtx.apiDeleteSeminar<number>(
+      seminar.id,
+      () => {
+        if (onDeleteCbFail) onDeleteCbFail(seminar.id);
+      },
+      onDeleteCb
+    );
   };
 
   useEffect(() => {
