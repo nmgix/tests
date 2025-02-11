@@ -1,30 +1,33 @@
-import React, { useCallback, useState } from "react";
+import React, { use, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Seminar } from "../../shared/seminar";
 import "./card.scss";
 import { Modal } from "../modal";
 import { toast } from "react-toastify";
 import { ConfirmDialog } from "../confirm-dialog/confirm-dialog";
+import { SeminarsContext } from "@/shared/seminars-context";
 
 export type CardProps = {
   loading?: boolean;
-  onDelete?: (id: number) => void;
-  onEdit?: (seminar: Partial<Seminar>, prevSeminar: Seminar) => void;
-  seminar?: Seminar;
+  seminar: Seminar | null;
   _imageTimeout?: number;
+  onEditCb?: (seminar: { id: number } & Partial<Seminar>) => void;
+  onDeleteCb?: (id?: number) => void;
 };
 const imageHeight = 150;
 
 const Image = React.lazy(() => import("./components/image").then(module => ({ default: module.Image })));
 
-export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit }: CardProps) => {
+export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDeleteCb }: CardProps) => {
   const seminarData = seminar !== undefined;
   const componentLoaded = !loading && seminarData;
 
+  // edit modal
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const onModelSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const seminarCtx = use(SeminarsContext);
+  const onEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!seminar) return toast("Семинар е найден", { type: "error" });
+    if (!seminar) return toast("Семинар не найден", { type: "error" });
     const updateObject: Partial<Seminar> = {};
     Object.keys(seminar!).forEach(k => {
       // @ts-ignore
@@ -35,22 +38,38 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
         updateObject[k as keyof Seminar] = currentValue;
       }
     });
-    if (onEdit) {
-      if (Object.keys(updateObject).length > 0) {
-        onEdit(updateObject, seminar!);
-        toast("Семинар изменён", { type: "success" });
-      } else {
-        toast("Данные не изменены", { type: "warning" });
+    if (!Object.keys(updateObject) || Object.keys(updateObject)?.length <= 0) toast("Данные не могут быть изменены", { type: "error" });
+    else {
+      if (!seminarCtx.apiEditSeminar) {
+        console.log("seminar ctx not inited!");
+        return toast("Проблема с инициализацией приложения", { type: "error" });
       }
-    } else {
-      // если onEdit нет, но кнопка изменить почему-то появилась из-за невнимательности при render conditioning
-      toast("Данные не могут быть изменены", { type: "error" });
+      await seminarCtx.apiEditSeminar(
+        { id: seminar.id, ...updateObject },
+        () => {
+          toast("Семинар изменён", { type: "success" });
+          if (onEditCb) onEditCb({ id: seminar.id, ...updateObject });
+        },
+        () => toast("Данные не изменены", { type: "warning" }),
+        5000
+      );
     }
     setEditModalOpen(false);
   };
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const deleteCard = useCallback(seminar && onDelete ? () => onDelete(seminar.id) : () => null, [seminar, onDelete]);
+  // delete modal
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const onDeleteSubmit = async () => {
+    if (!seminar) return toast("Семинар не найден", { type: "error" });
+    if (!seminarCtx.apiDeleteSeminar) {
+      console.log("seminar ctx not inited!");
+      return toast("Проблема с инициализацией приложения", { type: "error" });
+    }
+    await seminarCtx.apiDeleteSeminar<number>(seminar.id, undefined, onDeleteCb);
+  };
+
+  if (!seminar) return <></>; //костыль
+
   return (
     <article className='card'>
       {componentLoaded ? (
@@ -77,12 +96,12 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
       </div>
       <p className='card-description'>{componentLoaded ? seminar.description : <Skeleton count={2} />}</p>
       <div className='card-controls'>
-        {seminarData && deleteCard !== null && (
+        {seminarData && (
           <button id='delete' className='default-button' onClick={() => setDeleteModalOpen(true)}>
             Удалить семинар
           </button>
         )}
-        {seminarData && onEdit !== null && (
+        {seminarData && (
           <button id='edit' className='default-button' onClick={() => setEditModalOpen(true)}>
             Редактировать семинар
           </button>
@@ -95,7 +114,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
           show={editModalOpen}
           externalClassnames={"card-modal"}>
           <h3 className='header'>Редактирование семинара &#171;{seminar!.title}&#187;</h3>
-          <form className='edit-form' onSubmit={onModelSubmit}>
+          <form className='edit-form' onSubmit={onEditSubmit}>
             <div className='inputs'>
               {Object.keys(seminar!).map(k => (
                 <div className='input-wrapper' key={k}>
@@ -115,7 +134,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onDelete, onEdit
           externalClassnames={"card-delete-modal"}
           isOpen={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
-          onConfirm={deleteCard}
+          onConfirm={onDeleteSubmit}
           setOpen={setDeleteModalOpen}
         />
       )}
