@@ -63,13 +63,13 @@
     │   └── ◉ props
     │       └── ◉ CardList.items
     │           └── ◉ seminarsCtx.seminars
-    ├── ◉ Methods
-    │   ├── ◉ Edit Modal
-    │   │   ├── ● Card/seminarCtx.apiEditSeminar() //обновление данных в апи
-    │   │   └── ● Card/onEditCb() => CardList.items/onEditCb: ui-update.editCardUpdateUI() // обновление данных в ui
-    │   ├── ◉ Delete Modal
-    │   │   ├── ● Card/seminarCtx.apiDeleteSeminar() //обновление данных в апи
-    │   │   └── ● Card/onDeleteCb() => CardList.items/onDeleteCb: ui-update.deleteCardUpdateUI() // обновление данных в ui
+    └── ◉ Methods
+        ├── ◉ Edit Modal
+        │   ├── ● Card/seminarCtx.apiEditSeminar() //обновление данных в апи
+        │   └── ● Card/onEditCb() => CardList.items/onEditCb: ui-update.editCardUpdateUI() // обновление данных в ui
+        └── ◉ Delete Modal
+            ├── ● Card/seminarCtx.apiDeleteSeminar() //обновление данных в апи
+            └── ● Card/onDeleteCb() => CardList.items/onDeleteCb: ui-update.deleteCardUpdateUI() // обновление данных в ui
    ```
 
 2. CardList (бывш. List)
