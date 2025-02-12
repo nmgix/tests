@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { Seminar } from "./seminar";
 import { axiosInstance } from "./axios";
-import { Api, ApiErrors } from "./api-messages";
+import { ApiRoutes, ApiErrors } from "./api-types";
 
 type Tail<T extends any[]> = T extends [any, ...infer R] ? R : never; // gpt, чтобы исключать первый элемент (cb: Promise<T>) из reqWrapper пропсов [cb, onFail, onSuccess, reqLimit]
 const reqWrapper = async <T = any | undefined,>(cb: Promise<T>, onFail?: (err?: Error) => void, onSuccess?: (val?: T) => void, reqLimit = 5000) => {
@@ -35,7 +35,7 @@ export const SeminarContextProvider = ({ children }: { children: React.ReactElem
   const apiFetchSeminars: ISeminarsContext["apiFetchSeminars"] = async ({ from = 0, limit = 5 }, cbFail, cbSuccess, reqLimit) => {
     await reqWrapper<Seminar[]>(
       new Promise(async (res, rej) => {
-        const req = await axiosInstance.get<Seminar[]>(Api.Seminars, { params: { start: from, limit } });
+        const req = await axiosInstance.get<Seminar[]>(ApiRoutes.Seminars, { params: { start: from, limit } });
         if (req.status === 200) res(req.data);
         else rej(ApiErrors.edit);
       }),
@@ -49,7 +49,7 @@ export const SeminarContextProvider = ({ children }: { children: React.ReactElem
   const apiDeleteSeminar: ISeminarsContext["apiDeleteSeminar"] = async (id, cbFail, cbSuccess, reqLimit) => {
     await reqWrapper<undefined>(
       new Promise(async (res, rej) => {
-        const req = await axiosInstance.delete(`${Api.Seminars}/${id}`);
+        const req = await axiosInstance.delete(`${ApiRoutes.Seminars}/${id}`);
         if (req.status === 200) res(req.data);
         else rej(ApiErrors.edit);
       }),
@@ -61,7 +61,7 @@ export const SeminarContextProvider = ({ children }: { children: React.ReactElem
   const apiEditSeminar: ISeminarsContext["apiEditSeminar"] = async (seminar, cbFail, cbSuccess, reqLimit = 5000) => {
     await reqWrapper<undefined>(
       new Promise(async (res, rej) => {
-        const req = await axiosInstance.patch(`${Api.Seminars}/${seminar.id}`, JSON.stringify(seminar));
+        const req = await axiosInstance.patch(`${ApiRoutes.Seminars}/${seminar.id}`, JSON.stringify(seminar));
         if (req.status === 200) res(req.data);
         else rej(ApiErrors.edit);
       }),

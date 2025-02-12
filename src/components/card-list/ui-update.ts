@@ -23,8 +23,6 @@ export const editCardUpdateUI = (
       return prev;
     }
 
-    console.log(newSeminar?.date);
-
     const newData = {
       id: newSeminar?.id ?? prevData?.id ?? -1,
       date: newSeminar?.date ?? prevData?.date ?? "01.01.1970",
@@ -38,6 +36,10 @@ export const editCardUpdateUI = (
   });
 };
 
-export const deleteCardUpdateUI = (seminarsCtx: ISeminarsContext, deleteSeminar: Seminar) => {
+export const deleteCardUpdateUI = (seminarsCtx: ISeminarsContext, deleteSeminar?: Seminar) => {
+  if (!deleteSeminar) {
+    console.log("no seminar passed");
+    return;
+  }
   seminarsCtx.setSeminars(prev => (prev ? prev.filter(prevSeminar => prevSeminar.id !== deleteSeminar.id) : []));
 };

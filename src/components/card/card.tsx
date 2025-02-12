@@ -6,6 +6,7 @@ import { Modal } from "../modal";
 import { toast } from "react-toastify";
 import { ConfirmDialog } from "../confirm-dialog/confirm-dialog";
 import { SeminarsContext } from "@/shared/seminars-context";
+import { ApiErrors, ApiMessages } from "@/shared/api-types";
 
 export type CardProps = {
   loading?: boolean;
@@ -13,7 +14,7 @@ export type CardProps = {
   _imageTimeout?: number;
   onEditCb?: (seminar: { id: number } & Partial<Seminar>) => void;
   onEditCbFail?: (seminar: { id: number } & Partial<Seminar>) => void;
-  onDeleteCb?: (id?: number) => void;
+  onDeleteCb?: (seminar?: Seminar) => void;
   onDeleteCbFail?: (id?: number) => void;
 };
 const imageHeight = 150;
@@ -29,7 +30,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
   const seminarCtx = use(SeminarsContext);
   const onEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!seminar) return toast("Семинар не найден", { type: "error" });
+    if (!seminar) return toast(ApiErrors.seminarNotFound, { type: "error" });
     const updateObject: Partial<Seminar> = {};
     Object.keys(seminar!).forEach(k => {
       // @ts-ignore
@@ -40,20 +41,20 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
         updateObject[k as keyof Seminar] = currentValue;
       }
     });
-    if (!Object.keys(updateObject) || Object.keys(updateObject)?.length <= 0) toast("Данные не могут быть изменены", { type: "error" });
+    if (!Object.keys(updateObject) || Object.keys(updateObject)?.length <= 0) toast(ApiErrors.dataUnchangedSameData, { type: "error" });
     else {
       if (!seminarCtx.apiEditSeminar) {
         console.log("seminar ctx not inited!");
-        return toast("Проблема с инициализацией приложения", { type: "error" });
+        return toast(ApiErrors.appInitError, { type: "error" });
       }
       await seminarCtx.apiEditSeminar(
         { id: seminar.id, ...updateObject },
         () => {
-          toast("Данные в апи не изменены", { type: "warning" });
+          toast(ApiErrors.noChange, { type: "warning" });
           if (onEditCbFail) onEditCbFail({ id: seminar.id, ...updateObject });
         },
         () => {
-          toast("Семинар изменён", { type: "success" });
+          toast(ApiMessages.seminarEditSuccess, { type: "success" });
           if (onEditCb) onEditCb({ id: seminar.id, ...updateObject });
         },
         5000
@@ -65,12 +66,12 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
   // delete modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const onDeleteSubmit = async () => {
-    if (!seminar) return toast("Семинар не найден", { type: "error" });
+    if (!seminar) return toast(ApiErrors.seminarNotFound, { type: "error" });
     if (!seminarCtx.apiDeleteSeminar) {
       console.log("seminar ctx not inited!");
-      return toast("Проблема с инициализацией приложения", { type: "error" });
+      return toast(ApiErrors.appInitError, { type: "error" });
     }
-    await seminarCtx.apiDeleteSeminar<number>(
+    await seminarCtx.apiDeleteSeminar<Seminar>(
       seminar.id,
       () => {
         if (onDeleteCbFail) onDeleteCbFail(seminar.id);
@@ -84,7 +85,7 @@ export const Card = ({ seminar, loading = false, _imageTimeout, onEditCb, onDele
     setEditModalOpen(false);
   }, [seminar]); // прии изменении данных карточки закрывать модалки
 
-  if (!seminar) return <></>; //костыль
+  if (!seminar) return <></>; //костыль, ведь в V-DOM нода висит, но такой ситуации не должно случиться в теории
 
   return (
     <article className='card'>

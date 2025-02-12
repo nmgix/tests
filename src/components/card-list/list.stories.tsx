@@ -61,8 +61,8 @@ const ListWrapper: () => JSX.Element = () => {
         items={seminarsCtx.seminars?.map(s => ({
           seminar: s,
           loading: false,
-          onDeleteCbFail: deleteCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onDeleteCb"],
           onDeleteCb: deleteCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onDeleteCbFail"],
+          onDeleteCbFail: deleteCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onDeleteCb"],
           onEditCb: editCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onEditCb"], //ибо ещё ctx просит, мб стоит через .bind добавить
           onEditCbFail: editCardUpdateUI.bind(null, seminarsCtx) as unknown as CardProps["onEditCbFail"] //ибо ещё ctx просит, мб стоит через .bind добавить
         }))}
