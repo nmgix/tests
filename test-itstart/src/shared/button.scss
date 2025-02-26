@@ -1,0 +1,26 @@
+.default-button {
+  border-radius: 0.5em;
+  border: none;
+  padding: 0.7em;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: lightgray;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+
+  &#delete {
+    background-color: red;
+  }
+
+  &#edit {
+    background-color: yellow;
+  }
+}

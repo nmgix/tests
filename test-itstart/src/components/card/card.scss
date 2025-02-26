@@ -1,0 +1,110 @@
+@use "../../shared/breakpoints";
+
+.card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5em;
+  border-radius: 1em;
+
+  padding: 1em;
+
+  &-image {
+    width: 100%;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-header {
+    display: block;
+    flex-wrap: nowrap;
+
+    &-title {
+      font-size: 1.7em;
+    }
+
+    &-id {
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+
+    &-subtitle {
+      &-date {
+        font-size: 1em;
+      }
+    }
+  }
+
+  &-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-controls {
+    display: flex;
+    column-gap: 1em;
+    float: left;
+    flex-wrap: wrap;
+  }
+}
+
+.card-delete-modal {
+  border: 1px solid red !important;
+  border-radius: 0.7em;
+}
+
+.card-modal {
+  border-radius: 1em;
+
+  width: 50vw;
+  min-height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: breakpoints.$md) {
+    width: 75vw;
+  }
+
+  .modal__close {
+    align-self: end;
+    z-index: 2;
+  }
+
+  .header {
+    font-size: 20px;
+    margin-bottom: 0.5em;
+    z-index: 1;
+  }
+
+  .modal-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .edit-form {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .inputs {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.7em;
+
+        .input-wrapper {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      button[type="submit"] {
+        margin-top: 10px;
+      }
+    }
+  }
+}

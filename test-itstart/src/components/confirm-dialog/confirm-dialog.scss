@@ -1,0 +1,28 @@
+.confirm-dialog {
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  transform: translate(-50%, -50%);
+
+  border: 0;
+
+  z-index: 1;
+
+  .modal__close {
+    margin-bottom: 1em;
+    float: right;
+    z-index: 1;
+  }
+
+  &-prompt-text {
+    z-index: 0 !important;
+    margin-bottom: 0.5em;
+  }
+
+  &-btn-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 0.7em;
+  }
+}
